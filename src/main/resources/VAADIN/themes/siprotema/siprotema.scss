@@ -1,0 +1,10 @@
+@import "../valo/valo.scss";
+
+
+@mixin siprotema {
+
+@include valo;
+
+}
+
+@include siprotema;

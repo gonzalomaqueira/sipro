@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <meta name="design-properties" content="{&quot;RULERS_VISIBLE&quot;:true,&quot;GUIDELINES_VISIBLE&quot;:false,&quot;SNAP_TO_OBJECTS&quot;:true,&quot;SNAP_TO_GRID&quot;:true,&quot;SNAPPING_DISTANCE&quot;:10,&quot;GENERATE_GETTERS&quot;:false,&quot;JAVA_SOURCES_ROOT&quot;:&quot;src/main/java&quot;,&quot;THEME&quot;:&quot;siprotema&quot;}">
+  <meta name="vaadin-version" content="8.0.5">
+ </head>
+ <body>
+  <vaadin-vertical-layout spacing="false" responsive margin-top="false">
+   <vaadin-css-layout responsive width-full>
+    <vaadin-css-layout responsive width-full>
+     <vaadin-vertical-layout margin="false">
+      <vaadin-label style-name="h4" width-full plain-text>
+        configuración elemento proyecto 
+      </vaadin-label>
+      <vaadin-grid style-name="half" id="grdElementos" height-mode="undefined" width-full data-item-type="uy.edu.ude.sipro.valueObjects.ElementoVO" _id="grdElementos">
+       <table>
+        <colgroup>
+         <col column-id="id" sortable>
+         <col column-id="nombre" sortable>
+        </colgroup>
+        <thead>
+         <tr default>
+          <th plain-text column-ids="id">Id</th>
+          <th plain-text column-ids="nombre">Nombre</th>
+         </tr>
+        </thead>
+        <tbody></tbody>
+       </table>
+      </vaadin-grid>
+      <vaadin-horizontal-layout>
+       <vaadin-button icon="fonticon://Vaadin-Icons/e801" style-name="icon-only friendly small" id="btnAgregar" plain-text _id="btnAgregar">
+         Agregar 
+       </vaadin-button>
+       <vaadin-button icon="fonticon://Vaadin-Icons/e91b" style-name="danger icon-only small" id="btnEliminar" plain-text _id="btnEliminar">
+         Eliminar 
+       </vaadin-button>
+       <vaadin-button icon="fonticon://Vaadin-Icons/e7df" style-name="small" plain-text _id="btnVerDetalles">
+         Ver detalles 
+       </vaadin-button>
+      </vaadin-horizontal-layout>
+     </vaadin-vertical-layout>
+    </vaadin-css-layout>
+    <vaadin-css-layout></vaadin-css-layout>
+    <vaadin-css-layout responsive width-full>
+     <vaadin-label style-name="h4" width-full plain-text>
+       Se relaciona con 
+     </vaadin-label>
+     <vaadin-text-area rows="2" style-name="borderless" width-full readonly _id="txtRelaciones"></vaadin-text-area>
+    </vaadin-css-layout>
+    <vaadin-css-layout responsive width-full>
+     <vaadin-label style-name="h4" width-full plain-text>
+       Sinonimos 
+     </vaadin-label>
+     <vaadin-text-area rows="2" style-name="borderless" id="txtSinonimos" width-full _id="txtSinonimos"></vaadin-text-area>
+    </vaadin-css-layout>
+   </vaadin-css-layout>
+  </vaadin-vertical-layout>
+ </body>
+</html>

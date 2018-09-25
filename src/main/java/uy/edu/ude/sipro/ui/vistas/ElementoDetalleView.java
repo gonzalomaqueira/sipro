@@ -1,0 +1,321 @@
+package uy.edu.ude.sipro.ui.vistas;
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.spring.annotation.SpringView;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.components.grid.SingleSelectionModel;
+
+import uy.edu.ude.sipro.entidades.Elemento;
+import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
+import uy.edu.ude.sipro.navegacion.NavigationManager;
+import uy.edu.ude.sipro.service.interfaces.ElementoService;
+import uy.edu.ude.sipro.valueObjects.ElementoVO;
+import uy.edu.ude.sipro.valueObjects.SubElementoVO;
+
+@SpringView
+@SpringComponent
+public class ElementoDetalleView extends ElementoDetalleViewDesign implements View{
+	
+	@Autowired
+	private ElementoService elementoService;
+	
+	//Lista con todos los elementos con su direccion correcta
+	private List<ElementoVO> listaElementos;
+	
+	private ElementoVO elemento=null;
+	
+	private List<SubElementoVO> listaSubElementoRelacionados= new ArrayList<SubElementoVO>();
+	
+	private SubElementoVO subElementoSeleccionado= new SubElementoVO();
+	
+    private final NavigationManager navigationManager;
+    
+    @Autowired
+    public ElementoDetalleView (NavigationManager navigationManager)
+    {
+    	this.navigationManager = navigationManager;
+    }
+	
+	public void enter(ViewChangeEvent event) 
+	{
+		cargarListaElementos();
+		String idElemento = event.getParameters();
+		if ("".equals(idElemento))
+		{
+			cargarVistaGuardar();
+		}
+		else
+		{
+			cargarElemento(Integer.parseInt(idElemento));
+			cargarVistaModificar();
+		}		
+		
+		btnVolver.addClickListener(new Button.ClickListener()
+		{
+			public void buttonClick(ClickEvent event)
+			{			
+				navigationManager.navigateTo(ElementoListadoView.class);
+			}
+		});
+		
+		btnGuardar.addClickListener(new Button.ClickListener()
+		{
+			public void buttonClick(ClickEvent event)
+			{			
+				if (txtNombreElemento.isEmpty() || chEsCategoria.isEmpty() || chTipo.isEmpty()) 
+				{
+					Notification.show("Hay valores vacíos", Notification.Type.WARNING_MESSAGE);
+				}
+				else
+				{	
+			    	try 
+			    	{
+			    		boolean esCategoria= false;
+			    		if(chEsCategoria.getValue().equals("si"))
+			    			esCategoria= true;
+			    		
+			    		//aca sacaria enumerado por string(ya que no se ve en base)
+			    		TipoElemento tipo= null;
+			    		if(chTipo.getValue().equals("TECNOLOGIA"))
+			    		{
+			    			tipo= TipoElemento.TECNOLOGIA;
+			    		}
+			    		if(chTipo.getValue().equals("MODELO_PROCESO"))
+			    		{
+			    			tipo= TipoElemento.MODELO_PROCESO;
+			    		}
+			    		if(chTipo.getValue().equals("METODOLOGIA_TESTING"))
+			    		{
+			    			tipo= TipoElemento.METODOLOGIA_TESTING;
+			    		}
+			    		if(chTipo.getValue().equals("OTRO"))
+			    		{
+			    			tipo= TipoElemento.OTRO;
+			    		}
+			    		
+			    		elementoService.agregar(txtNombreElemento.getValue(),
+			    								esCategoria, tipo, 
+			    								listaSubElementoRelacionados, null);
+			    		Notification.show("Elemento agregado exitosamente", Notification.Type.WARNING_MESSAGE);
+			    		navigationManager.navigateTo(ElementoListadoView.class);
+
+			    	}
+			    	catch (Exception e)
+					{
+			    		Notification.show("Hubo un error al agregar el elemento", Notification.Type.WARNING_MESSAGE);
+					}
+
+				}
+			}
+		});
+		
+		btnModificar.addClickListener(new Button.ClickListener()
+		{
+			public void buttonClick(ClickEvent event)
+			{			
+				if (txtNombreElemento.isEmpty() || chEsCategoria.isEmpty() || chTipo.isEmpty()) 
+				{
+					Notification.show("Hay valores vacíos", Notification.Type.WARNING_MESSAGE);
+				}
+				else
+				{	
+			    	try 
+			    	{
+			    		boolean esCategoria= false;
+			    		if(chEsCategoria.getValue().equals("si"))
+			    			esCategoria= true;
+			    		
+			    		//aca sacaria enumerado por string(ya que no se ve en base)
+			    		TipoElemento tipo= null;
+			    		if(chTipo.getValue().equals("TECNOLOGIA"))
+			    		{
+			    			tipo= TipoElemento.TECNOLOGIA;
+			    		}
+			    		if(chTipo.getValue().equals("MODELO_PROCESO"))
+			    		{
+			    			tipo= TipoElemento.MODELO_PROCESO;
+			    		}
+			    		if(chTipo.getValue().equals("METODOLOGIA_TESTING"))
+			    		{
+			    			tipo= TipoElemento.METODOLOGIA_TESTING;
+			    		}
+			    		if(chTipo.getValue().equals("OTRO"))
+			    		{
+			    			tipo= TipoElemento.OTRO;
+			    		}
+			    		
+			    		elementoService.modificar(elemento.getId(),
+			    								txtNombreElemento.getValue(),
+			    								esCategoria, tipo, 
+			    								listaSubElementoRelacionados, null);
+			    		Notification.show("Elemento agregado exitosamente", Notification.Type.WARNING_MESSAGE);
+			    		navigationManager.navigateTo(ElementoListadoView.class);
+
+			    	}
+			    	catch (Exception e)
+					{
+			    		Notification.show("Hubo un error al modificar el elemento", Notification.Type.WARNING_MESSAGE);
+					}
+
+				}
+			}
+		});
+		
+		cmbElementoRelacion.addValueChangeListener(evt -> 
+		{
+		    if (!evt.getSource().isEmpty()) 
+		    {
+		    	subElementoSeleccionado= new SubElementoVO();
+		    	subElementoSeleccionado.setId(evt.getValue().getId());
+		    	subElementoSeleccionado.setNombre(evt.getValue().getNombre());
+		    	btnAgregarRelacion.setEnabled(true);
+		    }
+		});
+		
+		btnAgregarRelacion.addClickListener(new Button.ClickListener()
+		{
+			public void buttonClick(ClickEvent event)
+			{	
+				if(subElementoSeleccionado.getId()!=0)//ver esto, no detecta null, ver si en base nunca genera un elemento id =0!!!!!!!
+				{
+					listaSubElementoRelacionados.add(subElementoSeleccionado);
+					grdElementoProyecto.setItems( listaSubElementoRelacionados );	
+				}
+			}
+		});
+		
+		grdElementoProyecto.addSelectionListener(evt -> 
+		{
+			SingleSelectionModel<SubElementoVO> singleSelect = (SingleSelectionModel<SubElementoVO>) grdElementoProyecto.getSelectionModel();
+			singleSelect.setDeselectAllowed(false);
+			try
+			{
+				if (singleSelect.getSelectedItem() != null)
+				{
+					subElementoSeleccionado = singleSelect.getSelectedItem().get();
+					btnAgregarRelacion.setEnabled(false);
+					btnEliminarRelacion.setVisible(true);
+				}
+			}
+			catch (Exception e)
+			{
+			}
+		});
+		
+		btnEliminarRelacion.addClickListener(new Button.ClickListener()
+		{
+			public void buttonClick(ClickEvent event)
+			{			
+				listaSubElementoRelacionados.remove(subElementoSeleccionado);
+				grdElementoProyecto.setItems( listaSubElementoRelacionados );	
+			}
+		});
+		
+	}
+	
+	private void cargarVistaGuardar()
+	{
+		cargarCmbRelaciones();
+	}
+	
+	private void cargarVistaModificar()
+	{
+		btnModificar.setVisible(true);
+		btnGuardar.setVisible(false);
+		txtNombreElemento.setValue(elemento.getNombre());
+		cargarListaRelacionados(elemento.getId());
+		cargarListaSinonimos(elemento.getId());
+		cargarCmbRelaciones();
+		if(elemento.isEsCategoria())
+			chEsCategoria.setValue("si");
+		else
+			chEsCategoria.setValue("no");
+		
+		if(elemento.getTipoElemento().equals(TipoElemento.TECNOLOGIA))
+		{
+			chTipo.setValue("TECNOLOGIA");
+		}
+		if(elemento.getTipoElemento().equals(TipoElemento.METODOLOGIA_TESTING))
+		{
+			chTipo.setValue("METODOLOGIA_TESTING");
+		}
+		if(elemento.getTipoElemento().equals(TipoElemento.MODELO_PROCESO))
+		{
+			chTipo.setValue("MODELO_PROCESO");
+		}
+		if(elemento.getTipoElemento().equals(TipoElemento.OTRO))
+		{
+			chTipo.setValue("OTRO");
+		}
+
+
+	}
+	
+	private void cargarListaElementos()
+	{
+		listaElementos= elementoService.obtenerElementos();
+	}
+	
+
+	private void cargarListaRelacionados(int idElemento)
+	{
+		
+		listaSubElementoRelacionados= new ArrayList<SubElementoVO>(elemento.getElementosRelacionados());
+		elemento.getElementosRelacionados().removeAll(elemento.getElementosRelacionados());
+		this.grdElementoProyecto.setItems( listaSubElementoRelacionados );
+	}
+	
+	private void cargarListaSinonimos(int idElemento)
+	{
+		this.grdSinonimos.setItems( elemento.getSinonimos() );
+	}
+	
+	private void cargarElemento(int idElemento)
+	{
+		for(ElementoVO elem : listaElementos)
+		{
+			if(elem.getId() == idElemento)
+			{
+				this.elemento= elem;
+				break;
+			}
+		}
+	}
+	
+	private void cargarCmbRelaciones()
+	{		
+		if(elemento != null)
+		{
+			//Elimina del combo relaciones a el mismo
+			List<ElementoVO> relaciones= elementoService.obtenerElementos();
+			for(ElementoVO elem : relaciones)
+			{
+				if(elem.getId()==elemento.getId())
+				{
+					relaciones.remove(elem);
+				    break;
+				}
+			}
+			cmbElementoRelacion.setItems(relaciones);
+			cmbElementoRelacion.setItemCaptionGenerator(ElementoVO::getNombre);
+		}
+		else
+		{
+			cmbElementoRelacion.setItems(elementoService.obtenerElementos());
+			cmbElementoRelacion.setItemCaptionGenerator(ElementoVO::getNombre);
+		}
+
+	}
+	
+	
+}

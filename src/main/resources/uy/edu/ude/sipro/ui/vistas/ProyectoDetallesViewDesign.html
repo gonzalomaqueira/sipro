@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <meta name="design-properties" content="{&quot;RULERS_VISIBLE&quot;:true,&quot;GUIDELINES_VISIBLE&quot;:false,&quot;SNAP_TO_OBJECTS&quot;:true,&quot;SNAP_TO_GRID&quot;:true,&quot;SNAPPING_DISTANCE&quot;:10,&quot;GENERATE_GETTERS&quot;:false,&quot;JAVA_SOURCES_ROOT&quot;:&quot;src/main/java&quot;,&quot;THEME&quot;:&quot;siprotema&quot;}">
+  <meta name="vaadin-version" content="8.0.5">
+ </head>
+ <body>
+  <vaadin-vertical-layout spacing="false" responsive margin-top="false">
+   <vaadin-css-layout responsive width-full :center>
+    <vaadin-css-layout responsive width-full>
+     <vaadin-horizontal-layout style-name="v-window-top-toolbar" spacing="false" responsive margin>
+      <vaadin-button icon="fonticon://Vaadin-Icons/e7b0" style-name="small" id="btnVolver" width="87px" plain-text _id="btnVolver" :middle>
+        Volver 
+      </vaadin-button>
+      <vaadin-button style-name="primary small" id="btnEditar" width="87px" plain-text _id="btnEditar" :middle>
+        Editar 
+      </vaadin-button>
+      <vaadin-button visible="false" style-name="friendly small" id="btnGuardar" width="87px" plain-text _id="btnGuardar" :middle>
+        Guardar 
+      </vaadin-button>
+      <vaadin-button style-name="small" id="btnCancelar" width="87px" plain-text _id="btnCancelar" :middle>
+        Cancelar 
+      </vaadin-button>
+     </vaadin-horizontal-layout>
+    </vaadin-css-layout>
+    <vaadin-css-layout></vaadin-css-layout>
+    <vaadin-css-layout responsive width-full>
+     <vaadin-label style-name="h4" width-full plain-text>
+       Nombre Proyecto 
+     </vaadin-label>
+     <vaadin-text-field style-name="full" id="txtNombreProyecto" width-full _id="txtNombreProyecto"></vaadin-text-field>
+    </vaadin-css-layout>
+    <vaadin-css-layout></vaadin-css-layout>
+    <vaadin-css-layout responsive width-full>
+     <vaadin-label style-name="h4" width-full plain-text>
+       Carrera 
+     </vaadin-label>
+     <vaadin-text-field style-name="full" id="txtCarrera" width-full _id="txtCarrera1"></vaadin-text-field>
+    </vaadin-css-layout>
+    <vaadin-css-layout></vaadin-css-layout>
+    <vaadin-css-layout responsive width-full>
+     <vaadin-label style-name="h4" width-full plain-text>
+       Corrector 
+     </vaadin-label>
+     <vaadin-text-field style-name="full" id="txtCorrector" width="49%" _id="txtCorrector"></vaadin-text-field>
+    </vaadin-css-layout>
+    <vaadin-css-layout></vaadin-css-layout>
+    <vaadin-css-layout responsive width-full>
+     <vaadin-horizontal-layout width-full _id="contenedorAnioNota">
+      <vaadin-vertical-layout spacing="false" size-full margin="false">
+       <vaadin-label style-name="h4" width-full plain-text>
+         Año 
+       </vaadin-label>
+       <vaadin-text-field style-name="full" id="txtAnio" width-full _id="txtAnio"></vaadin-text-field>
+      </vaadin-vertical-layout>
+      <vaadin-vertical-layout spacing="false" size-full margin="false">
+       <vaadin-label style-name="h4" width-full plain-text>
+         Nota 
+       </vaadin-label>
+       <vaadin-text-field style-name="full" id="txtNota" width-full _id="txtNota"></vaadin-text-field>
+      </vaadin-vertical-layout>
+     </vaadin-horizontal-layout>
+    </vaadin-css-layout>
+    <vaadin-css-layout></vaadin-css-layout>
+    <vaadin-css-layout responsive width-full>
+     <vaadin-label style-name="h4" width-full plain-text>
+       Resúmen 
+     </vaadin-label>
+     <vaadin-text-area rows="10" width-full _id="txtResumen"></vaadin-text-area>
+    </vaadin-css-layout>
+    <vaadin-css-layout></vaadin-css-layout>
+    <vaadin-css-layout responsive width-full>
+     <vaadin-horizontal-layout width-full _id="contenedorTutorAlumnos">
+      <vaadin-vertical-layout spacing="false" size-full margin="false">
+       <vaadin-label style-name="h4" width-full plain-text>
+         Tutor 
+       </vaadin-label>
+       <vaadin-text-area id="txtTutor" width-full _id="txtTutor"></vaadin-text-area>
+      </vaadin-vertical-layout>
+      <vaadin-vertical-layout spacing="false" size-full margin="false">
+       <vaadin-label style-name="h4" width-full plain-text>
+         ALumnos 
+       </vaadin-label>
+       <vaadin-text-area width-full _id="txtAlumnos"></vaadin-text-area>
+      </vaadin-vertical-layout>
+     </vaadin-horizontal-layout>
+    </vaadin-css-layout>
+    <vaadin-css-layout></vaadin-css-layout>
+    <vaadin-css-layout responsive width-full>
+     <vaadin-label style-name="h4" width-full plain-text>
+       Tecnologías 
+     </vaadin-label>
+     <vaadin-grid style-name="half" id="grdTecnologias" height-mode="undefined" width-full _id="grdTecnologias"></vaadin-grid>
+    </vaadin-css-layout>
+    <vaadin-css-layout></vaadin-css-layout>
+    <vaadin-css-layout responsive width-full>
+     <vaadin-label style-name="h4" width-full plain-text>
+       Modelos de proceso 
+     </vaadin-label>
+     <vaadin-grid style-name="half" id="grdModeloProceso" height-mode="undefined" width-full _id="grdModeloProceso"></vaadin-grid>
+    </vaadin-css-layout>
+    <vaadin-css-layout></vaadin-css-layout>
+    <vaadin-css-layout responsive width-full>
+     <vaadin-label style-name="h4" width-full plain-text>
+       Metodologias de testing 
+     </vaadin-label>
+     <vaadin-grid style-name="half" id="grdMetodologiaTesting" height-mode="undefined" width-full _id="grdMetodologiaTesting"></vaadin-grid>
+    </vaadin-css-layout>
+   </vaadin-css-layout>
+  </vaadin-vertical-layout>
+ </body>
+</html>

@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <meta name="design-properties" content="{&quot;RULERS_VISIBLE&quot;:true,&quot;GUIDELINES_VISIBLE&quot;:false,&quot;SNAP_TO_OBJECTS&quot;:true,&quot;SNAP_TO_GRID&quot;:true,&quot;SNAPPING_DISTANCE&quot;:10,&quot;GENERATE_GETTERS&quot;:false,&quot;JAVA_SOURCES_ROOT&quot;:&quot;src/main/java&quot;,&quot;THEME&quot;:&quot;siprotema&quot;}">
+  <meta name="vaadin-version" content="8.1.5">
+ </head>
+ <body>
+  <vaadin-vertical-layout responsive margin-top="false">
+   <vaadin-css-layout responsive width-full>
+    <vaadin-css-layout responsive width-full>
+     <vaadin-horizontal-layout style-name="v-window-top-toolbar" spacing="false" responsive margin>
+      <vaadin-button icon="fonticon://Vaadin-Icons/e7b0" style-name="small" id="btnVolver" width="87px" plain-text _id="btnVolver" :middle>
+        Volver 
+      </vaadin-button>
+      <vaadin-button style-name="friendly small" id="btnGuardar" width="87px" plain-text _id="btnGuardar" :middle>
+        Guardar 
+      </vaadin-button>
+      <vaadin-button visible="false" style-name="primary small" id="btnModificar" width="87px" plain-text _id="btnModificar">
+        Modificar 
+      </vaadin-button>
+      <vaadin-button style-name="small" id="btnCancelar" width="87px" plain-text _id="btnCancelar" :middle>
+        Cancelar 
+      </vaadin-button>
+     </vaadin-horizontal-layout>
+    </vaadin-css-layout>
+    <vaadin-css-layout></vaadin-css-layout>
+    <vaadin-css-layout width-full>
+     <vaadin-label style-name="h4" width-full plain-text>
+       Nombre 
+     </vaadin-label>
+     <vaadin-text-field id="txtNombreElemento" width-full _id="txtNombreElemento"></vaadin-text-field>
+    </vaadin-css-layout>
+    <vaadin-css-layout></vaadin-css-layout>
+    <vaadin-css-layout width-full>
+     <vaadin-horizontal-layout width-full>
+      <vaadin-vertical-layout width="50%" margin="false">
+       <vaadin-label style-name="h4" width-full plain-text>
+         Es categoria 
+       </vaadin-label>
+       <vaadin-radio-button-group id="chEsCategoria" data-item-type="java.lang.String" _id="chEsCategoria">
+        <option item="si">SI</option>
+        <option item="no">NO</option>
+       </vaadin-radio-button-group>
+      </vaadin-vertical-layout>
+      <vaadin-vertical-layout width="50%" margin="false">
+       <vaadin-label style-name="h4" width-full plain-text>
+         Tipo categoria 
+       </vaadin-label>
+       <vaadin-radio-button-group id="chTipo" data-item-type="java.lang.String" _id="chTipo">
+        <option item="TECNOLOGIA">Tecnología</option>
+        <option item="METODOLOGIA_TESTING">Metodología de testing</option>
+        <option item="MODELO_PROCESO">Modelo de proceso</option>
+        <option item="OTRO">Otro</option>
+       </vaadin-radio-button-group>
+      </vaadin-vertical-layout>
+     </vaadin-horizontal-layout>
+    </vaadin-css-layout>
+    <vaadin-css-layout></vaadin-css-layout>
+    <vaadin-css-layout width-full>
+     <vaadin-vertical-layout margin="false">
+      <vaadin-label style-name="h4" width-full plain-text>
+        Elemento relacionado 
+      </vaadin-label>
+      <vaadin-horizontal-layout>
+       <vaadin-combo-box id="cmbElementoRelacion" data-item-type="uy.edu.ude.sipro.valueObjects.ElementoVO" _id="cmbElementoRelacion"></vaadin-combo-box>
+       <vaadin-button icon="fonticon://Vaadin-Icons/e801" style-name="friendly icon-only small" id="btnAgregarRelacion" plain-text _id="btnAgregarRelacion" :right>
+         Agregar 
+       </vaadin-button>
+       <vaadin-button visible="false" icon="fonticon://Vaadin-Icons/e91b" style-name="danger icon-only small" id="btnEliminarRelacion" plain-text _id="btnEliminarRelacion">
+         Eliminar 
+       </vaadin-button>
+      </vaadin-horizontal-layout>
+      <vaadin-grid id="grdElementoProyecto" height-mode="undefined" width-full data-item-type="uy.edu.ude.sipro.valueObjects.SubElementoVO" _id="grdElementoProyecto">
+       <table>
+        <colgroup>
+         <col column-id="id" sortable>
+         <col column-id="nombre" sortable>
+        </colgroup>
+        <thead>
+         <tr default>
+          <th plain-text column-ids="id">Id</th>
+          <th plain-text column-ids="nombre">Nombre</th>
+         </tr>
+        </thead>
+        <tbody></tbody>
+       </table>
+      </vaadin-grid>
+     </vaadin-vertical-layout>
+    </vaadin-css-layout>
+    <vaadin-css-layout></vaadin-css-layout>
+    <vaadin-css-layout width-full>
+     <vaadin-vertical-layout margin="false">
+      <vaadin-label style-name="h4" width-full plain-text>
+        Sinonimos 
+      </vaadin-label>
+      <vaadin-horizontal-layout>
+       <vaadin-text-field id="txtSinonimo" _id="txtSinonimo"></vaadin-text-field>
+       <vaadin-button icon="fonticon://Vaadin-Icons/e801" style-name="friendly icon-only small" id="btnAgregarSinonimo" plain-text _id="btnAgregarSinonimo">
+         Agregar 
+       </vaadin-button>
+       <vaadin-button visible="false" icon="fonticon://Vaadin-Icons/e91b" style-name="danger icon-only small" id="btnEliminarSinonimo" plain-text _id="btnEliminarSinonimo">
+         Eliminar 
+       </vaadin-button>
+      </vaadin-horizontal-layout>
+      <vaadin-grid id="grdSinonimos" height-mode="undefined" width-full data-item-type="uy.edu.ude.sipro.valueObjects.SinonimoVO" _id="grdSinonimos">
+       <table>
+        <colgroup>
+         <col column-id="id" sortable>
+         <col column-id="nombre" sortable>
+        </colgroup>
+        <thead>
+         <tr default>
+          <th plain-text column-ids="id">Id</th>
+          <th plain-text column-ids="nombre">Nombre</th>
+         </tr>
+        </thead>
+        <tbody></tbody>
+       </table>
+      </vaadin-grid>
+     </vaadin-vertical-layout>
+    </vaadin-css-layout>
+   </vaadin-css-layout>
+  </vaadin-vertical-layout>
+ </body>
+</html>
