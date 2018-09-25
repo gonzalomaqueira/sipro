@@ -189,7 +189,8 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 				if(subElementoSeleccionado.getId()!=0)//ver esto, no detecta null, ver si en base nunca genera un elemento id =0!!!!!!!
 				{
 					listaSubElementoRelacionados.add(subElementoSeleccionado);
-					grdElementoProyecto.setItems( listaSubElementoRelacionados );	
+					grdElementoProyecto.setItems( listaSubElementoRelacionados );
+					cargarCmbRelaciones();
 				}
 			}
 		});
@@ -217,7 +218,8 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 			public void buttonClick(ClickEvent event)
 			{			
 				listaSubElementoRelacionados.remove(subElementoSeleccionado);
-				grdElementoProyecto.setItems( listaSubElementoRelacionados );	
+				grdElementoProyecto.setItems( listaSubElementoRelacionados );
+				cargarCmbRelaciones();
 			}
 		});
 		
@@ -298,16 +300,27 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 		{
 			//Elimina del combo relaciones a el mismo
 			List<ElementoVO> relaciones= elementoService.obtenerElementos();
-			for(ElementoVO elem : relaciones)
+			List<ElementoVO> relacionesAux= new ArrayList<ElementoVO>(relaciones);
+			for(ElementoVO elem : relacionesAux)
 			{
 				if(elem.getId()==elemento.getId())
 				{
 					relaciones.remove(elem);
-				    break;
+				}
+				
+				for(SubElementoVO subElem : listaSubElementoRelacionados)
+				{
+					if(subElem.getId()==elem.getId())
+					{
+						relaciones.remove(elem);
+					    break;
+					}
 				}
 			}
 			cmbElementoRelacion.setItems(relaciones);
 			cmbElementoRelacion.setItemCaptionGenerator(ElementoVO::getNombre);
+			cmbElementoRelacion.setValue(null);
+			btnAgregarRelacion.setEnabled(false);
 		}
 		else
 		{
