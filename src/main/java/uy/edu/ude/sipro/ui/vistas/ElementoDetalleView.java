@@ -20,6 +20,7 @@ import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
 import uy.edu.ude.sipro.navegacion.NavigationManager;
 import uy.edu.ude.sipro.service.interfaces.ElementoService;
 import uy.edu.ude.sipro.valueObjects.ElementoVO;
+import uy.edu.ude.sipro.valueObjects.SinonimoVO;
 import uy.edu.ude.sipro.valueObjects.SubElementoVO;
 
 @SpringView
@@ -33,6 +34,10 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 	private List<ElementoVO> listaElementos;
 	
 	private ElementoVO elemento=null;
+	
+	private List<SinonimoVO> listaSinonimos= new ArrayList<SinonimoVO>();
+	
+	private SinonimoVO sinonimoSeleccionado;
 	
 	private List<SubElementoVO> listaSubElementoRelacionados= new ArrayList<SubElementoVO>();
 	
@@ -105,7 +110,7 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 			    		
 			    		elementoService.agregar(txtNombreElemento.getValue(),
 			    								esCategoria, tipo, 
-			    								listaSubElementoRelacionados, null);
+			    								listaSubElementoRelacionados, listaSinonimos);
 			    		Notification.show("Elemento agregado exitosamente", Notification.Type.WARNING_MESSAGE);
 			    		navigationManager.navigateTo(ElementoListadoView.class);
 
@@ -157,7 +162,7 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 			    		elementoService.modificar(elemento.getId(),
 			    								txtNombreElemento.getValue(),
 			    								esCategoria, tipo, 
-			    								listaSubElementoRelacionados, null);
+			    								listaSubElementoRelacionados, listaSinonimos);
 			    		Notification.show("Elemento agregado exitosamente", Notification.Type.WARNING_MESSAGE);
 			    		navigationManager.navigateTo(ElementoListadoView.class);
 
@@ -223,6 +228,46 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 			}
 		});
 		
+		btnAgregarSinonimo.addClickListener(new Button.ClickListener()
+		{
+			public void buttonClick(ClickEvent event)
+			{	
+				if(!txtSinonimo.isEmpty())
+				{
+					SinonimoVO sinonimo= new SinonimoVO();
+					sinonimo.setNombre(txtSinonimo.getValue());
+					listaSinonimos.add(sinonimo);
+					cargarListaSinonimos();
+				}
+			}
+		});
+		
+		btnEliminarSinonimo.addClickListener(new Button.ClickListener()
+		{
+			public void buttonClick(ClickEvent event)
+			{			
+				listaSinonimos.remove(sinonimoSeleccionado);
+				cargarListaSinonimos();
+			}
+		});
+		
+		grdSinonimos.addSelectionListener(evt -> 
+		{
+			SingleSelectionModel<SinonimoVO> singleSelect = (SingleSelectionModel<SinonimoVO>) grdSinonimos.getSelectionModel();
+			singleSelect.setDeselectAllowed(false);
+			try
+			{
+				if (singleSelect.getSelectedItem() != null)
+				{
+					sinonimoSeleccionado = singleSelect.getSelectedItem().get();
+					btnEliminarSinonimo.setVisible(true);
+				}
+			}
+			catch (Exception e)
+			{
+			}
+		});
+		
 	}
 	
 	private void cargarVistaGuardar()
@@ -236,7 +281,8 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 		btnGuardar.setVisible(false);
 		txtNombreElemento.setValue(elemento.getNombre());
 		cargarListaRelacionados(elemento.getId());
-		cargarListaSinonimos(elemento.getId());
+		cargarSinonimos();
+		cargarListaSinonimos();
 		cargarCmbRelaciones();
 		if(elemento.isEsCategoria())
 			chEsCategoria.setValue("si");
@@ -268,6 +314,11 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 		listaElementos= elementoService.obtenerElementos();
 	}
 	
+	private void cargarSinonimos()
+	{
+		listaSinonimos= elemento.getSinonimos();
+	}
+	
 
 	private void cargarListaRelacionados(int idElemento)
 	{
@@ -277,9 +328,9 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 		this.grdElementoProyecto.setItems( listaSubElementoRelacionados );
 	}
 	
-	private void cargarListaSinonimos(int idElemento)
+	private void cargarListaSinonimos()
 	{
-		this.grdSinonimos.setItems( elemento.getSinonimos() );
+		this.grdSinonimos.setItems( listaSinonimos );
 	}
 	
 	private void cargarElemento(int idElemento)

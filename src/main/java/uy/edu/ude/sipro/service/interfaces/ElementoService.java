@@ -6,14 +6,15 @@ import java.util.Set;
 import uy.edu.ude.sipro.entidades.Elemento;
 import uy.edu.ude.sipro.entidades.Sinonimo;
 import uy.edu.ude.sipro.valueObjects.ElementoVO;
+import uy.edu.ude.sipro.valueObjects.SinonimoVO;
 import uy.edu.ude.sipro.valueObjects.SubElementoVO;
 import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
 
 public interface ElementoService
 {	
 	void agregar(Elemento elemento);
-	void agregar(String nombre, boolean esCategoria, TipoElemento tipoElemento, List<SubElementoVO> elementosRelacionados, List<Sinonimo> sinonimos);
-	void modificar(int id, String nombre, boolean esCategoria, TipoElemento tipoElemento, List<SubElementoVO> elementosRelacionados, List<Sinonimo> sinonimos);
+	void agregar(String nombre, boolean esCategoria, TipoElemento tipoElemento, List<SubElementoVO> elementosRelacionados, List<SinonimoVO> sinonimos);
+	void modificar(int id, String nombre, boolean esCategoria, TipoElemento tipoElemento, List<SubElementoVO> elementosRelacionados, List<SinonimoVO> sinonimos);
 	void eliminar(int id);
 	void eliminar(Elemento elemento);
 	List<ElementoVO> obtenerElementos();
