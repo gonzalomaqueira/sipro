@@ -22,7 +22,8 @@ public class ProyectoListadoViewDesign extends VerticalLayout {
 	protected Button btnAgregar;
 	protected Button btnVerDetalles;
 	protected Button btnProcesar;
-	protected Grid grdElementoProyecto;
+	protected Button btnEliminar;
+	protected Grid<uy.edu.ude.sipro.valueObjects.ProyectoVO> grdProyectos;
 
 	public ProyectoListadoViewDesign() {
 		Design.read(this);

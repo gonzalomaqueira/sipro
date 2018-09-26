@@ -104,7 +104,7 @@ public class ElementoListadoView extends ElementoListadoViewDesign implements Vi
 		for(SubElementoVO elemento : elementoSeleccionado.getElementosRelacionados())
 		{
 			texto= texto.concat(elemento.getNombre());
-			texto= texto.concat(" ;");
+			texto= texto.concat("; ");
 		}
 		txtRelaciones.setValue(texto);
 	}
@@ -115,7 +115,7 @@ public class ElementoListadoView extends ElementoListadoViewDesign implements Vi
 		for(SinonimoVO sinonimo : elementoSeleccionado.getSinonimos())
 		{
 			texto= texto.concat(sinonimo.getNombre());
-			texto= texto.concat(" ;");
+			texto= texto.concat("; ");
 		}
 		txtSinonimos.setValue(texto);
 	}

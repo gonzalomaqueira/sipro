@@ -13,7 +13,6 @@ import uy.edu.ude.sipro.entidades.Elemento;
 import uy.edu.ude.sipro.entidades.Proyecto;
 import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
 import uy.edu.ude.sipro.dao.interfaces.ElementoDao;
-import uy.edu.ude.sipro.dao.interfaces.SinonimoDao;
 import uy.edu.ude.sipro.entidades.Sinonimo;
 import uy.edu.ude.sipro.service.interfaces.ElementoService;
 import uy.edu.ude.sipro.service.interfaces.SinonimoService;
@@ -158,6 +157,7 @@ public class ElementoServiceImp implements ElementoService
 			}
 		}
 		
+		// Se agregan nuevos sinonimos
 		listaAux= new ArrayList<Sinonimo>(listaSinonimos);
 		for(SinonimoVO sinVO : sinonimos)
 		{
@@ -174,7 +174,7 @@ public class ElementoServiceImp implements ElementoService
 				sinonimoService.agregar(sinVO.getNombre(), elemento);		
 		}
 		
-
+		//Se eliminan sinonimos desasociados
 		for(Sinonimo sin : listaSinonimos )
 		{
 			existe=false;

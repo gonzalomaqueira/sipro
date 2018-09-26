@@ -15,7 +15,6 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.components.grid.SingleSelectionModel;
 
-import uy.edu.ude.sipro.entidades.Elemento;
 import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
 import uy.edu.ude.sipro.navegacion.NavigationManager;
 import uy.edu.ude.sipro.service.interfaces.ElementoService;
@@ -163,7 +162,7 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 			    								txtNombreElemento.getValue(),
 			    								esCategoria, tipo, 
 			    								listaSubElementoRelacionados, listaSinonimos);
-			    		Notification.show("Elemento agregado exitosamente", Notification.Type.WARNING_MESSAGE);
+			    		Notification.show("Elemento modificado exitosamente", Notification.Type.WARNING_MESSAGE);
 			    		navigationManager.navigateTo(ElementoListadoView.class);
 
 			    	}
@@ -234,10 +233,17 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 			{	
 				if(!txtSinonimo.isEmpty())
 				{
-					SinonimoVO sinonimo= new SinonimoVO();
-					sinonimo.setNombre(txtSinonimo.getValue());
-					listaSinonimos.add(sinonimo);
-					cargarListaSinonimos();
+					if (!listaContieneSinonimo(listaSinonimos, txtSinonimo.getValue()))
+					{
+						SinonimoVO sinonimo= new SinonimoVO();
+						sinonimo.setNombre(txtSinonimo.getValue());
+						listaSinonimos.add(sinonimo);
+						cargarListaSinonimos();
+					}
+					else
+					{
+						Notification.show("Sinónimo ya existente", Notification.Type.WARNING_MESSAGE);
+					}
 				}
 			}
 		});
@@ -381,5 +387,16 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 
 	}
 	
+	private boolean listaContieneSinonimo(List<SinonimoVO> listaSinonimos, String sinonimoBuscado)
+	{
+		for (SinonimoVO sinonimo : listaSinonimos)
+		{
+			if (sinonimo.getNombre().equals(sinonimoBuscado))
+			{					
+				return true;
+			}
+		}
+		return false;
+	}
 	
 }
