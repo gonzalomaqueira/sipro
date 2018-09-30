@@ -26,8 +26,9 @@ public class ProyectoDetallesViewDesign extends VerticalLayout {
 	protected Button btnEditar;
 	protected Button btnGuardar;
 	protected Button btnCancelar;
+	protected Button btnVerTextoDocumento;
 	protected TextField txtNombreProyecto;
-	protected TextField txtCarrera1;
+	protected TextField txtCarrera;
 	protected TextField txtCorrector;
 	protected HorizontalLayout contenedorAnioNota;
 	protected TextField txtAnio;
@@ -36,9 +37,9 @@ public class ProyectoDetallesViewDesign extends VerticalLayout {
 	protected HorizontalLayout contenedorTutorAlumnos;
 	protected TextArea txtTutor;
 	protected TextArea txtAlumnos;
-	protected Grid grdTecnologias;
-	protected Grid grdModeloProceso;
-	protected Grid grdMetodologiaTesting;
+	protected Grid<uy.edu.ude.sipro.valueObjects.ElementoVO> grdTecnologias;
+	protected Grid<uy.edu.ude.sipro.valueObjects.ElementoVO> grdModeloProceso;
+	protected Grid<uy.edu.ude.sipro.valueObjects.ElementoVO> grdMetodologiaTesting;
 
 	public ProyectoDetallesViewDesign() {
 		Design.read(this);

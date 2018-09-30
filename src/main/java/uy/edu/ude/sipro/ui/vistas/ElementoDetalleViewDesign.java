@@ -27,8 +27,8 @@ public class ElementoDetalleViewDesign extends VerticalLayout {
 	protected Button btnModificar;
 	protected Button btnCancelar;
 	protected TextField txtNombreElemento;
-	protected RadioButtonGroup<java.lang.String> chEsCategoria;
 	protected RadioButtonGroup<java.lang.String> chTipo;
+	protected RadioButtonGroup<java.lang.String> chEsCategoria;
 	protected ComboBox<uy.edu.ude.sipro.valueObjects.ElementoVO> cmbElementoRelacion;
 	protected Button btnAgregarRelacion;
 	protected Button btnEliminarRelacion;

@@ -15,8 +15,10 @@ import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
 import uy.edu.ude.sipro.dao.interfaces.ElementoDao;
 import uy.edu.ude.sipro.entidades.Sinonimo;
 import uy.edu.ude.sipro.service.interfaces.ElementoService;
+import uy.edu.ude.sipro.service.interfaces.SinonimoService;
 import uy.edu.ude.sipro.utiles.ConversorValueObject;
 import uy.edu.ude.sipro.valueObjects.ElementoVO;
+import uy.edu.ude.sipro.valueObjects.SinonimoVO;
 import uy.edu.ude.sipro.valueObjects.SubElementoVO;
 
 @Service
@@ -24,6 +26,9 @@ public class ElementoServiceImp implements ElementoService
 {
 	@Autowired
 	private ElementoDao elementoDao;
+	
+	@Autowired
+	private SinonimoService sinonimoService;
 
 	@Transactional
 	@Override
@@ -34,11 +39,13 @@ public class ElementoServiceImp implements ElementoService
 	
 	@Transactional
 	@Override
-	public void agregar(String nombre, boolean esCategoria, TipoElemento tipoElemento, List<SubElementoVO> elementosRelacionados, List<Sinonimo> sinonimos)
+	public void altaElemento(String nombre, boolean esCategoria, TipoElemento tipoElemento, List<SubElementoVO> elementosRelacionados, List<SinonimoVO> sinonimos)
 	{
-		List<Elemento> lista = new ArrayList<Elemento>();
-		Elemento elemento = new Elemento(nombre, esCategoria, tipoElemento, lista, sinonimos);
+		List<Elemento> listaRelaciones = new ArrayList<Elemento>();
+		List<Sinonimo> listaSinonimos= new ArrayList<Sinonimo>();
+		Elemento elemento = new Elemento(nombre, esCategoria, tipoElemento, listaRelaciones, listaSinonimos);
 		elementoDao.agregar(elemento);
+		
 		List<Elemento> todosElementos= elementoDao.obtenerElementos();
 		
 		//el elemento tiene que tener el nombre como primay key sino esto no funciona(CONTROLAR)
@@ -50,6 +57,21 @@ public class ElementoServiceImp implements ElementoService
 			}
 		}
 		
+		for(SinonimoVO sin : sinonimos)
+		{
+			sinonimoService.agregar(sin.getNombre(), elemento);
+		}
+		
+		listaSinonimos=sinonimoService.obtenerSinonimos();
+		List<Sinonimo> listaAux= new ArrayList<Sinonimo>(listaSinonimos);
+		for(Sinonimo sin : listaAux)
+		{
+			if(sin.getElemento().getId()!=elemento.getId())
+			{
+				listaSinonimos.remove(sin);
+			}
+		}
+	
 		if(todosElementos != null)
 		{
 			for(Elemento elem : todosElementos)
@@ -58,53 +80,35 @@ public class ElementoServiceImp implements ElementoService
 				{
 					if( subElem.getId()==elem.getId())
 					{
-						lista.add(elem);
+						listaRelaciones.add(elem);
 						elem.getElementosOrigen().add(elemento);						
 					}
 				}
 			 }
-			elemento.setElementosRelacionados(lista);
-			elementoDao.modificar(elemento);
+			elemento.setSinonimos(listaSinonimos);
+			elemento.setElementosRelacionados(listaRelaciones);
+			elementoDao.agregar(elemento);
 		}
 	}
 
 	@Transactional
 	@Override
 	public void modificar(int id, String nombre, boolean esCategoria, TipoElemento tipoElemento,
-						  List<SubElementoVO> elementosRelacionados, List<Sinonimo> sinonimos)
+						  List<SubElementoVO> elementosRelacionados, List<SinonimoVO> sinonimos)
 	{
 		Elemento elemento = this.obtenerElementoPorId(id);
 		elemento.setNombre(nombre);
 		elemento.setEsCategoria(esCategoria);
 		elemento.setTipoElemento(tipoElemento);
-		elemento.setSinonimos(sinonimos);
 		
-		//List<SubElementoVO> listaAgregar = new ArrayList<SubElementoVO>();
+		List<Sinonimo> listaSinonimos= new ArrayList<Sinonimo>();
 		List<Elemento> listaEliminar = new ArrayList<Elemento>();
 		List<Elemento> listaTotal= elementoDao.obtenerElementos();
 		List<Elemento> listaGuardar = new ArrayList<Elemento>();
 		
 		boolean existe;
 		
-	/*	for(SubElementoVO subElem : elementosRelacionados)
-		{
-			existe=false;
-			for(Elemento elem : elemento.getElementosRelacionados())
-			{
-				if(subElem.getId() == elem.getId())
-				{
-					existe=true;
-					break;
-					
-				}
-			}
-			
-			if(!existe)
-				listaAgregar.add(subElem);
-		}
-	*/	
-		
-		
+
 		for( Elemento elem  : elemento.getElementosRelacionados())
 		{
 			existe=false;
@@ -142,7 +146,65 @@ public class ElementoServiceImp implements ElementoService
 			}
 		}
 		
+		
+		listaSinonimos=sinonimoService.obtenerSinonimos();
+		List<Sinonimo> listaAux= new ArrayList<Sinonimo>(listaSinonimos);
+		for(Sinonimo sin : listaAux)
+		{
+			if(sin.getElemento().getId()!=elemento.getId())
+			{
+				listaSinonimos.remove(sin);
+			}
+		}
+		
+		// Se agregan nuevos sinonimos
+		listaAux= new ArrayList<Sinonimo>(listaSinonimos);
+		for(SinonimoVO sinVO : sinonimos)
+		{
+			existe=false;
+			for(Sinonimo sin : listaAux)
+			{
+				if(sinVO.getId()==sin.getId())
+				{
+					existe=true;
+					break;
+				}
+			}
+			if (!existe)
+				sinonimoService.agregar(sinVO.getNombre(), elemento);		
+		}
+		
+		//Se eliminan sinonimos desasociados
+		for(Sinonimo sin : listaSinonimos )
+		{
+			existe=false;
+			for(SinonimoVO sinVO : sinonimos)
+			{
+				if(sinVO.getId()==sin.getId())
+				{
+					existe=true;
+					break;
+				}
+			}
+			if (!existe)
+			{
+				elemento.getSinonimos().remove(sin);
+				sinonimoService.eliminar(sin.getId());
+			}
+		}
+		
+		listaSinonimos=sinonimoService.obtenerSinonimos();
+		listaAux= new ArrayList<Sinonimo>(listaSinonimos);
+		for(Sinonimo sin : listaAux)
+		{
+			if(sin.getElemento().getId()!=elemento.getId())
+			{
+				listaSinonimos.remove(sin);
+			}
+		}
+		
 		elemento.setElementosRelacionados(listaGuardar);
+		elemento.setSinonimos(listaSinonimos);
 		elementoDao.modificar(elemento);
 	}
 
@@ -198,9 +260,9 @@ public class ElementoServiceImp implements ElementoService
 	
 	@Transactional(readOnly = true)
 	@Override
-	public List<ElementoVO> obtenerElementos()
+	public List<Elemento> obtenerElementos()
 	{
-		return ConversorValueObject.convertirListaElementoVO(elementoDao.obtenerElementos());
+		return elementoDao.obtenerElementos();
 	}
 		
 	@Transactional(readOnly = true)

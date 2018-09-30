@@ -26,6 +26,7 @@ public class ConversorValueObject
 									  proyecto.getNombre(),
 									  proyecto.getAnio(),
 									  proyecto.getCarrera(),
+									  proyecto.getCorrector(),
 									  proyecto.getNota(),
 									  proyecto.getAlumnos(),
 									  proyecto.getTutor(),
@@ -175,6 +176,8 @@ public class ConversorValueObject
 		}
 		return vRetorno;
 	}
+
+
 
 
 

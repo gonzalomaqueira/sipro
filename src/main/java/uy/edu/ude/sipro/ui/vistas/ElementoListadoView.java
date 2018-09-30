@@ -12,7 +12,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.components.grid.SingleSelectionModel;
 
 import uy.edu.ude.sipro.navegacion.NavigationManager;
-import uy.edu.ude.sipro.service.interfaces.ElementoService;
+import uy.edu.ude.sipro.service.Fachada;
 import uy.edu.ude.sipro.valueObjects.ElementoVO;
 import uy.edu.ude.sipro.valueObjects.SinonimoVO;
 import uy.edu.ude.sipro.valueObjects.SubElementoVO;
@@ -23,7 +23,7 @@ public class ElementoListadoView extends ElementoListadoViewDesign implements Vi
 	
 	
 	@Autowired
-    private ElementoService elementoService;
+    private Fachada fachada;
 	
 	private ElementoVO elementoSeleccionado;
 	
@@ -84,7 +84,7 @@ public class ElementoListadoView extends ElementoListadoViewDesign implements Vi
 			{	
 				if( elementoSeleccionado!=null )
 				{
-					elementoService.eliminar(elementoSeleccionado.getId());
+					fachada.eliminarElemento(elementoSeleccionado.getId());
 					Notification.show("Elemento eliminado exitosamente", Notification.Type.WARNING_MESSAGE);
 					cargarListaElementos();
 				}
@@ -95,7 +95,7 @@ public class ElementoListadoView extends ElementoListadoViewDesign implements Vi
 	
 	private void cargarListaElementos()
 	{
-		this.grdElementos.setItems(elementoService.obtenerElementos());
+		this.grdElementos.setItems(fachada.obtenerElementos());
 	}
 	
 	private void cargarListaRelaciones()
@@ -104,7 +104,7 @@ public class ElementoListadoView extends ElementoListadoViewDesign implements Vi
 		for(SubElementoVO elemento : elementoSeleccionado.getElementosRelacionados())
 		{
 			texto= texto.concat(elemento.getNombre());
-			texto= texto.concat(" ;");
+			texto= texto.concat("; ");
 		}
 		txtRelaciones.setValue(texto);
 	}
@@ -115,7 +115,7 @@ public class ElementoListadoView extends ElementoListadoViewDesign implements Vi
 		for(SinonimoVO sinonimo : elementoSeleccionado.getSinonimos())
 		{
 			texto= texto.concat(sinonimo.getNombre());
-			texto= texto.concat(" ;");
+			texto= texto.concat("; ");
 		}
 		txtSinonimos.setValue(texto);
 	}

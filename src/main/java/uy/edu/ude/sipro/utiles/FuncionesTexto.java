@@ -2,6 +2,8 @@ package uy.edu.ude.sipro.utiles;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -47,6 +49,81 @@ public class FuncionesTexto
 		
 		return documentoPorSecciones;
 	}
+	
+	public static SeccionTexto armarSeccionAlumnos(String texto[])
+	{
+        SeccionTexto seccion = null;
+        ArrayList<String> contenido = new ArrayList<String>();
+        boolean encontreTituloAlumno = false;
+        
+		for (String linea : texto)
+        {
+    	    if (FuncionesTexto.esTituloTutor(linea))
+    	    	break;
+    	    
+			if (FuncionesTexto.esTituloAlumnos(linea))
+    	    {
+    	    	encontreTituloAlumno = true;
+    	    	if (seccion != null)
+    	    	{
+    	    		seccion.setContenido(contenido);
+    	    	}
+    	    	seccion = new SeccionTexto();
+    	    	contenido = new ArrayList<String>();
+    	    	seccion.setTitulo(linea);
+			}
+    	    else
+    	    {
+    	    	if (encontreTituloAlumno && !FuncionesTexto.esTituloTutor(linea))
+    	    	{
+    	    		contenido.add(linea);
+    	    	}        	    	
+    	    }
+        }
+		if (seccion != null)
+		{
+			seccion.setContenido(contenido);
+		}
+		return seccion;
+	}
+	
+	public static SeccionTexto armarSeccionTutor(String texto[])
+	{
+        SeccionTexto seccion = null;
+        ArrayList<String> contenido = new ArrayList<String>();
+        boolean encontreTituloAlumno = false;
+        
+		for (String linea : texto)
+        {
+    	    if (FuncionesTexto.esTituloResumen(linea))
+    	    	break;
+    	    
+			if (FuncionesTexto.esTituloTutor(linea))
+    	    {
+    	    	encontreTituloAlumno = true;
+    	    	if (seccion != null)
+    	    	{
+    	    		seccion.setContenido(contenido);
+    	    	}
+    	    	seccion = new SeccionTexto();
+    	    	contenido = new ArrayList<String>();
+    	    	seccion.setTitulo(linea);
+			}
+    	    else
+    	    {
+    	    	if (encontreTituloAlumno && !FuncionesTexto.esTituloResumen(linea))
+    	    	{
+    	    		contenido.add(linea);
+    	    	}        	    	
+    	    }
+        }
+		if (seccion != null)
+		{
+			seccion.setContenido(contenido);
+		}
+		return seccion;
+	}	
+		
 	
 	public static boolean esTitulo (String linea)
 	{
@@ -213,6 +290,42 @@ public class FuncionesTexto
 	public static boolean esNuloOVacio(String texto)
 	{
 		return (texto==null || texto.trim().equals(""));
+	}	
+	
+	public static int devolverPrimerAnioTexto(String[] textoOriginal)
+	{
+		int vRetorno = 0;
+		for (String linea : textoOriginal)
+        {			
+			if (!contieneEmail(linea) && devolverAnio(linea) > 0)
+			{
+				vRetorno = devolverAnio(linea);
+				break;
+			}
+        }
+		return vRetorno;
+	}
+	
+	private static int devolverAnio(String linea)
+	{
+		int vRetorno = 0;
+		Date vfecha = new Date();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(vfecha);
+		int anioHasta = cal.get(Calendar.YEAR);
+		
+		Pattern p = Pattern.compile("[0-9]+");
+		Matcher m = p.matcher(linea);
+		while (m.find()) 
+		{
+		    int num = Integer.parseInt(m.group());
+		    if (num >= Constantes.FECHA_VALIDA_DESDE && num <= anioHasta + 1)
+		    {
+		    	vRetorno = num;
+		    	break;
+		    }		    
+		}
+		return vRetorno;
 	}
 	
 	public static String convertirArrayAStringEspacios(ArrayList<String> listaStrings)

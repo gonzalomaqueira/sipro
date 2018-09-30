@@ -36,16 +36,7 @@
      <vaadin-horizontal-layout width-full>
       <vaadin-vertical-layout width="50%" margin="false">
        <vaadin-label style-name="h4" width-full plain-text>
-         Es categoria 
-       </vaadin-label>
-       <vaadin-radio-button-group id="chEsCategoria" data-item-type="java.lang.String" _id="chEsCategoria">
-        <option item="si">SI</option>
-        <option item="no">NO</option>
-       </vaadin-radio-button-group>
-      </vaadin-vertical-layout>
-      <vaadin-vertical-layout width="50%" margin="false">
-       <vaadin-label style-name="h4" width-full plain-text>
-         Tipo categoria 
+         Tipo 
        </vaadin-label>
        <vaadin-radio-button-group id="chTipo" data-item-type="java.lang.String" _id="chTipo">
         <option item="TECNOLOGIA">Tecnología</option>
@@ -54,13 +45,22 @@
         <option item="OTRO">Otro</option>
        </vaadin-radio-button-group>
       </vaadin-vertical-layout>
+      <vaadin-vertical-layout width="50%" margin="false">
+       <vaadin-label style-name="h4" width-full plain-text>
+         ¿Es categoría? 
+       </vaadin-label>
+       <vaadin-radio-button-group id="chEsCategoria" data-item-type="java.lang.String" _id="chEsCategoria">
+        <option item="si">SI</option>
+        <option item="no">NO</option>
+       </vaadin-radio-button-group>
+      </vaadin-vertical-layout>
      </vaadin-horizontal-layout>
     </vaadin-css-layout>
     <vaadin-css-layout></vaadin-css-layout>
     <vaadin-css-layout width-full>
      <vaadin-vertical-layout margin="false">
       <vaadin-label style-name="h4" width-full plain-text>
-        Elemento relacionado 
+        Elementos relacionados 
       </vaadin-label>
       <vaadin-horizontal-layout>
        <vaadin-combo-box id="cmbElementoRelacion" data-item-type="uy.edu.ude.sipro.valueObjects.ElementoVO" _id="cmbElementoRelacion"></vaadin-combo-box>
@@ -74,13 +74,11 @@
       <vaadin-grid id="grdElementoProyecto" height-mode="undefined" width-full data-item-type="uy.edu.ude.sipro.valueObjects.SubElementoVO" _id="grdElementoProyecto">
        <table>
         <colgroup>
-         <col column-id="id" sortable>
          <col column-id="nombre" sortable>
         </colgroup>
         <thead>
          <tr default>
-          <th plain-text column-ids="id">Id</th>
-          <th plain-text column-ids="nombre">Nombre</th>
+          <th plain-text column-ids="nombre">ELEMENTO</th>
          </tr>
         </thead>
         <tbody></tbody>
@@ -106,13 +104,11 @@
       <vaadin-grid id="grdSinonimos" height-mode="undefined" width-full data-item-type="uy.edu.ude.sipro.valueObjects.SinonimoVO" _id="grdSinonimos">
        <table>
         <colgroup>
-         <col column-id="id" sortable>
          <col column-id="nombre" sortable>
         </colgroup>
         <thead>
          <tr default>
-          <th plain-text column-ids="id">Id</th>
-          <th plain-text column-ids="nombre">Nombre</th>
+          <th plain-text column-ids="nombre">SINÓNIMO</th>
          </tr>
         </thead>
         <tbody></tbody>

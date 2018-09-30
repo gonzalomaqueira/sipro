@@ -15,11 +15,12 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.components.grid.SingleSelectionModel;
 
-import uy.edu.ude.sipro.entidades.Elemento;
 import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
 import uy.edu.ude.sipro.navegacion.NavigationManager;
+import uy.edu.ude.sipro.service.Fachada;
 import uy.edu.ude.sipro.service.interfaces.ElementoService;
 import uy.edu.ude.sipro.valueObjects.ElementoVO;
+import uy.edu.ude.sipro.valueObjects.SinonimoVO;
 import uy.edu.ude.sipro.valueObjects.SubElementoVO;
 
 @SpringView
@@ -27,12 +28,16 @@ import uy.edu.ude.sipro.valueObjects.SubElementoVO;
 public class ElementoDetalleView extends ElementoDetalleViewDesign implements View{
 	
 	@Autowired
-	private ElementoService elementoService;
+	private Fachada fachada;
 	
 	//Lista con todos los elementos con su direccion correcta
 	private List<ElementoVO> listaElementos;
 	
 	private ElementoVO elemento=null;
+	
+	private List<SinonimoVO> listaSinonimos= new ArrayList<SinonimoVO>();
+	
+	private SinonimoVO sinonimoSeleccionado;
 	
 	private List<SubElementoVO> listaSubElementoRelacionados= new ArrayList<SubElementoVO>();
 	
@@ -103,9 +108,9 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 			    			tipo= TipoElemento.OTRO;
 			    		}
 			    		
-			    		elementoService.agregar(txtNombreElemento.getValue(),
+			    		fachada.altaElemento(txtNombreElemento.getValue(),
 			    								esCategoria, tipo, 
-			    								listaSubElementoRelacionados, null);
+			    								listaSubElementoRelacionados, listaSinonimos);
 			    		Notification.show("Elemento agregado exitosamente", Notification.Type.WARNING_MESSAGE);
 			    		navigationManager.navigateTo(ElementoListadoView.class);
 
@@ -154,11 +159,11 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 			    			tipo= TipoElemento.OTRO;
 			    		}
 			    		
-			    		elementoService.modificar(elemento.getId(),
+			    		fachada.modificarElemento(elemento.getId(),
 			    								txtNombreElemento.getValue(),
 			    								esCategoria, tipo, 
-			    								listaSubElementoRelacionados, null);
-			    		Notification.show("Elemento agregado exitosamente", Notification.Type.WARNING_MESSAGE);
+			    								listaSubElementoRelacionados, listaSinonimos);
+			    		Notification.show("Elemento modificado exitosamente", Notification.Type.WARNING_MESSAGE);
 			    		navigationManager.navigateTo(ElementoListadoView.class);
 
 			    	}
@@ -223,6 +228,53 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 			}
 		});
 		
+		btnAgregarSinonimo.addClickListener(new Button.ClickListener()
+		{
+			public void buttonClick(ClickEvent event)
+			{	
+				if(!txtSinonimo.isEmpty())
+				{
+					if (!listaContieneSinonimo(listaSinonimos, txtSinonimo.getValue()))
+					{
+						SinonimoVO sinonimo= new SinonimoVO();
+						sinonimo.setNombre(txtSinonimo.getValue());
+						listaSinonimos.add(sinonimo);
+						cargarListaSinonimos();
+					}
+					else
+					{
+						Notification.show("Sinónimo ya existente", Notification.Type.WARNING_MESSAGE);
+					}
+				}
+			}
+		});
+		
+		btnEliminarSinonimo.addClickListener(new Button.ClickListener()
+		{
+			public void buttonClick(ClickEvent event)
+			{			
+				listaSinonimos.remove(sinonimoSeleccionado);
+				cargarListaSinonimos();
+			}
+		});
+		
+		grdSinonimos.addSelectionListener(evt -> 
+		{
+			SingleSelectionModel<SinonimoVO> singleSelect = (SingleSelectionModel<SinonimoVO>) grdSinonimos.getSelectionModel();
+			singleSelect.setDeselectAllowed(false);
+			try
+			{
+				if (singleSelect.getSelectedItem() != null)
+				{
+					sinonimoSeleccionado = singleSelect.getSelectedItem().get();
+					btnEliminarSinonimo.setVisible(true);
+				}
+			}
+			catch (Exception e)
+			{
+			}
+		});
+		
 	}
 	
 	private void cargarVistaGuardar()
@@ -236,7 +288,8 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 		btnGuardar.setVisible(false);
 		txtNombreElemento.setValue(elemento.getNombre());
 		cargarListaRelacionados(elemento.getId());
-		cargarListaSinonimos(elemento.getId());
+		cargarSinonimos();
+		cargarListaSinonimos();
 		cargarCmbRelaciones();
 		if(elemento.isEsCategoria())
 			chEsCategoria.setValue("si");
@@ -265,7 +318,12 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 	
 	private void cargarListaElementos()
 	{
-		listaElementos= elementoService.obtenerElementos();
+		listaElementos = fachada.obtenerElementos();
+	}
+	
+	private void cargarSinonimos()
+	{
+		listaSinonimos= elemento.getSinonimos();
 	}
 	
 
@@ -277,9 +335,9 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 		this.grdElementoProyecto.setItems( listaSubElementoRelacionados );
 	}
 	
-	private void cargarListaSinonimos(int idElemento)
+	private void cargarListaSinonimos()
 	{
-		this.grdSinonimos.setItems( elemento.getSinonimos() );
+		this.grdSinonimos.setItems( listaSinonimos );
 	}
 	
 	private void cargarElemento(int idElemento)
@@ -299,7 +357,7 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 		if(elemento != null)
 		{
 			//Elimina del combo relaciones a el mismo
-			List<ElementoVO> relaciones= elementoService.obtenerElementos();
+			List<ElementoVO> relaciones= fachada.obtenerElementos();
 			List<ElementoVO> relacionesAux= new ArrayList<ElementoVO>(relaciones);
 			for(ElementoVO elem : relacionesAux)
 			{
@@ -324,11 +382,22 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 		}
 		else
 		{
-			cmbElementoRelacion.setItems(elementoService.obtenerElementos());
+			cmbElementoRelacion.setItems(fachada.obtenerElementos());
 			cmbElementoRelacion.setItemCaptionGenerator(ElementoVO::getNombre);
 		}
 
 	}
 	
+	private boolean listaContieneSinonimo(List<SinonimoVO> listaSinonimos, String sinonimoBuscado)
+	{
+		for (SinonimoVO sinonimo : listaSinonimos)
+		{
+			if (sinonimo.getNombre().equals(sinonimoBuscado))
+			{					
+				return true;
+			}
+		}
+		return false;
+	}
 	
 }
