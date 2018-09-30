@@ -42,9 +42,9 @@ public class Fachada {
 		return ConversorValueObject.convertirProyectoDetalleVO(proyectoService.obtenerProyectoPorId(idProyecto));
 	}
 	
-	public void altaProyecto(String nombre, int anio, String carrera, int nota, String rutaArchivo) 
+	public void altaProyecto(String nombre, String correctores, int nota, String rutaArchivo) 
 	{
-		proyectoService.agregar(nombre, anio, carrera, nota, rutaArchivo);
+		proyectoService.agregar(nombre, correctores, nota, rutaArchivo);
 	}
 	
 	public void modificarProyecto(int id, String nombre, int anio, String carrera, int nota, String rutaArchivo) 

@@ -1,5 +1,7 @@
 package uy.edu.ude.sipro.ui.vistas;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vaadin.navigator.View;
@@ -24,6 +26,7 @@ public class ProyectoListadoView extends ProyectoListadoViewDesign implements Vi
 	private Fachada fachada;
 	
 	private ProyectoVO proyectoSeleccionado;
+	private List<ProyectoVO> listaProyectos;
 	
 	private final NavigationManager navigationManager;
 	
@@ -35,7 +38,7 @@ public class ProyectoListadoView extends ProyectoListadoViewDesign implements Vi
 	
 	public void enter(ViewChangeEvent event)
 	{
-		cargarrInterfazInicial();
+		cargarInterfazInicial();
 		
 		grdProyectos.addSelectionListener(evt -> 
 		{
@@ -52,10 +55,12 @@ public class ProyectoListadoView extends ProyectoListadoViewDesign implements Vi
 					if (proyectoSeleccionado.getEstado() == EstadoProyectoEnum.SIN_PROCESAR)
 					{
 						btnProcesar.setCaption("PROCESAR");
+						btnVerDetalles.setEnabled(false);
 					}
 					else
 					{
 						btnProcesar.setCaption("RE-PROCESAR");
+						btnVerDetalles.setEnabled(true);
 					}
 				}
 			}
@@ -77,7 +82,7 @@ public class ProyectoListadoView extends ProyectoListadoViewDesign implements Vi
 		{
 			public void buttonClick(ClickEvent event)
 			{			
-				navigationManager.navigateTo(ProyectoDetallesView.class);
+				navigationManager.navigateTo(ProyectoNuevoView.class);
 			}
 		});
 		
@@ -89,17 +94,46 @@ public class ProyectoListadoView extends ProyectoListadoViewDesign implements Vi
 				{
 					fachada.borrarProyecto(proyectoSeleccionado.getId());
 					Notification.show("Proyecto eliminado exitosamente", Notification.Type.WARNING_MESSAGE);
-					cargarrInterfazInicial();
+					cargarInterfazInicial();
+				}
+			}
+		});
+		
+		btnProcesar.addClickListener(new Button.ClickListener()
+		{
+			public void buttonClick(ClickEvent event)
+			{	
+				if( proyectoSeleccionado != null )
+				{
+					fachada.ProcesarProyecto(proyectoSeleccionado.getId());
+					cargarInterfazInicial();
+					grdProyectos.select(proyectoSeleccionado);
 				}
 			}
 		});
 	}
 
-	private void cargarrInterfazInicial()
+	private void cargarInterfazInicial()
 	{
 		btnProcesar.setEnabled(false);
 		btnVerDetalles.setEnabled(false);
 		btnEliminar.setEnabled(false);
-		grdProyectos.setItems(fachada.obtenerProyectos());
+		listaProyectos = fachada.obtenerProyectos();
+		grdProyectos.setItems(listaProyectos);
+		actualizarProyectoSeleccionado();
+	}
+	
+	private void actualizarProyectoSeleccionado() 
+	{
+		if (listaProyectos != null && proyectoSeleccionado != null)
+		{
+			for(ProyectoVO proy : listaProyectos)
+			{
+				if (proy.getId() == proyectoSeleccionado.getId())
+				{
+					proyectoSeleccionado = proy;
+				}
+			}
+		}
 	}
 }

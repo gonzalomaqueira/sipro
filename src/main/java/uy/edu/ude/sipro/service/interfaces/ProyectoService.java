@@ -9,7 +9,7 @@ import uy.edu.ude.sipro.utiles.SeccionTexto;
 
 public interface ProyectoService 
 {
-	void agregar(String nombre, int anio, String carrera, int nota, String rutaArchivo);
+	void agregar(String nombre, String correctores, int nota, String rutaArchivo);
 	void modificar(int id, String nombre, int anio, String carrera, int nota, String rutaArchivo);
 	void modificar(int id, String nombre, int anio, String carrera, int nota, String resumen, ArrayList<String> alumnos, ArrayList<String> tutor);
 	void eliminar(int id);

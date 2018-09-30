@@ -39,11 +39,9 @@ public class Proyecto
 	@Column(name = "Nombre")
 	private String nombre;
 
-	@NotNull
 	@Column(name = "Anio")
 	private int anio;
 
-	@NotNull
 	@Size(min = 1, max = 255)
 	@Column(name = "Carrera")
 	private String carrera;
@@ -91,19 +89,19 @@ public class Proyecto
 		this.fechaUltimaModificacion = vfecha;
 	}
 
-	public Proyecto(String nombre, int anio, String carrera, int nota, String rutaArchivo)
+	public Proyecto(String nombre, int nota, String rutaArchivo)
 	{
 		this();
 		this.nombre = nombre;
-		this.anio = anio;
-		this.carrera = carrera;
 		this.nota = nota;
 		this.rutaArchivo = rutaArchivo;
 	}
 
 	public Proyecto(String nombre, int anio, String carrera, int nota, ArrayList<String> alumnos, ArrayList<String> tutor, String rutaArchivo, String resumen)
 	{
-		this(nombre, anio, carrera, nota, rutaArchivo);
+		this(nombre, nota, rutaArchivo);
+		this.anio = anio;
+		this.carrera = carrera;
 		this.alumnos = alumnos;
 		this.tutor = tutor;
 		this.resumen = resumen;
