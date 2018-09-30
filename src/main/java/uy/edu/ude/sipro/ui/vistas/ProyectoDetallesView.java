@@ -102,7 +102,6 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 				navigationManager.navigateTo(ProyectoListadoView.class);
 			}
 		});
-
 	}
 	
 	private void cargarVistaNuevoProyecto()
@@ -117,13 +116,13 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 		if (proyecto != null)
 		{
 			txtNombreProyecto.setValue(proyecto.getNombre());
-			txtCarrera.setValue(proyecto.getCarrera());
-			txtCorrector.setValue(proyecto.getCorrector());
+			txtCarrera.setValue(proyecto.getCarrera() != null ? proyecto.getCarrera() : "");
+			txtCorrector.setValue(proyecto.getCorrector() != null ? proyecto.getCorrector() : "");
 			txtNota.setValue(Integer.toString(proyecto.getNota()));
 			txtAnio.setValue(Integer.toString(proyecto.getAnio()));
 			txtTutor.setValue(FuncionesTexto.convertirArrayAStringSaltoLinea(proyecto.getTutor()));
 			txtAlumnos.setValue(FuncionesTexto.convertirArrayAStringSaltoLinea(proyecto.getAlumnos()));
-			txtResumen.setValue(proyecto.getResumen());			
+			txtResumen.setValue(proyecto.getResumen() != null ? proyecto.getResumen() : "");			
 		}
 	}
 

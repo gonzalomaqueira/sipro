@@ -33,9 +33,9 @@ public class ProyectoServiceImp implements ProyectoService
 	
 	@Transactional
 	@Override
-	public void agregar(String nombre, int anio, String carrera, int nota, String rutaArchivo) 
+	public void agregar(String nombre, String correctores, int nota, String rutaArchivo) 
 	{
-	   Proyecto proyecto = new Proyecto(nombre, anio, carrera, nota, rutaArchivo);
+	   Proyecto proyecto = new Proyecto(nombre, nota, rutaArchivo);
 	   proyectoDao.agregar(proyecto);
 	}
 
