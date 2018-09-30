@@ -51,6 +51,7 @@ public class ProyectoListadoView extends ProyectoListadoViewDesign implements Vi
 					proyectoSeleccionado = singleSelect.getSelectedItem().get();
 					btnVerDetalles.setEnabled(true);
 					btnProcesar.setEnabled(true);
+					btnEliminar.setEnabled(true);
 					
 					if (proyectoSeleccionado.getEstado() == EstadoProyectoEnum.SIN_PROCESAR)
 					{

@@ -2,7 +2,9 @@ package uy.edu.ude.sipro.ui.vistas;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,13 +14,16 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.components.grid.SingleSelectionModel;
 import com.vaadin.ui.Notification;
 
+import uy.edu.ude.sipro.entidades.Enumerados.EstadoProyectoEnum;
 import uy.edu.ude.sipro.navegacion.NavigationManager;
 import uy.edu.ude.sipro.service.Fachada;
 import uy.edu.ude.sipro.utiles.Constantes;
 import uy.edu.ude.sipro.utiles.ReceptorArchivos;
-import uy.edu.ude.sipro.valueObjects.ProyectoDetalleVO;
+import uy.edu.ude.sipro.valueObjects.ProyectoVO;
+
 
 @SpringView
 @SpringComponent
@@ -31,6 +36,7 @@ public class ProyectoNuevoView extends ProyectoNuevoViewDesign implements View
     
     private String nombreArchivo;
     private String prefijoArchivo;
+
     
     @Autowired
     public ProyectoNuevoView (NavigationManager navigationManager)
@@ -58,6 +64,7 @@ public class ProyectoNuevoView extends ProyectoNuevoViewDesign implements View
 			try 
 			{
 				fachada.altaProyecto(txtNombreProyecto.getValue(),
+									 txtCarrera.getValue(),
 									 txtCorrector.getValue(),
 									 Integer.parseInt(txtNota.getValue()),
 									 Constantes.RUTA_ARCHIVOS + prefijoArchivo + nombreArchivo);
@@ -108,5 +115,6 @@ public class ProyectoNuevoView extends ProyectoNuevoViewDesign implements View
 		txtCorrector.setValue("");
 		txtNota.setValue("");
 	}
+	
 
 }

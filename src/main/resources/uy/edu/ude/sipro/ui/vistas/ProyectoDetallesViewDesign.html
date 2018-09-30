@@ -22,6 +22,9 @@
       <vaadin-button style-name="small" id="btnCancelar" width="87px" plain-text _id="btnCancelar" :middle>
         Cancelar 
       </vaadin-button>
+      <vaadin-button style-name="small tiny" id="btnVerTextoDocumento" width="160px" plain-text _id="btnVerTextoDocumento">
+        Texto documento 
+      </vaadin-button>
      </vaadin-horizontal-layout>
     </vaadin-css-layout>
     <vaadin-css-layout></vaadin-css-layout>
@@ -91,21 +94,57 @@
      <vaadin-label style-name="h4" width-full plain-text>
        Tecnologías 
      </vaadin-label>
-     <vaadin-grid style-name="half" id="grdTecnologias" height-mode="undefined" width-full _id="grdTecnologias"></vaadin-grid>
+     <vaadin-grid style-name="half" id="grdTecnologias" height-mode="undefined" width-full data-item-type="uy.edu.ude.sipro.valueObjects.ElementoVO" _id="grdTecnologias">
+      <table>
+       <colgroup>
+        <col column-id="nombre" sortable>
+       </colgroup>
+       <thead>
+        <tr default>
+         <th plain-text column-ids="nombre">Nombre</th>
+        </tr>
+       </thead>
+       <tbody></tbody>
+      </table>
+     </vaadin-grid>
     </vaadin-css-layout>
     <vaadin-css-layout></vaadin-css-layout>
     <vaadin-css-layout responsive width-full>
      <vaadin-label style-name="h4" width-full plain-text>
        Modelos de proceso 
      </vaadin-label>
-     <vaadin-grid style-name="half" id="grdModeloProceso" height-mode="undefined" width-full _id="grdModeloProceso"></vaadin-grid>
+     <vaadin-grid style-name="half" id="grdModeloProceso" height-mode="undefined" width-full data-item-type="uy.edu.ude.sipro.valueObjects.ElementoVO" _id="grdModeloProceso">
+      <table>
+       <colgroup>
+        <col column-id="nombre" sortable>
+       </colgroup>
+       <thead>
+        <tr default>
+         <th plain-text column-ids="nombre">Nombre</th>
+        </tr>
+       </thead>
+       <tbody></tbody>
+      </table>
+     </vaadin-grid>
     </vaadin-css-layout>
     <vaadin-css-layout></vaadin-css-layout>
     <vaadin-css-layout responsive width-full>
      <vaadin-label style-name="h4" width-full plain-text>
        Metodologias de testing 
      </vaadin-label>
-     <vaadin-grid style-name="half" id="grdMetodologiaTesting" height-mode="undefined" width-full _id="grdMetodologiaTesting"></vaadin-grid>
+     <vaadin-grid style-name="half" id="grdMetodologiaTesting" height-mode="undefined" width-full data-item-type="uy.edu.ude.sipro.valueObjects.ElementoVO" _id="grdMetodologiaTesting">
+      <table>
+       <colgroup>
+        <col column-id="nombre" sortable>
+       </colgroup>
+       <thead>
+        <tr default>
+         <th plain-text column-ids="nombre">Nombre</th>
+        </tr>
+       </thead>
+       <tbody></tbody>
+      </table>
+     </vaadin-grid>
     </vaadin-css-layout>
    </vaadin-css-layout>
   </vaadin-vertical-layout>

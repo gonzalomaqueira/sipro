@@ -39,7 +39,7 @@ public class ElementoServiceImp implements ElementoService
 	
 	@Transactional
 	@Override
-	public void agregar(String nombre, boolean esCategoria, TipoElemento tipoElemento, List<SubElementoVO> elementosRelacionados, List<SinonimoVO> sinonimos)
+	public void altaElemento(String nombre, boolean esCategoria, TipoElemento tipoElemento, List<SubElementoVO> elementosRelacionados, List<SinonimoVO> sinonimos)
 	{
 		List<Elemento> listaRelaciones = new ArrayList<Elemento>();
 		List<Sinonimo> listaSinonimos= new ArrayList<Sinonimo>();
@@ -87,7 +87,7 @@ public class ElementoServiceImp implements ElementoService
 			 }
 			elemento.setSinonimos(listaSinonimos);
 			elemento.setElementosRelacionados(listaRelaciones);
-			elementoDao.modificar(elemento);
+			elementoDao.agregar(elemento);
 		}
 	}
 
@@ -260,9 +260,9 @@ public class ElementoServiceImp implements ElementoService
 	
 	@Transactional(readOnly = true)
 	@Override
-	public List<ElementoVO> obtenerElementos()
+	public List<Elemento> obtenerElementos()
 	{
-		return ConversorValueObject.convertirListaElementoVO(elementoDao.obtenerElementos());
+		return elementoDao.obtenerElementos();
 	}
 		
 	@Transactional(readOnly = true)

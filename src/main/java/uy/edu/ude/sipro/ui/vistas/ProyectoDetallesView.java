@@ -1,5 +1,8 @@
 package uy.edu.ude.sipro.ui.vistas;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vaadin.navigator.View;
@@ -10,9 +13,11 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Button.ClickEvent;
 
+import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
 import uy.edu.ude.sipro.navegacion.NavigationManager;
 import uy.edu.ude.sipro.service.Fachada;
 import uy.edu.ude.sipro.utiles.FuncionesTexto;
+import uy.edu.ude.sipro.valueObjects.ElementoVO;
 import uy.edu.ude.sipro.valueObjects.ProyectoDetalleVO;
 
 @SpringView
@@ -44,33 +49,44 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 			cargarVistaModificarProyecto(Integer.parseInt(idProyecto));
 		}
 		
-//		btnGuardar.addClickListener(new Button.ClickListener()
-//		{
-//			public void buttonClick(ClickEvent event)
-//			{						
-//				cargarDatosProyecto();
-//				try 
-//				{
-//					fachada.modificarProyectoCompleto( 	proyecto.getId(), 
-//														proyecto.getNombre(),
-//														proyecto.getAnio(),
-//														proyecto.getCarrera(),
-//														proyecto.getNota(),
-//														proyecto.getResumen(),
-//														proyecto.getAlumnos(),
-//														proyecto.getTutor());
-//					
-//				     Notification.show("Proyecto modificado exitosamente", Notification.Type.HUMANIZED_MESSAGE);           
-//		    	}
-//		    	catch (Exception e)
-//				{
-//		    		Notification.show("Hubo un error al modificar proyecto",Notification.Type.WARNING_MESSAGE);
-//		    		e.printStackTrace();
-//		    		cargarVistaProyecto(proyecto.getId());
-//				}
-//				cargarInterfazInicial();
-//			}
-//		});
+		btnGuardar.addClickListener(new Button.ClickListener()
+		{
+			public void buttonClick(ClickEvent event)
+			{						
+				
+				try 
+				{
+					if( !txtNombreProyecto.isEmpty() && !txtAnio.isEmpty() && !txtCarrera.isEmpty() && !txtNota.isEmpty() && !txtResumen.isEmpty() 
+						&& !txtAlumnos.isEmpty() && !txtTutor.isEmpty())
+					{
+						cargarDatosProyecto();
+						fachada.modificarProyectoCompleto( 	proyecto.getId(), 
+															proyecto.getNombre(),
+															proyecto.getAnio(),
+															proyecto.getCarrera(),
+															proyecto.getCorrector(),
+															proyecto.getNota(),
+															proyecto.getResumen(),
+															proyecto.getAlumnos(),
+															proyecto.getTutor());
+						
+					     Notification.show("Proyecto modificado exitosamente", Notification.Type.HUMANIZED_MESSAGE);
+					     cargarInterfazInicial();
+					}
+					else
+						Notification.show("Hay campos vacíos", Notification.Type.HUMANIZED_MESSAGE); 
+		    	}
+		    	catch (Exception e)
+				{
+		    		Notification.show("Hubo un error al modificar proyecto",Notification.Type.WARNING_MESSAGE);
+		    		e.printStackTrace();
+					cargarVistaModificarProyecto(proyecto.getId());		
+				}
+
+				
+				
+			}
+		});
 		
 		btnEditar.addClickListener(new Button.ClickListener()
 		{
@@ -122,12 +138,27 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 			txtAnio.setValue(Integer.toString(proyecto.getAnio()));
 			txtTutor.setValue(FuncionesTexto.convertirArrayAStringSaltoLinea(proyecto.getTutor()));
 			txtAlumnos.setValue(FuncionesTexto.convertirArrayAStringSaltoLinea(proyecto.getAlumnos()));
-			txtResumen.setValue(proyecto.getResumen() != null ? proyecto.getResumen() : "");			
+			txtResumen.setValue(proyecto.getResumen() != null ? proyecto.getResumen() : "");
+			grdTecnologias.setItems(this.obtenerElementosPorTipo(proyecto.getElementosRelacionados(), TipoElemento.TECNOLOGIA));
+			grdMetodologiaTesting.setItems(this.obtenerElementosPorTipo(proyecto.getElementosRelacionados(), TipoElemento.METODOLOGIA_TESTING));
+			grdModeloProceso.setItems(this.obtenerElementosPorTipo(proyecto.getElementosRelacionados(), TipoElemento.MODELO_PROCESO));
 		}
+	}
+
+	private List<ElementoVO> obtenerElementosPorTipo(List<ElementoVO> elementosRelacionados, TipoElemento tipo)
+	{
+		List<ElementoVO> vRetorno = new ArrayList<ElementoVO>();
+		for (ElementoVO elem : elementosRelacionados)
+		{
+			if (elem.getTipoElemento() == tipo)
+				vRetorno.add(elem);
+		}
+		return vRetorno;
 	}
 
 	private void cargarInterfazInicial()
 	{
+		permitirEdicion(false);
 		btnEditar.setVisible(true);
 		btnGuardar.setVisible(false);
 	}
@@ -136,16 +167,45 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 	{
 		btnEditar.setVisible(false);
 		btnGuardar.setVisible(true);
+		permitirEdicion(true);
 	}
 	
 	private void cargarDatosProyecto()
 	{
 		proyecto.setNombre(txtNombreProyecto.getValue());
 		proyecto.setCarrera(txtCarrera.getValue());
+		proyecto.setCorrector(txtCorrector.getValue());
 		proyecto.setNota( Integer.parseInt(txtNota.getValue()) );
 		proyecto.setAnio( Integer.parseInt(txtAnio.getValue()) );
 		proyecto.setTutor(FuncionesTexto.convertirStringAArrayList(txtTutor.getValue()));
 		proyecto.setAlumnos(FuncionesTexto.convertirStringAArrayList(txtAlumnos.getValue()));
 		proyecto.setResumen(txtResumen.getValue());
+	}
+	
+	private void permitirEdicion(boolean opcion)
+	{
+		
+		if(opcion)
+		{
+			this.txtNombreProyecto.setReadOnly(false);
+			this.txtCarrera.setReadOnly(false);
+			this.txtCorrector.setReadOnly(false);
+			this.txtNota.setReadOnly(false);
+			this.txtAnio.setReadOnly(false);
+			this.txtTutor.setReadOnly(false);
+			this.txtAlumnos.setReadOnly(false);
+			this.txtResumen.setReadOnly(false);
+		}
+		else
+		{
+			this.txtNombreProyecto.setReadOnly(true);
+			this.txtCarrera.setReadOnly(true);
+			this.txtCorrector.setReadOnly(true);
+			this.txtNota.setReadOnly(true);
+			this.txtAnio.setReadOnly(true);
+			this.txtTutor.setReadOnly(true);
+			this.txtAlumnos.setReadOnly(true);
+			this.txtResumen.setReadOnly(true);
+		}	
 	}
 }

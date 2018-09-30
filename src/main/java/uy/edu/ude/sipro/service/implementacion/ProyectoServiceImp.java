@@ -33,10 +33,16 @@ public class ProyectoServiceImp implements ProyectoService
 	
 	@Transactional
 	@Override
-	public void agregar(String nombre, String correctores, int nota, String rutaArchivo) 
+	public void agregar(String nombre, String carrera, String corrector, int nota, String rutaArchivo) 
 	{
-	   Proyecto proyecto = new Proyecto(nombre, nota, rutaArchivo);
+	   Proyecto proyecto = new Proyecto(nombre, carrera, corrector, nota, rutaArchivo);
 	   proyectoDao.agregar(proyecto);
+	}
+	
+	@Transactional
+	private void modificar(Proyecto proyecto)
+	{
+		proyectoDao.modificar(proyecto);
 	}
 
 	@Transactional
@@ -53,12 +59,13 @@ public class ProyectoServiceImp implements ProyectoService
 	
 	@Transactional
 	@Override
-	public void modificar(int id, String nombre, int anio, String carrera, int nota, String resumen, ArrayList<String> alumnos, ArrayList<String> tutor)
+	public void modificar(int id, String nombre, int anio, String carrera, String corrector, int nota, String resumen, ArrayList<String> alumnos, ArrayList<String> tutor)
 	{
 		Proyecto proy= this.obtenerProyectoPorId(id);
 		proy.setNombre(nombre);
 		proy.setAnio(anio);
 		proy.setCarrera(carrera);
+		proy.setCorrector(corrector);
 		proy.setNota(nota);
 		proy.setResumen(resumen);
 		proy.setAlumnos(alumnos);
@@ -91,26 +98,6 @@ public class ProyectoServiceImp implements ProyectoService
 	public Proyecto obtenerProyectoPorId(int idProyecto)
 	{
 		return proyectoDao.obtenerProyectoPorId(idProyecto);
-//		Proyecto proy = proyectoDao.obtenerProyectoPorId(idProyecto);
-//		if (proy.getTecnologias() == null || proy.getTecnologias().isEmpty())
-//		{
-//			proy.setTecnologias(new ArrayList<Elemento>());
-//		}
-//		if (proy.getModeloProceso() == null || proy.getModeloProceso().isEmpty())
-//		{
-//			proy.setModeloProceso(new ArrayList<Elemento>());
-//		}
-//		if (proy.getMetodologiaTesting() == null || proy.getMetodologiaTesting().isEmpty())
-//		{
-//			proy.setMetodologiaTesting(new ArrayList<Elemento>());
-//		}
-//		for(Elemento tec : proy.getTecnologias())
-//		{
-//			if (tec.getSinonimos() == null || tec.getSinonimos().isEmpty())
-//				tec.setSinonimos(new ArrayList<SinonimoTecnologia>());
-//		}
-//		
-//		return proy;
 	}
 
 	@Override
@@ -123,31 +110,34 @@ public class ProyectoServiceImp implements ProyectoService
 		{
 			for(Elemento elemento : listaElementos)
 			{
-				for(SeccionTexto seccion : proyecto.getDocumentoPorSecciones())
+				if (!elemento.isEsCategoria())
 				{
-					if (encontroElemento)
+					for(SeccionTexto seccion : proyecto.getDocumentoPorSecciones())
 					{
-						encontroElemento = false;
-						break;
-					}
-					if(FuncionesTexto.seccionContieneTexto(seccion, elemento.getNombre()))
-					{
-						listaRetorno.add(elemento);
-						break;
-					}
-					else
-					{
-						for (Sinonimo sinonimo: elemento.getSinonimos())
+						if (encontroElemento)
 						{
-							if(FuncionesTexto.seccionContieneTexto(seccion, sinonimo.getNombre()))
+							encontroElemento = false;
+							break;
+						}
+						if(FuncionesTexto.seccionContieneTexto(seccion, elemento.getNombre()))
+						{
+							listaRetorno.add(elemento);
+							break;
+						}
+						else
+						{
+							for (Sinonimo sinonimo: elemento.getSinonimos())
 							{
-								listaRetorno.add(elemento);
-								encontroElemento = true;
-								break;
+								if(FuncionesTexto.seccionContieneTexto(seccion, sinonimo.getNombre()))
+								{
+									listaRetorno.add(elemento);
+									encontroElemento = true;
+									break;
+								}
 							}
 						}
-					}
-				}	
+					}	
+				}
 			}
 		}
 		return listaRetorno;
@@ -183,153 +173,20 @@ public class ProyectoServiceImp implements ProyectoService
 		return textoOriginal;
 	}
 	
+
 	@Override
-	public List<SeccionTexto> armarDocumentoPorSecciones(String textoOriginal[])
-	{
-		List<SeccionTexto> documentoPorSecciones = new ArrayList<SeccionTexto>();
-        SeccionTexto seccion = null;
-        ArrayList<String> contenido = new ArrayList<String>();
-        boolean encontreTitulo = false;
-		
-        documentoPorSecciones.add(armarSeccionAlumnos(textoOriginal));
-        documentoPorSecciones.add(armarSeccionTutor(textoOriginal));
-         
-        List<String> Textolista = new ArrayList<String>(Arrays.asList(textoOriginal));
-        
-        for (String linea : textoOriginal)
-        {
-        	if (!FuncionesTexto.esTituloResumen(linea))
-        	{
-        		Textolista.remove(0);
-        	}
-        	else
-        		break;
-        }
-        
-		for (String linea : Textolista)
-        {
-    	    if (FuncionesTexto.esTitulo(linea))
-    	    {
-    	    	encontreTitulo = true;
-    	    	if (seccion != null)
-    	    	{
-    	    		seccion.setContenido(contenido);
-    	    		documentoPorSecciones.add(seccion);
-    	    	}
-    	    	seccion = new SeccionTexto();
-    	    	contenido = new ArrayList<String>();
-    	    	seccion.setTitulo(linea);
-			}
-    	    else
-    	    {
-    	    	if (encontreTitulo && contenido != null)
-    	    	{
-    	    		contenido.add(linea);
-    	    	}        	    	
-    	    }
-        }
-		if (seccion != null)
-		{
-			seccion.setContenido(contenido);
-			documentoPorSecciones.add(seccion);
-		}
-		
-		return documentoPorSecciones;
-	}
-	
-	@Override
-	public SeccionTexto armarSeccionAlumnos(String texto[])
-	{
-        SeccionTexto seccion = null;
-        ArrayList<String> contenido = new ArrayList<String>();
-        boolean encontreTituloAlumno = false;
-        
-		for (String linea : texto)
-        {
-    	    if (FuncionesTexto.esTituloTutor(linea))
-    	    	break;
-    	    
-			if (FuncionesTexto.esTituloAlumnos(linea))
-    	    {
-    	    	encontreTituloAlumno = true;
-    	    	if (seccion != null)
-    	    	{
-    	    		seccion.setContenido(contenido);
-    	    	}
-    	    	seccion = new SeccionTexto();
-    	    	contenido = new ArrayList<String>();
-    	    	seccion.setTitulo(linea);
-			}
-    	    else
-    	    {
-    	    	if (encontreTituloAlumno && !FuncionesTexto.esTituloTutor(linea))
-    	    	{
-    	    		contenido.add(linea);
-    	    	}        	    	
-    	    }
-        }
-		if (seccion != null)
-		{
-			seccion.setContenido(contenido);
-		}
-		return seccion;
-	}
-	
-	@Override
-	public SeccionTexto armarSeccionTutor(String texto[])
-	{
-        SeccionTexto seccion = null;
-        ArrayList<String> contenido = new ArrayList<String>();
-        boolean encontreTituloAlumno = false;
-        
-		for (String linea : texto)
-        {
-    	    if (FuncionesTexto.esTituloResumen(linea))
-    	    	break;
-    	    
-			if (FuncionesTexto.esTituloTutor(linea))
-    	    {
-    	    	encontreTituloAlumno = true;
-    	    	if (seccion != null)
-    	    	{
-    	    		seccion.setContenido(contenido);
-    	    	}
-    	    	seccion = new SeccionTexto();
-    	    	contenido = new ArrayList<String>();
-    	    	seccion.setTitulo(linea);
-			}
-    	    else
-    	    {
-    	    	if (encontreTituloAlumno && !FuncionesTexto.esTituloResumen(linea))
-    	    	{
-    	    		contenido.add(linea);
-    	    	}        	    	
-    	    }
-        }
-		if (seccion != null)
-		{
-			seccion.setContenido(contenido);
-		}
-		return seccion;
-	}
-	
-	@Override
+	@Transactional
 	public void procesarProyecto(int idProyecto)
 	{
 		Proyecto proyecto= this.obtenerProyectoPorId(idProyecto);
 		String[] textoOriginal= this.obtenerTextoOriginalProyecto(proyecto);
-		proyecto.setDocumentoPorSecciones(this.armarDocumentoPorSecciones(textoOriginal));
+		proyecto.setDocumentoPorSecciones(FuncionesTexto.armarDocumentoPorSecciones(textoOriginal));
 		proyecto.setAlumnos(proyecto.devolverAlumnos());
 		proyecto.setTutor(proyecto.devolverTutor());
 		proyecto.setResumen(FuncionesTexto.convertirArrayAStringEspacios(proyecto.devolverResumen()));
-		//proyecto.setElementosRelacionados(this.obtenerElementosProyecto(proyecto, elementoService.obtenerElementos()));
+		proyecto.setElementosRelacionados(this.obtenerElementosProyecto(proyecto, elementoService.obtenerElementos()));
+		proyecto.setAnio(FuncionesTexto.devolverPrimerAnioTexto(textoOriginal));
 		proyecto.setEstado(EstadoProyectoEnum.PROCESADO);
-		this.modificarProyecto(proyecto);
-	}
-	
-	@Transactional
-	private void modificarProyecto(Proyecto proyecto)
-	{
-		proyectoDao.modificar(proyecto);
+		this.modificar(proyecto);
 	}
 }

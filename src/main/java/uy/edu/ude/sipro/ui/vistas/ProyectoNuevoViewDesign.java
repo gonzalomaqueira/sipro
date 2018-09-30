@@ -24,6 +24,7 @@ public class ProyectoNuevoViewDesign extends VerticalLayout {
 	protected Button btnGuardar;
 	protected Button btnCancelar;
 	protected TextField txtNombreProyecto;
+	protected TextField txtCarrera;
 	protected TextField txtCorrector;
 	protected TextField txtNota;
 	protected Upload updSubirProyecto;

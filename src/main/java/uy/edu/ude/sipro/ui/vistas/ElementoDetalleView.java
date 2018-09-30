@@ -17,6 +17,7 @@ import com.vaadin.ui.components.grid.SingleSelectionModel;
 
 import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
 import uy.edu.ude.sipro.navegacion.NavigationManager;
+import uy.edu.ude.sipro.service.Fachada;
 import uy.edu.ude.sipro.service.interfaces.ElementoService;
 import uy.edu.ude.sipro.valueObjects.ElementoVO;
 import uy.edu.ude.sipro.valueObjects.SinonimoVO;
@@ -27,7 +28,7 @@ import uy.edu.ude.sipro.valueObjects.SubElementoVO;
 public class ElementoDetalleView extends ElementoDetalleViewDesign implements View{
 	
 	@Autowired
-	private ElementoService elementoService;
+	private Fachada fachada;
 	
 	//Lista con todos los elementos con su direccion correcta
 	private List<ElementoVO> listaElementos;
@@ -107,7 +108,7 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 			    			tipo= TipoElemento.OTRO;
 			    		}
 			    		
-			    		elementoService.agregar(txtNombreElemento.getValue(),
+			    		fachada.altaElemento(txtNombreElemento.getValue(),
 			    								esCategoria, tipo, 
 			    								listaSubElementoRelacionados, listaSinonimos);
 			    		Notification.show("Elemento agregado exitosamente", Notification.Type.WARNING_MESSAGE);
@@ -158,7 +159,7 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 			    			tipo= TipoElemento.OTRO;
 			    		}
 			    		
-			    		elementoService.modificar(elemento.getId(),
+			    		fachada.modificarElemento(elemento.getId(),
 			    								txtNombreElemento.getValue(),
 			    								esCategoria, tipo, 
 			    								listaSubElementoRelacionados, listaSinonimos);
@@ -317,7 +318,7 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 	
 	private void cargarListaElementos()
 	{
-		listaElementos= elementoService.obtenerElementos();
+		listaElementos = fachada.obtenerElementos();
 	}
 	
 	private void cargarSinonimos()
@@ -356,7 +357,7 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 		if(elemento != null)
 		{
 			//Elimina del combo relaciones a el mismo
-			List<ElementoVO> relaciones= elementoService.obtenerElementos();
+			List<ElementoVO> relaciones= fachada.obtenerElementos();
 			List<ElementoVO> relacionesAux= new ArrayList<ElementoVO>(relaciones);
 			for(ElementoVO elem : relacionesAux)
 			{
@@ -381,7 +382,7 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 		}
 		else
 		{
-			cmbElementoRelacion.setItems(elementoService.obtenerElementos());
+			cmbElementoRelacion.setItems(fachada.obtenerElementos());
 			cmbElementoRelacion.setItemCaptionGenerator(ElementoVO::getNombre);
 		}
 

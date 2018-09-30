@@ -13,10 +13,10 @@ public class ProyectoDetalleVO
 	private int anio;
 
 	private String carrera;
-
-	private int nota;
 	
 	private String corrector;
+
+	private int nota;
 	
 	private ArrayList<String> alumnos;
 	
@@ -32,7 +32,7 @@ public class ProyectoDetalleVO
 
 	private List <ElementoVO> elementosRelacionados;
 	
-	public ProyectoDetalleVO(int id, String nombre, int anio, String carrera, int nota, ArrayList<String> alumnos, 
+	public ProyectoDetalleVO(int id, String nombre, int anio, String carrera, String corrector, int nota, ArrayList<String> alumnos, 
 							 ArrayList<String> tutor, String rutaArchivo, String resumen, Date fechaAlta, 
 							 Date fechaUltimaModificacion, List<ElementoVO> elementosRelacionados) 
 	{
@@ -40,6 +40,7 @@ public class ProyectoDetalleVO
 		this.nombre = nombre;
 		this.anio = anio;
 		this.carrera = carrera;
+		this.corrector = corrector;
 		this.nota = nota;
 		this.alumnos = alumnos;
 		this.tutor = tutor;
