@@ -18,7 +18,6 @@ import com.vaadin.ui.components.grid.SingleSelectionModel;
 import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
 import uy.edu.ude.sipro.navegacion.NavigationManager;
 import uy.edu.ude.sipro.service.Fachada;
-import uy.edu.ude.sipro.service.interfaces.ElementoService;
 import uy.edu.ude.sipro.valueObjects.ElementoVO;
 import uy.edu.ude.sipro.valueObjects.SinonimoVO;
 import uy.edu.ude.sipro.valueObjects.SubElementoVO;
@@ -385,7 +384,6 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 			cmbElementoRelacion.setItems(fachada.obtenerElementos());
 			cmbElementoRelacion.setItemCaptionGenerator(ElementoVO::getNombre);
 		}
-
 	}
 	
 	private boolean listaContieneSinonimo(List<SinonimoVO> listaSinonimos, String sinonimoBuscado)

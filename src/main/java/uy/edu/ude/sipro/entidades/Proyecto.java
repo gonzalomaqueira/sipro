@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
@@ -46,9 +47,8 @@ public class Proyecto
 	@Column(name = "Carrera")
 	private String carrera;
 	
-	@Size(min = 1, max = 255)
-	@Column(name = "Corrector")
-	private String corrector;
+    @OneToMany(mappedBy="proyecto", cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+	private List<Corrector> correctores;
 
 	@Column(name = "Nota")
 	private int nota;
@@ -93,19 +93,19 @@ public class Proyecto
 		this.fechaUltimaModificacion = vfecha;
 	}
 
-	public Proyecto(String nombre, String carrera, String corrector,  int nota, String rutaArchivo)
+	public Proyecto(String nombre, String carrera, List<Corrector> correctores,  int nota, String rutaArchivo)
 	{
 		this();
 		this.nombre = nombre;
 		this.carrera = carrera;
-		this.corrector = corrector;
+		this.correctores = correctores;
 		this.nota = nota;
 		this.rutaArchivo = rutaArchivo;
 	}
 
-	public Proyecto(String nombre, int anio, String carrera, String corrector, int nota, ArrayList<String> alumnos, ArrayList<String> tutor, String rutaArchivo, String resumen)
+	public Proyecto(String nombre, int anio, String carrera, List<Corrector> correctores, int nota, ArrayList<String> alumnos, ArrayList<String> tutor, String rutaArchivo, String resumen)
 	{
-		this(nombre, carrera, corrector, nota, rutaArchivo);
+		this(nombre, carrera, correctores, nota, rutaArchivo);
 		this.anio = anio;
 		this.carrera = carrera;
 		this.alumnos = alumnos;
@@ -125,8 +125,8 @@ public class Proyecto
 	public String getCarrera() { return carrera; }
 	public void setCarrera(String carrera) { this.carrera = carrera; }
 	
-	public String getCorrector() { return corrector;	}
-	public void setCorrector(String corrector) {this.corrector = corrector;	}
+	public List<Corrector> getCorrectores() { return correctores;	}
+	public void setCorrectores(List<Corrector> correctores) {this.correctores = correctores;	}
 
 	public int getNota() { return nota; }
 	public void setNota(int nota) { this.nota = nota; }

@@ -11,7 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
+import uy.edu.ude.sipro.entidades.Corrector;
+import uy.edu.ude.sipro.valueObjects.CorrectorVO;
 import uy.edu.ude.sipro.entidades.Elemento;
 import uy.edu.ude.sipro.entidades.Proyecto;
 import uy.edu.ude.sipro.entidades.Sinonimo;
@@ -19,6 +20,7 @@ import uy.edu.ude.sipro.service.interfaces.ElementoService;
 import uy.edu.ude.sipro.service.interfaces.ProyectoService;
 import uy.edu.ude.sipro.entidades.Enumerados.EstadoProyectoEnum;
 import uy.edu.ude.sipro.dao.interfaces.ProyectoDao;
+import uy.edu.ude.sipro.utiles.ConversorValueObject;
 import uy.edu.ude.sipro.utiles.FuncionesTexto;
 import uy.edu.ude.sipro.utiles.SeccionTexto;
 
@@ -33,9 +35,9 @@ public class ProyectoServiceImp implements ProyectoService
 	
 	@Transactional
 	@Override
-	public void agregar(String nombre, String carrera, String corrector, int nota, String rutaArchivo) 
+	public void agregar(String nombre, String carrera, List<CorrectorVO> correctores, int nota, String rutaArchivo) 
 	{
-	   Proyecto proyecto = new Proyecto(nombre, carrera, corrector, nota, rutaArchivo);
+	   Proyecto proyecto = new Proyecto(nombre, carrera, ConversorValueObject.convertirListaCorrectorVOaCorrector(correctores), nota, rutaArchivo);
 	   proyectoDao.agregar(proyecto);
 	}
 	
@@ -59,13 +61,13 @@ public class ProyectoServiceImp implements ProyectoService
 	
 	@Transactional
 	@Override
-	public void modificar(int id, String nombre, int anio, String carrera, String corrector, int nota, String resumen, ArrayList<String> alumnos, ArrayList<String> tutor)
+	public void modificar(int id, String nombre, int anio, String carrera, List<CorrectorVO> correctores, int nota, String resumen, ArrayList<String> alumnos, ArrayList<String> tutor)
 	{
 		Proyecto proy= this.obtenerProyectoPorId(id);
 		proy.setNombre(nombre);
 		proy.setAnio(anio);
 		proy.setCarrera(carrera);
-		proy.setCorrector(corrector);
+		proy.setCorrectores(ConversorValueObject.convertirListaCorrectorVOaCorrector(correctores));
 		proy.setNota(nota);
 		proy.setResumen(resumen);
 		proy.setAlumnos(alumnos);

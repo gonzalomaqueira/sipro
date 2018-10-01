@@ -37,10 +37,35 @@
     </vaadin-css-layout>
     <vaadin-css-layout></vaadin-css-layout>
     <vaadin-css-layout width-full>
-     <vaadin-label style-name="h4" width-full plain-text>
-       Corrector 
-     </vaadin-label>
-     <vaadin-text-field style-name="full" id="txtCorrector" width-full _id="txtCorrector"></vaadin-text-field>
+     <vaadin-css-layout width-full>
+      <vaadin-vertical-layout margin="false">
+       <vaadin-label style-name="h4" width-full plain-text>
+         Correctores 
+       </vaadin-label>
+       <vaadin-horizontal-layout>
+        <vaadin-combo-box id="cmbCorrectores" data-item-type="uy.edu.ude.sipro.valueObjects.CorrectorVO" _id="cmbCorrectores"></vaadin-combo-box>
+        <vaadin-button icon="fonticon://Vaadin-Icons/e801" style-name="friendly icon-only small" id="btnAgregarCorrector" plain-text _id="btnAgregarCorrector">
+          Agregar 
+        </vaadin-button>
+        <vaadin-button visible="false" icon="fonticon://Vaadin-Icons/e91b" style-name="danger icon-only small" id="btnEliminarCorrector" plain-text _id="btnEliminarCorrector">
+          Eliminar 
+        </vaadin-button>
+       </vaadin-horizontal-layout>
+       <vaadin-grid id="grdCorrectores" height-mode="undefined" width-full data-item-type="uy.edu.ude.sipro.valueObjects.CorrectorVO" _id="grdCorrectores">
+        <table>
+         <colgroup>
+          <col column-id="nombre" sortable>
+         </colgroup>
+         <thead>
+          <tr default>
+           <th plain-text column-ids="nombre">Nombre</th>
+          </tr>
+         </thead>
+         <tbody></tbody>
+        </table>
+       </vaadin-grid>
+      </vaadin-vertical-layout>
+     </vaadin-css-layout>
     </vaadin-css-layout>
     <vaadin-css-layout></vaadin-css-layout>
     <vaadin-css-layout width-full>

@@ -14,7 +14,7 @@ public class ProyectoDetalleVO
 
 	private String carrera;
 	
-	private String corrector;
+	private List<CorrectorVO> correctores;
 
 	private int nota;
 	
@@ -32,7 +32,7 @@ public class ProyectoDetalleVO
 
 	private List <ElementoVO> elementosRelacionados;
 	
-	public ProyectoDetalleVO(int id, String nombre, int anio, String carrera, String corrector, int nota, ArrayList<String> alumnos, 
+	public ProyectoDetalleVO(int id, String nombre, int anio, String carrera, List<CorrectorVO> correctores, int nota, ArrayList<String> alumnos, 
 							 ArrayList<String> tutor, String rutaArchivo, String resumen, Date fechaAlta, 
 							 Date fechaUltimaModificacion, List<ElementoVO> elementosRelacionados) 
 	{
@@ -40,7 +40,7 @@ public class ProyectoDetalleVO
 		this.nombre = nombre;
 		this.anio = anio;
 		this.carrera = carrera;
-		this.corrector = corrector;
+		this.correctores = correctores;
 		this.nota = nota;
 		this.alumnos = alumnos;
 		this.tutor = tutor;
@@ -91,12 +91,12 @@ public class ProyectoDetalleVO
 		this.nota = nota;
 	}
 	
-	public String getCorrector() {
-		return corrector;
+	public List<CorrectorVO> getCorrector() {
+		return correctores;
 	}
 
-	public void setCorrector(String corrector) {
-		this.corrector = corrector;
+	public void setCorrector(List<CorrectorVO> correctores) {
+		this.correctores = correctores;
 	}
 
 	public ArrayList<String> getAlumnos() {
