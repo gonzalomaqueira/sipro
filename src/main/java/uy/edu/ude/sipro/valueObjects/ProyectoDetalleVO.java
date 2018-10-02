@@ -14,7 +14,7 @@ public class ProyectoDetalleVO
 
 	private String carrera;
 	
-	private List<CorrectorVO> correctores;
+	private List<DocenteVO> correctores;
 
 	private int nota;
 	
@@ -32,7 +32,7 @@ public class ProyectoDetalleVO
 
 	private List <ElementoVO> elementosRelacionados;
 	
-	public ProyectoDetalleVO(int id, String nombre, int anio, String carrera, List<CorrectorVO> correctores, int nota, ArrayList<String> alumnos, 
+	public ProyectoDetalleVO(int id, String nombre, int anio, String carrera, List<DocenteVO> correctores, int nota, ArrayList<String> alumnos, 
 							 ArrayList<String> tutor, String rutaArchivo, String resumen, Date fechaAlta, 
 							 Date fechaUltimaModificacion, List<ElementoVO> elementosRelacionados) 
 	{
@@ -91,11 +91,11 @@ public class ProyectoDetalleVO
 		this.nota = nota;
 	}
 	
-	public List<CorrectorVO> getCorrector() {
+	public List<DocenteVO> getCorrector() {
 		return correctores;
 	}
 
-	public void setCorrector(List<CorrectorVO> correctores) {
+	public void setCorrector(List<DocenteVO> correctores) {
 		this.correctores = correctores;
 	}
 

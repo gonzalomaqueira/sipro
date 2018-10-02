@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import uy.edu.ude.sipro.entidades.Corrector;
-import uy.edu.ude.sipro.valueObjects.CorrectorVO;
+import uy.edu.ude.sipro.valueObjects.DocenteVO;
+import uy.edu.ude.sipro.entidades.Docente;
 import uy.edu.ude.sipro.entidades.Elemento;
 import uy.edu.ude.sipro.entidades.Proyecto;
 import uy.edu.ude.sipro.entidades.Sinonimo;
@@ -35,9 +35,9 @@ public class ProyectoServiceImp implements ProyectoService
 	
 	@Transactional
 	@Override
-	public void agregar(String nombre, String carrera, List<CorrectorVO> correctores, int nota, String rutaArchivo) 
+	public void agregar(String nombre, String carrera, List<DocenteVO> correctores, int nota, String rutaArchivo) 
 	{
-	   Proyecto proyecto = new Proyecto(nombre, carrera, ConversorValueObject.convertirListaCorrectorVOaCorrector(correctores), nota, rutaArchivo);
+	   Proyecto proyecto = new Proyecto(nombre, carrera, ConversorValueObject.convertirListaDocenteVOaDocente(correctores), nota, rutaArchivo);
 	   proyectoDao.agregar(proyecto);
 	}
 	
@@ -61,17 +61,17 @@ public class ProyectoServiceImp implements ProyectoService
 	
 	@Transactional
 	@Override
-	public void modificar(int id, String nombre, int anio, String carrera, List<CorrectorVO> correctores, int nota, String resumen, ArrayList<String> alumnos, ArrayList<String> tutor)
+	public void modificar(int id, String nombre, int anio, String carrera, int nota, String resumen, ArrayList<String> alumnos, Docente tutor, List<Docente> correctores)
 	{
 		Proyecto proy= this.obtenerProyectoPorId(id);
 		proy.setNombre(nombre);
 		proy.setAnio(anio);
 		proy.setCarrera(carrera);
-		proy.setCorrectores(ConversorValueObject.convertirListaCorrectorVOaCorrector(correctores));
+		proy.setTutor(tutor);
+		proy.setCorrectores(correctores);
 		proy.setNota(nota);
 		proy.setResumen(resumen);
-		proy.setAlumnos(alumnos);
-		proy.setTutor(tutor);
+		proy.setAlumnos(alumnos);		
 		proyectoDao.modificar(proy);
 	}
 		

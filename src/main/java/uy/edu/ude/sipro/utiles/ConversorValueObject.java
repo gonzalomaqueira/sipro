@@ -5,13 +5,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import uy.edu.ude.sipro.entidades.Corrector;
+import uy.edu.ude.sipro.entidades.Docente;
 import uy.edu.ude.sipro.entidades.Elemento;
 import uy.edu.ude.sipro.entidades.Perfil;
 import uy.edu.ude.sipro.entidades.Proyecto;
 import uy.edu.ude.sipro.entidades.Sinonimo;
 import uy.edu.ude.sipro.entidades.Usuario;
-import uy.edu.ude.sipro.valueObjects.CorrectorVO;
+import uy.edu.ude.sipro.valueObjects.DocenteVO;
 import uy.edu.ude.sipro.valueObjects.ElementoVO;
 import uy.edu.ude.sipro.valueObjects.PerfilVO;
 import uy.edu.ude.sipro.valueObjects.ProyectoDetalleVO;
@@ -28,7 +28,7 @@ public class ConversorValueObject
 									  proyecto.getNombre(),
 									  proyecto.getAnio(),
 									  proyecto.getCarrera(),
-									  convertirListaCorrectorVO(proyecto.getCorrectores()),
+									  convertirListaDocenteVO(proyecto.getCorrectores()),
 									  proyecto.getNota(),
 									  proyecto.getAlumnos(),
 									  proyecto.getTutor(),
@@ -124,25 +124,6 @@ public class ConversorValueObject
 		return listaSinonimosVO;
 	}
 	
-	public static CorrectorVO convertirCorrectorVO(Corrector corrector)
-	{
-		CorrectorVO correctorVO = new CorrectorVO();
-		correctorVO.setId(corrector.getId());
-		correctorVO.setNombre(corrector.getNombre());
-		
-		return correctorVO;
-	}
-	
-	private static List<CorrectorVO> convertirListaCorrectorVO(List<Corrector> listaCorrectores)
-	{
-		List<CorrectorVO> listaCorrectorVO = new ArrayList<CorrectorVO>();
-		for(Corrector corrector : listaCorrectores)
-		{
-			listaCorrectorVO.add(convertirCorrectorVO(corrector));
-		}		
-		return listaCorrectorVO;
-	}
-	
 	public static List<ElementoVO> convertirListaElementoVO(List<Elemento> listaElementos)
 	{
 		List<ElementoVO> listaElementosVO = new ArrayList<ElementoVO>();
@@ -197,16 +178,40 @@ public class ConversorValueObject
 		}
 		return vRetorno;
 	}
-
-	public static List<Corrector> convertirListaCorrectorVOaCorrector(List<CorrectorVO> correctores)
+	
+	public static DocenteVO convertirDocenteVO(Docente corrector)
 	{
-		List<Corrector> vRetorno= new ArrayList<Corrector>();
-		for(CorrectorVO corrector : correctores)
+		DocenteVO correctorVO = new DocenteVO();
+		correctorVO.setId(corrector.getId());
+		correctorVO.setNombre(corrector.getNombre());
+		
+		return correctorVO;
+	}
+	
+	public static List<DocenteVO> convertirListaDocenteVO(List<Docente> listaDocentes)
+	{
+		List<DocenteVO> listaDocentesVO = new ArrayList<DocenteVO>();
+		for(Docente docente : listaDocentes)
 		{
-			Corrector corr= new Corrector();
-			corr.setId(corrector.getId());
-			corr.setNombre(corrector.getNombre());
-			vRetorno.add(corr);
+			listaDocentesVO.add(convertirDocenteVO(docente));
+		}		
+		return listaDocentesVO;
+	}
+	
+	public static Docente convertirDocenteVOaDocente(DocenteVO docente)
+	{
+		Docente doc= new Docente();
+		doc.setId(docente.getId());
+		doc.setNombre(docente.getNombre());
+		return doc;
+	}
+	
+	public static List<Docente> convertirListaDocenteVOaDocente(List<DocenteVO> docentes)
+	{
+		List<Docente> vRetorno= new ArrayList<Docente>();
+		for(DocenteVO docente : docentes)
+		{
+			convertirDocenteVOaDocente(docente);
 		}
 		return vRetorno;
 	}

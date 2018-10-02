@@ -1,23 +1,20 @@
 package uy.edu.ude.sipro.service;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
-import uy.edu.ude.sipro.entidades.Corrector;
 import uy.edu.ude.sipro.entidades.Perfil;
+import uy.edu.ude.sipro.service.interfaces.DocenteService;
 import uy.edu.ude.sipro.service.interfaces.ElementoService;
 import uy.edu.ude.sipro.service.interfaces.PerfilService;
 import uy.edu.ude.sipro.service.interfaces.ProyectoService;
 import uy.edu.ude.sipro.service.interfaces.UsuarioService;
 import uy.edu.ude.sipro.utiles.ConversorValueObject;
-import uy.edu.ude.sipro.utiles.FuncionesTexto;
-import uy.edu.ude.sipro.utiles.SeccionTexto;
-import uy.edu.ude.sipro.valueObjects.CorrectorVO;
+import uy.edu.ude.sipro.valueObjects.DocenteVO;
 import uy.edu.ude.sipro.valueObjects.ElementoVO;
 import uy.edu.ude.sipro.valueObjects.PerfilVO;
 import uy.edu.ude.sipro.valueObjects.ProyectoDetalleVO;
@@ -37,6 +34,8 @@ public class Fachada {
 	private ProyectoService proyectoService;
 	@Autowired
 	private ElementoService elementoService;
+	@Autowired
+	private DocenteService docenteService;
 
 	/**************************************************************** Proyectos */
 	
@@ -50,7 +49,7 @@ public class Fachada {
 		return ConversorValueObject.convertirProyectoDetalleVO(proyectoService.obtenerProyectoPorId(idProyecto));
 	}
 	
-	public void altaProyecto(String nombre, String carrera, List<CorrectorVO> correctores, int nota, String rutaArchivo) 
+	public void altaProyecto(String nombre, String carrera, List<DocenteVO> correctores, int nota, String rutaArchivo) 
 	{
 		proyectoService.agregar(nombre, carrera, correctores, nota, rutaArchivo);
 	}
@@ -60,10 +59,18 @@ public class Fachada {
 		proyectoService.modificar(id, nombre, anio, carrera, nota, rutaArchivo);
 	}
 	
-	public void modificarProyectoCompleto(int id, String nombre, int anio, String carrera, List<CorrectorVO> correctores, int nota, String resumen, 
-			ArrayList<String> alumnos, ArrayList<String> tutor) 
+	public void modificarProyectoCompleto(int id, String nombre, int anio, String carrera, int nota, String resumen, 
+			ArrayList<String> alumnos, DocenteVO tutor, List<DocenteVO> correctores) 
 	{
-		proyectoService.modificar(id, nombre, anio, carrera, correctores, nota, resumen, alumnos, tutor);
+		proyectoService.modificar(  id, 
+									nombre, 
+									anio, 
+									carrera, 
+									nota, 
+									resumen, 
+									alumnos, 
+									ConversorValueObject.convertirDocenteVOaDocente(tutor),
+									ConversorValueObject.convertirListaDocenteVOaDocente(correctores));
 	}
 	
 	public void borrarProyecto(int id)
@@ -130,11 +137,10 @@ public class Fachada {
 		elementoService.eliminar(id);
 	}
 
-	/**************************************************************** Correctores */
+	/**************************************************************** Docentes */
 	
-	public List<CorrectorVO> obtenerCorrectores() 
+	public List<DocenteVO> obtenerDocentes()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return ConversorValueObject.convertirListaDocenteVO(docenteService.obtenerDocentes());
 	}
 }

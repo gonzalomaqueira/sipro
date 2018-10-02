@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -48,17 +49,21 @@ public class Proyecto
 	private String carrera;
 	
     @OneToMany(mappedBy="proyecto", cascade=CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<Corrector> correctores;
+	private List<Docente> correctores;
+    
+	@ManyToOne
+	@JoinColumn(name = "IdTutor")
+	private Docente tutor;
 
+	@Size(min = 1, max = 255)
+	@Column(name = "Tutor")
+	private ArrayList<String> tutorString;
+    
 	@Column(name = "Nota")
 	private int nota;
 
 	@Column(name = "Alumnos")
 	private ArrayList<String> alumnos;
-
-	@Size(min = 1, max = 255)
-	@Column(name = "Tutor")
-	private ArrayList<String> tutor;
 
 	@NotNull
 	@Column(name = "RutaArchivo")
@@ -93,7 +98,7 @@ public class Proyecto
 		this.fechaUltimaModificacion = vfecha;
 	}
 
-	public Proyecto(String nombre, String carrera, List<Corrector> correctores,  int nota, String rutaArchivo)
+	public Proyecto(String nombre, String carrera, List<Docente> correctores,  int nota, String rutaArchivo)
 	{
 		this();
 		this.nombre = nombre;
@@ -103,13 +108,15 @@ public class Proyecto
 		this.rutaArchivo = rutaArchivo;
 	}
 
-	public Proyecto(String nombre, int anio, String carrera, List<Corrector> correctores, int nota, ArrayList<String> alumnos, ArrayList<String> tutor, String rutaArchivo, String resumen)
+	public Proyecto(String nombre, int anio, String carrera, List<Docente> correctores, int nota, 
+			ArrayList<String> alumnos, Docente tutor, String rutaArchivo, String resumen)
 	{
 		this(nombre, carrera, correctores, nota, rutaArchivo);
 		this.anio = anio;
 		this.carrera = carrera;
 		this.alumnos = alumnos;
 		this.tutor = tutor;
+		this.correctores = correctores;
 		this.resumen = resumen;
 	}
 
@@ -122,20 +129,20 @@ public class Proyecto
 	public int getAnio() { return anio;	}
 	public void setAnio(int anio) { this.anio = anio; }
 
+	public Docente getTutor() {	return tutor; }
+	public void setTutor(Docente tutor) { this.tutor = tutor; }
+
 	public String getCarrera() { return carrera; }
 	public void setCarrera(String carrera) { this.carrera = carrera; }
 	
-	public List<Corrector> getCorrectores() { return correctores;	}
-	public void setCorrectores(List<Corrector> correctores) {this.correctores = correctores;	}
+	public List<Docente> getCorrectores() { return correctores;	}
+	public void setCorrectores(List<Docente> correctores) {this.correctores = correctores;	}
 
 	public int getNota() { return nota; }
 	public void setNota(int nota) { this.nota = nota; }
 	
 	public ArrayList<String> getAlumnos() { return alumnos; }
 	public void setAlumnos(ArrayList<String> alumnos) { this.alumnos = alumnos; }
- 
-	public ArrayList<String> getTutor() { return tutor; }
-	public void setTutor(ArrayList<String> tutor) { this.tutor = tutor; }
 
 	public String getRutaArchivo() { return rutaArchivo; }
 	public void setRutaArchivo(String rutaArchivo) { this.rutaArchivo = rutaArchivo;}

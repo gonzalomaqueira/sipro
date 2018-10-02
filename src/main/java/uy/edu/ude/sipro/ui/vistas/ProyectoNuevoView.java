@@ -21,7 +21,7 @@ import uy.edu.ude.sipro.navegacion.NavigationManager;
 import uy.edu.ude.sipro.service.Fachada;
 import uy.edu.ude.sipro.utiles.Constantes;
 import uy.edu.ude.sipro.utiles.ReceptorArchivos;
-import uy.edu.ude.sipro.valueObjects.CorrectorVO;
+import uy.edu.ude.sipro.valueObjects.DocenteVO;
 import uy.edu.ude.sipro.valueObjects.ElementoVO;
 import uy.edu.ude.sipro.valueObjects.SinonimoVO;
 import uy.edu.ude.sipro.valueObjects.SubElementoVO;
@@ -38,14 +38,14 @@ public class ProyectoNuevoView extends ProyectoNuevoViewDesign implements View
     
     private String nombreArchivo;
     private String prefijoArchivo;
-    private List<CorrectorVO> listaCorrectores;
-    private CorrectorVO correctorSeleccionado;
+    private List<DocenteVO> listaCorrectores;
+    private DocenteVO correctorSeleccionado;
     
     @Autowired
     public ProyectoNuevoView (NavigationManager navigationManager)
     {
     	this.navigationManager = navigationManager;
-    	this.listaCorrectores = new ArrayList<CorrectorVO>();
+    	this.listaCorrectores = new ArrayList<DocenteVO>();
     }
 	
 	public void enter(ViewChangeEvent event)
@@ -104,7 +104,7 @@ public class ProyectoNuevoView extends ProyectoNuevoViewDesign implements View
 		{
 		    if (!evt.getSource().isEmpty()) 
 		    {
-		    	correctorSeleccionado= new CorrectorVO();
+		    	correctorSeleccionado= new DocenteVO();
 		    	correctorSeleccionado.setId(evt.getValue().getId());
 		    	correctorSeleccionado.setNombre(evt.getValue().getNombre());
 		    	btnAgregarCorrector.setEnabled(true);
@@ -127,7 +127,7 @@ public class ProyectoNuevoView extends ProyectoNuevoViewDesign implements View
 		
 		grdCorrectores.addSelectionListener(evt -> 
 		{
-			SingleSelectionModel<CorrectorVO> singleSelect = (SingleSelectionModel<CorrectorVO>) grdCorrectores.getSelectionModel();
+			SingleSelectionModel<DocenteVO> singleSelect = (SingleSelectionModel<DocenteVO>) grdCorrectores.getSelectionModel();
 			singleSelect.setDeselectAllowed(false);
 			try
 			{
@@ -165,11 +165,11 @@ public class ProyectoNuevoView extends ProyectoNuevoViewDesign implements View
 	{		
 		if(correctorSeleccionado != null)
 		{
-			List<CorrectorVO> correctores= fachada.obtenerCorrectores();
-			List<CorrectorVO> correctoresAux = new ArrayList<CorrectorVO>(correctores);
-			for(CorrectorVO cor : correctoresAux)
+			List<DocenteVO> correctores= fachada.obtenerDocentes();
+			List<DocenteVO> correctoresAux = new ArrayList<DocenteVO>(correctores);
+			for(DocenteVO cor : correctoresAux)
 			{				
-				for(CorrectorVO corAux : listaCorrectores)
+				for(DocenteVO corAux : listaCorrectores)
 				{
 					if(cor.getId()==corAux.getId())
 					{
@@ -179,14 +179,14 @@ public class ProyectoNuevoView extends ProyectoNuevoViewDesign implements View
 				}
 			}
 			cmbCorrectores.setItems(correctores);
-			cmbCorrectores.setItemCaptionGenerator(CorrectorVO::getNombre);
+			cmbCorrectores.setItemCaptionGenerator(DocenteVO::getNombre);
 			cmbCorrectores.setValue(null);
 			btnAgregarCorrector.setEnabled(false);
 		}
 		else
 		{
-			cmbCorrectores.setItems(fachada.obtenerCorrectores());
-			cmbCorrectores.setItemCaptionGenerator(CorrectorVO::getNombre);
+			cmbCorrectores.setItems(fachada.obtenerDocentes());
+			cmbCorrectores.setItemCaptionGenerator(DocenteVO::getNombre);
 		}
 
 	}
