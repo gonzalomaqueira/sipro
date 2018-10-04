@@ -1,6 +1,7 @@
 package uy.edu.ude.sipro.utiles;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,13 +32,14 @@ public class ConversorValueObject
 									  convertirListaDocenteVO(proyecto.getCorrectores()),
 									  proyecto.getNota(),
 									  proyecto.getAlumnos(),
-									  proyecto.getTutor(),
+									  convertirDocenteVO(proyecto.getTutor()),
+									  proyecto.getTutorString(),
 									  proyecto.getRutaArchivo(),
 									  proyecto.getResumen(),
 									  proyecto.getFechaAlta(),
 									  proyecto.getFechaUltimaModificacion(),
 									  convertirListaElementoVO(proyecto.getElementosRelacionados()));
-		
+				
 	}
 	
 	public static ProyectoVO convertirProyectoVO(Proyecto proyecto)

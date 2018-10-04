@@ -64,11 +64,12 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 															proyecto.getNombre(),
 															proyecto.getAnio(),
 															proyecto.getCarrera(),
-															proyecto.getCorrector(),
 															proyecto.getNota(),
 															proyecto.getResumen(),
 															proyecto.getAlumnos(),
-															proyecto.getTutor());
+															null,
+															null);
+							
 						
 					     Notification.show("Proyecto modificado exitosamente", Notification.Type.HUMANIZED_MESSAGE);
 					     cargarInterfazInicial();
@@ -133,10 +134,10 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 		{
 			txtNombreProyecto.setValue(proyecto.getNombre());
 			txtCarrera.setValue(proyecto.getCarrera() != null ? proyecto.getCarrera() : "");
-			txtCorrector.setValue(proyecto.getCorrector() != null ? proyecto.getCorrector() : "");
+			//txtCorrector.setValue(proyecto.getCorrector() != null ? proyecto.getCorrector() : "");
 			txtNota.setValue(Integer.toString(proyecto.getNota()));
 			txtAnio.setValue(Integer.toString(proyecto.getAnio()));
-			txtTutor.setValue(FuncionesTexto.convertirArrayAStringSaltoLinea(proyecto.getTutor()));
+			//txtTutor.setValue(FuncionesTexto.convertirArrayAStringSaltoLinea(proyecto.getTutor()));
 			txtAlumnos.setValue(FuncionesTexto.convertirArrayAStringSaltoLinea(proyecto.getAlumnos()));
 			txtResumen.setValue(proyecto.getResumen() != null ? proyecto.getResumen() : "");
 			grdTecnologias.setItems(this.obtenerElementosPorTipo(proyecto.getElementosRelacionados(), TipoElemento.TECNOLOGIA));
@@ -174,10 +175,10 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 	{
 		proyecto.setNombre(txtNombreProyecto.getValue());
 		proyecto.setCarrera(txtCarrera.getValue());
-		proyecto.setCorrector(txtCorrector.getValue());
+		//proyecto.setCorrector(txtCorrector.getValue());
 		proyecto.setNota( Integer.parseInt(txtNota.getValue()) );
 		proyecto.setAnio( Integer.parseInt(txtAnio.getValue()) );
-		proyecto.setTutor(FuncionesTexto.convertirStringAArrayList(txtTutor.getValue()));
+		//proyecto.setTutor(FuncionesTexto.convertirStringAArrayList(txtTutor.getValue()));
 		proyecto.setAlumnos(FuncionesTexto.convertirStringAArrayList(txtAlumnos.getValue()));
 		proyecto.setResumen(txtResumen.getValue());
 	}

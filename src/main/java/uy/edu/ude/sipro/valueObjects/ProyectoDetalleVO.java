@@ -20,7 +20,9 @@ public class ProyectoDetalleVO
 	
 	private ArrayList<String> alumnos;
 	
-	private ArrayList<String> tutor;
+	private DocenteVO tutor;
+	
+	private ArrayList<String> tutorString;
 	
 	private String resumen;
 	
@@ -33,7 +35,7 @@ public class ProyectoDetalleVO
 	private List <ElementoVO> elementosRelacionados;
 	
 	public ProyectoDetalleVO(int id, String nombre, int anio, String carrera, List<DocenteVO> correctores, int nota, ArrayList<String> alumnos, 
-							 ArrayList<String> tutor, String rutaArchivo, String resumen, Date fechaAlta, 
+							 DocenteVO tutor, ArrayList<String> tutorString, String rutaArchivo, String resumen, Date fechaAlta, 
 							 Date fechaUltimaModificacion, List<ElementoVO> elementosRelacionados) 
 	{
 		this.id = id;
@@ -44,6 +46,7 @@ public class ProyectoDetalleVO
 		this.nota = nota;
 		this.alumnos = alumnos;
 		this.tutor = tutor;
+		this.tutorString = tutorString;
 		this.rutaArchivo = rutaArchivo;
 		this.resumen = resumen;
 		this.fechaAlta = fechaAlta;
@@ -107,12 +110,28 @@ public class ProyectoDetalleVO
 		this.alumnos = alumnos;
 	}
 
-	public ArrayList<String> getTutor() {
+	public DocenteVO getTutor() {
 		return tutor;
 	}
 
-	public void setTutor(ArrayList<String> tutor) {
+	public void setTutor(DocenteVO tutor) {
 		this.tutor = tutor;
+	}
+	
+	public List<DocenteVO> getCorrectores() {
+		return correctores;
+	}
+
+	public void setCorrectores(List<DocenteVO> correctores) {
+		this.correctores = correctores;
+	}
+
+	public ArrayList<String> getTutorString() {
+		return tutorString;
+	}
+
+	public void setTutorString(ArrayList<String> tutorString) {
+		this.tutorString = tutorString;
 	}
 
 	public String getResumen() {

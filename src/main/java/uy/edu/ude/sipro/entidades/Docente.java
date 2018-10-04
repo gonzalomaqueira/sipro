@@ -13,10 +13,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.IndexColumn;
 
 @Entity
 public class Docente
@@ -36,8 +40,7 @@ public class Docente
 	@Column(name = "Apellido")
 	protected String apellido;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "IdProyecto")
+	@OneToMany(mappedBy="tutor", cascade=CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Proyecto> proyectosComoTutor;
 	
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

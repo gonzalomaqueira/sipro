@@ -56,7 +56,7 @@ public class Elemento
     @OneToMany(mappedBy="elemento", cascade=CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Sinonimo> sinonimos;
 	 
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="elementosRelacionados", fetch = FetchType.LAZY) 
+    @ManyToMany(cascade=CascadeType.ALL, mappedBy="elementosRelacionados", fetch = FetchType.EAGER) 
 	private List<Proyecto> proyectos;
 	
 	public Elemento() 

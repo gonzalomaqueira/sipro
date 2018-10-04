@@ -48,10 +48,10 @@ public class Proyecto
 	@Column(name = "Carrera")
 	private String carrera;
 	
-    @OneToMany(mappedBy="proyecto", cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade=CascadeType.ALL, mappedBy="proyectosComoCorrector", fetch = FetchType.EAGER) 
 	private List<Docente> correctores;
     
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "IdTutor")
 	private Docente tutor;
 
@@ -131,6 +131,9 @@ public class Proyecto
 
 	public Docente getTutor() {	return tutor; }
 	public void setTutor(Docente tutor) { this.tutor = tutor; }
+	
+	public ArrayList<String> getTutorString() {	return tutorString;	}
+	public void setTutorString(ArrayList<String> tutorString) {	this.tutorString = tutorString;	}
 
 	public String getCarrera() { return carrera; }
 	public void setCarrera(String carrera) { this.carrera = carrera; }

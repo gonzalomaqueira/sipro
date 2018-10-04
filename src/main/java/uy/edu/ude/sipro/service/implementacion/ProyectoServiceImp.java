@@ -184,7 +184,7 @@ public class ProyectoServiceImp implements ProyectoService
 		String[] textoOriginal= this.obtenerTextoOriginalProyecto(proyecto);
 		proyecto.setDocumentoPorSecciones(FuncionesTexto.armarDocumentoPorSecciones(textoOriginal));
 		proyecto.setAlumnos(proyecto.devolverAlumnos());
-		proyecto.setTutor(proyecto.devolverTutor());
+		proyecto.setTutorString(proyecto.devolverTutor());
 		proyecto.setResumen(FuncionesTexto.convertirArrayAStringEspacios(proyecto.devolverResumen()));
 		proyecto.setElementosRelacionados(this.obtenerElementosProyecto(proyecto, elementoService.obtenerElementos()));
 		proyecto.setAnio(FuncionesTexto.devolverPrimerAnioTexto(textoOriginal));
