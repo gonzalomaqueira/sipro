@@ -16,6 +16,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
 
 import uy.edu.ude.sipro.navegacion.NavigationManager;
+import uy.edu.ude.sipro.ui.vistas.DocentesView;
 import uy.edu.ude.sipro.ui.vistas.ElementoDetalleView;
 import uy.edu.ude.sipro.ui.vistas.ElementoListadoView;
 import uy.edu.ude.sipro.ui.vistas.ProyectoListadoView;
@@ -43,9 +44,9 @@ public class MainView extends MainViewDesign implements ViewDisplay {
 	public void init() {
 		attachNavigation(proyectos, ProyectoListadoView.class);
 		attachNavigation(usuarios, UsuarioListadoView.class);
-		attachNavigation(tecnologias, ElementoListadoView.class);
+		attachNavigation(elementos, ElementoListadoView.class);
 		attachNavigation(reportes, ReportesView.class);
-		attachNavigation(configuracion, UsuarioDetalleView.class);
+		attachNavigation(docentes, DocentesView.class);
 
 
 		salir.addClickListener(e -> logout());

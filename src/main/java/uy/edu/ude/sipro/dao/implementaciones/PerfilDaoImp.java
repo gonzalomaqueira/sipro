@@ -1,6 +1,8 @@
 package uy.edu.ude.sipro.dao.implementaciones;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,11 +21,11 @@ public class PerfilDaoImp implements PerfilDao
 	private EntityManager em;
 	
 	@Override
-	public List<Perfil> obtenerPerfiles() 
+	public Set<Perfil> obtenerPerfiles() 
 	{
 		 CriteriaQuery<Perfil> criteriaQuery = em.getCriteriaBuilder().createQuery(Perfil.class);
 		 @SuppressWarnings("unused")
 		 Root<Perfil> root = criteriaQuery.from(Perfil.class);
-		 return em.createQuery(criteriaQuery).getResultList();
+		 return new HashSet(em.createQuery(criteriaQuery).getResultList());
 	}
 }

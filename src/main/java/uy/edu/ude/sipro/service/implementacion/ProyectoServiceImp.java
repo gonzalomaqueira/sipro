@@ -3,7 +3,9 @@ package uy.edu.ude.sipro.service.implementacion;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
@@ -16,6 +18,7 @@ import uy.edu.ude.sipro.entidades.Docente;
 import uy.edu.ude.sipro.entidades.Elemento;
 import uy.edu.ude.sipro.entidades.Proyecto;
 import uy.edu.ude.sipro.entidades.Sinonimo;
+import uy.edu.ude.sipro.service.interfaces.DocenteService;
 import uy.edu.ude.sipro.service.interfaces.ElementoService;
 import uy.edu.ude.sipro.service.interfaces.ProyectoService;
 import uy.edu.ude.sipro.entidades.Enumerados.EstadoProyectoEnum;
@@ -32,13 +35,31 @@ public class ProyectoServiceImp implements ProyectoService
 	
 	@Autowired
 	private ElementoService elementoService;
+	@Autowired
+	private DocenteService docenteService;
 	
 	@Transactional
 	@Override
-	public void agregar(String nombre, String carrera, List<DocenteVO> correctores, int nota, String rutaArchivo) 
+	public void agregar(String nombre, String carrera, Set<DocenteVO> correctoresVO, int nota, String rutaArchivo) 
 	{
-	   Proyecto proyecto = new Proyecto(nombre, carrera, ConversorValueObject.convertirListaDocenteVOaDocente(correctores), nota, rutaArchivo);
-	   proyectoDao.agregar(proyecto);
+		
+		Set<Docente> correctores = new HashSet<Docente>();
+		Proyecto proyecto = new Proyecto(nombre, carrera, correctores, nota, rutaArchivo);
+		for(Docente doc : docenteService.obtenerDocentes())
+		{
+			for(DocenteVO docVO : correctoresVO)
+			{
+				if (doc.getId() == docVO.getId())
+				{
+					correctores.add(doc);
+					doc.getProyectosComoCorrector().add(proyecto);
+					break;
+				}
+			}			
+		}			
+	    proyecto.setCorrectores(correctores);
+	    proyectoDao.agregar(proyecto);
+	    
 	}
 	
 	@Transactional
@@ -61,7 +82,7 @@ public class ProyectoServiceImp implements ProyectoService
 	
 	@Transactional
 	@Override
-	public void modificar(int id, String nombre, int anio, String carrera, int nota, String resumen, ArrayList<String> alumnos, Docente tutor, List<Docente> correctores)
+	public void modificar(int id, String nombre, int anio, String carrera, int nota, String resumen, HashSet<String> alumnos, Docente tutor, Set<Docente> correctores)
 	{
 		Proyecto proy= this.obtenerProyectoPorId(id);
 		proy.setNombre(nombre);
@@ -71,7 +92,7 @@ public class ProyectoServiceImp implements ProyectoService
 		proy.setCorrectores(correctores);
 		proy.setNota(nota);
 		proy.setResumen(resumen);
-		proy.setAlumnos(alumnos);		
+		proy.setAlumnos(alumnos);
 		proyectoDao.modificar(proy);
 	}
 		
@@ -85,12 +106,18 @@ public class ProyectoServiceImp implements ProyectoService
 			elem.getProyectos().remove(proyecto);
 		}
 		proyecto.getElementosRelacionados().removeAll(proyecto.getElementosRelacionados());
+		
+		for (Docente doc: proyecto.getCorrectores())
+		{
+			doc.getProyectosComoCorrector().remove(proyecto);
+		}
+		proyecto.getCorrectores().removeAll(proyecto.getCorrectores());
 		proyectoDao.eliminar(proyecto);
 	}
 	
 	@Transactional(readOnly = true)
 	@Override
-	public List<Proyecto> obtenerProyectos()
+	public Set<Proyecto> obtenerProyectos()
 	{
 		return proyectoDao.obtenerProyectos();
 	}
@@ -103,11 +130,11 @@ public class ProyectoServiceImp implements ProyectoService
 	}
 
 	@Override
-	public List<Elemento> obtenerElementosProyecto (Proyecto proyecto, List<Elemento> listaElementos)
+	public Set<Elemento> obtenerElementosProyecto (Proyecto proyecto, Set<Elemento> listaElementos)
 	{
 		boolean encontroElemento = false;
 		
-		List<Elemento> listaRetorno = new ArrayList<Elemento>();
+		Set<Elemento> listaRetorno = new HashSet<Elemento>();
 		if (proyecto.getDocumentoPorSecciones() != null)
 		{
 			for(Elemento elemento : listaElementos)
@@ -175,6 +202,23 @@ public class ProyectoServiceImp implements ProyectoService
 		return textoOriginal;
 	}
 	
+	@Override
+	public void cargarTutorPorString(Proyecto proyecto)
+	{
+		if (!proyecto.getTutorString().isEmpty())
+		{
+			Set<Docente> docentes = docenteService.obtenerDocentes();
+			for (Docente doc : docentes)
+			{
+				if (FuncionesTexto.SetContieneString(proyecto.getTutorString(), doc.getApellido())
+				 && FuncionesTexto.SetContieneString(proyecto.getTutorString(), doc.getNombre()))
+				{
+					proyecto.setTutor(doc);
+					break;
+				}					
+			}
+		}
+	}
 
 	@Override
 	@Transactional
@@ -185,6 +229,7 @@ public class ProyectoServiceImp implements ProyectoService
 		proyecto.setDocumentoPorSecciones(FuncionesTexto.armarDocumentoPorSecciones(textoOriginal));
 		proyecto.setAlumnos(proyecto.devolverAlumnos());
 		proyecto.setTutorString(proyecto.devolverTutor());
+		this.cargarTutorPorString(proyecto);
 		proyecto.setResumen(FuncionesTexto.convertirArrayAStringEspacios(proyecto.devolverResumen()));
 		proyecto.setElementosRelacionados(this.obtenerElementosProyecto(proyecto, elementoService.obtenerElementos()));
 		proyecto.setAnio(FuncionesTexto.devolverPrimerAnioTexto(textoOriginal));

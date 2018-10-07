@@ -1,8 +1,12 @@
 package uy.edu.ude.sipro.entidades;
 
+
+
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,7 +21,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
@@ -49,7 +53,7 @@ public class Proyecto
 	private String carrera;
 	
 	@ManyToMany(cascade=CascadeType.ALL, mappedBy="proyectosComoCorrector", fetch = FetchType.EAGER) 
-	private List<Docente> correctores;
+	private Set<Docente> correctores;
     
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "IdTutor")
@@ -57,13 +61,13 @@ public class Proyecto
 
 	@Size(min = 1, max = 255)
 	@Column(name = "Tutor")
-	private ArrayList<String> tutorString;
+	private HashSet<String> tutorString;
     
 	@Column(name = "Nota")
 	private int nota;
 
 	@Column(name = "Alumnos")
-	private ArrayList<String> alumnos;
+	private HashSet<String> alumnos;
 
 	@NotNull
 	@Column(name = "RutaArchivo")
@@ -85,7 +89,7 @@ public class Proyecto
 	
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "RelProyectoElemento", joinColumns = { @JoinColumn(name = "idProyecto") }, inverseJoinColumns = { @JoinColumn(name = "idElemento") })
-	private List<Elemento> elementosRelacionados;
+	private Set<Elemento> elementosRelacionados;
 	
 	@Transient
 	private List<SeccionTexto> DocumentoPorSecciones;
@@ -98,7 +102,7 @@ public class Proyecto
 		this.fechaUltimaModificacion = vfecha;
 	}
 
-	public Proyecto(String nombre, String carrera, List<Docente> correctores,  int nota, String rutaArchivo)
+	public Proyecto(String nombre, String carrera, Set<Docente> correctores,  int nota, String rutaArchivo)
 	{
 		this();
 		this.nombre = nombre;
@@ -108,8 +112,8 @@ public class Proyecto
 		this.rutaArchivo = rutaArchivo;
 	}
 
-	public Proyecto(String nombre, int anio, String carrera, List<Docente> correctores, int nota, 
-			ArrayList<String> alumnos, Docente tutor, String rutaArchivo, String resumen)
+	public Proyecto(String nombre, int anio, String carrera, Set<Docente> correctores, int nota, 
+			HashSet<String> alumnos, Docente tutor, String rutaArchivo, String resumen)
 	{
 		this(nombre, carrera, correctores, nota, rutaArchivo);
 		this.anio = anio;
@@ -132,20 +136,20 @@ public class Proyecto
 	public Docente getTutor() {	return tutor; }
 	public void setTutor(Docente tutor) { this.tutor = tutor; }
 	
-	public ArrayList<String> getTutorString() {	return tutorString;	}
-	public void setTutorString(ArrayList<String> tutorString) {	this.tutorString = tutorString;	}
+	public HashSet<String> getTutorString() {	return tutorString;	}
+	public void setTutorString(HashSet<String> tutorString) {	this.tutorString = tutorString;	}
 
 	public String getCarrera() { return carrera; }
 	public void setCarrera(String carrera) { this.carrera = carrera; }
 	
-	public List<Docente> getCorrectores() { return correctores;	}
-	public void setCorrectores(List<Docente> correctores) {this.correctores = correctores;	}
+	public Set<Docente> getCorrectores() { return correctores;	}
+	public void setCorrectores(Set<Docente> correctores) {this.correctores = correctores;	}
 
 	public int getNota() { return nota; }
 	public void setNota(int nota) { this.nota = nota; }
 	
-	public ArrayList<String> getAlumnos() { return alumnos; }
-	public void setAlumnos(ArrayList<String> alumnos) { this.alumnos = alumnos; }
+	public HashSet<String> getAlumnos() { return alumnos; }
+	public void setAlumnos(HashSet<String> alumnos) { this.alumnos = alumnos; }
 
 	public String getRutaArchivo() { return rutaArchivo; }
 	public void setRutaArchivo(String rutaArchivo) { this.rutaArchivo = rutaArchivo;}
@@ -159,8 +163,8 @@ public class Proyecto
 	public Date getFechaUltimaModificacion() { return fechaUltimaModificacion; }
 	public void setFechaUltimaModificacion(Date fechaUltimaModificacion) { this.fechaUltimaModificacion = fechaUltimaModificacion; }
 	
-	public List<Elemento> getElementosRelacionados() { return elementosRelacionados; }
-	public void setElementosRelacionados(List<Elemento> elementosRelacionados) { this.elementosRelacionados = elementosRelacionados; }
+	public Set<Elemento> getElementosRelacionados() { return elementosRelacionados; }
+	public void setElementosRelacionados(Set<Elemento> elementosRelacionados) { this.elementosRelacionados = elementosRelacionados; }
 
 	public EstadoProyectoEnum getEstado() { return estado; }
 	public void setEstado(Enumerados.EstadoProyectoEnum estado) 
@@ -200,7 +204,7 @@ public class Proyecto
 		int largoList = contenido.size();
 		for(int x=largoList-1; x>=0; x--)
 		{			
-			if( !FuncionesTexto.terminaPunto(contenido.get(x)))
+			if( !FuncionesTexto.terminaPunto (contenido.get(x)) )
 				contenido.remove(x);
 			else
 				break;
@@ -218,7 +222,7 @@ public class Proyecto
 		return contenido;
 	}
 	
-	public ArrayList<String> devolverAlumnos () 
+	public HashSet<String> devolverAlumnos () 
 	{
 		if( this.DocumentoPorSecciones!=null ) 
 		{
@@ -233,22 +237,22 @@ public class Proyecto
 			}
 			if(secAlumnos!=null)
 			{
-				return limpiarAlumnos(secAlumnos.getContenido());
+				return limpiarAlumnos(new HashSet<String>(secAlumnos.getContenido()));
 			}
 		}
 		return null;
 	}
 	
-	private ArrayList<String> limpiarAlumnos(ArrayList<String> contenido)
+	private HashSet<String> limpiarAlumnos(HashSet<String> contenido)
 	{		
-		contenido = FuncionesTexto.eliminarLineasVacias(contenido);
-		contenido = FuncionesTexto.eliminarEspacios(contenido);
-		contenido = FuncionesTexto.separarAlumnos(contenido);
+		contenido = new HashSet<String>(FuncionesTexto.eliminarLineasVacias(FuncionesTexto.convertirSetAList(contenido)));
+		contenido = new HashSet<String>(FuncionesTexto.eliminarEspacios(FuncionesTexto.convertirSetAList(contenido)));
+		contenido = new HashSet<String>(FuncionesTexto.separarAlumnos(FuncionesTexto.convertirSetAList(contenido)));
 		
 		return contenido;
 	}
 	
-	public ArrayList<String> devolverTutor()
+	public HashSet<String> devolverTutor()
 	{
 		if( this.DocumentoPorSecciones!=null ) 
 		{
@@ -263,17 +267,17 @@ public class Proyecto
 			}
 			if(secTutor!=null)
 			{
-				return limpiarTutor(secTutor.getContenido());
+				return limpiarTutor(new HashSet<String>(secTutor.getContenido()));
 			}
 		}
 		return null;
 	}
 	
-	private ArrayList<String> limpiarTutor(ArrayList<String> contenido)
+	private HashSet<String> limpiarTutor(HashSet<String> contenido)
 	{		
-		contenido = FuncionesTexto.eliminarLineasVacias(contenido);
-		contenido = FuncionesTexto.eliminarEspacios(contenido);
+		contenido = new HashSet<String>(FuncionesTexto.eliminarLineasVacias(FuncionesTexto.convertirSetAList(contenido)));
+		contenido = new HashSet<String>(FuncionesTexto.eliminarEspacios(FuncionesTexto.convertirSetAList(contenido)));
 		
 		return contenido;
-	}	
+	}
 }

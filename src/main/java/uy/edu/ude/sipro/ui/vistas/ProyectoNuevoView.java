@@ -4,7 +4,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -38,14 +40,14 @@ public class ProyectoNuevoView extends ProyectoNuevoViewDesign implements View
     
     private String nombreArchivo;
     private String prefijoArchivo;
-    private List<DocenteVO> listaCorrectores;
+    private Set<DocenteVO> listaCorrectores;
     private DocenteVO correctorSeleccionado;
     
     @Autowired
     public ProyectoNuevoView (NavigationManager navigationManager)
     {
     	this.navigationManager = navigationManager;
-    	this.listaCorrectores = new ArrayList<DocenteVO>();
+    	this.listaCorrectores = new HashSet<DocenteVO>();
     }
 	
 	public void enter(ViewChangeEvent event)
@@ -64,23 +66,30 @@ public class ProyectoNuevoView extends ProyectoNuevoViewDesign implements View
 		
 		updSubirProyecto.addFinishedListener(evt ->
 		{
-			nombreArchivo= evt.getFilename();           
-			try 
+			nombreArchivo= evt.getFilename();
+			if (!evt.getFilename().isEmpty())
 			{
-				fachada.altaProyecto(txtNombreProyecto.getValue(),
-									 txtCarrera.getValue(),
-									 listaCorrectores,
-									 Integer.parseInt(txtNota.getValue()),
-									 Constantes.RUTA_ARCHIVOS + prefijoArchivo + nombreArchivo);
-			   
-				Notification.show("Archivo subido exitosamente", Notification.Type.HUMANIZED_MESSAGE);           
+				try 
+				{
+					fachada.altaProyecto(txtNombreProyecto.getValue(),
+										 txtCarrera.getValue(),
+										 listaCorrectores,
+										 Integer.parseInt(txtNota.getValue()),
+										 Constantes.RUTA_ARCHIVOS + prefijoArchivo + nombreArchivo);
+				   
+					Notification.show("Archivo subido exitosamente", Notification.Type.HUMANIZED_MESSAGE);           
+				}
+				catch (Exception e)
+				{
+					Notification.show("Hubo un error al subir el proyecto", Notification.Type.WARNING_MESSAGE);
+					e.printStackTrace();
+				}
+				navigationManager.navigateTo(ProyectoListadoView.class);
 			}
-			catch (Exception e)
+			else
 			{
-				Notification.show("Hubo un error al subir el proyecto", Notification.Type.WARNING_MESSAGE);
-				e.printStackTrace();
-			}
-			navigationManager.navigateTo(ProyectoListadoView.class);
+				Notification.show("Seleccione el documento asociado", Notification.Type.WARNING_MESSAGE);
+			}				
         });
 		
 		
@@ -162,11 +171,11 @@ public class ProyectoNuevoView extends ProyectoNuevoViewDesign implements View
 	}
 	
 	private void cargarCmbCorrectores()
-	{		
+	{
 		if(correctorSeleccionado != null)
 		{
-			List<DocenteVO> correctores= fachada.obtenerDocentes();
-			List<DocenteVO> correctoresAux = new ArrayList<DocenteVO>(correctores);
+			Set<DocenteVO> correctores= fachada.obtenerDocentes();
+			Set<DocenteVO> correctoresAux = new HashSet<DocenteVO>(correctores);
 			for(DocenteVO cor : correctoresAux)
 			{				
 				for(DocenteVO corAux : listaCorrectores)

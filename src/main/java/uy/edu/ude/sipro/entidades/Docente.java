@@ -12,15 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.IndexColumn;
+
 
 @Entity
 public class Docente
@@ -59,7 +55,7 @@ public class Docente
 	public int getId() { return id; }
 	public void setId(int id) { this.id = id; }
 
-	public String getApellido() {	return nombre; }
+	public String getApellido() {	return apellido; }
 	public void setApellido(String apellido) { this.apellido = apellido; }
 	
 	public String getNombre() {	return nombre; }

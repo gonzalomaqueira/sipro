@@ -1,6 +1,8 @@
 package uy.edu.ude.sipro.dao.implementaciones;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -38,12 +40,12 @@ public class UsuarioDaoImp implements UsuarioDao
 	}
 	
 	@Override
-	public List<Usuario> obtenerUsuarios()
+	public Set<Usuario> obtenerUsuarios()
     {
 		CriteriaQuery<Usuario> criteriaQuery = em.getCriteriaBuilder().createQuery(Usuario.class);
 		@SuppressWarnings("unused")
 		Root<Usuario> root = criteriaQuery.from(Usuario.class);
-		return em.createQuery(criteriaQuery).getResultList();
+		return new HashSet<Usuario>(em.createQuery(criteriaQuery).getResultList());
     }
    
 	@Override

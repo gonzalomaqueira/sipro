@@ -1,8 +1,9 @@
 package uy.edu.ude.sipro.service.implementacion;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,14 +40,14 @@ public class ElementoServiceImp implements ElementoService
 	
 	@Transactional
 	@Override
-	public void altaElemento(String nombre, boolean esCategoria, TipoElemento tipoElemento, List<SubElementoVO> elementosRelacionados, List<SinonimoVO> sinonimos)
+	public void altaElemento(String nombre, boolean esCategoria, TipoElemento tipoElemento, Set<SubElementoVO> elementosRelacionados, Set<SinonimoVO> sinonimos)
 	{
-		List<Elemento> listaRelaciones = new ArrayList<Elemento>();
-		List<Sinonimo> listaSinonimos= new ArrayList<Sinonimo>();
+		Set<Elemento> listaRelaciones = new HashSet<Elemento>();
+		Set<Sinonimo> listaSinonimos= new HashSet<Sinonimo>();
 		Elemento elemento = new Elemento(nombre, esCategoria, tipoElemento, listaRelaciones, listaSinonimos);
 		elementoDao.agregar(elemento);
 		
-		List<Elemento> todosElementos= elementoDao.obtenerElementos();
+		Set<Elemento> todosElementos= elementoDao.obtenerElementos();
 		
 		//el elemento tiene que tener el nombre como primay key sino esto no funciona(CONTROLAR)
 		for(Elemento elem : todosElementos)
@@ -63,7 +64,7 @@ public class ElementoServiceImp implements ElementoService
 		}
 		
 		listaSinonimos=sinonimoService.obtenerSinonimos();
-		List<Sinonimo> listaAux= new ArrayList<Sinonimo>(listaSinonimos);
+		Set<Sinonimo> listaAux= new HashSet<Sinonimo>(listaSinonimos);
 		for(Sinonimo sin : listaAux)
 		{
 			if(sin.getElemento().getId()!=elemento.getId())
@@ -94,17 +95,17 @@ public class ElementoServiceImp implements ElementoService
 	@Transactional
 	@Override
 	public void modificar(int id, String nombre, boolean esCategoria, TipoElemento tipoElemento,
-						  List<SubElementoVO> elementosRelacionados, List<SinonimoVO> sinonimos)
+						  Set<SubElementoVO> elementosRelacionados, Set<SinonimoVO> sinonimos)
 	{
 		Elemento elemento = this.obtenerElementoPorId(id);
 		elemento.setNombre(nombre);
 		elemento.setEsCategoria(esCategoria);
 		elemento.setTipoElemento(tipoElemento);
 		
-		List<Sinonimo> listaSinonimos= new ArrayList<Sinonimo>();
-		List<Elemento> listaEliminar = new ArrayList<Elemento>();
-		List<Elemento> listaTotal= elementoDao.obtenerElementos();
-		List<Elemento> listaGuardar = new ArrayList<Elemento>();
+		Set<Sinonimo> listaSinonimos= new HashSet<Sinonimo>();
+		Set<Elemento> listaEliminar = new HashSet<Elemento>();
+		Set<Elemento> listaTotal= elementoDao.obtenerElementos();
+		Set<Elemento> listaGuardar = new HashSet<Elemento>();
 		
 		boolean existe;
 		
@@ -148,7 +149,7 @@ public class ElementoServiceImp implements ElementoService
 		
 		
 		listaSinonimos=sinonimoService.obtenerSinonimos();
-		List<Sinonimo> listaAux= new ArrayList<Sinonimo>(listaSinonimos);
+		Set<Sinonimo> listaAux= new HashSet<Sinonimo>(listaSinonimos);
 		for(Sinonimo sin : listaAux)
 		{
 			if(sin.getElemento().getId()!=elemento.getId())
@@ -158,7 +159,7 @@ public class ElementoServiceImp implements ElementoService
 		}
 		
 		// Se agregan nuevos sinonimos
-		listaAux= new ArrayList<Sinonimo>(listaSinonimos);
+		listaAux= new HashSet<Sinonimo>(listaSinonimos);
 		for(SinonimoVO sinVO : sinonimos)
 		{
 			existe=false;
@@ -194,7 +195,7 @@ public class ElementoServiceImp implements ElementoService
 		}
 		
 		listaSinonimos=sinonimoService.obtenerSinonimos();
-		listaAux= new ArrayList<Sinonimo>(listaSinonimos);
+		listaAux= new HashSet<Sinonimo>(listaSinonimos);
 		for(Sinonimo sin : listaAux)
 		{
 			if(sin.getElemento().getId()!=elemento.getId())
@@ -260,7 +261,7 @@ public class ElementoServiceImp implements ElementoService
 	
 	@Transactional(readOnly = true)
 	@Override
-	public List<Elemento> obtenerElementos()
+	public Set<Elemento> obtenerElementos()
 	{
 		return elementoDao.obtenerElementos();
 	}

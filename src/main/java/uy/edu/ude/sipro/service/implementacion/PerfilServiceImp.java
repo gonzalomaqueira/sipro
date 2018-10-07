@@ -1,6 +1,7 @@
 package uy.edu.ude.sipro.service.implementacion;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class PerfilServiceImp implements PerfilService
 	
 	@Transactional(readOnly = true)
 	@Override
-	public List<Perfil> obtenerPerfiles()
+	public Set<Perfil> obtenerPerfiles()
 	{
 		return perfilDao.obtenerPerfiles();
 	}

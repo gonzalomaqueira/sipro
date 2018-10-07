@@ -1,6 +1,7 @@
 package uy.edu.ude.sipro.service.implementacion;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,7 +52,7 @@ public class UsuarioServiceImp implements UsuarioService
    
    @Transactional(readOnly = true)
    @Override
-   public List<Usuario> obtenerUsuarios()
+   public Set<Usuario> obtenerUsuarios()
    {
       return usuarioDao.obtenerUsuarios();
    }

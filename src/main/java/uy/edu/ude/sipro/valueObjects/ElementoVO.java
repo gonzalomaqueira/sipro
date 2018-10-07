@@ -11,8 +11,8 @@ public class ElementoVO
 	private String nombre;
 	private boolean esCategoria;
 	private TipoElemento tipoElemento;
-	private List<SinonimoVO> sinonimos;
-	private List<SubElementoVO> elementosRelacionados;
+	private Set<SinonimoVO> sinonimos;
+	private Set<SubElementoVO> elementosRelacionados;
 	
 	public ElementoVO()
 	{	}
@@ -36,9 +36,9 @@ public class ElementoVO
 	public TipoElemento getTipoElemento() {	return tipoElemento;}
 	public void setTipoElemento(TipoElemento tipoElemento) {this.tipoElemento = tipoElemento;	}
 
-	public List<SinonimoVO> getSinonimos() { return sinonimos; }
- 	public void setSinonimos(List<SinonimoVO> sinonimos) { this.sinonimos = sinonimos; }
+	public Set<SinonimoVO> getSinonimos() { return sinonimos; }
+ 	public void setSinonimos(Set<SinonimoVO> sinonimos) { this.sinonimos = sinonimos; }
  	
- 	public List<SubElementoVO> getElementosRelacionados() { return elementosRelacionados; }
- 	public void setElementosRelacionados(List<SubElementoVO> elementosRelacionados) { this.elementosRelacionados = elementosRelacionados; }
+ 	public Set<SubElementoVO> getElementosRelacionados() { return elementosRelacionados; }
+ 	public void setElementosRelacionados(Set<SubElementoVO> elementosRelacionados) { this.elementosRelacionados = elementosRelacionados; }
  }

@@ -2,7 +2,9 @@ package uy.edu.ude.sipro.ui.vistas;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -30,15 +32,15 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 	private Fachada fachada;
 	
 	//Lista con todos los elementos con su direccion correcta
-	private List<ElementoVO> listaElementos;
+	private Set<ElementoVO> listaElementos;
 	
 	private ElementoVO elemento=null;
 	
-	private List<SinonimoVO> listaSinonimos= new ArrayList<SinonimoVO>();
+	private Set<SinonimoVO> listaSinonimos= new HashSet<SinonimoVO>();
 	
 	private SinonimoVO sinonimoSeleccionado;
 	
-	private List<SubElementoVO> listaSubElementoRelacionados= new ArrayList<SubElementoVO>();
+	private Set<SubElementoVO> listaSubElementoRelacionados= new HashSet<SubElementoVO>();
 	
 	private SubElementoVO subElementoSeleccionado= new SubElementoVO();
 	
@@ -329,7 +331,7 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 	private void cargarListaRelacionados(int idElemento)
 	{
 		
-		listaSubElementoRelacionados= new ArrayList<SubElementoVO>(elemento.getElementosRelacionados());
+		listaSubElementoRelacionados= new HashSet<SubElementoVO>(elemento.getElementosRelacionados());
 		elemento.getElementosRelacionados().removeAll(elemento.getElementosRelacionados());
 		this.grdElementoProyecto.setItems( listaSubElementoRelacionados );
 	}
@@ -356,8 +358,8 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 		if(elemento != null)
 		{
 			//Elimina del combo relaciones a el mismo
-			List<ElementoVO> relaciones= fachada.obtenerElementos();
-			List<ElementoVO> relacionesAux= new ArrayList<ElementoVO>(relaciones);
+			Set<ElementoVO> relaciones= fachada.obtenerElementos();
+			Set<ElementoVO> relacionesAux= new HashSet<ElementoVO>(relaciones);
 			for(ElementoVO elem : relacionesAux)
 			{
 				if(elem.getId()==elemento.getId())
@@ -386,7 +388,7 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 		}
 	}
 	
-	private boolean listaContieneSinonimo(List<SinonimoVO> listaSinonimos, String sinonimoBuscado)
+	private boolean listaContieneSinonimo(Set<SinonimoVO> listaSinonimos, String sinonimoBuscado)
 	{
 		for (SinonimoVO sinonimo : listaSinonimos)
 		{

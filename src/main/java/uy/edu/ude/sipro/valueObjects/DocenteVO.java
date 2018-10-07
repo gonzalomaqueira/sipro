@@ -9,8 +9,9 @@ public class DocenteVO
 	public DocenteVO() {
 	}
 	
-	public DocenteVO(String nombre) {
+	public DocenteVO(String nombre, String apellido) {
 		this.nombre = nombre;
+		this.apellido = apellido;
 	}
 	
 	public int getId() { return id; }

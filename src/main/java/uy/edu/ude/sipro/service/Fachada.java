@@ -1,7 +1,9 @@
 package uy.edu.ude.sipro.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +41,7 @@ public class Fachada {
 
 	/**************************************************************** Proyectos */
 	
-	public List<ProyectoVO> obtenerProyectos()
+	public Set<ProyectoVO> obtenerProyectos()
 	{
 		return ConversorValueObject.convertirListaProyectoVO(proyectoService.obtenerProyectos());
 	}
@@ -49,7 +51,7 @@ public class Fachada {
 		return ConversorValueObject.convertirProyectoDetalleVO(proyectoService.obtenerProyectoPorId(idProyecto));
 	}
 	
-	public void altaProyecto(String nombre, String carrera, List<DocenteVO> correctores, int nota, String rutaArchivo) 
+	public void altaProyecto(String nombre, String carrera, Set<DocenteVO> correctores, int nota, String rutaArchivo) 
 	{
 		proyectoService.agregar(nombre, carrera, correctores, nota, rutaArchivo);
 	}
@@ -60,7 +62,7 @@ public class Fachada {
 	}
 	
 	public void modificarProyectoCompleto(int id, String nombre, int anio, String carrera, int nota, String resumen, 
-			ArrayList<String> alumnos, DocenteVO tutor, List<DocenteVO> correctores) 
+			HashSet<String> alumnos, DocenteVO tutor, Set<DocenteVO> correctores) 
 	{
 		proyectoService.modificar(  id, 
 									nombre, 
@@ -85,7 +87,7 @@ public class Fachada {
 	
 	/**************************************************************** Usuarios */	
 	
-	public List<UsuarioVO> obtenerUsuarios()
+	public Set<UsuarioVO> obtenerUsuarios()
 	{
 		return ConversorValueObject.convertirListaUsuarioVO(usuarioService.obtenerUsuarios());
 	}
@@ -109,7 +111,7 @@ public class Fachada {
 		usuarioService.eliminar(id);
 	}
 
-	public List<PerfilVO> obtenerPerfiles()
+	public Set<PerfilVO> obtenerPerfiles()
 	{
 		return ConversorValueObject.convertirListaPerfilVO(perfilService.obtenerPerfiles());
 	}
@@ -117,17 +119,17 @@ public class Fachada {
 	
 	/**************************************************************** Elementos */
 	
-	public List<ElementoVO> obtenerElementos()
+	public Set<ElementoVO> obtenerElementos()
 	{
 		return ConversorValueObject.convertirListaElementoVO(elementoService.obtenerElementos());
 	}
 
-	public void altaElemento(String nombre, boolean esCategoria, TipoElemento tipoElemento, List<SubElementoVO> elementosRelacionados, List<SinonimoVO> sinonimos) 
+	public void altaElemento(String nombre, boolean esCategoria, TipoElemento tipoElemento, Set<SubElementoVO> elementosRelacionados, Set<SinonimoVO> sinonimos) 
 	{
 		elementoService.altaElemento(nombre, esCategoria, tipoElemento, elementosRelacionados, sinonimos);
 	}
 
-	public void modificarElemento(int id, String nombre, boolean esCategoria, TipoElemento tipoElemento, List<SubElementoVO> elementosRelacionados, List<SinonimoVO> sinonimos)
+	public void modificarElemento(int id, String nombre, boolean esCategoria, TipoElemento tipoElemento, Set<SubElementoVO> elementosRelacionados, Set<SinonimoVO> sinonimos)
 	{
 		elementoService.modificar(id, nombre, esCategoria, tipoElemento, elementosRelacionados, sinonimos);
 	}
@@ -139,8 +141,19 @@ public class Fachada {
 
 	/**************************************************************** Docentes */
 	
-	public List<DocenteVO> obtenerDocentes()
+	public Set<DocenteVO> obtenerDocentes()
 	{
 		return ConversorValueObject.convertirListaDocenteVO(docenteService.obtenerDocentes());
 	}
+
+	public void altaDocente(String nombre, String apellido) 
+	{
+		docenteService.agregar(nombre, apellido);
+	}
+
+	public void eliminarDocente(int id)
+	{
+		docenteService.eliminar(id);
+	}
+
 }

@@ -46,7 +46,34 @@
      <vaadin-label style-name="h4" width-full plain-text>
        Corrector 
      </vaadin-label>
-     <vaadin-text-field style-name="full" id="txtCorrector" width="49%" _id="txtCorrector"></vaadin-text-field>
+     <vaadin-horizontal-layout>
+      <vaadin-grid style-name="half" id="grdCorrectores" height-mode="undefined" width-full data-item-type="uy.edu.ude.sipro.valueObjects.DocenteVO" _id="grdCorrectores">
+       <table>
+        <colgroup>
+         <col column-id="nombre" sortable>
+         <col column-id="apellido" sortable>
+        </colgroup>
+        <thead>
+         <tr default>
+          <th plain-text column-ids="nombre">Nombre</th>
+          <th plain-text column-ids="apellido">Apellido</th>
+         </tr>
+        </thead>
+        <tbody></tbody>
+       </table>
+      </vaadin-grid>
+      <vaadin-combo-box id="cmbCorrectores" data-item-type="java.lang.String" readonly _id="cmbCorrectores">
+       <option item="Option1">Option 1</option>
+       <option item="Option2">Option 2</option>
+       <option item="Option3">Option 3</option>
+      </vaadin-combo-box>
+      <vaadin-button icon="fonticon://Vaadin-Icons/e801" style-name="icon-only friendly small" id="btnAgregarCorrector" plain-text _id="btnAgregarCorrector">
+        Agregar 
+      </vaadin-button>
+      <vaadin-button icon="fonticon://Vaadin-Icons/e91b" style-name="danger icon-only small" id="btnEliminarCorrector" width="31px" plain-text _id="btnEliminarCorrector">
+        Eliminar 
+      </vaadin-button>
+     </vaadin-horizontal-layout>
     </vaadin-css-layout>
     <vaadin-css-layout></vaadin-css-layout>
     <vaadin-css-layout responsive width-full>

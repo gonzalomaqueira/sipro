@@ -2,7 +2,9 @@ package uy.edu.ude.sipro.valueObjects;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ProyectoDetalleVO
 {
@@ -14,15 +16,15 @@ public class ProyectoDetalleVO
 
 	private String carrera;
 	
-	private List<DocenteVO> correctores;
+	private Set<DocenteVO> correctores;
 
 	private int nota;
 	
-	private ArrayList<String> alumnos;
+	private HashSet<String> alumnos;
 	
 	private DocenteVO tutor;
 	
-	private ArrayList<String> tutorString;
+	private HashSet<String> tutorString;
 	
 	private String resumen;
 	
@@ -32,11 +34,11 @@ public class ProyectoDetalleVO
 	
 	private Date fechaUltimaModificacion;
 
-	private List <ElementoVO> elementosRelacionados;
+	private Set <ElementoVO> elementosRelacionados;
 	
-	public ProyectoDetalleVO(int id, String nombre, int anio, String carrera, List<DocenteVO> correctores, int nota, ArrayList<String> alumnos, 
-							 DocenteVO tutor, ArrayList<String> tutorString, String rutaArchivo, String resumen, Date fechaAlta, 
-							 Date fechaUltimaModificacion, List<ElementoVO> elementosRelacionados) 
+	public ProyectoDetalleVO(int id, String nombre, int anio, String carrera, Set<DocenteVO> correctores, int nota, HashSet<String> alumnos, 
+							 DocenteVO tutor, HashSet<String> tutorString, String rutaArchivo, String resumen, Date fechaAlta, 
+							 Date fechaUltimaModificacion, Set<ElementoVO> elementosRelacionados) 
 	{
 		this.id = id;
 		this.nombre = nombre;
@@ -94,19 +96,19 @@ public class ProyectoDetalleVO
 		this.nota = nota;
 	}
 	
-	public List<DocenteVO> getCorrector() {
+	public Set<DocenteVO> getCorrector() {
 		return correctores;
 	}
 
-	public void setCorrector(List<DocenteVO> correctores) {
+	public void setCorrector(Set<DocenteVO> correctores) {
 		this.correctores = correctores;
 	}
 
-	public ArrayList<String> getAlumnos() {
+	public HashSet<String> getAlumnos() {
 		return alumnos;
 	}
 
-	public void setAlumnos(ArrayList<String> alumnos) {
+	public void setAlumnos(HashSet<String> alumnos) {
 		this.alumnos = alumnos;
 	}
 
@@ -118,19 +120,19 @@ public class ProyectoDetalleVO
 		this.tutor = tutor;
 	}
 	
-	public List<DocenteVO> getCorrectores() {
+	public Set<DocenteVO> getCorrectores() {
 		return correctores;
 	}
 
-	public void setCorrectores(List<DocenteVO> correctores) {
+	public void setCorrectores(Set<DocenteVO> correctores) {
 		this.correctores = correctores;
 	}
 
-	public ArrayList<String> getTutorString() {
+	public HashSet<String> getTutorString() {
 		return tutorString;
 	}
 
-	public void setTutorString(ArrayList<String> tutorString) {
+	public void setTutorString(HashSet<String> tutorString) {
 		this.tutorString = tutorString;
 	}
 
@@ -166,11 +168,11 @@ public class ProyectoDetalleVO
 		this.fechaUltimaModificacion = fechaUltimaModificacion;
 	}
 
-	public List<ElementoVO> getElementosRelacionados() {
+	public Set<ElementoVO> getElementosRelacionados() {
 		return elementosRelacionados;
 	}
 
-	public void setElementosRelacionados(List<ElementoVO> elementosRelacionados) {
+	public void setElementosRelacionados(Set<ElementoVO> elementosRelacionados) {
 		this.elementosRelacionados = elementosRelacionados;
 	}
 	

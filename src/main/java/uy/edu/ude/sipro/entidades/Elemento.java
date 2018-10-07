@@ -48,16 +48,16 @@ public class Elemento
 	@ManyToMany(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
     @JoinTable(name="RelacionesElementos", joinColumns={@JoinColumn(name="IdOrigen")},
                 inverseJoinColumns={@JoinColumn(name="IdRelacionado")})
-    private List<Elemento> elementosRelacionados = new ArrayList<Elemento>();
+    private Set<Elemento> elementosRelacionados = new HashSet<Elemento>();
  
     @ManyToMany(mappedBy="elementosRelacionados", fetch = FetchType.EAGER)
-    private List<Elemento> elementosOrigen = new ArrayList<Elemento>();
+    private Set<Elemento> elementosOrigen = new HashSet<Elemento>();
 	
     @OneToMany(mappedBy="elemento", cascade=CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<Sinonimo> sinonimos;
+	private Set<Sinonimo> sinonimos;
 	 
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="elementosRelacionados", fetch = FetchType.EAGER) 
-	private List<Proyecto> proyectos;
+	private Set<Proyecto> proyectos;
 	
 	public Elemento() 
 	{	}
@@ -78,7 +78,7 @@ public class Elemento
 	}
 	
 	public Elemento(String nombre, boolean esCategoria, TipoElemento tipoElemento,
-				    List<Elemento> elementosRelacionados, List<Sinonimo> sinonimos) 
+				    Set<Elemento> elementosRelacionados, Set<Sinonimo> sinonimos) 
 	{
 		this(nombre, esCategoria, tipoElemento);
 		this.elementosRelacionados = elementosRelacionados;
@@ -97,17 +97,17 @@ public class Elemento
 	public Enumerados.TipoElemento getTipoElemento() { return tipoElemento;	}
 	public void setTipoElemento(Enumerados.TipoElemento tipoElemento) { this.tipoElemento = tipoElemento; }
 
-	public List<Elemento> getElementosOrigen() { return elementosOrigen; }
-	public void setElementosOrigen(List<Elemento> elementosOrigen) { this.elementosOrigen = elementosOrigen; }
+	public Set<Elemento> getElementosOrigen() { return elementosOrigen; }
+	public void setElementosOrigen(Set<Elemento> elementosOrigen) { this.elementosOrigen = elementosOrigen; }
 
-	public List<Elemento> getElementosRelacionados() { return elementosRelacionados; }
-	public void setElementosRelacionados(List<Elemento> elementoRelacionados) { this.elementosRelacionados = elementoRelacionados; }
+	public Set<Elemento> getElementosRelacionados() { return elementosRelacionados; }
+	public void setElementosRelacionados(Set<Elemento> elementoRelacionados) { this.elementosRelacionados = elementoRelacionados; }
 
-	public List<Sinonimo> getSinonimos() { return sinonimos; }
-	public void setSinonimos(List<Sinonimo> sinonimos) { this.sinonimos = sinonimos; }
+	public Set<Sinonimo> getSinonimos() { return sinonimos; }
+	public void setSinonimos(Set<Sinonimo> sinonimos) { this.sinonimos = sinonimos; }
 
-	public List<Proyecto> getProyectos() { return proyectos; }
-	public void setProyectos(List<Proyecto> proyectos) { this.proyectos = proyectos; }
+	public Set<Proyecto> getProyectos() { return proyectos; }
+	public void setProyectos(Set<Proyecto> proyectos) { this.proyectos = proyectos; }
 
 
 }

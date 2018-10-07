@@ -39,7 +39,7 @@ public class ConversorValueObject
 									  proyecto.getFechaAlta(),
 									  proyecto.getFechaUltimaModificacion(),
 									  convertirListaElementoVO(proyecto.getElementosRelacionados()));
-				
+						
 	}
 	
 	public static ProyectoVO convertirProyectoVO(Proyecto proyecto)
@@ -52,9 +52,9 @@ public class ConversorValueObject
 							  proyecto.getEstado());
 	}
 	
-	public static List<ProyectoVO> convertirListaProyectoVO(List<Proyecto> listaProyectos)
+	public static Set<ProyectoVO> convertirListaProyectoVO(Set<Proyecto> listaProyectos)
 	{
-		List<ProyectoVO> listaProyectosVO = new ArrayList<ProyectoVO>();
+		Set<ProyectoVO> listaProyectosVO = new HashSet<ProyectoVO>();
 
 		for(Proyecto proyecto : listaProyectos)
 		{
@@ -76,9 +76,9 @@ public class ConversorValueObject
 		return usuarioVO;
 	}
 	
-	public static List<UsuarioVO> convertirListaUsuarioVO(List<Usuario> listaUsuarios)
+	public static Set<UsuarioVO> convertirListaUsuarioVO(Set<Usuario> listaUsuarios)
 	{
-		List<UsuarioVO> listaUsuariosVO= new ArrayList<UsuarioVO>();
+		Set<UsuarioVO> listaUsuariosVO= new HashSet<UsuarioVO>();
 		
 		for(Usuario usuario : listaUsuarios)
 		{
@@ -96,9 +96,9 @@ public class ConversorValueObject
 		return perfilVO;
 	}
 	
-	public static List<PerfilVO> convertirListaPerfilVO(List<Perfil> listaPerfiles)
+	public static Set<PerfilVO> convertirListaPerfilVO(Set<Perfil> listaPerfiles)
 	{
-		List<PerfilVO> listaPerfilesVO = new ArrayList<PerfilVO>();
+		Set<PerfilVO> listaPerfilesVO = new HashSet<PerfilVO>();
 		
 		for(Perfil perfil : listaPerfiles)
 		{
@@ -116,9 +116,9 @@ public class ConversorValueObject
 		return sinonimoVO;
 	}
 	
-	private static List<SinonimoVO> convertirListaSinonimosVO(List<Sinonimo> listaSinonimos)
+	private static Set<SinonimoVO> convertirListaSinonimosVO(Set<Sinonimo> listaSinonimos)
 	{
-		List<SinonimoVO> listaSinonimosVO = new ArrayList<SinonimoVO>();
+		Set<SinonimoVO> listaSinonimosVO = new HashSet<SinonimoVO>();
 		for(Sinonimo sinonimo : listaSinonimos)
 		{
 			listaSinonimosVO.add(convertirSinonimoVO(sinonimo));
@@ -126,9 +126,9 @@ public class ConversorValueObject
 		return listaSinonimosVO;
 	}
 	
-	public static List<ElementoVO> convertirListaElementoVO(List<Elemento> listaElementos)
+	public static Set<ElementoVO> convertirListaElementoVO(Set<Elemento> listaElementos)
 	{
-		List<ElementoVO> listaElementosVO = new ArrayList<ElementoVO>();
+		Set<ElementoVO> listaElementosVO = new HashSet<ElementoVO>();
 		for(Elemento elemento : listaElementos)
 		{
 			listaElementosVO.add(convertirElementoVO(elemento));
@@ -149,9 +149,9 @@ public class ConversorValueObject
 		return elementoVO;
 	}
 	
-	private static List<SubElementoVO> convertirListaSubElementoVO (List<Elemento> listaElementos)
+	private static Set<SubElementoVO> convertirListaSubElementoVO (Set<Elemento> listaElementos)
 	{
-		List<SubElementoVO> listaSubElementosVO = new ArrayList<SubElementoVO>();
+		Set<SubElementoVO> listaSubElementosVO = new HashSet<SubElementoVO>();
 		for(Elemento elemento : listaElementos)
 		{
 			listaSubElementosVO.add(convertirSubElementoVO(elemento));
@@ -168,9 +168,9 @@ public class ConversorValueObject
 		return SubelementoVO;
 	}
 
-	public static List<Elemento> convertirListaSubElementoVOaElemento(List<SubElementoVO> elementosRelacionados)
+	public static Set<Elemento> convertirListaSubElementoVOaElemento(Set<SubElementoVO> elementosRelacionados)
 	{
-		List<Elemento> vRetorno= new ArrayList<Elemento>();
+		Set<Elemento> vRetorno= new HashSet<Elemento>();
 		for(SubElementoVO elemento : elementosRelacionados)
 		{
 			Elemento elem= new Elemento();
@@ -184,15 +184,18 @@ public class ConversorValueObject
 	public static DocenteVO convertirDocenteVO(Docente corrector)
 	{
 		DocenteVO correctorVO = new DocenteVO();
-		correctorVO.setId(corrector.getId());
-		correctorVO.setNombre(corrector.getNombre());
-		
+		if (corrector != null)
+		{						
+			correctorVO.setId(corrector.getId());
+			correctorVO.setNombre(corrector.getNombre());
+			correctorVO.setApellido(corrector.getApellido());
+		}
 		return correctorVO;
 	}
 	
-	public static List<DocenteVO> convertirListaDocenteVO(List<Docente> listaDocentes)
+	public static Set<DocenteVO> convertirListaDocenteVO(Set<Docente> listaDocentes)
 	{
-		List<DocenteVO> listaDocentesVO = new ArrayList<DocenteVO>();
+		Set<DocenteVO> listaDocentesVO = new HashSet<DocenteVO>();
 		for(Docente docente : listaDocentes)
 		{
 			listaDocentesVO.add(convertirDocenteVO(docente));
@@ -205,15 +208,16 @@ public class ConversorValueObject
 		Docente doc= new Docente();
 		doc.setId(docente.getId());
 		doc.setNombre(docente.getNombre());
+		doc.setApellido(docente.getApellido());
 		return doc;
 	}
 	
-	public static List<Docente> convertirListaDocenteVOaDocente(List<DocenteVO> docentes)
+	public static Set<Docente> convertirListaDocenteVOaDocente(Set<DocenteVO> docentes)
 	{
-		List<Docente> vRetorno= new ArrayList<Docente>();
+		Set<Docente> vRetorno= new HashSet<Docente>();
 		for(DocenteVO docente : docentes)
 		{
-			convertirDocenteVOaDocente(docente);
+			vRetorno.add(convertirDocenteVOaDocente(docente));
 		}
 		return vRetorno;
 	}

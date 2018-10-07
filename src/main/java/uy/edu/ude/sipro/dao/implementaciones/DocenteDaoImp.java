@@ -1,6 +1,8 @@
 package uy.edu.ude.sipro.dao.implementaciones;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import uy.edu.ude.sipro.dao.interfaces.DocenteDao;
 import uy.edu.ude.sipro.entidades.Docente;
 import uy.edu.ude.sipro.entidades.Sinonimo;
+import uy.edu.ude.sipro.entidades.Usuario;
 
 @Repository
 public class DocenteDaoImp implements DocenteDao
@@ -40,19 +43,17 @@ public class DocenteDaoImp implements DocenteDao
 	}
 
 	@Override
-	public List<Docente> obtenerDocentes()
+	public Set<Docente> obtenerDocentes()
 	{
 		CriteriaQuery<Docente> criteriaQuery = em.getCriteriaBuilder().createQuery(Docente.class);
 		@SuppressWarnings("unused")
 		Root<Docente> root = criteriaQuery.from(Docente.class);
-		return em.createQuery(criteriaQuery).getResultList();
+		return new HashSet<Docente>(em.createQuery(criteriaQuery).getResultList());
 	}
 
 	@Override
 	public Docente obtenerDocentePorId(int id)
 	{
-		Session session = em.unwrap(Session.class);
-		Object instancia = session.find(Sinonimo.class, id);
-    	return (Docente)instancia;
+		return (Docente)em.find(Docente.class, id);
 	}
 }

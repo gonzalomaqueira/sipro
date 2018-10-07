@@ -1,7 +1,9 @@
 package uy.edu.ude.sipro.ui.vistas;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -134,11 +136,11 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 		{
 			txtNombreProyecto.setValue(proyecto.getNombre());
 			txtCarrera.setValue(proyecto.getCarrera() != null ? proyecto.getCarrera() : "");
-			//txtCorrector.setValue(proyecto.getCorrector() != null ? proyecto.getCorrector() : "");
+			grdCorrectores.setItems(proyecto.getCorrector());
 			txtNota.setValue(Integer.toString(proyecto.getNota()));
 			txtAnio.setValue(Integer.toString(proyecto.getAnio()));
-			//txtTutor.setValue(FuncionesTexto.convertirArrayAStringSaltoLinea(proyecto.getTutor()));
-			txtAlumnos.setValue(FuncionesTexto.convertirArrayAStringSaltoLinea(proyecto.getAlumnos()));
+			txtTutor.setValue(FuncionesTexto.convertirArrayAStringSaltoLinea(new ArrayList<String>(proyecto.getTutorString())));
+			txtAlumnos.setValue(FuncionesTexto.convertirArrayAStringSaltoLinea(new ArrayList<String>(proyecto.getAlumnos())));
 			txtResumen.setValue(proyecto.getResumen() != null ? proyecto.getResumen() : "");
 			grdTecnologias.setItems(this.obtenerElementosPorTipo(proyecto.getElementosRelacionados(), TipoElemento.TECNOLOGIA));
 			grdMetodologiaTesting.setItems(this.obtenerElementosPorTipo(proyecto.getElementosRelacionados(), TipoElemento.METODOLOGIA_TESTING));
@@ -146,9 +148,9 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 		}
 	}
 
-	private List<ElementoVO> obtenerElementosPorTipo(List<ElementoVO> elementosRelacionados, TipoElemento tipo)
+	private Set<ElementoVO> obtenerElementosPorTipo(Set<ElementoVO> elementosRelacionados, TipoElemento tipo)
 	{
-		List<ElementoVO> vRetorno = new ArrayList<ElementoVO>();
+		Set<ElementoVO> vRetorno = new HashSet<ElementoVO>();
 		for (ElementoVO elem : elementosRelacionados)
 		{
 			if (elem.getTipoElemento() == tipo)
@@ -175,22 +177,20 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 	{
 		proyecto.setNombre(txtNombreProyecto.getValue());
 		proyecto.setCarrera(txtCarrera.getValue());
-		//proyecto.setCorrector(txtCorrector.getValue());
 		proyecto.setNota( Integer.parseInt(txtNota.getValue()) );
 		proyecto.setAnio( Integer.parseInt(txtAnio.getValue()) );
 		//proyecto.setTutor(FuncionesTexto.convertirStringAArrayList(txtTutor.getValue()));
-		proyecto.setAlumnos(FuncionesTexto.convertirStringAArrayList(txtAlumnos.getValue()));
+		proyecto.setAlumnos(new HashSet<String>(FuncionesTexto.convertirStringAArrayList(txtAlumnos.getValue())));
 		proyecto.setResumen(txtResumen.getValue());
 	}
 	
 	private void permitirEdicion(boolean opcion)
 	{
-		
 		if(opcion)
 		{
 			this.txtNombreProyecto.setReadOnly(false);
 			this.txtCarrera.setReadOnly(false);
-			this.txtCorrector.setReadOnly(false);
+			this.grdCorrectores.setEnabled(true);
 			this.txtNota.setReadOnly(false);
 			this.txtAnio.setReadOnly(false);
 			this.txtTutor.setReadOnly(false);
@@ -201,7 +201,7 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 		{
 			this.txtNombreProyecto.setReadOnly(true);
 			this.txtCarrera.setReadOnly(true);
-			this.txtCorrector.setReadOnly(true);
+			this.grdCorrectores.setEnabled(false);
 			this.txtNota.setReadOnly(true);
 			this.txtAnio.setReadOnly(true);
 			this.txtTutor.setReadOnly(true);

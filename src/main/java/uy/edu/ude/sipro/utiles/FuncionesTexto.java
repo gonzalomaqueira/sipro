@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -281,7 +282,8 @@ public class FuncionesTexto
 	{
 		for (String linea: seccion.getContenido())
 		{
-			if (linea.contains(texto))
+//			if (linea.contains(texto))
+			if (isContain(linea, texto))
 				return true;
 		}
 		return false;
@@ -358,4 +360,29 @@ public class FuncionesTexto
 	{
 		return new ArrayList<String>(Arrays.asList(texto.split("\n")));
 	}
+	
+	public static ArrayList<String> convertirSetAList(HashSet<String> entrada)
+	{
+		return new ArrayList<String>(entrada);
+	}
+	
+	public static boolean SetContieneString (HashSet<String> hashSet, String string)	
+	{
+		for (String str : hashSet)
+		{
+			if (isContain(StringUtils.stripAccents(str).trim(), StringUtils.stripAccents(string).trim()))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private static boolean isContain(String source, String subItem)
+	{
+		String regex = "\\b"+subItem+"\\b";
+		Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+		Matcher matcher = pattern.matcher(source);
+		return matcher.find();
+   }
 }

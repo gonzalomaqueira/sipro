@@ -40,12 +40,12 @@ public class ElementoDaoImp implements ElementoDao
 	}
 	
 	@Override
-	public List<Elemento> obtenerElementos()
+	public Set<Elemento> obtenerElementos()
 	{
 		CriteriaQuery<Elemento> criteriaQuery = em.getCriteriaBuilder().createQuery(Elemento.class);
 		@SuppressWarnings("unused")
 		Root<Elemento> root = criteriaQuery.from(Elemento.class);
-		return em.createQuery(criteriaQuery).getResultList();
+		return new HashSet<Elemento>(em.createQuery(criteriaQuery).getResultList());
 	}
 	
 	@Override
