@@ -62,7 +62,7 @@ public class Fachada {
 	}
 	
 	public void modificarProyectoCompleto(int id, String nombre, int anio, String carrera, int nota, String resumen, 
-			HashSet<String> alumnos, DocenteVO tutor, Set<DocenteVO> correctores) 
+			ArrayList<String> alumnos, DocenteVO tutor, Set<DocenteVO> correctores) 
 	{
 		proyectoService.modificar(  id, 
 									nombre, 

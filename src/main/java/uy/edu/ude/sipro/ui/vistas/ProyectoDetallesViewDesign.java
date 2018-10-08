@@ -31,7 +31,7 @@ public class ProyectoDetallesViewDesign extends VerticalLayout {
 	protected TextField txtNombreProyecto;
 	protected TextField txtCarrera;
 	protected Grid<uy.edu.ude.sipro.valueObjects.DocenteVO> grdCorrectores;
-	protected ComboBox<java.lang.String> cmbCorrectores;
+	protected ComboBox<uy.edu.ude.sipro.valueObjects.DocenteVO> cmbCorrectores;
 	protected Button btnAgregarCorrector;
 	protected Button btnEliminarCorrector;
 	protected HorizontalLayout contenedorAnioNota;

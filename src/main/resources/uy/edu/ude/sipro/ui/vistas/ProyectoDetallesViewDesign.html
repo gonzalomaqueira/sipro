@@ -50,27 +50,27 @@
       <vaadin-grid style-name="half" id="grdCorrectores" height-mode="undefined" width-full data-item-type="uy.edu.ude.sipro.valueObjects.DocenteVO" _id="grdCorrectores">
        <table>
         <colgroup>
+         <col column-id="id" sortable>
          <col column-id="nombre" sortable>
          <col column-id="apellido" sortable>
+         <col column-id="nombreCompleto" sortable>
         </colgroup>
         <thead>
          <tr default>
+          <th plain-text column-ids="id">Id</th>
           <th plain-text column-ids="nombre">Nombre</th>
           <th plain-text column-ids="apellido">Apellido</th>
+          <th plain-text column-ids="nombreCompleto">NombreCompleto</th>
          </tr>
         </thead>
         <tbody></tbody>
        </table>
       </vaadin-grid>
-      <vaadin-combo-box id="cmbCorrectores" data-item-type="java.lang.String" readonly _id="cmbCorrectores">
-       <option item="Option1">Option 1</option>
-       <option item="Option2">Option 2</option>
-       <option item="Option3">Option 3</option>
-      </vaadin-combo-box>
+      <vaadin-combo-box id="cmbCorrectores" data-item-type="uy.edu.ude.sipro.valueObjects.DocenteVO" _id="cmbCorrectores"></vaadin-combo-box>
       <vaadin-button icon="fonticon://Vaadin-Icons/e801" style-name="icon-only friendly small" id="btnAgregarCorrector" plain-text _id="btnAgregarCorrector">
         Agregar 
       </vaadin-button>
-      <vaadin-button icon="fonticon://Vaadin-Icons/e91b" style-name="danger icon-only small" id="btnEliminarCorrector" width="31px" plain-text _id="btnEliminarCorrector">
+      <vaadin-button visible="false" icon="fonticon://Vaadin-Icons/e91b" style-name="danger icon-only small" id="btnEliminarCorrector" width="31px" plain-text _id="btnEliminarCorrector">
         Eliminar 
       </vaadin-button>
      </vaadin-horizontal-layout>

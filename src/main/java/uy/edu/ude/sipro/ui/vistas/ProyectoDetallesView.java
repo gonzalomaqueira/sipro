@@ -14,11 +14,13 @@ import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.components.grid.SingleSelectionModel;
 
 import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
 import uy.edu.ude.sipro.navegacion.NavigationManager;
 import uy.edu.ude.sipro.service.Fachada;
 import uy.edu.ude.sipro.utiles.FuncionesTexto;
+import uy.edu.ude.sipro.valueObjects.DocenteVO;
 import uy.edu.ude.sipro.valueObjects.ElementoVO;
 import uy.edu.ude.sipro.valueObjects.ProyectoDetalleVO;
 
@@ -30,17 +32,22 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 	private Fachada fachada;
 
 	private ProyectoDetalleVO proyecto;
+    private DocenteVO correctorSeleccionado;
+    private Set<DocenteVO> listaCorrectores;
     private final NavigationManager navigationManager;
     
     @Autowired
     public ProyectoDetallesView (NavigationManager navigationManager)
     {
     	this.navigationManager = navigationManager;
+    	this.listaCorrectores = new HashSet<DocenteVO>();	
     }
 	
 	public void enter(ViewChangeEvent event)
 	{
 		cargarInterfazInicial();
+
+
 		String idProyecto = event.getParameters();
 		if ("".equals(idProyecto))
 		{
@@ -50,12 +57,12 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 		{
 			cargarVistaModificarProyecto(Integer.parseInt(idProyecto));
 		}
+		cargarCmbCorrectores();
 		
 		btnGuardar.addClickListener(new Button.ClickListener()
 		{
 			public void buttonClick(ClickEvent event)
-			{						
-				
+			{										
 				try 
 				{
 					if( !txtNombreProyecto.isEmpty() && !txtAnio.isEmpty() && !txtCarrera.isEmpty() && !txtNota.isEmpty() && !txtResumen.isEmpty() 
@@ -85,9 +92,6 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 		    		e.printStackTrace();
 					cargarVistaModificarProyecto(proyecto.getId());		
 				}
-
-				
-				
 			}
 		});
 		
@@ -121,6 +125,56 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 				navigationManager.navigateTo(ProyectoListadoView.class);
 			}
 		});
+		
+		cmbCorrectores.addValueChangeListener(evt -> 
+		{
+		    if (!evt.getSource().isEmpty()) 
+		    {
+		    	correctorSeleccionado= evt.getValue();
+		    	btnAgregarCorrector.setEnabled(true);
+		    }
+		});
+		
+		grdCorrectores.addSelectionListener(evt -> 
+		{
+			SingleSelectionModel<DocenteVO> singleSelect = (SingleSelectionModel<DocenteVO>) grdCorrectores.getSelectionModel();
+			singleSelect.setDeselectAllowed(false);
+			try
+			{
+				if (singleSelect.getSelectedItem() != null)
+				{
+					correctorSeleccionado = singleSelect.getSelectedItem().get();
+					btnAgregarCorrector.setEnabled(false);
+					btnEliminarCorrector.setVisible(true);
+				}
+			}
+			catch (Exception e)
+			{
+			}
+		});
+		
+		btnAgregarCorrector.addClickListener(new Button.ClickListener()
+		{
+			public void buttonClick(ClickEvent event)
+			{	
+				if(correctorSeleccionado.getId()!=0)//ver esto, no detecta null, ver si en base nunca genera un elemento id =0!!!!!!!
+				{
+					listaCorrectores.add(correctorSeleccionado);
+					grdCorrectores.setItems(listaCorrectores);
+					cargarCmbCorrectores();
+				}
+			}
+		});
+		
+		btnEliminarCorrector.addClickListener(new Button.ClickListener()
+		{
+			public void buttonClick(ClickEvent event)
+			{			
+				listaCorrectores.remove(correctorSeleccionado);
+				grdCorrectores.setItems( listaCorrectores );
+				cargarCmbCorrectores();
+			}
+		});
 	}
 	
 	private void cargarVistaNuevoProyecto()
@@ -136,7 +190,7 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 		{
 			txtNombreProyecto.setValue(proyecto.getNombre());
 			txtCarrera.setValue(proyecto.getCarrera() != null ? proyecto.getCarrera() : "");
-			grdCorrectores.setItems(proyecto.getCorrector());
+			grdCorrectores.setItems(proyecto.getCorrectores());
 			txtNota.setValue(Integer.toString(proyecto.getNota()));
 			txtAnio.setValue(Integer.toString(proyecto.getAnio()));
 			txtTutor.setValue(FuncionesTexto.convertirArrayAStringSaltoLinea(new ArrayList<String>(proyecto.getTutorString())));
@@ -164,12 +218,14 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 		permitirEdicion(false);
 		btnEditar.setVisible(true);
 		btnGuardar.setVisible(false);
+		cmbCorrectores.setEnabled(false);
 	}
 	
 	private void cargarInterfazModificar()
 	{
 		btnEditar.setVisible(false);
 		btnGuardar.setVisible(true);
+		cmbCorrectores.setEnabled(true);
 		permitirEdicion(true);
 	}
 	
@@ -180,7 +236,8 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 		proyecto.setNota( Integer.parseInt(txtNota.getValue()) );
 		proyecto.setAnio( Integer.parseInt(txtAnio.getValue()) );
 		//proyecto.setTutor(FuncionesTexto.convertirStringAArrayList(txtTutor.getValue()));
-		proyecto.setAlumnos(new HashSet<String>(FuncionesTexto.convertirStringAArrayList(txtAlumnos.getValue())));
+		proyecto.setTutorString(FuncionesTexto.convertirStringAArrayList(txtTutor.getValue()));
+		proyecto.setAlumnos(FuncionesTexto.convertirStringAArrayList(txtAlumnos.getValue()));
 		proyecto.setResumen(txtResumen.getValue());
 	}
 	
@@ -191,6 +248,7 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 			this.txtNombreProyecto.setReadOnly(false);
 			this.txtCarrera.setReadOnly(false);
 			this.grdCorrectores.setEnabled(true);
+			this.cmbCorrectores.setEnabled(true);
 			this.txtNota.setReadOnly(false);
 			this.txtAnio.setReadOnly(false);
 			this.txtTutor.setReadOnly(false);
@@ -202,6 +260,7 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 			this.txtNombreProyecto.setReadOnly(true);
 			this.txtCarrera.setReadOnly(true);
 			this.grdCorrectores.setEnabled(false);
+			this.cmbCorrectores.setEnabled(false);
 			this.txtNota.setReadOnly(true);
 			this.txtAnio.setReadOnly(true);
 			this.txtTutor.setReadOnly(true);
@@ -209,4 +268,33 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 			this.txtResumen.setReadOnly(true);
 		}	
 	}
+	
+	private void cargarCmbCorrectores()
+	{
+		if(proyecto.getCorrectores()!=null)
+		{
+			listaCorrectores.addAll(proyecto.getCorrectores());
+		}
+
+		Set<DocenteVO> correctores= fachada.obtenerDocentes();
+		Set<DocenteVO> correctoresAux = new HashSet<DocenteVO>(correctores);
+		for(DocenteVO cor : correctoresAux)
+		{				
+			for(DocenteVO corAux : listaCorrectores)
+			{
+				if(cor.getId()==corAux.getId())
+				{
+					correctores.remove(cor);
+				    break;
+				}
+			}
+		}
+		cmbCorrectores.setItems(correctores);
+		cmbCorrectores.setItemCaptionGenerator(DocenteVO::getNombreCompleto);
+		cmbCorrectores.setValue(null);
+		btnAgregarCorrector.setEnabled(false);
+
+
+	}
+
 }

@@ -20,9 +20,24 @@ public class FuncionesTexto
         ArrayList<String> contenido = new ArrayList<String>();
         boolean encontreTitulo = false;
 		
-		for (String linea : textoOriginal)
-        {			
-    	    if (esTitulo(linea))
+        documentoPorSecciones.add(armarSeccionAlumnos(textoOriginal));
+        documentoPorSecciones.add(armarSeccionTutor(textoOriginal));
+         
+        List<String> Textolista = new ArrayList<String>(Arrays.asList(textoOriginal));
+        
+        for (String linea : textoOriginal)
+        {
+        	if (!FuncionesTexto.esTituloResumen(linea))
+        	{
+        		Textolista.remove(0);
+        	}
+        	else
+        		break;
+        }
+        
+		for (String linea : Textolista)
+        {
+    	    if (FuncionesTexto.esTitulo(linea))
     	    {
     	    	encontreTitulo = true;
     	    	if (seccion != null)
@@ -282,7 +297,6 @@ public class FuncionesTexto
 	{
 		for (String linea: seccion.getContenido())
 		{
-//			if (linea.contains(texto))
 			if (isContain(linea, texto))
 				return true;
 		}
@@ -361,12 +375,7 @@ public class FuncionesTexto
 		return new ArrayList<String>(Arrays.asList(texto.split("\n")));
 	}
 	
-	public static ArrayList<String> convertirSetAList(HashSet<String> entrada)
-	{
-		return new ArrayList<String>(entrada);
-	}
-	
-	public static boolean SetContieneString (HashSet<String> hashSet, String string)	
+	public static boolean ListaContieneString (ArrayList<String> hashSet, String string)	
 	{
 		for (String str : hashSet)
 		{

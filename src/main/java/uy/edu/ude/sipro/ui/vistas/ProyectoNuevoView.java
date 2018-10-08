@@ -113,9 +113,7 @@ public class ProyectoNuevoView extends ProyectoNuevoViewDesign implements View
 		{
 		    if (!evt.getSource().isEmpty()) 
 		    {
-		    	correctorSeleccionado= new DocenteVO();
-		    	correctorSeleccionado.setId(evt.getValue().getId());
-		    	correctorSeleccionado.setNombre(evt.getValue().getNombre());
+		    	correctorSeleccionado= evt.getValue();
 		    	btnAgregarCorrector.setEnabled(true);
 		    }
 		});
@@ -131,7 +129,16 @@ public class ProyectoNuevoView extends ProyectoNuevoViewDesign implements View
 					cargarCmbCorrectores();
 				}
 			}
-
+		});
+		
+		btnEliminarCorrector.addClickListener(new Button.ClickListener()
+		{
+			public void buttonClick(ClickEvent event)
+			{			
+				listaCorrectores.remove(correctorSeleccionado);
+				grdCorrectores.setItems( listaCorrectores );
+				cargarCmbCorrectores();
+			}
 		});
 		
 		grdCorrectores.addSelectionListener(evt -> 
@@ -188,14 +195,14 @@ public class ProyectoNuevoView extends ProyectoNuevoViewDesign implements View
 				}
 			}
 			cmbCorrectores.setItems(correctores);
-			cmbCorrectores.setItemCaptionGenerator(DocenteVO::getNombre);
+			cmbCorrectores.setItemCaptionGenerator(DocenteVO::getNombreCompleto);
 			cmbCorrectores.setValue(null);
 			btnAgregarCorrector.setEnabled(false);
 		}
 		else
 		{
 			cmbCorrectores.setItems(fachada.obtenerDocentes());
-			cmbCorrectores.setItemCaptionGenerator(DocenteVO::getNombre);
+			cmbCorrectores.setItemCaptionGenerator(DocenteVO::getNombreCompleto);
 		}
 
 	}

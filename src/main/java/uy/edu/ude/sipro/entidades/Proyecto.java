@@ -61,13 +61,13 @@ public class Proyecto
 
 	@Size(min = 1, max = 255)
 	@Column(name = "Tutor")
-	private HashSet<String> tutorString;
+	private ArrayList<String> tutorString;
     
 	@Column(name = "Nota")
 	private int nota;
 
 	@Column(name = "Alumnos")
-	private HashSet<String> alumnos;
+	private ArrayList<String> alumnos;
 
 	@NotNull
 	@Column(name = "RutaArchivo")
@@ -113,13 +113,13 @@ public class Proyecto
 	}
 
 	public Proyecto(String nombre, int anio, String carrera, Set<Docente> correctores, int nota, 
-			HashSet<String> alumnos, Docente tutor, String rutaArchivo, String resumen)
+			ArrayList<String> alumnos, Docente tutor, String rutaArchivo, String resumen)
 	{
 		this(nombre, carrera, correctores, nota, rutaArchivo);
 		this.anio = anio;
 		this.carrera = carrera;
 		this.alumnos = alumnos;
-		this.tutor = tutor;
+		this.tutor = tutor;		
 		this.correctores = correctores;
 		this.resumen = resumen;
 	}
@@ -136,8 +136,8 @@ public class Proyecto
 	public Docente getTutor() {	return tutor; }
 	public void setTutor(Docente tutor) { this.tutor = tutor; }
 	
-	public HashSet<String> getTutorString() {	return tutorString;	}
-	public void setTutorString(HashSet<String> tutorString) {	this.tutorString = tutorString;	}
+	public ArrayList<String> getTutorString() {	return tutorString;	}
+	public void setTutorString(ArrayList<String> tutorString) {	this.tutorString = tutorString;	}
 
 	public String getCarrera() { return carrera; }
 	public void setCarrera(String carrera) { this.carrera = carrera; }
@@ -148,8 +148,8 @@ public class Proyecto
 	public int getNota() { return nota; }
 	public void setNota(int nota) { this.nota = nota; }
 	
-	public HashSet<String> getAlumnos() { return alumnos; }
-	public void setAlumnos(HashSet<String> alumnos) { this.alumnos = alumnos; }
+	public ArrayList<String> getAlumnos() { return alumnos; }
+	public void setAlumnos(ArrayList<String> alumnos) { this.alumnos = alumnos; }
 
 	public String getRutaArchivo() { return rutaArchivo; }
 	public void setRutaArchivo(String rutaArchivo) { this.rutaArchivo = rutaArchivo;}
@@ -222,7 +222,7 @@ public class Proyecto
 		return contenido;
 	}
 	
-	public HashSet<String> devolverAlumnos () 
+	public ArrayList<String> devolverAlumnos () 
 	{
 		if( this.DocumentoPorSecciones!=null ) 
 		{
@@ -237,22 +237,22 @@ public class Proyecto
 			}
 			if(secAlumnos!=null)
 			{
-				return limpiarAlumnos(new HashSet<String>(secAlumnos.getContenido()));
+				return limpiarAlumnos(secAlumnos.getContenido());
 			}
 		}
 		return null;
 	}
 	
-	private HashSet<String> limpiarAlumnos(HashSet<String> contenido)
+	private ArrayList<String> limpiarAlumnos(ArrayList<String> contenido)
 	{		
-		contenido = new HashSet<String>(FuncionesTexto.eliminarLineasVacias(FuncionesTexto.convertirSetAList(contenido)));
-		contenido = new HashSet<String>(FuncionesTexto.eliminarEspacios(FuncionesTexto.convertirSetAList(contenido)));
-		contenido = new HashSet<String>(FuncionesTexto.separarAlumnos(FuncionesTexto.convertirSetAList(contenido)));
+		contenido = FuncionesTexto.eliminarLineasVacias(contenido);
+		contenido = FuncionesTexto.eliminarEspacios(contenido);
+		contenido = FuncionesTexto.separarAlumnos(contenido);
 		
 		return contenido;
 	}
 	
-	public HashSet<String> devolverTutor()
+	public ArrayList<String> devolverTutor()
 	{
 		if( this.DocumentoPorSecciones!=null ) 
 		{
@@ -267,16 +267,16 @@ public class Proyecto
 			}
 			if(secTutor!=null)
 			{
-				return limpiarTutor(new HashSet<String>(secTutor.getContenido()));
+				return limpiarTutor(secTutor.getContenido());
 			}
 		}
 		return null;
 	}
 	
-	private HashSet<String> limpiarTutor(HashSet<String> contenido)
+	private ArrayList<String> limpiarTutor(ArrayList<String> contenido)
 	{		
-		contenido = new HashSet<String>(FuncionesTexto.eliminarLineasVacias(FuncionesTexto.convertirSetAList(contenido)));
-		contenido = new HashSet<String>(FuncionesTexto.eliminarEspacios(FuncionesTexto.convertirSetAList(contenido)));
+		contenido = FuncionesTexto.eliminarLineasVacias(contenido);
+		contenido = FuncionesTexto.eliminarEspacios(contenido);
 		
 		return contenido;
 	}

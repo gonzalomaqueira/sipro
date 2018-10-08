@@ -23,7 +23,6 @@ import uy.edu.ude.sipro.service.interfaces.ElementoService;
 import uy.edu.ude.sipro.service.interfaces.ProyectoService;
 import uy.edu.ude.sipro.entidades.Enumerados.EstadoProyectoEnum;
 import uy.edu.ude.sipro.dao.interfaces.ProyectoDao;
-import uy.edu.ude.sipro.utiles.ConversorValueObject;
 import uy.edu.ude.sipro.utiles.FuncionesTexto;
 import uy.edu.ude.sipro.utiles.SeccionTexto;
 
@@ -82,7 +81,7 @@ public class ProyectoServiceImp implements ProyectoService
 	
 	@Transactional
 	@Override
-	public void modificar(int id, String nombre, int anio, String carrera, int nota, String resumen, HashSet<String> alumnos, Docente tutor, Set<Docente> correctores)
+	public void modificar(int id, String nombre, int anio, String carrera, int nota, String resumen, ArrayList<String> alumnos, Docente tutor, Set<Docente> correctores)
 	{
 		Proyecto proy= this.obtenerProyectoPorId(id);
 		proy.setNombre(nombre);
@@ -210,8 +209,8 @@ public class ProyectoServiceImp implements ProyectoService
 			Set<Docente> docentes = docenteService.obtenerDocentes();
 			for (Docente doc : docentes)
 			{
-				if (FuncionesTexto.SetContieneString(proyecto.getTutorString(), doc.getApellido())
-				 && FuncionesTexto.SetContieneString(proyecto.getTutorString(), doc.getNombre()))
+				if (FuncionesTexto.ListaContieneString(proyecto.getTutorString(), doc.getApellido())
+				 && FuncionesTexto.ListaContieneString(proyecto.getTutorString(), doc.getNombre()))
 				{
 					proyecto.setTutor(doc);
 					break;

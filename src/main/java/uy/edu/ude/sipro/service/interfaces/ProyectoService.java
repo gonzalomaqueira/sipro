@@ -1,7 +1,7 @@
 package uy.edu.ude.sipro.service.interfaces;
 
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Set;
 
 import uy.edu.ude.sipro.entidades.Docente;
@@ -13,7 +13,7 @@ public interface ProyectoService
 {
 	void agregar(String nombre, String carrera, Set<DocenteVO> correctores, int nota, String rutaArchivo);
 	void modificar(int id, String nombre, int anio, String carrera, int nota, String rutaArchivo);
-	public void modificar(int id, String nombre, int anio, String carrera, int nota, String resumen, HashSet<String> alumnos, Docente tutor, Set<Docente> correctores);
+	public void modificar(int id, String nombre, int anio, String carrera, int nota, String resumen, ArrayList<String> alumnos, Docente tutor, Set<Docente> correctores);
 	void eliminar(int id);
     Set<Proyecto> obtenerProyectos();
 	Proyecto obtenerProyectoPorId(int idProyecto);

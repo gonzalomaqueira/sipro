@@ -205,19 +205,27 @@ public class ConversorValueObject
 	
 	public static Docente convertirDocenteVOaDocente(DocenteVO docente)
 	{
-		Docente doc= new Docente();
-		doc.setId(docente.getId());
-		doc.setNombre(docente.getNombre());
-		doc.setApellido(docente.getApellido());
+		Docente doc= null;
+		if (docente != null)
+		{
+			doc = new Docente();
+			doc.setId(docente.getId());
+			doc.setNombre(docente.getNombre());
+			doc.setApellido(docente.getApellido());
+		}
 		return doc;
 	}
 	
 	public static Set<Docente> convertirListaDocenteVOaDocente(Set<DocenteVO> docentes)
 	{
-		Set<Docente> vRetorno= new HashSet<Docente>();
-		for(DocenteVO docente : docentes)
+		Set<Docente> vRetorno = null;
+		if (docentes != null)
 		{
-			vRetorno.add(convertirDocenteVOaDocente(docente));
+			vRetorno= new HashSet<Docente>();
+			for(DocenteVO docente : docentes)
+			{
+				vRetorno.add(convertirDocenteVOaDocente(docente));
+			}
 		}
 		return vRetorno;
 	}
