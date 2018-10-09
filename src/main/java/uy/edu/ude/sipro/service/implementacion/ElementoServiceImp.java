@@ -2,7 +2,6 @@ package uy.edu.ude.sipro.service.implementacion;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +16,6 @@ import uy.edu.ude.sipro.dao.interfaces.ElementoDao;
 import uy.edu.ude.sipro.entidades.Sinonimo;
 import uy.edu.ude.sipro.service.interfaces.ElementoService;
 import uy.edu.ude.sipro.service.interfaces.SinonimoService;
-import uy.edu.ude.sipro.utiles.ConversorValueObject;
-import uy.edu.ude.sipro.valueObjects.ElementoVO;
 import uy.edu.ude.sipro.valueObjects.SinonimoVO;
 import uy.edu.ude.sipro.valueObjects.SubElementoVO;
 

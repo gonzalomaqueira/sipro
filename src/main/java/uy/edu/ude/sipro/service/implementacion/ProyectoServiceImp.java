@@ -2,9 +2,7 @@ package uy.edu.ude.sipro.service.implementacion;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -81,20 +79,48 @@ public class ProyectoServiceImp implements ProyectoService
 	
 	@Transactional
 	@Override
-	public void modificar(int id, String nombre, int anio, String carrera, int nota, String resumen, ArrayList<String> alumnos, Docente tutor, Set<Docente> correctores)
+	public void modificar(int id, String nombre, int anio, String carrera, int nota, String resumen, ArrayList<String> alumnos, ArrayList<String> tutorString, Set<Docente> correctores)
 	{
 		Proyecto proy= this.obtenerProyectoPorId(id);
 		proy.setNombre(nombre);
 		proy.setAnio(anio);
 		proy.setCarrera(carrera);
-		proy.setTutor(tutor);
-		proy.setCorrectores(correctores);
+		proy.setTutorString(tutorString);
 		proy.setNota(nota);
 		proy.setResumen(resumen);
 		proy.setAlumnos(alumnos);
+		this.cargarTutorPorString(proy);
+		
+		Set<Docente> docentes= docenteService.obtenerDocentes();
+		Set<Docente> docentesRetorno=  new HashSet<Docente>();
+		
+		for(Docente d : proy.getCorrectores())
+		{
+			for(Docente doc : docentes)
+			{
+				if(d.getId()==doc.getId())
+				{
+					doc.getProyectosComoCorrector().remove(proy);
+				}
+			}
+		}
+		
+		for(Docente d : correctores)
+		{
+			for(Docente doc : docentes)
+			{
+				if(d.getId()==doc.getId())
+				{
+					docentesRetorno.add(doc);
+					doc.getProyectosComoCorrector().add(proy);
+				}
+			}
+		}		
+	
+		proy.setCorrectores(docentesRetorno);
 		proyectoDao.modificar(proy);
 	}
-		
+
 	@Transactional
 	@Override
 	public void eliminar(int id) 
@@ -204,6 +230,7 @@ public class ProyectoServiceImp implements ProyectoService
 	@Override
 	public void cargarTutorPorString(Proyecto proyecto)
 	{
+		proyecto.setTutor(null);
 		if (!proyecto.getTutorString().isEmpty())
 		{
 			Set<Docente> docentes = docenteService.obtenerDocentes();

@@ -62,7 +62,7 @@ public class Fachada {
 	}
 	
 	public void modificarProyectoCompleto(int id, String nombre, int anio, String carrera, int nota, String resumen, 
-			ArrayList<String> alumnos, DocenteVO tutor, Set<DocenteVO> correctores) 
+			ArrayList<String> alumnos, ArrayList<String> tutorString, Set<DocenteVO> correctores) 
 	{
 		proyectoService.modificar(  id, 
 									nombre, 
@@ -71,7 +71,7 @@ public class Fachada {
 									nota, 
 									resumen, 
 									alumnos, 
-									ConversorValueObject.convertirDocenteVOaDocente(tutor),
+									tutorString,
 									ConversorValueObject.convertirListaDocenteVOaDocente(correctores));
 	}
 	

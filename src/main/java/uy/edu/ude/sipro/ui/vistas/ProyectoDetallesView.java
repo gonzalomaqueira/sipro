@@ -2,7 +2,6 @@ package uy.edu.ude.sipro.ui.vistas;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +33,7 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 	private ProyectoDetalleVO proyecto;
     private DocenteVO correctorSeleccionado;
     private Set<DocenteVO> listaCorrectores;
+    private Set<DocenteVO> listaDocentes;
     private final NavigationManager navigationManager;
     
     @Autowired
@@ -41,12 +41,13 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
     {
     	this.navigationManager = navigationManager;
     	this.listaCorrectores = new HashSet<DocenteVO>();	
+    	this.listaDocentes= new HashSet<DocenteVO>();
     }
 	
 	public void enter(ViewChangeEvent event)
 	{
 		cargarInterfazInicial();
-
+		this.listaDocentes= fachada.obtenerDocentes();
 
 		String idProyecto = event.getParameters();
 		if ("".equals(idProyecto))
@@ -76,8 +77,8 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 															proyecto.getNota(),
 															proyecto.getResumen(),
 															proyecto.getAlumnos(),
-															null,
-															null);
+															proyecto.getTutorString(),															
+															proyecto.getCorrectores());
 							
 						
 					     Notification.show("Proyecto modificado exitosamente", Notification.Type.HUMANIZED_MESSAGE);
@@ -146,6 +147,7 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 					correctorSeleccionado = singleSelect.getSelectedItem().get();
 					btnAgregarCorrector.setEnabled(false);
 					btnEliminarCorrector.setVisible(true);
+					btnEliminarCorrector.setEnabled(true);
 				}
 			}
 			catch (Exception e)
@@ -162,6 +164,7 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 					listaCorrectores.add(correctorSeleccionado);
 					grdCorrectores.setItems(listaCorrectores);
 					cargarCmbCorrectores();
+					
 				}
 			}
 		});
@@ -172,7 +175,9 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 			{			
 				listaCorrectores.remove(correctorSeleccionado);
 				grdCorrectores.setItems( listaCorrectores );
+				btnEliminarCorrector.setEnabled(false);
 				cargarCmbCorrectores();
+				
 			}
 		});
 	}
@@ -186,6 +191,8 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 	private void cargarVistaModificarProyecto(int idProyecto)
 	{
 		proyecto = fachada.obtenerProyectoPorId(idProyecto);
+		listaCorrectores= proyecto.getCorrectores();
+		actualizarListaCorrectores();
 		if (proyecto != null)
 		{
 			txtNombreProyecto.setValue(proyecto.getNombre());
@@ -233,9 +240,9 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 	{
 		proyecto.setNombre(txtNombreProyecto.getValue());
 		proyecto.setCarrera(txtCarrera.getValue());
-		proyecto.setNota( Integer.parseInt(txtNota.getValue()) );
-		proyecto.setAnio( Integer.parseInt(txtAnio.getValue()) );
-		//proyecto.setTutor(FuncionesTexto.convertirStringAArrayList(txtTutor.getValue()));
+		proyecto.setNota( Integer.parseInt(txtNota.getValue()));
+		proyecto.setAnio( Integer.parseInt(txtAnio.getValue()));
+		proyecto.setCorrectores(listaCorrectores);
 		proyecto.setTutorString(FuncionesTexto.convertirStringAArrayList(txtTutor.getValue()));
 		proyecto.setAlumnos(FuncionesTexto.convertirStringAArrayList(txtAlumnos.getValue()));
 		proyecto.setResumen(txtResumen.getValue());
@@ -271,30 +278,44 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 	
 	private void cargarCmbCorrectores()
 	{
-		if(proyecto.getCorrectores()!=null)
-		{
-			listaCorrectores.addAll(proyecto.getCorrectores());
-		}
-
-		Set<DocenteVO> correctores= fachada.obtenerDocentes();
-		Set<DocenteVO> correctoresAux = new HashSet<DocenteVO>(correctores);
+		actualizarListaCorrectores();
+		Set<DocenteVO> correctoresCombo = new HashSet<DocenteVO>(listaDocentes);
+		Set<DocenteVO> correctoresAux = new HashSet<DocenteVO>(correctoresCombo);
 		for(DocenteVO cor : correctoresAux)
 		{				
 			for(DocenteVO corAux : listaCorrectores)
 			{
 				if(cor.getId()==corAux.getId())
 				{
-					correctores.remove(cor);
+					correctoresCombo.remove(cor);
 				    break;
 				}
 			}
 		}
-		cmbCorrectores.setItems(correctores);
+		cmbCorrectores.setItems(correctoresCombo);
 		cmbCorrectores.setItemCaptionGenerator(DocenteVO::getNombreCompleto);
 		cmbCorrectores.setValue(null);
 		btnAgregarCorrector.setEnabled(false);
 
-
+	}
+	
+	private void actualizarListaCorrectores()
+	{
+		Set<DocenteVO> correctoresAux = new HashSet<DocenteVO>(listaCorrectores);
+		listaCorrectores= new HashSet<DocenteVO>();
+		if(correctoresAux!=null)
+		{
+			for (DocenteVO cor : correctoresAux)
+			{
+				for (DocenteVO doc : listaDocentes) 
+				{
+					if (cor.getId() == doc.getId())
+					{
+						listaCorrectores.add(doc);
+					}
+				}				
+			}
+		}
 	}
 
 }

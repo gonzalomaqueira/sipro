@@ -13,7 +13,7 @@ public interface ProyectoService
 {
 	void agregar(String nombre, String carrera, Set<DocenteVO> correctores, int nota, String rutaArchivo);
 	void modificar(int id, String nombre, int anio, String carrera, int nota, String rutaArchivo);
-	public void modificar(int id, String nombre, int anio, String carrera, int nota, String resumen, ArrayList<String> alumnos, Docente tutor, Set<Docente> correctores);
+	public void modificar(int id, String nombre, int anio, String carrera, int nota, String resumen, ArrayList<String> alumnos, ArrayList<String> tutorString, Set<Docente> correctores);
 	void eliminar(int id);
     Set<Proyecto> obtenerProyectos();
 	Proyecto obtenerProyectoPorId(int idProyecto);
