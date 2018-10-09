@@ -27,8 +27,8 @@ public class UsuarioDetalleViewDesign extends VerticalLayout {
 	protected Button btnCancelar;
 	protected TextField txtUsuario;
 	protected HorizontalLayout contenedorAnioNota1;
-	protected TextField txtAnio1;
-	protected TextField txtNota1;
+	protected TextField txtContrasenia;
+	protected TextField txtRepetirContasenia;
 	protected Label lblContraseñasIguales;
 	protected Label lblContraseñasIncorrectas;
 	protected HorizontalLayout contenedorAnioNota2;
@@ -36,7 +36,7 @@ public class UsuarioDetalleViewDesign extends VerticalLayout {
 	protected TextField txtApellido;
 	protected HorizontalLayout contenedorAnioNota21;
 	protected TextField txtEmail;
-	protected ComboBox<java.lang.String> cmbPerfil;
+	protected ComboBox<uy.edu.ude.sipro.valueObjects.PerfilVO> cmbPerfil;
 
 	public UsuarioDetalleViewDesign() {
 		Design.read(this);

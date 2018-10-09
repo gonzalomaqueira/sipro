@@ -3,7 +3,7 @@
  <head>
   <meta charset="UTF-8">
   <meta name="design-properties" content="{&quot;RULERS_VISIBLE&quot;:true,&quot;GUIDELINES_VISIBLE&quot;:false,&quot;SNAP_TO_OBJECTS&quot;:true,&quot;SNAP_TO_GRID&quot;:true,&quot;SNAPPING_DISTANCE&quot;:10,&quot;GENERATE_GETTERS&quot;:false,&quot;JAVA_SOURCES_ROOT&quot;:&quot;src/main/java&quot;,&quot;THEME&quot;:&quot;siprotema&quot;}">
-  <meta name="vaadin-version" content="8.1.5">
+  <meta name="vaadin-version" content="8.0.5">
   <meta name="package-mapping" content="com_gmail_damien_ui_view_admin:com.gmail.damien.ui.view.admin">
  </head>
  <body>
@@ -24,7 +24,29 @@
     </vaadin-css-layout>
     <vaadin-css-layout></vaadin-css-layout>
     <vaadin-css-layout size-full>
-     <vaadin-grid id="grdElementoProyecto" height-mode="undefined" width-full _id="grdElementoProyecto"></vaadin-grid>
+     <vaadin-grid style-name="half" id="grdUsuarios" height-mode="undefined" width-full data-item-type="uy.edu.ude.sipro.valueObjects.UsuarioVO" _id="grdUsuarios">
+      <table>
+       <colgroup>
+        <col column-id="id" sortable>
+        <col column-id="usuario" sortable>
+        <col column-id="nombre" sortable>
+        <col column-id="apellido" sortable>
+        <col column-id="email" sortable>
+        <col column-id="perfil" sortable>
+       </colgroup>
+       <thead>
+        <tr default>
+         <th plain-text column-ids="id">Id</th>
+         <th plain-text column-ids="usuario">Usuario</th>
+         <th plain-text column-ids="nombre">Nombre</th>
+         <th plain-text column-ids="apellido">Apellido</th>
+         <th plain-text column-ids="email">Email</th>
+         <th plain-text column-ids="perfil">Perfil</th>
+        </tr>
+       </thead>
+       <tbody></tbody>
+      </table>
+     </vaadin-grid>
     </vaadin-css-layout>
    </vaadin-css-layout>
   </vaadin-vertical-layout>
