@@ -1,7 +1,6 @@
 package uy.edu.ude.sipro.ui.vistas;
 
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -27,7 +26,7 @@ public class ProyectoListadoView extends ProyectoListadoViewDesign implements Vi
 	private Fachada fachada;
 	
 	private ProyectoVO proyectoSeleccionado;
-	private Set<ProyectoVO> listaProyectos;
+	private List<ProyectoVO> listaProyectos;
 	
 	private final NavigationManager navigationManager;
 	

@@ -231,7 +231,7 @@ public class ProyectoServiceImp implements ProyectoService
 	public void cargarTutorPorString(Proyecto proyecto)
 	{
 		proyecto.setTutor(null);
-		if (!proyecto.getTutorString().isEmpty())
+		if (proyecto.getTutorString() != null && !proyecto.getTutorString().isEmpty())
 		{
 			Set<Docente> docentes = docenteService.obtenerDocentes();
 			for (Docente doc : docentes)

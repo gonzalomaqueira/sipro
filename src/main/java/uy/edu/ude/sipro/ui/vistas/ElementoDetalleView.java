@@ -32,15 +32,15 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 	private Fachada fachada;
 	
 	//Lista con todos los elementos con su direccion correcta
-	private Set<ElementoVO> listaElementos;
+	private List<ElementoVO> listaElementos;
 	
 	private ElementoVO elemento=null;
 	
-	private Set<SinonimoVO> listaSinonimos= new HashSet<SinonimoVO>();
+	private List<SinonimoVO> listaSinonimos= new ArrayList<SinonimoVO>();
 	
 	private SinonimoVO sinonimoSeleccionado;
 	
-	private Set<SubElementoVO> listaSubElementoRelacionados= new HashSet<SubElementoVO>();
+	private List<SubElementoVO> listaSubElementoRelacionados= new ArrayList<SubElementoVO>();
 	
 	private SubElementoVO subElementoSeleccionado= new SubElementoVO();
 	
@@ -331,7 +331,7 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 	private void cargarListaRelacionados(int idElemento)
 	{
 		
-		listaSubElementoRelacionados= new HashSet<SubElementoVO>(elemento.getElementosRelacionados());
+		listaSubElementoRelacionados= elemento.getElementosRelacionados();
 		elemento.getElementosRelacionados().removeAll(elemento.getElementosRelacionados());
 		this.grdElementoProyecto.setItems( listaSubElementoRelacionados );
 	}
@@ -358,8 +358,8 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 		if(elemento != null)
 		{
 			//Elimina del combo relaciones a el mismo
-			Set<ElementoVO> relaciones= fachada.obtenerElementos();
-			Set<ElementoVO> relacionesAux= new HashSet<ElementoVO>(relaciones);
+			List<ElementoVO> relaciones= fachada.obtenerElementos();
+			List<ElementoVO> relacionesAux= new ArrayList<ElementoVO>(relaciones);
 			for(ElementoVO elem : relacionesAux)
 			{
 				if(elem.getId()==elemento.getId())
@@ -388,7 +388,7 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 		}
 	}
 	
-	private boolean listaContieneSinonimo(Set<SinonimoVO> listaSinonimos, String sinonimoBuscado)
+	private boolean listaContieneSinonimo(List<SinonimoVO> listaSinonimos, String sinonimoBuscado)
 	{
 		for (SinonimoVO sinonimo : listaSinonimos)
 		{

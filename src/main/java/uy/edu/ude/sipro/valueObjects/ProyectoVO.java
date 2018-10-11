@@ -3,7 +3,7 @@ package uy.edu.ude.sipro.valueObjects;
 import uy.edu.ude.sipro.entidades.Enumerados;
 import uy.edu.ude.sipro.entidades.Enumerados.EstadoProyectoEnum;
 
-public class ProyectoVO
+public class ProyectoVO implements Comparable
 {
 	private int id;
 
@@ -74,5 +74,11 @@ public class ProyectoVO
 
 	public void setEstado(Enumerados.EstadoProyectoEnum estado) {
 		this.estado = estado;
-	}	
+	}
+
+	@Override
+	public int compareTo(Object comparado)
+	{
+		return this.getId() - ((ProyectoVO) comparado).getId();
+	}
 }

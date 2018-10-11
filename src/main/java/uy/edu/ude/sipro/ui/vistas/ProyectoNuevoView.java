@@ -181,8 +181,8 @@ public class ProyectoNuevoView extends ProyectoNuevoViewDesign implements View
 	{
 		if(correctorSeleccionado != null)
 		{
-			Set<DocenteVO> correctores= fachada.obtenerDocentes();
-			Set<DocenteVO> correctoresAux = new HashSet<DocenteVO>(correctores);
+			List<DocenteVO> correctores= fachada.obtenerDocentes();
+			List<DocenteVO> correctoresAux = new ArrayList<DocenteVO>(correctores);
 			for(DocenteVO cor : correctoresAux)
 			{				
 				for(DocenteVO corAux : listaCorrectores)

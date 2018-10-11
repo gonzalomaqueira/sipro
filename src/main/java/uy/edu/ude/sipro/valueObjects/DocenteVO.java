@@ -1,6 +1,6 @@
 package uy.edu.ude.sipro.valueObjects;
 
-public class DocenteVO 
+public class DocenteVO implements Comparable
 {
 	private int id;
 	private String nombre;
@@ -24,4 +24,10 @@ public class DocenteVO
 	public void setApellido(String apellido) { this.apellido = apellido; }
 	
 	public String getNombreCompleto() { return this.nombre + " " + this.apellido;}
+
+	@Override
+	public int compareTo(Object comparado)
+	{
+		return this.getId() - ((DocenteVO) comparado).getId();
+	}
 }

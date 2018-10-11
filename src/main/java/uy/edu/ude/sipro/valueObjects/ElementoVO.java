@@ -5,14 +5,14 @@ import java.util.Set;
 
 import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
 
-public class ElementoVO 
+public class ElementoVO implements Comparable
 {	
 	private int id;
 	private String nombre;
 	private boolean esCategoria;
 	private TipoElemento tipoElemento;
-	private Set<SinonimoVO> sinonimos;
-	private Set<SubElementoVO> elementosRelacionados;
+	private List<SinonimoVO> sinonimos;
+	private List<SubElementoVO> elementosRelacionados;
 	
 	public ElementoVO()
 	{	}
@@ -36,9 +36,15 @@ public class ElementoVO
 	public TipoElemento getTipoElemento() {	return tipoElemento;}
 	public void setTipoElemento(TipoElemento tipoElemento) {this.tipoElemento = tipoElemento;	}
 
-	public Set<SinonimoVO> getSinonimos() { return sinonimos; }
- 	public void setSinonimos(Set<SinonimoVO> sinonimos) { this.sinonimos = sinonimos; }
+	public List<SinonimoVO> getSinonimos() { return sinonimos; }
+ 	public void setSinonimos(List<SinonimoVO> sinonimos) { this.sinonimos = sinonimos; }
  	
- 	public Set<SubElementoVO> getElementosRelacionados() { return elementosRelacionados; }
- 	public void setElementosRelacionados(Set<SubElementoVO> elementosRelacionados) { this.elementosRelacionados = elementosRelacionados; }
+ 	public List<SubElementoVO> getElementosRelacionados() { return elementosRelacionados; }
+ 	public void setElementosRelacionados(List<SubElementoVO> elementosRelacionados) { this.elementosRelacionados = elementosRelacionados; }
+
+	@Override
+	public int compareTo(Object comparado)
+	{
+		return this.getNombre().toLowerCase().compareTo(((ElementoVO)comparado).getNombre().toLowerCase());
+	}
  }

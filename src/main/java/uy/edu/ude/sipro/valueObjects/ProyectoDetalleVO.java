@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ProyectoDetalleVO
+public class ProyectoDetalleVO implements Comparable
 {
 	private int id;
 
@@ -16,7 +16,7 @@ public class ProyectoDetalleVO
 
 	private String carrera;
 	
-	private Set<DocenteVO> correctores;
+	private List<DocenteVO> correctores;
 
 	private int nota;
 	
@@ -34,11 +34,11 @@ public class ProyectoDetalleVO
 	
 	private Date fechaUltimaModificacion;
 
-	private Set <ElementoVO> elementosRelacionados;
+	private List <ElementoVO> elementosRelacionados;
 	
-	public ProyectoDetalleVO(int id, String nombre, int anio, String carrera, Set<DocenteVO> correctores, int nota, ArrayList<String> alumnos, 
+	public ProyectoDetalleVO(int id, String nombre, int anio, String carrera, List<DocenteVO> correctores, int nota, ArrayList<String> alumnos, 
 							 DocenteVO tutor, ArrayList<String> tutorString, String rutaArchivo, String resumen, Date fechaAlta, 
-							 Date fechaUltimaModificacion, Set<ElementoVO> elementosRelacionados) 
+							 Date fechaUltimaModificacion, List<ElementoVO> elementosRelacionados) 
 	{
 		this.id = id;
 		this.nombre = nombre;
@@ -112,11 +112,11 @@ public class ProyectoDetalleVO
 		this.tutor = tutor;
 	}
 	
-	public Set<DocenteVO> getCorrectores() {
+	public List<DocenteVO> getCorrectores() {
 		return correctores;
 	}
 
-	public void setCorrectores(Set<DocenteVO> correctores) {
+	public void setCorrectores(List<DocenteVO> correctores) {
 		this.correctores = correctores;
 	}
 
@@ -160,13 +160,17 @@ public class ProyectoDetalleVO
 		this.fechaUltimaModificacion = fechaUltimaModificacion;
 	}
 
-	public Set<ElementoVO> getElementosRelacionados() {
+	public List<ElementoVO> getElementosRelacionados() {
 		return elementosRelacionados;
 	}
 
-	public void setElementosRelacionados(Set<ElementoVO> elementosRelacionados) {
+	public void setElementosRelacionados(List<ElementoVO> elementosRelacionados) {
 		this.elementosRelacionados = elementosRelacionados;
 	}
-	
-	
+
+	@Override
+	public int compareTo(Object comparado)
+	{
+		return this.getId() - ((ProyectoDetalleVO) comparado).getId();
+	}
 }

@@ -1,7 +1,7 @@
 package uy.edu.ude.sipro.valueObjects;
 
-public class UsuarioVO {
-
+public class UsuarioVO implements Comparable 
+{
 	private int id;
 	private String usuario;
 	private String nombre;
@@ -44,5 +44,11 @@ public class UsuarioVO {
 	}
 	public void setPerfil(PerfilVO perfil) {
 		this.perfil = perfil;
-	}	
+	}
+	
+	@Override
+	public int compareTo(Object comparado)
+	{
+		return this.getNombre().toLowerCase().compareTo(((UsuarioVO)comparado).getNombre().toLowerCase());
+	}
 }

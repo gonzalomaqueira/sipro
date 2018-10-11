@@ -295,10 +295,13 @@ public class FuncionesTexto
 
 	public static boolean seccionContieneTexto(SeccionTexto seccion, String texto) 
 	{
-		for (String linea: seccion.getContenido())
+		if (seccion != null)
 		{
-			if (isContain(linea, texto))
-				return true;
+			for (String linea: seccion.getContenido())
+			{
+				if (isContain(linea, texto))
+					return true;
+			}
 		}
 		return false;
 	}

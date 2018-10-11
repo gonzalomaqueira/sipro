@@ -1,6 +1,6 @@
 package uy.edu.ude.sipro.ui.vistas;
 
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,7 +26,7 @@ public class UsuarioListadoView extends UsuarioListadoViewDesign implements View
 	private Fachada fachada;
 	
 	private UsuarioVO usuarioSeleccionado;
-	private Set<UsuarioVO> listaUsuarios;
+	private List<UsuarioVO> listaUsuarios;
 	
 	
 	private final NavigationManager navigationManager;
@@ -90,9 +90,6 @@ public class UsuarioListadoView extends UsuarioListadoViewDesign implements View
 			{
 			}
 		});
-		
-
-		
 	}
 	
 	private void cargarInterfazInicial()
@@ -103,5 +100,4 @@ public class UsuarioListadoView extends UsuarioListadoViewDesign implements View
 		listaUsuarios = fachada.obtenerUsuarios();
 		grdUsuarios.setItems(listaUsuarios);
 	}
-
 }

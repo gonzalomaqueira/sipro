@@ -1,6 +1,6 @@
 package uy.edu.ude.sipro.valueObjects;
 
-public class SubElementoVO 
+public class SubElementoVO implements Comparable
 {	
 	private int id;
 	private String nombre;
@@ -19,4 +19,10 @@ public class SubElementoVO
  	
  	public String getNombre() { return nombre; }
  	public void setNombre(String nombre) { this.nombre = nombre; }
+
+	@Override
+	public int compareTo(Object comparado)
+	{
+		return this.getNombre().toLowerCase().compareTo(((SubElementoVO)comparado).getNombre().toLowerCase());
+	}
  }

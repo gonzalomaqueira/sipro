@@ -185,7 +185,7 @@ public class Proyecto
 			SeccionTexto secResumen=null;
 			for(SeccionTexto sec : this.DocumentoPorSecciones)
 			{
-				if(sec.getTitulo().trim().equals("Resumen") || sec.getTitulo().trim().equals("Abstract"))
+				if(sec != null && (sec.getTitulo().trim().equals("Resumen") || sec.getTitulo().trim().equals("Abstract")))
 				{
 					secResumen= sec;
 					break;
@@ -229,7 +229,7 @@ public class Proyecto
 			SeccionTexto secAlumnos=null;
 			for(SeccionTexto sec : this.DocumentoPorSecciones)
 			{
-				if(sec.getTitulo().trim().equals("Alumnos") || sec.getTitulo().trim().equals("Integrantes"))
+				if(sec != null && (sec.getTitulo().trim().equals("Alumnos") || sec.getTitulo().trim().equals("Integrantes")))
 				{
 					secAlumnos = sec;
 					break;
@@ -259,7 +259,7 @@ public class Proyecto
 			SeccionTexto secTutor=null;
 			for(SeccionTexto sec : this.DocumentoPorSecciones)
 			{
-				if(sec.getTitulo().trim().equals("Tutor"))
+				if(sec != null && sec.getTitulo().trim().equals("Tutor"))
 				{
 					secTutor = sec;
 					break;

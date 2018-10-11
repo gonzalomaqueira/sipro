@@ -41,7 +41,7 @@ public class Fachada {
 
 	/**************************************************************** Proyectos */
 	
-	public Set<ProyectoVO> obtenerProyectos()
+	public List<ProyectoVO> obtenerProyectos()
 	{
 		return ConversorValueObject.convertirListaProyectoVO(proyectoService.obtenerProyectos());
 	}
@@ -62,7 +62,7 @@ public class Fachada {
 	}
 	
 	public void modificarProyectoCompleto(int id, String nombre, int anio, String carrera, int nota, String resumen, 
-			ArrayList<String> alumnos, ArrayList<String> tutorString, Set<DocenteVO> correctores) 
+			ArrayList<String> alumnos, ArrayList<String> tutorString, List<DocenteVO> correctores) 
 	{
 		proyectoService.modificar(  id, 
 									nombre, 
@@ -87,7 +87,7 @@ public class Fachada {
 	
 	/**************************************************************** Usuarios */	
 	
-	public Set<UsuarioVO> obtenerUsuarios()
+	public List<UsuarioVO> obtenerUsuarios()
 	{
 		return ConversorValueObject.convertirListaUsuarioVO(usuarioService.obtenerUsuarios());
 	}
@@ -111,7 +111,7 @@ public class Fachada {
 		usuarioService.eliminar(id);
 	}
 
-	public Set<PerfilVO> obtenerPerfiles()
+	public List<PerfilVO> obtenerPerfiles()
 	{
 		return ConversorValueObject.convertirListaPerfilVO(perfilService.obtenerPerfiles());
 	}
@@ -124,19 +124,19 @@ public class Fachada {
 	
 	/**************************************************************** Elementos */
 	
-	public Set<ElementoVO> obtenerElementos()
+	public List<ElementoVO> obtenerElementos()
 	{
 		return ConversorValueObject.convertirListaElementoVO(elementoService.obtenerElementos());
 	}
 
-	public void altaElemento(String nombre, boolean esCategoria, TipoElemento tipoElemento, Set<SubElementoVO> elementosRelacionados, Set<SinonimoVO> sinonimos) 
+	public void altaElemento(String nombre, boolean esCategoria, TipoElemento tipoElemento, List<SubElementoVO> elementosRelacionados, List<SinonimoVO> sinonimos) 
 	{
-		elementoService.altaElemento(nombre, esCategoria, tipoElemento, elementosRelacionados, sinonimos);
+		elementoService.altaElemento(nombre, esCategoria, tipoElemento, new HashSet<SubElementoVO>(elementosRelacionados), new HashSet<SinonimoVO>(sinonimos));
 	}
 
-	public void modificarElemento(int id, String nombre, boolean esCategoria, TipoElemento tipoElemento, Set<SubElementoVO> elementosRelacionados, Set<SinonimoVO> sinonimos)
+	public void modificarElemento(int id, String nombre, boolean esCategoria, TipoElemento tipoElemento, List<SubElementoVO> elementosRelacionados, List<SinonimoVO> sinonimos)
 	{
-		elementoService.modificar(id, nombre, esCategoria, tipoElemento, elementosRelacionados, sinonimos);
+		elementoService.modificar(id, nombre, esCategoria, tipoElemento, new HashSet<SubElementoVO>(elementosRelacionados), new HashSet<SinonimoVO>(sinonimos));
 	}
 
 	public void eliminarElemento(int id) 
@@ -146,7 +146,7 @@ public class Fachada {
 
 	/**************************************************************** Docentes */
 	
-	public Set<DocenteVO> obtenerDocentes()
+	public List<DocenteVO> obtenerDocentes()
 	{
 		return ConversorValueObject.convertirListaDocenteVO(docenteService.obtenerDocentes());
 	}

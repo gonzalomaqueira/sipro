@@ -2,6 +2,7 @@ package uy.edu.ude.sipro.ui.vistas;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,16 +33,16 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 
 	private ProyectoDetalleVO proyecto;
     private DocenteVO correctorSeleccionado;
-    private Set<DocenteVO> listaCorrectores;
-    private Set<DocenteVO> listaDocentes;
+    private List<DocenteVO> listaCorrectores;
+    private List<DocenteVO> listaDocentes;
     private final NavigationManager navigationManager;
     
     @Autowired
     public ProyectoDetallesView (NavigationManager navigationManager)
     {
     	this.navigationManager = navigationManager;
-    	this.listaCorrectores = new HashSet<DocenteVO>();	
-    	this.listaDocentes= new HashSet<DocenteVO>();
+    	this.listaCorrectores = new ArrayList<DocenteVO>();	
+    	this.listaDocentes= new ArrayList<DocenteVO>();
     }
 	
 	public void enter(ViewChangeEvent event)
@@ -200,8 +201,8 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 			grdCorrectores.setItems(proyecto.getCorrectores());
 			txtNota.setValue(Integer.toString(proyecto.getNota()));
 			txtAnio.setValue(Integer.toString(proyecto.getAnio()));
-			txtTutor.setValue(FuncionesTexto.convertirArrayAStringSaltoLinea(new ArrayList<String>(proyecto.getTutorString())));
-			txtAlumnos.setValue(FuncionesTexto.convertirArrayAStringSaltoLinea(new ArrayList<String>(proyecto.getAlumnos())));
+			txtTutor.setValue(proyecto.getTutorString() != null ? FuncionesTexto.convertirArrayAStringSaltoLinea(new ArrayList<String>(proyecto.getTutorString())) : "");
+			txtAlumnos.setValue(proyecto.getAlumnos() != null ? FuncionesTexto.convertirArrayAStringSaltoLinea(new ArrayList<String>(proyecto.getAlumnos())) : "");
 			txtResumen.setValue(proyecto.getResumen() != null ? proyecto.getResumen() : "");
 			grdTecnologias.setItems(this.obtenerElementosPorTipo(proyecto.getElementosRelacionados(), TipoElemento.TECNOLOGIA));
 			grdMetodologiaTesting.setItems(this.obtenerElementosPorTipo(proyecto.getElementosRelacionados(), TipoElemento.METODOLOGIA_TESTING));
@@ -209,9 +210,9 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 		}
 	}
 
-	private Set<ElementoVO> obtenerElementosPorTipo(Set<ElementoVO> elementosRelacionados, TipoElemento tipo)
+	private List<ElementoVO> obtenerElementosPorTipo(List<ElementoVO> elementosRelacionados, TipoElemento tipo)
 	{
-		Set<ElementoVO> vRetorno = new HashSet<ElementoVO>();
+		List<ElementoVO> vRetorno = new ArrayList<ElementoVO>();
 		for (ElementoVO elem : elementosRelacionados)
 		{
 			if (elem.getTipoElemento() == tipo)
@@ -302,7 +303,7 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 	private void actualizarListaCorrectores()
 	{
 		Set<DocenteVO> correctoresAux = new HashSet<DocenteVO>(listaCorrectores);
-		listaCorrectores= new HashSet<DocenteVO>();
+		listaCorrectores= new ArrayList<DocenteVO>();
 		if(correctoresAux!=null)
 		{
 			for (DocenteVO cor : correctoresAux)
