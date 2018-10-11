@@ -63,4 +63,12 @@ public class UsuarioServiceImp implements UsuarioService
    {
 	   return usuarioDao.buscarUsuario(usuario);
    }
+   
+   @Transactional
+   @Override
+   public Usuario buscarUsuarioPorId(int id)
+   {
+	   return usuarioDao.obtenerUsuarioPorId(id);
+   }
+   
 }

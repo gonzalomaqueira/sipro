@@ -18,6 +18,7 @@ import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
 import uy.edu.ude.sipro.navegacion.NavigationManager;
 import uy.edu.ude.sipro.service.Fachada;
 import uy.edu.ude.sipro.valueObjects.PerfilVO;
+import uy.edu.ude.sipro.valueObjects.UsuarioVO;
 
 @SpringView
 @SpringComponent
@@ -28,7 +29,7 @@ public class UsuarioDetalleView extends UsuarioDetalleViewDesign implements View
 	private Fachada fachada;
 	
 	private Set<PerfilVO> listaPerfiles;
-	
+	private UsuarioVO usuarioSeleccionado;
 	private final NavigationManager navigationManager;
 	
     @Autowired
@@ -40,6 +41,17 @@ public class UsuarioDetalleView extends UsuarioDetalleViewDesign implements View
 	public void enter(ViewChangeEvent event) 
 	{
 		cargarPerfiles(); 
+		
+		String idProyecto = event.getParameters();
+		if ("".equals(idProyecto))
+		{
+			cargarVistaNuevoProyecto();
+		}
+		else
+		{
+			usuarioSeleccionado=fachada.obtenerUsuarioPorId(Integer.parseInt(idProyecto));
+			cargarVistaModificarProyecto(Integer.parseInt(idProyecto));
+		}
 		
 		btnVolver.addClickListener(new Button.ClickListener()
 		{
@@ -68,14 +80,29 @@ public class UsuarioDetalleView extends UsuarioDetalleViewDesign implements View
 					{		    		
 				    	try 
 				    	{
-				    		fachada.altaUsuario(txtUsuario.getValue(),
-				    							txtContrasenia.getValue(),
-				    							txtNombre.getValue(),
-				    							txtApellido.getValue(),
-				    							txtEmail.getValue(),
-				    							cmbPerfil.getSelectedItem().get());	
+				    		if(usuarioSeleccionado!=null)
+				    		{
+				    			fachada.modificarUsuario(	usuarioSeleccionado.getId(),
+				    										txtUsuario.getValue(),
+							    							txtContrasenia.getValue(),
+							    							txtNombre.getValue(),
+							    							txtApellido.getValue(),
+							    							txtEmail.getValue(),
+							    							cmbPerfil.getSelectedItem().get());	
+		    		
+				    			Notification.show("Usuario modificado correctamente",Notification.Type.WARNING_MESSAGE);
+				    		}
+				    		else
+				    		{
+				    			fachada.altaUsuario(	txtUsuario.getValue(),
+						    							txtContrasenia.getValue(),
+						    							txtNombre.getValue(),
+						    							txtApellido.getValue(),
+						    							txtEmail.getValue(),
+						    							cmbPerfil.getSelectedItem().get());	
 				    		
-				    		Notification.show("Usuario ingresado correctamente",Notification.Type.WARNING_MESSAGE);
+				    			Notification.show("Usuario ingresado correctamente",Notification.Type.WARNING_MESSAGE);
+				    		}
 				    	}
 				    	catch (Exception e)
 						{
@@ -101,4 +128,20 @@ public class UsuarioDetalleView extends UsuarioDetalleViewDesign implements View
 			cmbPerfil.setItemCaptionGenerator(PerfilVO::getDescripcion);
 		}
 	}
+	
+	private void cargarVistaNuevoProyecto()
+	{
+		
+	}
+	
+	private void cargarVistaModificarProyecto(int idProyecto)
+	{
+		txtUsuario.setValue(usuarioSeleccionado.getUsuario());
+		txtNombre.setValue(usuarioSeleccionado.getNombre());
+		txtApellido.setValue(usuarioSeleccionado.getApellido());
+		txtEmail.setValue(usuarioSeleccionado.getEmail());
+		cmbPerfil.setValue(usuarioSeleccionado.getPerfil());
+	}
+	
+	
 }

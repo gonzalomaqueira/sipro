@@ -11,4 +11,5 @@ public interface UsuarioService
 	void eliminar(int id);
     Set<Usuario> obtenerUsuarios();
 	Usuario buscarUsuario(String user);
+	Usuario buscarUsuarioPorId(int id);
 }

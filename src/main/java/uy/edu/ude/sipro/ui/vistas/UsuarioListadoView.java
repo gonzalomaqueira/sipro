@@ -13,6 +13,7 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.components.grid.SingleSelectionModel;
 
+
 import uy.edu.ude.sipro.navegacion.NavigationManager;
 import uy.edu.ude.sipro.service.Fachada;
 import uy.edu.ude.sipro.valueObjects.UsuarioVO;
@@ -64,6 +65,14 @@ public class UsuarioListadoView extends UsuarioListadoViewDesign implements View
 		    }
 		});	
 		
+		btnEditar.addClickListener(new Button.ClickListener() {
+			public void buttonClick(ClickEvent event)
+			{			
+				if(usuarioSeleccionado != null)
+					navigationManager.navigateTo(UsuarioDetalleView.class , usuarioSeleccionado.getId());
+			}
+		});
+		
 		grdUsuarios.addSelectionListener(evt -> 
 		{
 			SingleSelectionModel<UsuarioVO> singleSelect = (SingleSelectionModel<UsuarioVO>) grdUsuarios.getSelectionModel();
@@ -81,6 +90,8 @@ public class UsuarioListadoView extends UsuarioListadoViewDesign implements View
 			{
 			}
 		});
+		
+
 		
 	}
 	

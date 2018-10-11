@@ -115,6 +115,11 @@ public class Fachada {
 	{
 		return ConversorValueObject.convertirListaPerfilVO(perfilService.obtenerPerfiles());
 	}
+	
+	public UsuarioVO obtenerUsuarioPorId(int id)
+	{
+		return ConversorValueObject.convertirUsuarioVO(usuarioService.buscarUsuarioPorId(id));
+	}
 
 	
 	/**************************************************************** Elementos */
