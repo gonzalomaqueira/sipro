@@ -8,6 +8,7 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.Upload;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.declarative.Design;
 
@@ -28,6 +29,7 @@ public class ProyectoDetallesViewDesign extends VerticalLayout {
 	protected Button btnGuardar;
 	protected Button btnCancelar;
 	protected Button btnVerTextoDocumento;
+	protected Upload updSubirProyecto;
 	protected TextField txtNombreProyecto;
 	protected TextField txtCarrera;
 	protected Grid<uy.edu.ude.sipro.valueObjects.DocenteVO> grdCorrectores;

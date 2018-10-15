@@ -1,12 +1,18 @@
 package uy.edu.ude.sipro.service.implementacion;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -199,33 +205,87 @@ public class ProyectoServiceImp implements ProyectoService
 	
 	@Override
 	public String[] obtenerTextoOriginalProyecto(Proyecto proyecto)
-	{
+	{		
+		String extension= FilenameUtils.getExtension(proyecto.getRutaArchivo());
+		String parsedText = null;
+		if(extension.equals("pdf"))
+		{
+			parsedText = devolverTextoPDF(proyecto.getRutaArchivo());
+		}
+		else if(extension.equals("doc") || (extension.equals("docx")))
+		{
+			parsedText = devolverTextoDOC(proyecto.getRutaArchivo());
+		}		
+        String textoOriginal[] = parsedText.split("\\r?\\n");
+		return textoOriginal;
+	}
+	
+	private String devolverTextoPDF(String rutaArchivo)
+	{		
+		String textoRetorno = null;
 		PDDocument pdDoc = null;
 		PDFTextStripper pdfStripper;
-		String parsedText = null;
-		String fileName = proyecto.getRutaArchivo();
+		String fileName = rutaArchivo;
 		try 
 		{
 			pdDoc = PDDocument.load(new File(fileName));
 			pdfStripper = new PDFTextStripper();
-			parsedText = pdfStripper.getText(pdDoc);
+			textoRetorno = pdfStripper.getText(pdDoc);
 			if (pdDoc != null)
 				pdDoc.close();
 		} 
 		catch (Exception e) 
 		{
 			e.printStackTrace();
-			try {
+			try
+			{
 				if (pdDoc != null)
 					pdDoc.close();
-			} catch (Exception e1) {
+			} catch (Exception e1)
+			{
 				e.printStackTrace();
 			}
 		}
-		
-        String textoOriginal[] = parsedText.split("\\r?\\n");
-		return textoOriginal;
+		return textoRetorno;
 	}
+	
+	
+	private String devolverTextoDOC(String rutaArchivo)
+	{	
+		String textoRetorno = "";
+		XWPFDocument documento = null;
+		FileInputStream fis = null;
+		try
+		{
+	        File file = new File(rutaArchivo);
+	        fis = new FileInputStream(file.getAbsolutePath());
+	        documento = new XWPFDocument(fis);
+	        List<XWPFParagraph> paragraphs = documento.getParagraphs();
+	
+	        for (XWPFParagraph para : paragraphs)
+	        {
+	        	textoRetorno = textoRetorno + para.getText() + "\r\n";
+	        }
+	        documento.close();
+	        fis.close();
+	    } 
+		catch (Exception e)
+		{
+	        e.printStackTrace();
+	        try
+	        {
+	        	if (documento != null)
+	        		documento.close();
+				if (fis != null)					
+					fis.close();
+			} catch (IOException e1)
+	        {
+				e1.printStackTrace();
+			}	        
+	    }
+		return textoRetorno;
+	}
+	
 	
 	@Override
 	public void cargarTutorPorString(Proyecto proyecto)

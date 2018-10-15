@@ -24,9 +24,6 @@ import uy.edu.ude.sipro.service.Fachada;
 import uy.edu.ude.sipro.utiles.Constantes;
 import uy.edu.ude.sipro.utiles.ReceptorArchivos;
 import uy.edu.ude.sipro.valueObjects.DocenteVO;
-import uy.edu.ude.sipro.valueObjects.ElementoVO;
-import uy.edu.ude.sipro.valueObjects.SinonimoVO;
-import uy.edu.ude.sipro.valueObjects.SubElementoVO;
 
 
 @SpringView
