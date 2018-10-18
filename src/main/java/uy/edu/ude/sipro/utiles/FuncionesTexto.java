@@ -392,9 +392,19 @@ public class FuncionesTexto
 	
 	private static boolean isContain(String source, String subItem)
 	{
-		String regex = "\\b"+subItem+"\\b";
-		Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
-		Matcher matcher = pattern.matcher(source);
-		return matcher.find();
+		boolean salida=false;
+
+		if(!contieneCaracterEspecial(subItem))
+		{
+			String regex = "\\b"+subItem+"\\b";
+			Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+			Matcher matcher = pattern.matcher(source);
+			salida=matcher.find();
+		}
+		else
+		{
+			salida= source.contains(subItem);
+		}
+		return salida;
    }
 }
