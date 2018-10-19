@@ -1,5 +1,6 @@
 package uy.edu.ude.sipro.ui.vistas;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.BrowserWindowOpener;
+import com.vaadin.server.FileResource;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Button;
@@ -47,6 +50,7 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 	
 	public void enter(ViewChangeEvent event)
 	{
+		
 		cargarInterfazInicial();
 		this.listaDocentes= fachada.obtenerDocentes();
 
@@ -58,6 +62,10 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 		else
 		{
 			cargarVistaModificarProyecto(Integer.parseInt(idProyecto));
+			
+			BrowserWindowOpener opener = new BrowserWindowOpener(new FileResource(new File(proyecto.getRutaArchivo())));
+			opener.setWindowName("_blank");
+			opener.extend(btnVerTextoDocumento);
 		}
 		cargarCmbCorrectores();
 		
@@ -116,7 +124,8 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 				else
 				{
 					navigationManager.navigateTo(ProyectoDetallesView.class, idProyecto);
-				}					
+				}
+				btnCancelar.setVisible(false);
 			}
 		}); 
 		
@@ -233,6 +242,7 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 	{
 		btnEditar.setVisible(false);
 		btnGuardar.setVisible(true);
+		btnCancelar.setVisible(true);
 		cmbCorrectores.setEnabled(true);
 		permitirEdicion(true);
 	}
