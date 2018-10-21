@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,11 +21,14 @@ public class UsuarioServiceImp implements UsuarioService
    @Autowired
    private UsuarioDao usuarioDao;
    
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+   
    @Transactional
    @Override
    public void agregar(String nombreUsuario, String contrasenia, String nombre, String apellido, String email, Perfil perfil)
    {
-	   Usuario usuario = new Usuario(nombreUsuario, contrasenia, nombre, apellido, email, perfil);
+	   Usuario usuario = new Usuario(nombreUsuario, passwordEncoder.encode(contrasenia), nombre, apellido, email, perfil);
 	   usuarioDao.agregar(usuario);
    }
    
@@ -35,7 +39,12 @@ public class UsuarioServiceImp implements UsuarioService
 	   if(FuncionesTexto.esNuloOVacio(contrasenia))
 	   {
 		  contrasenia=buscarUsuario(nombreUsuario).getContrasenia();
-	   }	   
+	   }
+	   else
+	   {
+		   passwordEncoder.encode(contrasenia);
+	   }
+	   
 	   Usuario usuario = new Usuario(nombreUsuario, contrasenia, nombre, apellido, email, perfil);
 	   usuario.setId(id);
 	   usuarioDao.modificar(usuario);

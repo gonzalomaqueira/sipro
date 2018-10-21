@@ -1,5 +1,6 @@
 package uy.edu.ude.sipro.ui.vistas;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vaadin.navigator.View;
@@ -53,6 +55,8 @@ public class ProyectoNuevoView extends ProyectoNuevoViewDesign implements View
 		cargarCmbCorrectores();
 		setearInformacionUpload();
 		
+		
+		
 		btnGuardar.addClickListener(new Button.ClickListener()
 		{
 			public void buttonClick(ClickEvent event)
@@ -66,22 +70,33 @@ public class ProyectoNuevoView extends ProyectoNuevoViewDesign implements View
 			nombreArchivo= evt.getFilename();
 			if (!evt.getFilename().isEmpty())
 			{
-				try 
+				String extension=FilenameUtils.getExtension(nombreArchivo);
+				if(extension.equals("pdf") || extension.equals("doc") || extension.equals("docx") )
 				{
-					fachada.altaProyecto(txtNombreProyecto.getValue(),
-										 txtCarrera.getValue(),
-										 listaCorrectores,
-										 Integer.parseInt(txtNota.getValue()),
-										 Constantes.RUTA_ARCHIVOS + prefijoArchivo + nombreArchivo);
-				   
-					Notification.show("Archivo subido exitosamente", Notification.Type.HUMANIZED_MESSAGE);           
+					try 
+					{
+						fachada.altaProyecto(txtNombreProyecto.getValue(),
+											 txtCarrera.getValue(),
+											 listaCorrectores,
+											 Integer.parseInt(txtNota.getValue()),
+											 Constantes.RUTA_ARCHIVOS + prefijoArchivo + nombreArchivo);
+					   
+						Notification.show("Archivo subido exitosamente", Notification.Type.HUMANIZED_MESSAGE);           
+					}
+					catch (Exception e)
+					{
+						Notification.show("Hubo un error al subir el proyecto", Notification.Type.WARNING_MESSAGE);
+						e.printStackTrace();
+					}
+					navigationManager.navigateTo(ProyectoListadoView.class);
 				}
-				catch (Exception e)
+				else
 				{
-					Notification.show("Hubo un error al subir el proyecto", Notification.Type.WARNING_MESSAGE);
-					e.printStackTrace();
+					File archivo= new File(Constantes.RUTA_ARCHIVOS + prefijoArchivo + nombreArchivo);
+					archivo.delete();
+					Notification.show("El archivo que selecciono no es de tipo pdf, doc o docx", Notification.Type.HUMANIZED_MESSAGE); 
+
 				}
-				navigationManager.navigateTo(ProyectoListadoView.class);
 			}
 			else
 			{

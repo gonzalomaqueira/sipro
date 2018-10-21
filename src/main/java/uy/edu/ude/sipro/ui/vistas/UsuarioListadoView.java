@@ -3,6 +3,7 @@ package uy.edu.ude.sipro.ui.vistas;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -20,6 +21,7 @@ import uy.edu.ude.sipro.valueObjects.UsuarioVO;
 
 @SpringView
 @SpringComponent
+@Secured("admin")
 public class UsuarioListadoView extends UsuarioListadoViewDesign implements View
 {
 	@Autowired

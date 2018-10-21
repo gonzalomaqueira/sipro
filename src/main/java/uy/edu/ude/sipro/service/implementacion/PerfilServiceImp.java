@@ -23,5 +23,24 @@ public class PerfilServiceImp implements PerfilService
 	public Set<Perfil> obtenerPerfiles()
 	{
 		return perfilDao.obtenerPerfiles();
+	}	
+    
+	@Override
+	public String[] obtenerPerfilesString()
+	{
+				
+		String[] retorno= new String[20];
+		Set<Perfil> listaPerfiles = this.obtenerPerfiles();
+		if (listaPerfiles != null && !listaPerfiles.isEmpty())
+		{
+			
+			int i = 0;
+			for (Perfil per : listaPerfiles)
+			{
+				retorno[i] = per.getDescripcion();
+				i++;
+			}
+		}
+		return retorno;
 	}
 }
