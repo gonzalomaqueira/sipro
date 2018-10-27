@@ -23,4 +23,6 @@ public interface ProyectoService
 	void cargarTutorPorString(Proyecto proyecto);
 	
 	void procesarProyecto(int id);
+	
+	String buscarProyecto(String keywords) throws Exception;
 }

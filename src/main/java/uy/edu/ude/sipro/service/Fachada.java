@@ -85,6 +85,11 @@ public class Fachada {
 		proyectoService.procesarProyecto(idProyecto);
 	}
 	
+	public String buscarProyecto(String keywords) throws Exception
+	{
+		return proyectoService.buscarProyecto(keywords);
+	}
+	
 	/**************************************************************** Usuarios */	
 	
 	public List<UsuarioVO> obtenerUsuarios()
