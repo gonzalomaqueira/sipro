@@ -1,10 +1,11 @@
 package uy.edu.ude.sipro.service.interfaces;
 
-import java.util.List;
+import java.util.Set;
 
 import uy.edu.ude.sipro.entidades.Perfil;
 
 public interface PerfilService
 {
-    List<Perfil> obtenerPerfiles();
+    Set<Perfil> obtenerPerfiles();
+    String[] obtenerPerfilesString();
 }

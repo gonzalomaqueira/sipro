@@ -1,8 +1,12 @@
 package uy.edu.ude.sipro.entidades;
 
+
+
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,6 +20,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
@@ -46,19 +52,22 @@ public class Proyecto
 	@Column(name = "Carrera")
 	private String carrera;
 	
-	@Size(min = 1, max = 255)
-	@Column(name = "Corrector")
-	private String corrector;
+	@ManyToMany(cascade=CascadeType.ALL, mappedBy="proyectosComoCorrector", fetch = FetchType.EAGER) 
+	private Set<Docente> correctores;
+    
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "IdTutor")
+	private Docente tutor;
 
+	@Size(min = 1, max = 255)
+	@Column(name = "Tutor")
+	private ArrayList<String> tutorString;
+    
 	@Column(name = "Nota")
 	private int nota;
 
 	@Column(name = "Alumnos")
 	private ArrayList<String> alumnos;
-
-	@Size(min = 1, max = 255)
-	@Column(name = "Tutor")
-	private ArrayList<String> tutor;
 
 	@NotNull
 	@Column(name = "RutaArchivo")
@@ -80,7 +89,7 @@ public class Proyecto
 	
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "RelProyectoElemento", joinColumns = { @JoinColumn(name = "idProyecto") }, inverseJoinColumns = { @JoinColumn(name = "idElemento") })
-	private List<Elemento> elementosRelacionados;
+	private Set<Elemento> elementosRelacionados;
 	
 	@Transient
 	private List<SeccionTexto> DocumentoPorSecciones;
@@ -93,23 +102,25 @@ public class Proyecto
 		this.fechaUltimaModificacion = vfecha;
 	}
 
-	public Proyecto(String nombre, String carrera, String corrector,  int nota, String rutaArchivo)
+	public Proyecto(String nombre, String carrera, Set<Docente> correctores,  int nota, String rutaArchivo)
 	{
 		this();
 		this.nombre = nombre;
 		this.carrera = carrera;
-		this.corrector = corrector;
+		this.correctores = correctores;
 		this.nota = nota;
 		this.rutaArchivo = rutaArchivo;
 	}
 
-	public Proyecto(String nombre, int anio, String carrera, String corrector, int nota, ArrayList<String> alumnos, ArrayList<String> tutor, String rutaArchivo, String resumen)
+	public Proyecto(String nombre, int anio, String carrera, Set<Docente> correctores, int nota, 
+			ArrayList<String> alumnos, Docente tutor, String rutaArchivo, String resumen)
 	{
-		this(nombre, carrera, corrector, nota, rutaArchivo);
+		this(nombre, carrera, correctores, nota, rutaArchivo);
 		this.anio = anio;
 		this.carrera = carrera;
 		this.alumnos = alumnos;
-		this.tutor = tutor;
+		this.tutor = tutor;		
+		this.correctores = correctores;
 		this.resumen = resumen;
 	}
 
@@ -122,20 +133,23 @@ public class Proyecto
 	public int getAnio() { return anio;	}
 	public void setAnio(int anio) { this.anio = anio; }
 
+	public Docente getTutor() {	return tutor; }
+	public void setTutor(Docente tutor) { this.tutor = tutor; }
+	
+	public ArrayList<String> getTutorString() {	return tutorString;	}
+	public void setTutorString(ArrayList<String> tutorString) {	this.tutorString = tutorString;	}
+
 	public String getCarrera() { return carrera; }
 	public void setCarrera(String carrera) { this.carrera = carrera; }
 	
-	public String getCorrector() { return corrector;	}
-	public void setCorrector(String corrector) {this.corrector = corrector;	}
+	public Set<Docente> getCorrectores() { return correctores;	}
+	public void setCorrectores(Set<Docente> correctores) {this.correctores = correctores;	}
 
 	public int getNota() { return nota; }
 	public void setNota(int nota) { this.nota = nota; }
 	
 	public ArrayList<String> getAlumnos() { return alumnos; }
 	public void setAlumnos(ArrayList<String> alumnos) { this.alumnos = alumnos; }
- 
-	public ArrayList<String> getTutor() { return tutor; }
-	public void setTutor(ArrayList<String> tutor) { this.tutor = tutor; }
 
 	public String getRutaArchivo() { return rutaArchivo; }
 	public void setRutaArchivo(String rutaArchivo) { this.rutaArchivo = rutaArchivo;}
@@ -149,8 +163,8 @@ public class Proyecto
 	public Date getFechaUltimaModificacion() { return fechaUltimaModificacion; }
 	public void setFechaUltimaModificacion(Date fechaUltimaModificacion) { this.fechaUltimaModificacion = fechaUltimaModificacion; }
 	
-	public List<Elemento> getElementosRelacionados() { return elementosRelacionados; }
-	public void setElementosRelacionados(List<Elemento> elementosRelacionados) { this.elementosRelacionados = elementosRelacionados; }
+	public Set<Elemento> getElementosRelacionados() { return elementosRelacionados; }
+	public void setElementosRelacionados(Set<Elemento> elementosRelacionados) { this.elementosRelacionados = elementosRelacionados; }
 
 	public EstadoProyectoEnum getEstado() { return estado; }
 	public void setEstado(Enumerados.EstadoProyectoEnum estado) 
@@ -171,7 +185,7 @@ public class Proyecto
 			SeccionTexto secResumen=null;
 			for(SeccionTexto sec : this.DocumentoPorSecciones)
 			{
-				if(sec.getTitulo().trim().equals("Resumen") || sec.getTitulo().trim().equals("Abstract"))
+				if(sec != null && (sec.getTitulo().trim().equals("Resumen") || sec.getTitulo().trim().equals("Abstract")))
 				{
 					secResumen= sec;
 					break;
@@ -190,7 +204,7 @@ public class Proyecto
 		int largoList = contenido.size();
 		for(int x=largoList-1; x>=0; x--)
 		{			
-			if( !FuncionesTexto.terminaPunto(contenido.get(x)))
+			if( !FuncionesTexto.terminaPunto (contenido.get(x)) )
 				contenido.remove(x);
 			else
 				break;
@@ -215,7 +229,7 @@ public class Proyecto
 			SeccionTexto secAlumnos=null;
 			for(SeccionTexto sec : this.DocumentoPorSecciones)
 			{
-				if(sec.getTitulo().trim().equals("Alumnos") || sec.getTitulo().trim().equals("Integrantes"))
+				if(sec != null && (sec.getTitulo().trim().equals("Alumnos") || sec.getTitulo().trim().equals("Integrantes")))
 				{
 					secAlumnos = sec;
 					break;
@@ -245,7 +259,7 @@ public class Proyecto
 			SeccionTexto secTutor=null;
 			for(SeccionTexto sec : this.DocumentoPorSecciones)
 			{
-				if(sec.getTitulo().trim().equals("Tutor"))
+				if(sec != null && sec.getTitulo().trim().equals("Tutor"))
 				{
 					secTutor = sec;
 					break;
@@ -265,5 +279,5 @@ public class Proyecto
 		contenido = FuncionesTexto.eliminarEspacios(contenido);
 		
 		return contenido;
-	}	
+	}
 }

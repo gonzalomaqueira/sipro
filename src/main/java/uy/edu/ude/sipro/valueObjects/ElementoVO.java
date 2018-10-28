@@ -5,7 +5,7 @@ import java.util.Set;
 
 import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
 
-public class ElementoVO 
+public class ElementoVO implements Comparable
 {	
 	private int id;
 	private String nombre;
@@ -41,4 +41,10 @@ public class ElementoVO
  	
  	public List<SubElementoVO> getElementosRelacionados() { return elementosRelacionados; }
  	public void setElementosRelacionados(List<SubElementoVO> elementosRelacionados) { this.elementosRelacionados = elementosRelacionados; }
+
+	@Override
+	public int compareTo(Object comparado)
+	{
+		return this.getNombre().toLowerCase().compareTo(((ElementoVO)comparado).getNombre().toLowerCase());
+	}
  }

@@ -1,22 +1,28 @@
 package uy.edu.ude.sipro.service.interfaces;
 
-import java.util.ArrayList;
-import java.util.List;
 
+import java.util.ArrayList;
+import java.util.Set;
+
+import uy.edu.ude.sipro.entidades.Docente;
 import uy.edu.ude.sipro.entidades.Elemento;
 import uy.edu.ude.sipro.entidades.Proyecto;
+import uy.edu.ude.sipro.valueObjects.DocenteVO;
 
 public interface ProyectoService 
 {
-	void agregar(String nombre, String carrera, String corrector, int nota, String rutaArchivo);
+	void agregar(String nombre, String carrera, Set<DocenteVO> correctores, int nota, String rutaArchivo);
 	void modificar(int id, String nombre, int anio, String carrera, int nota, String rutaArchivo);
-	void modificar(int id, String nombre, int anio, String carrera, String corrector, int nota, String resumen, ArrayList<String> alumnos, ArrayList<String> tutor);
+	public void modificar(int id, String nombre, int anio, String carrera, int nota, String resumen, ArrayList<String> alumnos, ArrayList<String> tutorString, Set<Docente> correctores);
 	void eliminar(int id);
-    List<Proyecto> obtenerProyectos();
+    Set<Proyecto> obtenerProyectos();
 	Proyecto obtenerProyectoPorId(int idProyecto);
 	
-	List<Elemento> obtenerElementosProyecto(Proyecto proyecto, List<Elemento> listaElementos);
-	String[] obtenerTextoOriginalProyecto(Proyecto proyecto);
+	Set<Elemento> obtenerElementosProyecto(Proyecto proyecto, Set<Elemento> listaElementos);
+	String[] obtenerTextoOriginalProyecto(Proyecto proyecto);	
+	void cargarTutorPorString(Proyecto proyecto);
 	
 	void procesarProyecto(int id);
+	
+	String buscarProyecto(String keywords) throws Exception;
 }

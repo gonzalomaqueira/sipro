@@ -34,11 +34,9 @@ public class ElementoListadoView extends ElementoListadoViewDesign implements Vi
     {
     	this.navigationManager = navigationManager;
     }
-    
 	
 	public void enter(ViewChangeEvent event) 
-	{
-		
+	{		
 		cargarListaElementos();
 		btnEliminar.setEnabled(false);
 		
@@ -89,8 +87,7 @@ public class ElementoListadoView extends ElementoListadoViewDesign implements Vi
 					cargarListaElementos();
 				}
 			}
-		});
-		
+		});		
 	}
 	
 	private void cargarListaElementos()

@@ -10,17 +10,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewDisplay;
 import com.vaadin.navigator.ViewLeaveAction;
+import com.vaadin.spring.access.SecuredViewAccessControl;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
 
 import uy.edu.ude.sipro.navegacion.NavigationManager;
-import uy.edu.ude.sipro.ui.vistas.ElementoDetalleView;
+import uy.edu.ude.sipro.ui.vistas.DocentesView;
 import uy.edu.ude.sipro.ui.vistas.ElementoListadoView;
 import uy.edu.ude.sipro.ui.vistas.ProyectoListadoView;
 import uy.edu.ude.sipro.ui.vistas.ReportesView;
-import uy.edu.ude.sipro.ui.vistas.UsuarioDetalleView;
 import uy.edu.ude.sipro.ui.vistas.UsuarioListadoView;
 
 
@@ -31,21 +31,23 @@ public class MainView extends MainViewDesign implements ViewDisplay {
 	
 	private final Map<Class<? extends View>, Button> navigationButtons = new HashMap<>();
 	private final NavigationManager navigationManager;
-	//private final SecuredViewAccessControl viewAccessControl;
+	private final SecuredViewAccessControl viewAccessControl;
 
 	@Autowired
-	public MainView(NavigationManager navigationManager /*, SecuredViewAccessControl viewAccessControl*/) {
+	public MainView(NavigationManager navigationManager, SecuredViewAccessControl viewAccessControl) {
 		this.navigationManager = navigationManager;
-		//this.viewAccessControl = viewAccessControl;
+		this.viewAccessControl = viewAccessControl;
 	}
 
 	@PostConstruct
 	public void init() {
 		attachNavigation(proyectos, ProyectoListadoView.class);
 		attachNavigation(usuarios, UsuarioListadoView.class);
-		attachNavigation(tecnologias, ElementoListadoView.class);
+		attachNavigation(elementos, ElementoListadoView.class);
 		attachNavigation(reportes, ReportesView.class);
-		attachNavigation(configuracion, UsuarioDetalleView.class);
+		attachNavigation(docentes, DocentesView.class);
+		
+		navigationManager.setErrorView(DocentesView.class);
 
 
 		salir.addClickListener(e -> logout());
@@ -63,13 +65,13 @@ public class MainView extends MainViewDesign implements ViewDisplay {
 	 *            the view to navigate to when the user clicks the button
 	 */
 	private void attachNavigation(Button navigationButton, Class<? extends View> targetView) {
-		//boolean hasAccessToView = viewAccessControl.isAccessGranted(targetView);
-		//((navigationButton.setVisible(hasAccessToView);
+		boolean hasAccessToView = viewAccessControl.isAccessGranted(targetView);
+		navigationButton.setVisible(hasAccessToView);
 
-		//if (hasAccessToView) {
+		if (hasAccessToView) {
 			navigationButtons.put(targetView, navigationButton);
 			navigationButton.addClickListener(e -> navigationManager.navigateTo(targetView));
-		//}
+		}
 	}
 
 	@Override

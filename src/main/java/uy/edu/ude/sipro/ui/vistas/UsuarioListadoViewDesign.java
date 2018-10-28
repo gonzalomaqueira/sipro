@@ -22,7 +22,7 @@ public class UsuarioListadoViewDesign extends VerticalLayout {
 	protected Button btnAgregar;
 	protected Button btnEditar;
 	protected Button btnBorrar;
-	protected Grid grdElementoProyecto;
+	protected Grid<uy.edu.ude.sipro.valueObjects.UsuarioVO> grdUsuarios;
 
 	public UsuarioListadoViewDesign() {
 		Design.read(this);

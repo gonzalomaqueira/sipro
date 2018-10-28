@@ -1,6 +1,7 @@
 package uy.edu.ude.sipro.valueObjects;
 
-public class SinonimoVO {
+public class SinonimoVO implements Comparable 
+{
 	
 	private int id;
 	private String nombre;
@@ -26,4 +27,9 @@ public class SinonimoVO {
 		this.nombre = nombre;
 	}
 
+	@Override
+	public int compareTo(Object comparado)
+	{
+		return this.getNombre().toLowerCase().compareTo(((SinonimoVO)comparado).getNombre().toLowerCase());
+	}
 }

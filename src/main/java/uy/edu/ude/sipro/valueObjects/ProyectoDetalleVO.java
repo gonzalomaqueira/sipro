@@ -2,9 +2,11 @@ package uy.edu.ude.sipro.valueObjects;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-public class ProyectoDetalleVO
+public class ProyectoDetalleVO implements Comparable
 {
 	private int id;
 
@@ -14,13 +16,15 @@ public class ProyectoDetalleVO
 
 	private String carrera;
 	
-	private String corrector;
+	private List<DocenteVO> correctores;
 
 	private int nota;
 	
 	private ArrayList<String> alumnos;
 	
-	private ArrayList<String> tutor;
+	private DocenteVO tutor;
+	
+	private ArrayList<String> tutorString;
 	
 	private String resumen;
 	
@@ -32,18 +36,19 @@ public class ProyectoDetalleVO
 
 	private List <ElementoVO> elementosRelacionados;
 	
-	public ProyectoDetalleVO(int id, String nombre, int anio, String carrera, String corrector, int nota, ArrayList<String> alumnos, 
-							 ArrayList<String> tutor, String rutaArchivo, String resumen, Date fechaAlta, 
+	public ProyectoDetalleVO(int id, String nombre, int anio, String carrera, List<DocenteVO> correctores, int nota, ArrayList<String> alumnos, 
+							 DocenteVO tutor, ArrayList<String> tutorString, String rutaArchivo, String resumen, Date fechaAlta, 
 							 Date fechaUltimaModificacion, List<ElementoVO> elementosRelacionados) 
 	{
 		this.id = id;
 		this.nombre = nombre;
 		this.anio = anio;
 		this.carrera = carrera;
-		this.corrector = corrector;
+		this.correctores = correctores;
 		this.nota = nota;
 		this.alumnos = alumnos;
 		this.tutor = tutor;
+		this.tutorString = tutorString;
 		this.rutaArchivo = rutaArchivo;
 		this.resumen = resumen;
 		this.fechaAlta = fechaAlta;
@@ -91,14 +96,6 @@ public class ProyectoDetalleVO
 		this.nota = nota;
 	}
 	
-	public String getCorrector() {
-		return corrector;
-	}
-
-	public void setCorrector(String corrector) {
-		this.corrector = corrector;
-	}
-
 	public ArrayList<String> getAlumnos() {
 		return alumnos;
 	}
@@ -107,12 +104,28 @@ public class ProyectoDetalleVO
 		this.alumnos = alumnos;
 	}
 
-	public ArrayList<String> getTutor() {
+	public DocenteVO getTutor() {
 		return tutor;
 	}
 
-	public void setTutor(ArrayList<String> tutor) {
+	public void setTutor(DocenteVO tutor) {
 		this.tutor = tutor;
+	}
+	
+	public List<DocenteVO> getCorrectores() {
+		return correctores;
+	}
+
+	public void setCorrectores(List<DocenteVO> correctores) {
+		this.correctores = correctores;
+	}
+
+	public ArrayList<String> getTutorString() {
+		return tutorString;
+	}
+
+	public void setTutorString(ArrayList<String> tutorString) {
+		this.tutorString = tutorString;
 	}
 
 	public String getResumen() {
@@ -154,6 +167,10 @@ public class ProyectoDetalleVO
 	public void setElementosRelacionados(List<ElementoVO> elementosRelacionados) {
 		this.elementosRelacionados = elementosRelacionados;
 	}
-	
-	
+
+	@Override
+	public int compareTo(Object comparado)
+	{
+		return this.getId() - ((ProyectoDetalleVO) comparado).getId();
+	}
 }

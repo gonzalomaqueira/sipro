@@ -3,7 +3,7 @@
  <head>
   <meta charset="UTF-8">
   <meta name="design-properties" content="{&quot;RULERS_VISIBLE&quot;:true,&quot;GUIDELINES_VISIBLE&quot;:false,&quot;SNAP_TO_OBJECTS&quot;:true,&quot;SNAP_TO_GRID&quot;:true,&quot;SNAPPING_DISTANCE&quot;:10,&quot;GENERATE_GETTERS&quot;:false,&quot;JAVA_SOURCES_ROOT&quot;:&quot;src/main/java&quot;,&quot;THEME&quot;:&quot;siprotema&quot;}">
-  <meta name="vaadin-version" content="8.0.5">
+  <meta name="vaadin-version" content="8.1.5">
  </head>
  <body>
   <vaadin-vertical-layout spacing="false" responsive margin-top="false">
@@ -35,13 +35,13 @@
        <vaadin-label style-name="h4" width-full plain-text>
          Contraseña 
        </vaadin-label>
-       <vaadin-text-field style-name="full" id="txtAnio" width-full _id="txtAnio1"></vaadin-text-field>
+       <vaadin-text-field style-name="full" id="txtContrasenia" width-full _id="txtContrasenia"></vaadin-text-field>
       </vaadin-vertical-layout>
       <vaadin-vertical-layout spacing="false" size-full margin="false">
        <vaadin-label style-name="h4" width-full plain-text>
          Repetir contraseña 
        </vaadin-label>
-       <vaadin-text-field style-name="full" id="txtNota" width-full _id="txtNota1"></vaadin-text-field>
+       <vaadin-text-field style-name="full" id="txtRepetirContasenia" width-full _id="txtRepetirContasenia"></vaadin-text-field>
       </vaadin-vertical-layout>
      </vaadin-horizontal-layout>
      <vaadin-label style-name="success" plain-text _id="lblContraseñasIguales"></vaadin-label>
@@ -79,11 +79,7 @@
        <vaadin-label style-name="h4" width-full plain-text>
          Perfil 
        </vaadin-label>
-       <vaadin-combo-box id="cmbPerfil" width-full data-item-type="java.lang.String" _id="cmbPerfil">
-        <option item="Option1">Option 1</option>
-        <option item="Option2">Option 2</option>
-        <option item="Option3">Option 3</option>
-       </vaadin-combo-box>
+       <vaadin-combo-box id="cmbPerfil" width-full data-item-type="uy.edu.ude.sipro.valueObjects.PerfilVO" _id="cmbPerfil"></vaadin-combo-box>
       </vaadin-vertical-layout>
      </vaadin-horizontal-layout>
     </vaadin-css-layout>

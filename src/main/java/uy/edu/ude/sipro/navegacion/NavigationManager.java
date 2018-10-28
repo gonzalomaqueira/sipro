@@ -9,7 +9,9 @@ import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.spring.internal.Conventions;
 import com.vaadin.spring.navigator.SpringNavigator;
 
+import uy.edu.ude.sipro.seguridad.SecurityUtils;
 import uy.edu.ude.sipro.ui.vistas.ProyectoListadoView;
+import uy.edu.ude.sipro.ui.vistas.UsuarioListadoView;
 
 
 
@@ -52,6 +54,7 @@ public class NavigationManager extends SpringNavigator {
 	public void navigateTo(Class<? extends View> targetView, Object parameter) {
 		String viewId = getViewId(targetView);
 		navigateTo(viewId + "/" + parameter.toString());
+		
 	}
 
 	public void navigateToDefaultView() {
@@ -62,9 +65,8 @@ public class NavigationManager extends SpringNavigator {
 			return;
 		}
 
-		//navigateTo(SecurityUtils.isCurrentUserInRole(Role.ADMIN) ? DashboardView.class : StorefrontView.class);
-		//navigateTo(AccessDeniedView.class);
-		navigateTo(ProyectoListadoView.class);
+		navigateTo(SecurityUtils.isCurrentUserInRole("admin") ? UsuarioListadoView.class : ProyectoListadoView.class);
+
 	}
 
 	/**

@@ -2,7 +2,9 @@ package uy.edu.ude.sipro.ui.vistas;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,7 +20,6 @@ import com.vaadin.ui.components.grid.SingleSelectionModel;
 import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
 import uy.edu.ude.sipro.navegacion.NavigationManager;
 import uy.edu.ude.sipro.service.Fachada;
-import uy.edu.ude.sipro.service.interfaces.ElementoService;
 import uy.edu.ude.sipro.valueObjects.ElementoVO;
 import uy.edu.ude.sipro.valueObjects.SinonimoVO;
 import uy.edu.ude.sipro.valueObjects.SubElementoVO;
@@ -330,7 +331,7 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 	private void cargarListaRelacionados(int idElemento)
 	{
 		
-		listaSubElementoRelacionados= new ArrayList<SubElementoVO>(elemento.getElementosRelacionados());
+		listaSubElementoRelacionados= elemento.getElementosRelacionados();
 		elemento.getElementosRelacionados().removeAll(elemento.getElementosRelacionados());
 		this.grdElementoProyecto.setItems( listaSubElementoRelacionados );
 	}
@@ -385,7 +386,6 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 			cmbElementoRelacion.setItems(fachada.obtenerElementos());
 			cmbElementoRelacion.setItemCaptionGenerator(ElementoVO::getNombre);
 		}
-
 	}
 	
 	private boolean listaContieneSinonimo(List<SinonimoVO> listaSinonimos, String sinonimoBuscado)

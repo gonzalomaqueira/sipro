@@ -1,6 +1,8 @@
 package uy.edu.ude.sipro.dao.implementaciones;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -39,12 +41,12 @@ public class SinonimoDaoImp implements SinonimoDao
 	}
 
 	@Override
-	public List<Sinonimo> obtenerSinonimos()
+	public Set<Sinonimo> obtenerSinonimos()
 	{
 		CriteriaQuery<Sinonimo> criteriaQuery = em.getCriteriaBuilder().createQuery(Sinonimo.class);
 		@SuppressWarnings("unused")
 		Root<Sinonimo> root = criteriaQuery.from(Sinonimo.class);
-		return em.createQuery(criteriaQuery).getResultList();
+		return new HashSet<Sinonimo>(em.createQuery(criteriaQuery).getResultList());
 	}
 
 	@Override
