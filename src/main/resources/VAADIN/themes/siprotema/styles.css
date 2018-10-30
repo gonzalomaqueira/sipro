@@ -15297,7 +15297,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .siprotema .app-shell[width-range~="601px-"] .navigation-bar-container {
-	background-image: linear-gradient(to right bottom, #1a22d6, #0068fd, #0095ff, #00bbf8, #12ddeb);
+	background-image: linear-gradient(to right bottom, #1a22d6, #0068fd);
 }
 
 .siprotema .app-shell[width-range~="601px-"] .navigation-bar {

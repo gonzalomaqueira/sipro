@@ -31,7 +31,7 @@
 $v-focus-color: #1a22d6;
 
 // Background gradient and image used for the menu, false disables
-$app-background-gradient: unquote("linear-gradient(to right bottom, #1a22d6, #0068fd, #0095ff, #00bbf8, #12ddeb)");
+$app-background-gradient: unquote("linear-gradient(to right bottom, #1a22d6, #0068fd)");
 
 @import "../valo/valo.scss";
 @import 'menu';

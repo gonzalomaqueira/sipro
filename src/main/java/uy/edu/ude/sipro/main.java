@@ -13,37 +13,36 @@ public class main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-	String requestUrl = "http://localhost:9200" + "/" + "sipro_index" + "/" + "_search";
-
-	HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
-	HttpClient httpClient = httpClientBuilder.build();
-
-	try
-	{
-	    HttpPost request = new HttpPost(requestUrl);
-
-	    RequestConfig requestConfig = RequestConfig.custom()
-	            .setSocketTimeout(80)
-	            .setConnectTimeout(80)
-	            .setConnectionRequestTimeout(80)
-	            .build();
-
-	    request.setConfig(requestConfig);
-
-	    StringEntity params = new StringEntity("{\"query\":{\"match\":{\"bio\":\"Universidad\"}},\"highlight\":{\"fields\":{\"bio\":{}}}}");
-	    request.addHeader("content-type", "application/json");
-	    request.addHeader("Accept","application/json");
-	    request.setEntity(params);
-	    HttpResponse response = httpClient.execute(request);
-
-	    String json = EntityUtils.toString(response.getEntity());
-	    System.out.println(json);
-	}
-	catch(Exception e)
-	{
-		e.printStackTrace();
-	}
-
+		String requestUrl = "http://localhost:9200" + "/" + "sipro_index" + "/" + "_search";
+	
+		HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
+		HttpClient httpClient = httpClientBuilder.build();
+	
+		try
+		{
+		    HttpPost request = new HttpPost(requestUrl);
+	
+		    RequestConfig requestConfig = RequestConfig.custom()
+		            .setSocketTimeout(80)
+		            .setConnectTimeout(80)
+		            .setConnectionRequestTimeout(80)
+		            .build();
+	
+		    request.setConfig(requestConfig);
+	
+		    StringEntity params = new StringEntity("{\"query\":{\"match\":{\"bio\":\"Universidad\"}},\"highlight\":{\"fields\":{\"bio\":{}}}}");
+		    request.addHeader("content-type", "application/json");
+		    request.addHeader("Accept","application/json");
+		    request.setEntity(params);
+		    HttpResponse response = httpClient.execute(request);
+	
+		    String json = EntityUtils.toString(response.getEntity());
+		    System.out.println(json);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 
 	}
 }

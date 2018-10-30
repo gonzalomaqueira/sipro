@@ -30,7 +30,7 @@ public class HttpUtil
 		    request.setConfig(requestConfig);
 
 		    StringEntity params = new StringEntity(jsonBody);
-		    headers.forEach(( v,k) -> request.addHeader(v, k));
+		    headers.forEach((v,k) -> request.addHeader(v,k));
 		    
 		    request.setEntity(params);
 		    HttpResponse response = httpClient.execute(request);

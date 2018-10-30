@@ -26,11 +26,11 @@
      <vaadin-label style-name="h4" width-full plain-text>
        Usuario(login) 
      </vaadin-label>
-     <vaadin-text-field style-name="full" id="txtUsuario" width-full _id="txtUsuario"></vaadin-text-field>
+     <vaadin-text-field style-name="full" id="txtUsuario" width-full readonly _id="txtUsuario"></vaadin-text-field>
     </vaadin-css-layout>
     <vaadin-css-layout></vaadin-css-layout>
     <vaadin-css-layout responsive width-full>
-     <vaadin-horizontal-layout width-full _id="contenedorAnioNota1">
+     <vaadin-horizontal-layout width-full>
       <vaadin-vertical-layout spacing="false" size-full margin="false">
        <vaadin-label style-name="h4" width-full plain-text>
          Contraseña 
@@ -44,14 +44,14 @@
        <vaadin-text-field style-name="full" id="txtRepetirContasenia" width-full _id="txtRepetirContasenia"></vaadin-text-field>
       </vaadin-vertical-layout>
      </vaadin-horizontal-layout>
-     <vaadin-label style-name="success" plain-text _id="lblContraseñasIguales"></vaadin-label>
+     <vaadin-label visible="false" style-name="success" plain-text _id="lblContraseñasIguales"></vaadin-label>
     </vaadin-css-layout>
-    <vaadin-label style-name="failure" plain-text _id="lblContraseñasIncorrectas">
+    <vaadin-label visible="false" style-name="failure" plain-text _id="lblContraseñasIncorrectas">
       Las contraseñas no coinciden 
     </vaadin-label>
     <vaadin-css-layout></vaadin-css-layout>
     <vaadin-css-layout responsive width-full>
-     <vaadin-horizontal-layout width-full _id="contenedorAnioNota2">
+     <vaadin-horizontal-layout width-full>
       <vaadin-vertical-layout spacing="false" size-full margin="false">
        <vaadin-label style-name="h4" width-full plain-text>
          Nombre 
@@ -68,7 +68,7 @@
     </vaadin-css-layout>
     <vaadin-css-layout></vaadin-css-layout>
     <vaadin-css-layout responsive width-full>
-     <vaadin-horizontal-layout width-full _id="contenedorAnioNota21">
+     <vaadin-horizontal-layout width-full>
       <vaadin-vertical-layout spacing="false" size-full margin="false">
        <vaadin-label style-name="h4" width-full plain-text>
          Email 
