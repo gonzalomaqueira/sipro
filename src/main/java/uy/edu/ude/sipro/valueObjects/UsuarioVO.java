@@ -7,6 +7,8 @@ public class UsuarioVO implements Comparable
 	private String nombre;
 	private String apellido;
 	private String email;
+	private String contrasenia;
+	private String repetirContrasenia;
 	private PerfilVO perfil;
 	
 	public int getId() {
@@ -45,7 +47,18 @@ public class UsuarioVO implements Comparable
 	public void setPerfil(PerfilVO perfil) {
 		this.perfil = perfil;
 	}
-	
+	public String getContrasenia() {
+		return contrasenia;
+	}
+	public void setContrasenia(String contrasenia) {
+		this.contrasenia = contrasenia;
+	}
+	public String getRepetirContrasenia() {
+		return repetirContrasenia;
+	}
+	public void setRepetirContrasenia(String repetirContrasenia) {
+		this.repetirContrasenia = repetirContrasenia;
+	}
 	@Override
 	public int compareTo(Object comparado)
 	{

@@ -1820,107 +1820,6 @@ div.v-layout.v-horizontal.v-widget {
 	padding-top: 37px;
 }
 
-.siprotema .crud-template .top-bar {
-	background: white;
-	color: #1a22d6;
-	padding: 0 18.5px;
-	border-bottom: 1px solid #c5c5c5;
-}
-
-.siprotema .crud-template .padding {
-	padding: 18.5px;
-}
-
-.siprotema .crud-template .border {
-	border: 1px solid #c5c5c5;
-}
-
-.siprotema .crud-template .border-top {
-	border-top: 1px solid #c5c5c5;
-}
-
-.siprotema .crud-template .border-left {
-	border-left: 1px solid #c5c5c5;
-}
-
-.siprotema .crud-template .filters {
-	padding: 9.25px;
-}
-
-.siprotema .crud-template .filters .v-slot {
-	position: relative;
-}
-
-.siprotema .crud-template .content {
-	position: relative;
-}
-
-.siprotema .crud-template .list {
-	padding-right: 300px;
-}
-
-.siprotema .crud-template .inspect {
-	position: absolute;
-	right: 0;
-	top: 0;
-	background: #ededed;
-	width: 300px !important;
-	border-left: 4px solid #e0e0e0;
-}
-
-.siprotema .crud-template .section {
-	padding: 9.25px;
-}
-
-.siprotema .crud-template .edit {
-	padding: 9.25px;
-	overflow-x: hidden;
-	overflow-y: auto;
-	border-left: 1px solid #d4d4d4;
-	border-top: 1px solid #d4d4d4;
-}
-
-.siprotema .crud-template .search {
-	background: transparent;
-	border: none;
-	box-shadow: none;
-	border-bottom: 2px solid #1a22d6;
-	border-radius: 0;
-	max-width: 350px;
-}
-
-.siprotema .crud-template .buttons {
-	background: #fafafa;
-	padding: 9.25px;
-	border-left: 1px solid #d4d4d4;
-}
-
-.siprotema .crud-template[width-range~="-850px"] .list {
-	height: 50% !important;
-	padding-right: 0;
-}
-
-.siprotema .crud-template[width-range~="-850px"] .inspect {
-	position: static;
-	height: 50% !important;
-	width: 100% !important;
-	border-top: 4px solid #e0e0e0;
-	border-left: none;
-}
-
-.siprotema .crud-template[width-range~="-850px"] .section, .siprotema .crud-template[width-range~="-850px"] .edit {
-	padding: 4.625px;
-}
-
-.siprotema .crud-template[width-range~="-850px"] .half {
-	width: 50% !important;
-	float: left;
-}
-
-.siprotema .crud-template[width-range~="-650px"] .half {
-	width: 100% !important;
-}
-
 .siprotema.v-app, .siprotema.v-app-loading {
 	font: 300 16px/1.55 "Open Sans", sans-serif;
 	color: #464646;
@@ -15122,7 +15021,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .siprotema .app-shell[width-range~="601px-"] .navigation-bar-container {
-	background-image: linear-gradient(to right bottom, #1a22d6, #0068fd, #0095ff, #00bbf8, #12ddeb);
+	background-image: linear-gradient(to right bottom, #1a22d6, #0068fd);
 }
 
 .siprotema .app-shell[width-range~="601px-"] .navigation-bar {
