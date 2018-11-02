@@ -41,6 +41,7 @@ public class UsuarioListadoView extends UsuarioListadoViewDesign implements View
     
 	public void enter(ViewChangeEvent event) 
 	{
+		grdUsuarios.addColumn(usuario -> usuario.getPerfil().getDescripcion()).setCaption("Perfil");
 		cargarInterfazInicial();
 		
 		btnAgregar.addClickListener(new Button.ClickListener()

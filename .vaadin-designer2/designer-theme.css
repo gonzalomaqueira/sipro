@@ -14969,6 +14969,83 @@ div.v-layout.v-horizontal.v-widget {
 	overflow: hidden;
 }
 
+.siprotema .list-filters .v-textfield, .siprotema .list-filters .v-button, .siprotema .list-filters .v-checkbox {
+	margin-bottom: 12px;
+	margin-right: 12px;
+	vertical-align: middle;
+}
+
+.siprotema .v-grid.orders-grid  > div {
+	border-left: 0;
+	border-bottom: 0;
+}
+
+.siprotema .v-grid.orders-grid .v-grid-cell {
+	height: 100px;
+}
+
+.siprotema .v-grid.orders-grid .summary, .siprotema .v-grid.orders-grid .due {
+	padding: 12px;
+}
+
+.siprotema .v-grid.orders-grid .summary .header, .siprotema .v-grid.orders-grid .summary .content, .siprotema .v-grid.orders-grid .due .header, .siprotema .v-grid.orders-grid .due .content {
+	display: block;
+}
+
+.siprotema .v-grid.orders-grid .due {
+	text-align: center;
+	font-size: 14px;
+}
+
+.siprotema .v-grid.orders-grid .due .header {
+	font-size: 10px;
+	font-weight: 400;
+	padding: 2px 7px;
+	border-radius: 15px;
+	border: 1px solid transparent;
+	margin: 5px 0;
+}
+
+.siprotema .v-grid.orders-grid .today.ready .due .header, .siprotema .v-grid.orders-grid .today.delivered .due .header {
+	background-color: #1a22d6;
+	color: #fff;
+	opacity: 0.7;
+}
+
+.siprotema .v-grid.orders-grid .delivered .due:after {
+	content: "\e7c5";
+	font-family: Vaadin-Icons;
+	line-height: 1.55;
+	display: block;
+	margin-top: 6px;
+	color: #1a22d6;
+	opacity: 0.7;
+}
+
+.siprotema .v-grid.orders-grid .new .due .header {
+	border-color: #2c9720;
+	color: #2c9720;
+}
+
+.siprotema .v-grid.orders-grid .problem .due .header, .siprotema .v-grid.orders-grid .today.new .due .header, .siprotema .v-grid.orders-grid .today.confirmed .due .header {
+	border-color: transparent;
+	background-color: #ed473b;
+	color: #f1d3d1;
+}
+
+.siprotema .v-grid.orders-grid .cancelled .header, .siprotema .v-grid.orders-grid .cancelled .content {
+	text-decoration: line-through;
+	opacity: 0.5;
+}
+
+.siprotema .v-grid.orders-grid .summary .header {
+	font-size: 20px;
+}
+
+.siprotema .v-grid.orders-grid .summary .content {
+	font-size: 14px;
+}
+
 .siprotema .app-shell .logo, .siprotema .app-shell .v-caption-logo {
 	color: #fff;
 	word-wrap: break-word;

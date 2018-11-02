@@ -23,6 +23,7 @@ public class UIUtiles
     public static void navegarVista(String vistaDestino) {
         UI.getCurrent().getNavigator().navigateTo(vistaDestino);
     }
+   
 
     public static void mostrarErrorValidaciones(List<ValidationResult> erroresValidacion) {
         Notification notification = new Notification("Error de validación", Type.ERROR_MESSAGE);

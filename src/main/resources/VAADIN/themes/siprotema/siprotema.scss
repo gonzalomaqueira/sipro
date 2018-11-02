@@ -34,11 +34,13 @@ $v-focus-color: #1a22d6;
 $app-background-gradient: unquote("linear-gradient(to right bottom, #1a22d6, #0068fd)");
 
 @import "../valo/valo.scss";
+@import 'ordersgrid';
 @import 'menu';
 
 @mixin siprotema {
 
 @include valo;
+@include ordersgrid;
 @include menu;
 
  .v-errorindicator {

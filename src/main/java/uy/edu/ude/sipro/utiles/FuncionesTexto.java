@@ -242,6 +242,15 @@ public class FuncionesTexto
 		return false;
 	}
 	
+	public static boolean esTituloBibliografia(String linea)
+	{
+		if (FuncionesTexto.esTitulo(linea) && linea.trim().equals("Tutor"))
+		{
+			return true;
+		}
+		return false;
+	}
+	
 	public static ArrayList<String> eliminarLineasVacias (ArrayList<String> texto)
 	{
 		String[] textoAux = texto.toArray(new String[texto.size()]);
@@ -407,4 +416,27 @@ public class FuncionesTexto
 		}
 		return salida;
    }
+	
+	public static boolean esNumerico(String str)  
+	{  
+	  try  
+	  {  
+	    double d = Double.parseDouble(str);  
+	  }  
+	  catch(NumberFormatException nfe)  
+	  {  
+	    return false;  
+	  }  
+	  return true;  
+	}
+	
+	public static boolean esNotaValida(String str)
+	{
+		if(esNumerico(str) && (Integer.parseInt(str)<=12 && Integer.parseInt(str)>=0))
+		{
+			return true;
+		}
+		return false;
+
+	}
 }

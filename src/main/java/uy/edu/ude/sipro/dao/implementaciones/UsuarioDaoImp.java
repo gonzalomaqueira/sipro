@@ -57,9 +57,18 @@ public class UsuarioDaoImp implements UsuarioDao
 	@Override
 	public Usuario buscarUsuario(String usuario)
 	{
-		TypedQuery<Usuario> query = em.createQuery("SELECT u FROM Usuario u WHERE u.usuario = :usuario", Usuario.class);
-		query.setParameter("usuario", usuario);
-		return query.getSingleResult();
+		Usuario usu;
+		try
+		{
+			TypedQuery<Usuario> query = em.createQuery("SELECT u FROM Usuario u WHERE u.usuario = :usuario", Usuario.class);
+			query.setParameter("usuario", usuario);
+			usu = query.getSingleResult();
+		}			
+		catch (Exception e)
+		{
+			usu = null;
+		}
+		return usu;
 	}   
 }
 

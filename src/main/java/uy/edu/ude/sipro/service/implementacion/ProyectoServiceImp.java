@@ -183,25 +183,28 @@ public class ProyectoServiceImp implements ProyectoService
 				{
 					for(SeccionTexto seccion : proyecto.getDocumentoPorSecciones())
 					{
-						if (encontroElemento)
+						if (!seccion.getTitulo().trim().equals("Bibliografia") && !seccion.getTitulo().trim().equals("Referencias"))
 						{
-							encontroElemento = false;
-							break;
-						}
-						if(FuncionesTexto.seccionContieneTexto(seccion, elemento.getNombre()))
-						{
-							listaRetorno.add(elemento);
-							break;
-						}
-						else
-						{
-							for (Sinonimo sinonimo: elemento.getSinonimos())
+							if (encontroElemento)
 							{
-								if(FuncionesTexto.seccionContieneTexto(seccion, sinonimo.getNombre()))
+								encontroElemento = false;
+								break;
+							}
+							if(FuncionesTexto.seccionContieneTexto(seccion, elemento.getNombre()))
+							{
+								listaRetorno.add(elemento);
+								break;
+							}
+							else
+							{
+								for (Sinonimo sinonimo: elemento.getSinonimos())
 								{
-									listaRetorno.add(elemento);
-									encontroElemento = true;
-									break;
+									if(FuncionesTexto.seccionContieneTexto(seccion, sinonimo.getNombre()))
+									{
+										listaRetorno.add(elemento);
+										encontroElemento = true;
+										break;
+									}
 								}
 							}
 						}

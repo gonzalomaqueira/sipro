@@ -1,10 +1,7 @@
 package uy.edu.ude.sipro.ui.vistas;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.apache.commons.lang.StringUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,7 +16,6 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Button.ClickEvent;
 
-import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
 import uy.edu.ude.sipro.navegacion.NavigationManager;
 import uy.edu.ude.sipro.service.Fachada;
 import uy.edu.ude.sipro.ui.UIUtiles;
@@ -37,11 +33,13 @@ public class UsuarioDetalleView extends UsuarioDetalleViewDesign implements View
 	private UsuarioVO usuarioSeleccionado;
 	private Binder<UsuarioVO> binder;
 	private final NavigationManager navigationManager;
+	private boolean esModoEdicion;
 	
     @Autowired
     public UsuarioDetalleView (NavigationManager navigationManager)
     {
     	this.navigationManager = navigationManager;
+    	esModoEdicion = false;
     }
     
 	public void enter(ViewChangeEvent event) 
@@ -57,6 +55,7 @@ public class UsuarioDetalleView extends UsuarioDetalleViewDesign implements View
 		{
 			usuarioSeleccionado=fachada.obtenerUsuarioPorId(Integer.parseInt(idProyecto));
 			cargarVistaModificarUsuario(Integer.parseInt(idProyecto));
+			esModoEdicion = true;
 		}
 		
 		if (usuarioSeleccionado == null)
@@ -77,7 +76,7 @@ public class UsuarioDetalleView extends UsuarioDetalleViewDesign implements View
 		btnGuardar.addClickListener(new Button.ClickListener()
 		{
 			public void buttonClick(ClickEvent event) 
-			{  		
+			{
 		    	try 
 		    	{
 		    		BinderValidationStatus<UsuarioVO> statusValidacion = binder.validate();
@@ -87,15 +86,28 @@ public class UsuarioDetalleView extends UsuarioDetalleViewDesign implements View
                         
 			    		if(usuarioSeleccionado.getId() > 0)
 			    		{
-			    			fachada.modificarUsuario(	usuarioSeleccionado.getId(),
-			    										usuarioSeleccionado.getUsuario(),
-			    										usuarioSeleccionado.getContrasenia(),
-			    										usuarioSeleccionado.getNombre(),
-			    										usuarioSeleccionado.getApellido(),
-			    										usuarioSeleccionado.getEmail(),
-						    							cmbPerfil.getSelectedItem().get());	
+			    			if (usuarioSeleccionado.getContrasenia().isEmpty())
+			    			{
+				    			fachada.modificarUsuario(	usuarioSeleccionado.getId(),
+				    										usuarioSeleccionado.getUsuario(),
+				    										usuarioSeleccionado.getNombre(),
+				    										usuarioSeleccionado.getApellido(),
+				    										usuarioSeleccionado.getEmail(),
+				    										usuarioSeleccionado.getPerfil());
+			    			}
+			    			else
+			    			{
+				    			fachada.modificarUsuario(	usuarioSeleccionado.getId(),
+															usuarioSeleccionado.getUsuario(),
+															usuarioSeleccionado.getContrasenia(),
+															usuarioSeleccionado.getNombre(),
+															usuarioSeleccionado.getApellido(),
+															usuarioSeleccionado.getEmail(),
+															usuarioSeleccionado.getPerfil());
+			    			}
 	    		
-			    			Notification.show("Usuario modificado correctamente",Notification.Type.WARNING_MESSAGE);
+			    			UIUtiles.mostrarNotificacion("USUARIO", "Modificación exitosa", Notification.Type.WARNING_MESSAGE);			    			
+			    			navigationManager.navigateTo(UsuarioListadoView.class);
 			    		}
 			    		else
 			    		{
@@ -104,10 +116,9 @@ public class UsuarioDetalleView extends UsuarioDetalleViewDesign implements View
 													usuarioSeleccionado.getNombre(),
 													usuarioSeleccionado.getApellido(),
 													usuarioSeleccionado.getEmail(),
-									    			cmbPerfil.getSelectedItem().get());	
+													usuarioSeleccionado.getPerfil());
 			    		
-			    			Notification.show("Usuario ingresado correctamente",Notification.Type.WARNING_MESSAGE);
-			    			
+			    			UIUtiles.mostrarNotificacion("USUARIO", "Alta exitosa", Notification.Type.WARNING_MESSAGE);			    			
 			    			navigationManager.navigateTo(UsuarioListadoView.class);
 			    		}
 			    	}
@@ -120,6 +131,7 @@ public class UsuarioDetalleView extends UsuarioDetalleViewDesign implements View
 		    	catch (Exception e)
 				{
 		    		Notification.show("Error al ingresar usuario",Notification.Type.WARNING_MESSAGE);
+		    		UIUtiles.mostrarNotificacion("ERROR", "Ocurrió algún problema con Alta usuario", Notification.Type.WARNING_MESSAGE);	
 		    		navigationManager.navigateTo(UsuarioListadoView.class);
 				}
 		    }
@@ -132,28 +144,33 @@ public class UsuarioDetalleView extends UsuarioDetalleViewDesign implements View
 		binder = new Binder<UsuarioVO>(UsuarioVO.class);
 		
 		binder.forField(txtUsuario)
-			.withValidator(nombre -> nombre.length() >= 2, "Debe tener al menos 2 caracteres")
+			.withValidator(usuario -> usuario.length() >= 2, "Usuario debe tener al menos 2 caracteres")
+			.withValidator(usuario -> (esModoEdicion || !fachada.existeUsuario(usuario)), "Usuario ya existente")
 			.bind(UsuarioVO::getUsuario, UsuarioVO::setUsuario);
 		
         binder.forField(txtNombre)
-        	.withValidator(nombre -> nombre.length() >= 2, "Debe tener al menos 2 caracteres")
+        	.withValidator(nombre -> nombre.length() >= 2, "Nombre debe tener al menos 2 caracteres")
         	.bind(UsuarioVO::getNombre, UsuarioVO::setNombre);
         
         binder.forField(txtApellido)
-        	.withValidator(a -> a.length() >= 2, "Debe tener al menos 2 caracteres")
+        	.withValidator(a -> a.length() >= 2, "Apellido debe tener al menos 2 caracteres")
         	.bind(UsuarioVO::getApellido, UsuarioVO::setApellido);
 
         binder.forField(txtEmail)
-        	.withValidator(new EmailValidator("El formato no es válido "))
+        	.withValidator(new EmailValidator("El formato del email no es válido "))
         	.bind(UsuarioVO::getEmail, UsuarioVO::setEmail);
         
         binder.forField(txtContrasenia)
-        	.withValidator(c -> c.length() >= 5, "La contraseña debe contener al menos 5 caracteres")
+        	.withValidator(c -> c.length() >= 5 || (esModoEdicion && c.length() == 0), "La contraseña debe contener al menos 5 caracteres")
         	.bind(UsuarioVO::getContrasenia, UsuarioVO::setContrasenia);
 
         binder.forField(txtRepetirContasenia)
         	.withValidator(c -> c.equals(txtContrasenia.getValue()), "Las contraseñas no coinciden")
         	.bind(UsuarioVO::getRepetirContrasenia, UsuarioVO::setRepetirContrasenia);
+        
+        binder.forField(cmbPerfil)
+        	.withValidator(c -> c != null, "Debe seleccionar un perfil")
+        	.bind(UsuarioVO::getPerfil, UsuarioVO::setPerfil);
         
         binder.readBean(usuarioSeleccionado);
 	}

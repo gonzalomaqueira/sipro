@@ -8,6 +8,10 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.vaadin.data.Binder;
+import com.vaadin.data.BinderValidationStatus;
+import com.vaadin.data.converter.StringToIntegerConverter;
+import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.BrowserWindowOpener;
@@ -22,10 +26,13 @@ import com.vaadin.ui.components.grid.SingleSelectionModel;
 import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
 import uy.edu.ude.sipro.navegacion.NavigationManager;
 import uy.edu.ude.sipro.service.Fachada;
+import uy.edu.ude.sipro.ui.UIUtiles;
 import uy.edu.ude.sipro.utiles.FuncionesTexto;
 import uy.edu.ude.sipro.valueObjects.DocenteVO;
 import uy.edu.ude.sipro.valueObjects.ElementoVO;
 import uy.edu.ude.sipro.valueObjects.ProyectoDetalleVO;
+import uy.edu.ude.sipro.valueObjects.ProyectoVO;
+import uy.edu.ude.sipro.valueObjects.UsuarioVO;
 
 @SpringView
 @SpringComponent
@@ -36,6 +43,7 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 
 	private ProyectoDetalleVO proyecto;
     private DocenteVO correctorSeleccionado;
+    private Binder<ProyectoDetalleVO> binder;
     private List<DocenteVO> listaCorrectores;
     private List<DocenteVO> listaDocentes;
     private final NavigationManager navigationManager;
@@ -68,17 +76,17 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 			opener.extend(btnVerTextoDocumento);
 		}
 		cargarCmbCorrectores();
-		
+		this.SetearBinder();
 		btnGuardar.addClickListener(new Button.ClickListener()
 		{
 			public void buttonClick(ClickEvent event)
 			{										
 				try 
 				{
-					if( !txtNombreProyecto.isEmpty() && !txtAnio.isEmpty() && !txtCarrera.isEmpty() && !txtNota.isEmpty() && !txtResumen.isEmpty() 
-						&& !txtAlumnos.isEmpty() && !txtTutor.isEmpty())
-					{
-						cargarDatosProyecto();
+					BinderValidationStatus<ProyectoDetalleVO> statusValidacion = binder.validate();
+		    		if (statusValidacion.isOk())
+		    		{
+                        cargarDatosProyecto();
 						fachada.modificarProyectoCompleto( 	proyecto.getId(), 
 															proyecto.getNombre(),
 															proyecto.getAnio(),
@@ -90,16 +98,17 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 															proyecto.getCorrectores());
 							
 						
-					     Notification.show("Proyecto modificado exitosamente", Notification.Type.HUMANIZED_MESSAGE);
+						 UIUtiles.mostrarNotificacion("PROYECTO", "Modificación exitosa", Notification.Type.HUMANIZED_MESSAGE);	
 					     cargarInterfazInicial();
 					}
-					else
-						Notification.show("Hay campos vacíos", Notification.Type.HUMANIZED_MESSAGE); 
+		    		else
+		    		{
+		    			UIUtiles.mostrarErrorValidaciones(statusValidacion.getValidationErrors());
+		    		}
 		    	}
 		    	catch (Exception e)
 				{
-		    		Notification.show("Hubo un error al modificar proyecto",Notification.Type.WARNING_MESSAGE);
-		    		e.printStackTrace();
+		    		UIUtiles.mostrarNotificacion("ERROR", "Ocurrió un error al modificar proyecto", Notification.Type.WARNING_MESSAGE);	
 					cargarVistaModificarProyecto(proyecto.getId());		
 				}
 			}
@@ -328,5 +337,29 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 			}
 		}
 	}
+	
+	private void SetearBinder()
+	{
+		binder = new Binder<ProyectoDetalleVO>(ProyectoDetalleVO.class);
+		
+		binder.forField(txtNombreProyecto)
+			.withValidator(nombre -> nombre.length() >= 3, "Nombre proyecto debe tener al menos 3 caracteres")
+			.bind(ProyectoDetalleVO::getNombre, ProyectoDetalleVO::setNombre);
+		
+        binder.forField(txtAnio)
+        	.withValidator(anio ->FuncionesTexto.esNumerico(anio), "El año tiene que ser numérico")
+        	.withValidator(anio -> anio.length() == 4, "El año debe tener 4 dígitos")
+        	.bind(ProyectoDetalleVO::getAnioString, ProyectoDetalleVO::setAnioString);
+        
+        binder.forField(txtNota)
+    		.withValidator(nota ->FuncionesTexto.esNumerico(nota), "La nota tiene que ser numérico")
+    		.withValidator(nota ->FuncionesTexto.esNotaValida(nota), "La nota debe estar entre 0 y 12")
+        	.bind(ProyectoDetalleVO::getNotaString, ProyectoDetalleVO::setNotaString);
+
+
+        
+        binder.readBean(proyecto);
+	}
+
 
 }
