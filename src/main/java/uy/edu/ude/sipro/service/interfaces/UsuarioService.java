@@ -9,6 +9,7 @@ public interface UsuarioService
 	void agregar(String nombreUsuario, String contrasenia, String nombre, String apellido, String email, Perfil perfil);
 	void modificar(int id, String nombreUsuario, String contrasenia, String nombre, String apellido, String email, Perfil perfil);
 	void eliminar(int id);
+	void modificarSinContrasenia(int id, String nombreUsuario, String nombre, String apellido, String email, Perfil perfil);
     Set<Usuario> obtenerUsuarios();
 	Usuario buscarUsuario(String user);
 	Usuario buscarUsuarioPorId(int id);

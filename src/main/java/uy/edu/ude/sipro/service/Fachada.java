@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
 import uy.edu.ude.sipro.entidades.Perfil;
+import uy.edu.ude.sipro.entidades.Usuario;
 import uy.edu.ude.sipro.service.interfaces.DocenteService;
 import uy.edu.ude.sipro.service.interfaces.ElementoService;
 import uy.edu.ude.sipro.service.interfaces.PerfilService;
@@ -104,6 +105,13 @@ public class Fachada {
 		usuarioService.agregar(usuario, contrasenia, nombre, apellido, email, p);
 	}	
 	
+	public void modificarUsuario(int id, String usuario, String nombre, String apellido, String email, PerfilVO perfil) 
+	{
+		Perfil p = new Perfil();
+		p.setId(perfil.getId());
+		usuarioService.modificarSinContrasenia(id, usuario, nombre, apellido, email, p);
+	}
+	
 	public void modificarUsuario(int id, String usuario, String contrasenia, String nombre, String apellido, String email, PerfilVO perfil) 
 	{
 		Perfil p = new Perfil(); 
@@ -114,6 +122,12 @@ public class Fachada {
 	public void eliminarUsuario(int id)
 	{
 		usuarioService.eliminar(id);
+	}
+	
+	public boolean existeUsuario(String usuario)
+	{
+		Usuario usu = usuarioService.buscarUsuario(usuario);
+		return (usu != null);
 	}
 
 	public List<PerfilVO> obtenerPerfiles()
@@ -164,6 +178,11 @@ public class Fachada {
 	public void eliminarDocente(int id)
 	{
 		docenteService.eliminar(id);
+	}
+	
+	public boolean existeDocente(String nombre, String apellido)
+	{
+		return docenteService.existeDocente(nombre, apellido);
 	}
 
 }

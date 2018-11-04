@@ -8,6 +8,8 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.vaadin.data.Binder;
+import com.vaadin.data.BinderValidationStatus;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.spring.annotation.SpringComponent;
@@ -20,6 +22,8 @@ import com.vaadin.ui.components.grid.SingleSelectionModel;
 import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
 import uy.edu.ude.sipro.navegacion.NavigationManager;
 import uy.edu.ude.sipro.service.Fachada;
+import uy.edu.ude.sipro.ui.UIUtiles;
+import uy.edu.ude.sipro.valueObjects.DocenteVO;
 import uy.edu.ude.sipro.valueObjects.ElementoVO;
 import uy.edu.ude.sipro.valueObjects.SinonimoVO;
 import uy.edu.ude.sipro.valueObjects.SubElementoVO;
@@ -30,6 +34,8 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 	
 	@Autowired
 	private Fachada fachada;
+	
+	private Binder<DocenteVO> binder;
 	
 	//Lista con todos los elementos con su direccion correcta
 	private List<ElementoVO> listaElementos;
@@ -56,6 +62,7 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 	{
 		cargarListaElementos();
 		String idElemento = event.getParameters();
+		this.SetearBinder();
 		if ("".equals(idElemento))
 		{
 			cargarVistaGuardar();
@@ -77,10 +84,11 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 		btnGuardar.addClickListener(new Button.ClickListener()
 		{
 			public void buttonClick(ClickEvent event)
-			{			
-				if (txtNombreElemento.isEmpty() || chEsCategoria.isEmpty() || chTipo.isEmpty()) 
+			{	
+				BinderValidationStatus<DocenteVO> statusValidacion = binder.validate();
+	    		if (!statusValidacion.isOk()) 
 				{
-					Notification.show("Hay valores vacíos", Notification.Type.WARNING_MESSAGE);
+	    			UIUtiles.mostrarErrorValidaciones(statusValidacion.getValidationErrors());
 				}
 				else
 				{	
@@ -112,13 +120,14 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 			    		fachada.altaElemento(txtNombreElemento.getValue(),
 			    								esCategoria, tipo, 
 			    								listaSubElementoRelacionados, listaSinonimos);
-			    		Notification.show("Elemento agregado exitosamente", Notification.Type.WARNING_MESSAGE);
+			    		
+			    		UIUtiles.mostrarNotificacion("ELEMENTO", "Alta exitosa", Notification.Type.HUMANIZED_MESSAGE);
 			    		navigationManager.navigateTo(ElementoListadoView.class);
 
 			    	}
 			    	catch (Exception e)
 					{
-			    		Notification.show("Hubo un error al agregar el elemento", Notification.Type.WARNING_MESSAGE);
+			    		UIUtiles.mostrarNotificacion("ERROR", "Ocurrió algún error con alta elemento", Notification.Type.ERROR_MESSAGE);
 					}
 
 				}
@@ -129,9 +138,10 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 		{
 			public void buttonClick(ClickEvent event)
 			{			
-				if (txtNombreElemento.isEmpty() || chEsCategoria.isEmpty() || chTipo.isEmpty()) 
+				BinderValidationStatus<DocenteVO> statusValidacion = binder.validate();
+	    		if (!statusValidacion.isOk()) 
 				{
-					Notification.show("Hay valores vacíos", Notification.Type.WARNING_MESSAGE);
+	    			UIUtiles.mostrarErrorValidaciones(statusValidacion.getValidationErrors());
 				}
 				else
 				{	
@@ -164,13 +174,13 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 			    								txtNombreElemento.getValue(),
 			    								esCategoria, tipo, 
 			    								listaSubElementoRelacionados, listaSinonimos);
-			    		Notification.show("Elemento modificado exitosamente", Notification.Type.WARNING_MESSAGE);
+			    		UIUtiles.mostrarNotificacion("ELEMENTO", "Modificación exitosa", Notification.Type.HUMANIZED_MESSAGE);
 			    		navigationManager.navigateTo(ElementoListadoView.class);
 
 			    	}
 			    	catch (Exception e)
 					{
-			    		Notification.show("Hubo un error al modificar el elemento", Notification.Type.WARNING_MESSAGE);
+			    		UIUtiles.mostrarNotificacion("ERROR", "Ocurrió algún error con modificación elemento", Notification.Type.ERROR_MESSAGE);
 					}
 
 				}
@@ -244,7 +254,7 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 					}
 					else
 					{
-						Notification.show("Sinónimo ya existente", Notification.Type.WARNING_MESSAGE);
+						UIUtiles.mostrarNotificacion("ERROR", "Sinónimo ya existente", Notification.Type.ERROR_MESSAGE);
 					}
 				}
 			}
@@ -392,12 +402,30 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 	{
 		for (SinonimoVO sinonimo : listaSinonimos)
 		{
-			if (sinonimo.getNombre().equals(sinonimoBuscado))
+			if (sinonimo.getNombre().toLowerCase().equals(sinonimoBuscado.toLowerCase()))
 			{					
 				return true;
 			}
 		}
 		return false;
+	}
+	
+	private void SetearBinder()
+	{
+		binder = new Binder<DocenteVO>(DocenteVO.class);
+		
+		binder.forField(txtNombreElemento)
+			.withValidator(nombre -> nombre.length() >= 3, "Nombre debe tener al menos 3 caracteres")
+			.bind(DocenteVO::getNombre, DocenteVO::setNombre);
+		
+        binder.forField(chEsCategoria)
+        	.withValidator(c -> c!=null, "Debe seleccionar una categoria")
+        	.bind(DocenteVO::getApellido, DocenteVO::setApellido);
+        
+        binder.forField(chTipo)
+    	.withValidator(c -> c!=null, "Debe seleccionar una tipo")
+    	.bind(DocenteVO::getApellido, DocenteVO::setApellido);
+         
 	}
 	
 }

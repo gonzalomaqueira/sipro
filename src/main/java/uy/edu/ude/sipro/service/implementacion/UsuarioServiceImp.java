@@ -52,6 +52,19 @@ public class UsuarioServiceImp implements UsuarioService
    
    @Transactional
    @Override
+   public void modificarSinContrasenia(int id, String nombreUsuario, String nombre, String apellido, String email, Perfil perfil)
+   {	   
+	   Usuario usuario = usuarioDao.obtenerUsuarioPorId(id);
+	   usuario.setUsuario(nombreUsuario);
+	   usuario.setNombre(nombre);
+	   usuario.setApellido(apellido);
+	   usuario.setEmail(email);
+	   usuario.setPerfil(perfil);
+	   usuarioDao.modificar(usuario);
+   }
+   
+   @Transactional
+   @Override
    public void eliminar(int id)
    {
 	   Usuario usuario = new Usuario();

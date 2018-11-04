@@ -12,6 +12,8 @@ import java.util.Set;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.vaadin.data.Binder;
+import com.vaadin.data.BinderValidationStatus;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.spring.annotation.SpringComponent;
@@ -23,9 +25,13 @@ import com.vaadin.ui.Notification;
 
 import uy.edu.ude.sipro.navegacion.NavigationManager;
 import uy.edu.ude.sipro.service.Fachada;
+import uy.edu.ude.sipro.ui.UIUtiles;
 import uy.edu.ude.sipro.utiles.Constantes;
+import uy.edu.ude.sipro.utiles.FuncionesTexto;
 import uy.edu.ude.sipro.utiles.ReceptorArchivos;
 import uy.edu.ude.sipro.valueObjects.DocenteVO;
+import uy.edu.ude.sipro.valueObjects.ProyectoDetalleVO;
+import uy.edu.ude.sipro.valueObjects.ProyectoVO;
 
 
 @SpringView
@@ -39,8 +45,10 @@ public class ProyectoNuevoView extends ProyectoNuevoViewDesign implements View
     
     private String nombreArchivo;
     private String prefijoArchivo;
+    private Binder<ProyectoVO> binder;
     private Set<DocenteVO> listaCorrectores;
     private DocenteVO correctorSeleccionado;
+
     
     @Autowired
     public ProyectoNuevoView (NavigationManager navigationManager)
@@ -54,7 +62,7 @@ public class ProyectoNuevoView extends ProyectoNuevoViewDesign implements View
 		cargarInterfazInicial();
 		cargarCmbCorrectores();
 		setearInformacionUpload();
-		
+		this.SetearBinder();
 		
 		
 		btnGuardar.addClickListener(new Button.ClickListener()
@@ -75,32 +83,40 @@ public class ProyectoNuevoView extends ProyectoNuevoViewDesign implements View
 				{
 					try 
 					{
-						fachada.altaProyecto(txtNombreProyecto.getValue(),
-											 txtCarrera.getValue(),
-											 listaCorrectores,
-											 Integer.parseInt(txtNota.getValue()),
-											 Constantes.RUTA_ARCHIVOS + prefijoArchivo + nombreArchivo);
-					   
-						Notification.show("Archivo subido exitosamente", Notification.Type.HUMANIZED_MESSAGE);           
+						BinderValidationStatus<ProyectoVO> statusValidacion = binder.validate();
+			    		if (statusValidacion.isOk())
+			    		{
+							fachada.altaProyecto(txtNombreProyecto.getValue(),
+												 txtCarrera.getValue(),
+												 listaCorrectores,
+												 Integer.parseInt(txtNota.getValue()),
+												 Constantes.RUTA_ARCHIVOS + prefijoArchivo + nombreArchivo);
+						   
+							UIUtiles.mostrarNotificacion("PROYECTO", "alta exitosa", Notification.Type.HUMANIZED_MESSAGE);
+							navigationManager.navigateTo(ProyectoListadoView.class);
+			    		}
+			    		else
+			    		{
+			    			UIUtiles.mostrarErrorValidaciones(statusValidacion.getValidationErrors());
+			    		}
 					}
 					catch (Exception e)
 					{
-						Notification.show("Hubo un error al subir el proyecto", Notification.Type.WARNING_MESSAGE);
-						e.printStackTrace();
+						UIUtiles.mostrarNotificacion("ERROR", "Ocurrió algún problema con Alta proyecto", Notification.Type.ERROR_MESSAGE);
 					}
-					navigationManager.navigateTo(ProyectoListadoView.class);
+					
 				}
 				else
 				{
 					File archivo= new File(Constantes.RUTA_ARCHIVOS + prefijoArchivo + nombreArchivo);
 					archivo.delete();
-					Notification.show("El archivo que selecciono no es de tipo pdf, doc o docx", Notification.Type.HUMANIZED_MESSAGE); 
+					UIUtiles.mostrarNotificacion("ERROR", "El archivo que selecciono no es de tipo pdf, doc o docx", Notification.Type.WARNING_MESSAGE);
 
 				}
 			}
 			else
 			{
-				Notification.show("Seleccione el documento asociado", Notification.Type.WARNING_MESSAGE);
+				UIUtiles.mostrarNotificacion("ERROR", "Selecciones el documento asociado", Notification.Type.WARNING_MESSAGE);
 			}				
         });
 		
@@ -218,4 +234,22 @@ public class ProyectoNuevoView extends ProyectoNuevoViewDesign implements View
 		}
 
 	}
+	
+	private void SetearBinder()
+	{
+		binder = new Binder<ProyectoVO>(ProyectoVO.class);
+		
+		binder.forField(txtNombreProyecto)
+			.withValidator(nombre -> nombre.length() >= 3, "Nombre proyecto debe tener al menos 3 caracteres")
+			.bind(ProyectoVO::getNombre, ProyectoVO::setNombre);
+		
+
+        binder.forField(txtNota)
+    		.withValidator(nota ->FuncionesTexto.esNumerico(nota), "La nota tiene que ser numérico")
+    		.withValidator(nota ->FuncionesTexto.esNotaValida(nota), "La nota debe estar entre 0 y 12")
+        	.bind(ProyectoVO::getNotaString, ProyectoVO::setNotaString);
+
+        
+	}
+
 }

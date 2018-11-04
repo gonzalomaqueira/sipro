@@ -167,6 +167,43 @@ public class ProyectoDetalleVO implements Comparable
 	public void setElementosRelacionados(List<ElementoVO> elementosRelacionados) {
 		this.elementosRelacionados = elementosRelacionados;
 	}
+	
+	public String getAnioString() 
+	{
+		return Integer.toString(this.anio);
+	}
+
+	public void setAnioString(String anio) 
+	{
+		
+		try
+		{
+			this.anio =Integer.parseInt(anio);
+		}
+		catch(Exception e)
+		{
+			
+		}
+		
+	}
+
+	public String getNotaString() 
+	{
+		return Integer.toString(this.nota);
+	}
+
+	public void setNotaString(String nota) 
+	{
+		try
+		{
+			this.nota =Integer.parseInt(nota);
+		}
+		catch(Exception e)
+		{
+			
+		}
+	}
+	
 
 	@Override
 	public int compareTo(Object comparado)

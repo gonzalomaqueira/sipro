@@ -40,7 +40,6 @@ public class SinonimoServiceImp implements SinonimoService
 	public void eliminar(int id)
 	{
 		Sinonimo sinonimo = this.obtenerSinonimoPorId(id);
-		sinonimo.setElemento(new Elemento());
 		sinonimoDao.eliminar(sinonimo);
 	}
 

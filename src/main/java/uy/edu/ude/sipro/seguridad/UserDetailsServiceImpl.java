@@ -29,8 +29,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String nombreUsuario) throws UsernameNotFoundException {
-		Usuario usuario = usuarioService.buscarUsuario(nombreUsuario);
-//		Usuario usuario = new Usuario("miguel", passwordEncoder.encode("ariel"), "miguelito", "arielito", "mig@ari", new Perfil("admin"));
+		//Usuario usuario = usuarioService.buscarUsuario(nombreUsuario);
+		Usuario usuario = new Usuario("admin", passwordEncoder.encode("admin"), "admin", "admin", "adm@ari", new Perfil("admin"));
 		if (null == usuario) {
 			throw new UsernameNotFoundException("No user present with username: " + nombreUsuario);
 		} else {

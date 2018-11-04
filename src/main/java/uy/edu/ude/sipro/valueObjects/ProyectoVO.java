@@ -75,6 +75,23 @@ public class ProyectoVO implements Comparable
 	public void setEstado(Enumerados.EstadoProyectoEnum estado) {
 		this.estado = estado;
 	}
+	
+	public String getNotaString() 
+	{
+		return Integer.toString(this.nota);
+	}
+
+	public void setNotaString(String nota) 
+	{
+		try
+		{
+			this.nota =Integer.parseInt(nota);
+		}
+		catch(Exception e)
+		{
+			
+		}
+	}
 
 	@Override
 	public int compareTo(Object comparado)

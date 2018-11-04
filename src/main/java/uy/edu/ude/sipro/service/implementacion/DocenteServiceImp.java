@@ -1,6 +1,6 @@
 package uy.edu.ude.sipro.service.implementacion;
 
-import java.util.List;
+
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import uy.edu.ude.sipro.dao.interfaces.DocenteDao;
 import uy.edu.ude.sipro.entidades.Docente;
-import uy.edu.ude.sipro.entidades.Elemento;
 import uy.edu.ude.sipro.entidades.Proyecto;
 import uy.edu.ude.sipro.service.interfaces.DocenteService;
 
@@ -70,4 +69,11 @@ public class DocenteServiceImp implements DocenteService
     {
     	return docenteDao.obtenerDocentePorId(id);
     }
+	
+	@Transactional(readOnly = true)
+	@Override
+	public boolean existeDocente(String nombre, String apellido)
+	{
+		return docenteDao.existeDocente(nombre, apellido);
+	}
 }

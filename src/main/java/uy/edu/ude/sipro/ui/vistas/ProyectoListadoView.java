@@ -16,6 +16,7 @@ import com.vaadin.ui.components.grid.SingleSelectionModel;
 import uy.edu.ude.sipro.entidades.Enumerados.EstadoProyectoEnum;
 import uy.edu.ude.sipro.navegacion.NavigationManager;
 import uy.edu.ude.sipro.service.Fachada;
+import uy.edu.ude.sipro.ui.UIUtiles;
 import uy.edu.ude.sipro.valueObjects.ProyectoVO;
 
 @SpringView
@@ -94,7 +95,7 @@ public class ProyectoListadoView extends ProyectoListadoViewDesign implements Vi
 				if( proyectoSeleccionado != null )
 				{
 					fachada.borrarProyecto(proyectoSeleccionado.getId());
-					Notification.show("Proyecto eliminado exitosamente", Notification.Type.WARNING_MESSAGE);
+					UIUtiles.mostrarNotificacion("PROYECTO", "Baja exitosa", Notification.Type.HUMANIZED_MESSAGE);
 					cargarInterfazInicial();
 				}
 			}
@@ -107,8 +108,8 @@ public class ProyectoListadoView extends ProyectoListadoViewDesign implements Vi
 				if( proyectoSeleccionado != null )
 				{
 					fachada.ProcesarProyecto(proyectoSeleccionado.getId());
-					cargarInterfazInicial();
-					grdProyectos.select(proyectoSeleccionado);
+					navigationManager.navigateTo(ProyectoDetallesView.class, proyectoSeleccionado.getId());
+					UIUtiles.mostrarNotificacion("PROYECTO", "Procesado exitosamente", Notification.Type.HUMANIZED_MESSAGE);
 				}
 			}
 		});
