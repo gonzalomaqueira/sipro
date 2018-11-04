@@ -12,4 +12,5 @@ public interface DocenteDao
 	void eliminar(Docente docente);
 	Set<Docente> obtenerDocentes();
 	Docente obtenerDocentePorId(int id);
+	boolean existeDocente(String nombre, String apellido);
 }

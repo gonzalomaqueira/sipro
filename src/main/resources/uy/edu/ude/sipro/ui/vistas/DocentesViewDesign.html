@@ -9,36 +9,35 @@
   <vaadin-vertical-layout size-full margin-top="false">
    <vaadin-css-layout style-name="content" size-full>
     <vaadin-css-layout responsive width-full>
+     <vaadin-horizontal-layout style-name="v-window-top-toolbar">
+      <vaadin-button visible="false" style-name="friendly small" id="btnAgregar" plain-text _id="btnAgregar">
+        Guardar 
+      </vaadin-button>
+      <vaadin-button icon="fonticon://Vaadin-Icons/e801" style-name="friendly small" id="btnEditar" plain-text _id="btnNuevo">
+        Nuevo 
+      </vaadin-button>
+      <vaadin-button visible="false" style-name="danger small" plain-text _id="btnBorrar" :center>
+        Borrar 
+      </vaadin-button>
+      <vaadin-button visible="false" style-name="small" id="btnCancelar" width="87px" plain-text _id="btnCancelar">
+        Cancelar 
+      </vaadin-button>
+     </vaadin-horizontal-layout>
+    </vaadin-css-layout>
+    <vaadin-css-layout responsive width-full _id="cssNombre">
      <vaadin-label style-name="h4" width-full plain-text>
        Nombre 
      </vaadin-label>
      <vaadin-text-field style-name="full" id="txtNombreDocente" width-full _id="txtNombreDocente"></vaadin-text-field>
     </vaadin-css-layout>
     <vaadin-css-layout></vaadin-css-layout>
-    <vaadin-css-layout responsive width-full>
+    <vaadin-css-layout responsive width-full _id="cssApellido">
      <vaadin-label style-name="h4" width-full plain-text>
        Apellido 
      </vaadin-label>
      <vaadin-text-field style-name="full" id="txtApellidoDocente" width-full _id="txtApellidoDocente"></vaadin-text-field>
     </vaadin-css-layout>
-    <vaadin-css-layout></vaadin-css-layout>
-    <vaadin-css-layout responsive width-full>
-     <vaadin-horizontal-layout style-name="v-window-top-toolbar">
-      <vaadin-button icon="fonticon://Vaadin-Icons/e801" style-name="friendly small" id="btnAgregar" plain-text _id="btnAgregar">
-        Agregar 
-      </vaadin-button>
-      <vaadin-button visible="false" style-name="primary small" id="btnEditar" plain-text _id="btnEditar">
-        Editar 
-      </vaadin-button>
-      <vaadin-button visible="false" style-name="danger small" plain-text _id="btnBorrar" :center>
-        Borrar 
-      </vaadin-button>
-      <vaadin-button style-name="small" id="btnCancelar" width="87px" plain-text _id="btnCancelar">
-        Cancelar 
-      </vaadin-button>
-     </vaadin-horizontal-layout>
-     <vaadin-css-layout></vaadin-css-layout>
-    </vaadin-css-layout>
+    <vaadin-css-layout width-full></vaadin-css-layout>
     <vaadin-css-layout size-full>
      <vaadin-grid id="grdDocentes" height-mode="undefined" width-full data-item-type="uy.edu.ude.sipro.valueObjects.DocenteVO" _id="grdDocentes">
       <table>

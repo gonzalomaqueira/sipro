@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,15 +38,20 @@ public class FuncionesTexto
         {
     	    if (FuncionesTexto.esTitulo(linea))
     	    {
-    	    	encontreTitulo = true;
-    	    	if (seccion != null)
+    	    	if(!FuncionesTexto.esTituloBibliografia(linea))
     	    	{
-    	    		seccion.setContenido(contenido);
-    	    		documentoPorSecciones.add(seccion);
+	    	    	encontreTitulo = true;
+	    	    	if (seccion != null)
+	    	    	{
+	    	    		seccion.setContenido(contenido);
+	    	    		documentoPorSecciones.add(seccion);
+	    	    	}
+	    	    	seccion = new SeccionTexto();
+	    	    	contenido = new ArrayList<String>();
+	    	    	seccion.setTitulo(linea);
     	    	}
-    	    	seccion = new SeccionTexto();
-    	    	contenido = new ArrayList<String>();
-    	    	seccion.setTitulo(linea);
+    	    	else
+    	    		break;
 			}
     	    else
     	    {
@@ -244,7 +248,7 @@ public class FuncionesTexto
 	
 	public static boolean esTituloBibliografia(String linea)
 	{
-		if (FuncionesTexto.esTitulo(linea) && linea.trim().equals("Tutor"))
+		if (FuncionesTexto.esTitulo(linea) && (linea.trim().equals("Bibliografia")|| linea.trim().equals("Bibliografía") || linea.trim().equals("Referencias") ))
 		{
 			return true;
 		}
@@ -412,7 +416,7 @@ public class FuncionesTexto
 		}
 		else
 		{
-			salida= source.contains(subItem);
+			salida= source.toLowerCase().contains(subItem.toLowerCase());
 		}
 		return salida;
    }

@@ -92,7 +92,7 @@ public class ProyectoNuevoView extends ProyectoNuevoViewDesign implements View
 												 Integer.parseInt(txtNota.getValue()),
 												 Constantes.RUTA_ARCHIVOS + prefijoArchivo + nombreArchivo);
 						   
-							Notification.show("Archivo subido exitosamente", Notification.Type.HUMANIZED_MESSAGE);
+							UIUtiles.mostrarNotificacion("PROYECTO", "alta exitosa", Notification.Type.HUMANIZED_MESSAGE);
 							navigationManager.navigateTo(ProyectoListadoView.class);
 			    		}
 			    		else
@@ -102,8 +102,7 @@ public class ProyectoNuevoView extends ProyectoNuevoViewDesign implements View
 					}
 					catch (Exception e)
 					{
-						Notification.show("Hubo un error al subir el proyecto", Notification.Type.WARNING_MESSAGE);
-						e.printStackTrace();
+						UIUtiles.mostrarNotificacion("ERROR", "Ocurrió algún problema con Alta proyecto", Notification.Type.ERROR_MESSAGE);
 					}
 					
 				}
@@ -111,13 +110,13 @@ public class ProyectoNuevoView extends ProyectoNuevoViewDesign implements View
 				{
 					File archivo= new File(Constantes.RUTA_ARCHIVOS + prefijoArchivo + nombreArchivo);
 					archivo.delete();
-					Notification.show("El archivo que selecciono no es de tipo pdf, doc o docx", Notification.Type.HUMANIZED_MESSAGE); 
+					UIUtiles.mostrarNotificacion("ERROR", "El archivo que selecciono no es de tipo pdf, doc o docx", Notification.Type.WARNING_MESSAGE);
 
 				}
 			}
 			else
 			{
-				Notification.show("Seleccione el documento asociado", Notification.Type.WARNING_MESSAGE);
+				UIUtiles.mostrarNotificacion("ERROR", "Selecciones el documento asociado", Notification.Type.WARNING_MESSAGE);
 			}				
         });
 		

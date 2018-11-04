@@ -13,6 +13,7 @@ import com.vaadin.ui.components.grid.SingleSelectionModel;
 
 import uy.edu.ude.sipro.navegacion.NavigationManager;
 import uy.edu.ude.sipro.service.Fachada;
+import uy.edu.ude.sipro.ui.UIUtiles;
 import uy.edu.ude.sipro.valueObjects.ElementoVO;
 import uy.edu.ude.sipro.valueObjects.SinonimoVO;
 import uy.edu.ude.sipro.valueObjects.SubElementoVO;
@@ -37,6 +38,7 @@ public class ElementoListadoView extends ElementoListadoViewDesign implements Vi
 	
 	public void enter(ViewChangeEvent event) 
 	{		
+		btnVerDetalles.setEnabled(false);
 		cargarListaElementos();
 		btnEliminar.setEnabled(false);
 		
@@ -50,6 +52,7 @@ public class ElementoListadoView extends ElementoListadoViewDesign implements Vi
 				{
 					elementoSeleccionado = singleSelect.getSelectedItem().get();
 					btnEliminar.setEnabled(true);
+					btnVerDetalles.setEnabled(true);
 					cargarListaRelaciones();
 					cargarListaSinonimos();
 				}
@@ -83,8 +86,9 @@ public class ElementoListadoView extends ElementoListadoViewDesign implements Vi
 				if( elementoSeleccionado!=null )
 				{
 					fachada.eliminarElemento(elementoSeleccionado.getId());
-					Notification.show("Elemento eliminado exitosamente", Notification.Type.WARNING_MESSAGE);
-					cargarListaElementos();
+					UIUtiles.mostrarNotificacion("ELEMENTO", "Baja exitosa", Notification.Type.HUMANIZED_MESSAGE);
+					navigationManager.navigateTo(ElementoListadoView.class);
+					
 				}
 			}
 		});		

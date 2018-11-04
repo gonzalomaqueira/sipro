@@ -15,7 +15,7 @@ public class UIUtiles
         Notification notification = new Notification(titulo, "<span>" + mensaje + "</span>", tipoNotificacion);
         notification.setDescription("<span>" + mensaje + "</span>");
         notification.setHtmlContentAllowed(true);
-        notification.setPosition(Position.BOTTOM_CENTER);
+        notification.setPosition(Position.MIDDLE_CENTER);
         notification.setDelayMsec(5000);
         notification.show(Page.getCurrent());
     }

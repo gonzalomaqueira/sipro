@@ -49,7 +49,7 @@ public class MainView extends MainViewDesign implements ViewDisplay {
 		attachNavigation(reportes, BusquedaView.class);
 		attachNavigation(docentes, DocentesView.class);
 		
-		navigationManager.setErrorView(DocentesView.class);
+		navigationManager.setErrorView(AccesoDenegadoView.class);
 
 
 		salir.addClickListener(e -> logout());

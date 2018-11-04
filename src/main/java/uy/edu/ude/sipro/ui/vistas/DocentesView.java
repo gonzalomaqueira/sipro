@@ -3,6 +3,8 @@ package uy.edu.ude.sipro.ui.vistas;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
+import com.vaadin.data.Binder;
+import com.vaadin.data.BinderValidationStatus;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.spring.annotation.SpringComponent;
@@ -15,6 +17,7 @@ import com.vaadin.ui.components.grid.SingleSelectionModel;
 
 import uy.edu.ude.sipro.navegacion.NavigationManager;
 import uy.edu.ude.sipro.service.Fachada;
+import uy.edu.ude.sipro.ui.UIUtiles;
 import uy.edu.ude.sipro.valueObjects.DocenteVO;
 
 @SpringView
@@ -24,6 +27,7 @@ public class DocentesView extends DocentesViewDesign implements View {
 	
 	@Autowired
 	private Fachada fachada;
+	private Binder<DocenteVO> binder;
 	private DocenteVO docenteSeleccionado;
 	
     private final NavigationManager navigationManager;
@@ -38,19 +42,59 @@ public class DocentesView extends DocentesViewDesign implements View {
 	public void enter(ViewChangeEvent event)
 	{
 		cargarInterfazInicial();
+		docenteSeleccionado= new DocenteVO();
+		this.SetearBinder();
+		
+		btnNuevo.addClickListener(new Button.ClickListener()
+		{
+			public void buttonClick(ClickEvent event)
+			{			
+				cssApellido.setVisible(true);
+				cssNombre.setVisible(true);
+				btnCancelar.setVisible(true);
+				btnAgregar.setVisible(true);
+				btnBorrar.setVisible(false);
+				btnNuevo.setVisible(false);
+				
+			}
+		});
 		
 		btnAgregar.addClickListener(new Button.ClickListener()
 		{
 			public void buttonClick(ClickEvent event)
-			{			
-				if(!txtNombreDocente.isEmpty() && !txtApellidoDocente.isEmpty())
+			{	
+				try 
+		    	{
+					BinderValidationStatus<DocenteVO> statusValidacion = binder.validate();
+		    		if (statusValidacion.isOk())
+		    		{
+	                    binder.writeBean(docenteSeleccionado);
+	                    if(!fachada.existeDocente(docenteSeleccionado.getNombre(),docenteSeleccionado.getApellido()))
+	                    {
+							fachada.altaDocente(docenteSeleccionado.getNombre(), docenteSeleccionado.getApellido());
+							UIUtiles.mostrarNotificacion("DOCENTE", "Alta exitosa", Notification.Type.HUMANIZED_MESSAGE);
+							navigationManager.navigateTo(DocentesView.class);
+	                    }
+	                    else
+	                    {
+	                    	UIUtiles.mostrarNotificacion("DOCENTE", "Ya existente", Notification.Type.ERROR_MESSAGE);
+	                    }
+					}
+		    		else
+		    		{
+		    			UIUtiles.mostrarErrorValidaciones(statusValidacion.getValidationErrors());
+		    		}
+					
+		    	}
+				catch (Exception e)
 				{
-					fachada.altaDocente(txtNombreDocente.getValue(), txtApellidoDocente.getValue());
-					cargarInterfazInicial();
+		    		UIUtiles.mostrarNotificacion("ERROR", "Ocurrió algún problema con Alta docente", Notification.Type.ERROR_MESSAGE);	
+		    		navigationManager.navigateTo(DocentesView.class);
 				}
-				else
-					Notification.show("Hay valores vacíos", Notification.Type.WARNING_MESSAGE);
+	    		
 			}
+
+		
 		});
 		
 		btnCancelar.addClickListener(new Button.ClickListener()
@@ -68,12 +112,12 @@ public class DocentesView extends DocentesViewDesign implements View {
 				try
 				{
 					fachada.eliminarDocente(docenteSeleccionado.getId());
-					Notification.show("Docente eliminado correctamente", Notification.Type.WARNING_MESSAGE);
+					UIUtiles.mostrarNotificacion("DOCENTE", "Baja exitosa", Notification.Type.HUMANIZED_MESSAGE);
 					cargarInterfazInicial();
 				}
 				catch (Exception e)
 				{
-					Notification.show("Error al eliminar docente", Notification.Type.WARNING_MESSAGE);
+					UIUtiles.mostrarNotificacion("ERROR", "Ocurrió algún problema con Baja docente", Notification.Type.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -87,11 +131,12 @@ public class DocentesView extends DocentesViewDesign implements View {
 				if (singleSelect.getSelectedItem() != null)
 				{
 					docenteSeleccionado = singleSelect.getSelectedItem().get();
-					txtNombreDocente.setValue(docenteSeleccionado.getNombre());
-					txtApellidoDocente.setValue(docenteSeleccionado.getApellido());
-					btnAgregar.setEnabled(false);
+					btnCancelar.setVisible(true);
+					btnAgregar.setVisible(false);
 					btnBorrar.setVisible(true);
-					btnEditar.setVisible(true);
+					btnNuevo.setVisible(true);
+					cssApellido.setVisible(false);
+					cssNombre.setVisible(false);
 				}
 			}
 			catch (Exception e)
@@ -104,9 +149,30 @@ public class DocentesView extends DocentesViewDesign implements View {
 	
 	private void cargarInterfazInicial()
 	{
+		txtNombreDocente.clear();
+		txtApellidoDocente.clear();
 		grdDocentes.setItems(fachada.obtenerDocentes());
+		btnCancelar.setVisible(false);
+		btnAgregar.setVisible(false);
 		btnBorrar.setVisible(false);
-		btnEditar.setVisible(false);
+		btnNuevo.setVisible(true);
+		cssApellido.setVisible(false);
+		cssNombre.setVisible(false);
+	}
+	
+	private void SetearBinder()
+	{
+		binder = new Binder<DocenteVO>(DocenteVO.class);
+		
+		binder.forField(txtNombreDocente)
+			.withValidator(nombre -> nombre.length() >= 3, "Nombre debe tener al menos 3 caracteres")
+			.bind(DocenteVO::getNombre, DocenteVO::setNombre);
+		
+        binder.forField(txtApellidoDocente)
+        	.withValidator(apellido -> apellido.length() >= 3, "Apellido debe tener al menos 3 caracteres")
+        	.bind(DocenteVO::getApellido, DocenteVO::setApellido);
+         
+        binder.readBean(docenteSeleccionado);
 	}
 	
 }

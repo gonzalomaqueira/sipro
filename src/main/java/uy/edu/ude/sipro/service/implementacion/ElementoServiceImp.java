@@ -46,7 +46,6 @@ public class ElementoServiceImp implements ElementoService
 		
 		Set<Elemento> todosElementos= elementoDao.obtenerElementos();
 		
-		//el elemento tiene que tener el nombre como primay key sino esto no funciona(CONTROLAR)
 		for(Elemento elem : todosElementos)
 		{
 			if(elemento.getNombre().equals(elem.getNombre()) )
@@ -162,7 +161,7 @@ public class ElementoServiceImp implements ElementoService
 			existe=false;
 			for(Sinonimo sin : listaAux)
 			{
-				if(sinVO.getId()==sin.getId())
+				if(sinVO.getId()==sin.getId() || sinVO.getNombre().toLowerCase().equals(sin.getNombre().toLowerCase()))
 				{
 					existe=true;
 					break;
@@ -178,7 +177,7 @@ public class ElementoServiceImp implements ElementoService
 			existe=false;
 			for(SinonimoVO sinVO : sinonimos)
 			{
-				if(sinVO.getId()==sin.getId())
+				if(sinVO.getId()==sin.getId() || sinVO.getNombre().toLowerCase().equals(sin.getNombre().toLowerCase()))
 				{
 					existe=true;
 					break;
@@ -190,7 +189,7 @@ public class ElementoServiceImp implements ElementoService
 				sinonimoService.eliminar(sin.getId());
 			}
 		}
-		
+
 		listaSinonimos=sinonimoService.obtenerSinonimos();
 		listaAux= new HashSet<Sinonimo>(listaSinonimos);
 		for(Sinonimo sin : listaAux)

@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
@@ -55,5 +56,23 @@ public class DocenteDaoImp implements DocenteDao
 	public Docente obtenerDocentePorId(int id)
 	{
 		return (Docente)em.find(Docente.class, id);
+	}
+	
+	@Override
+	public boolean existeDocente(String nombre, String apellido)
+	{
+		Docente doc;
+		try
+		{
+			TypedQuery<Docente> query = em.createQuery("SELECT u FROM Docente u WHERE u.nombre = :nombre and u.apellido= :apellido", Docente.class);
+			query.setParameter("nombre", nombre);
+			query.setParameter("apellido", apellido);
+			doc = query.getSingleResult();
+		}			
+		catch (Exception e)
+		{
+			doc = null;
+		}
+		return doc!=null;
 	}
 }

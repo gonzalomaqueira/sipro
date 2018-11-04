@@ -17,6 +17,7 @@ import com.vaadin.ui.components.grid.SingleSelectionModel;
 
 import uy.edu.ude.sipro.navegacion.NavigationManager;
 import uy.edu.ude.sipro.service.Fachada;
+import uy.edu.ude.sipro.ui.UIUtiles;
 import uy.edu.ude.sipro.valueObjects.UsuarioVO;
 
 @SpringView
@@ -59,11 +60,11 @@ public class UsuarioListadoView extends UsuarioListadoViewDesign implements View
 		    	{
 		    		fachada.eliminarUsuario(usuarioSeleccionado.getId()); 	
 			    	cargarInterfazInicial();
-			    	Notification.show("Usuario eliminado correctamente",Notification.Type.WARNING_MESSAGE);
+			    	UIUtiles.mostrarNotificacion("USUARIO", "Baja exitosa", Notification.Type.HUMANIZED_MESSAGE);
 		    	}
 		    	catch (Exception e)
 				{
-		    		Notification.show("Error al borrar usuario",Notification.Type.WARNING_MESSAGE);				
+		    		UIUtiles.mostrarNotificacion("ERROR", "Ocurrió algún problema con baja usuario", Notification.Type.ERROR_MESSAGE);		
 				}			
 		    }
 		});	

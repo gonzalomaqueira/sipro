@@ -19,6 +19,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
@@ -48,7 +49,7 @@ public class Proyecto
 	@Column(name = "Anio")
 	private int anio;
 
-	@Size(min = 1, max = 255)
+	@Size(min = 0, max = 255)
 	@Column(name = "Carrera")
 	private String carrera;
 	
@@ -59,6 +60,7 @@ public class Proyecto
 	@JoinColumn(name = "IdTutor")
 	private Docente tutor;
 
+	@Lob
 	@Size(min = 1, max = 255)
 	@Column(name = "Tutor")
 	private ArrayList<String> tutorString;
@@ -66,6 +68,7 @@ public class Proyecto
 	@Column(name = "Nota")
 	private int nota;
 
+	@Lob
 	@Column(name = "Alumnos")
 	private ArrayList<String> alumnos;
 

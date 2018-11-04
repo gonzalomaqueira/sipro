@@ -179,5 +179,10 @@ public class Fachada {
 	{
 		docenteService.eliminar(id);
 	}
+	
+	public boolean existeDocente(String nombre, String apellido)
+	{
+		return docenteService.existeDocente(nombre, apellido);
+	}
 
 }

@@ -106,7 +106,7 @@ public class UsuarioDetalleView extends UsuarioDetalleViewDesign implements View
 															usuarioSeleccionado.getPerfil());
 			    			}
 	    		
-			    			UIUtiles.mostrarNotificacion("USUARIO", "Modificación exitosa", Notification.Type.WARNING_MESSAGE);			    			
+			    			UIUtiles.mostrarNotificacion("USUARIO", "Modificación exitosa", Notification.Type.HUMANIZED_MESSAGE);			    			
 			    			navigationManager.navigateTo(UsuarioListadoView.class);
 			    		}
 			    		else
@@ -118,7 +118,7 @@ public class UsuarioDetalleView extends UsuarioDetalleViewDesign implements View
 													usuarioSeleccionado.getEmail(),
 													usuarioSeleccionado.getPerfil());
 			    		
-			    			UIUtiles.mostrarNotificacion("USUARIO", "Alta exitosa", Notification.Type.WARNING_MESSAGE);			    			
+			    			UIUtiles.mostrarNotificacion("USUARIO", "Alta exitosa", Notification.Type.HUMANIZED_MESSAGE);			    			
 			    			navigationManager.navigateTo(UsuarioListadoView.class);
 			    		}
 			    	}
@@ -130,8 +130,7 @@ public class UsuarioDetalleView extends UsuarioDetalleViewDesign implements View
 		    	}
 		    	catch (Exception e)
 				{
-		    		Notification.show("Error al ingresar usuario",Notification.Type.WARNING_MESSAGE);
-		    		UIUtiles.mostrarNotificacion("ERROR", "Ocurrió algún problema con Alta usuario", Notification.Type.WARNING_MESSAGE);	
+		    		UIUtiles.mostrarNotificacion("ERROR", "Ocurrió algún problema con Alta usuario", Notification.Type.ERROR_MESSAGE);	
 		    		navigationManager.navigateTo(UsuarioListadoView.class);
 				}
 		    }

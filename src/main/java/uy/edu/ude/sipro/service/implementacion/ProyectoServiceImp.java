@@ -12,6 +12,8 @@ import java.util.Set;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
+import org.apache.poi.hwpf.HWPFDocument;
+import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -183,30 +185,28 @@ public class ProyectoServiceImp implements ProyectoService
 				{
 					for(SeccionTexto seccion : proyecto.getDocumentoPorSecciones())
 					{
-						if (!seccion.getTitulo().trim().equals("Bibliografia") && !seccion.getTitulo().trim().equals("Referencias"))
+						if (encontroElemento)
 						{
-							if (encontroElemento)
+							encontroElemento = false;
+							break;
+						}
+						if(FuncionesTexto.seccionContieneTexto(seccion, elemento.getNombre()))
+						{
+							listaRetorno.add(elemento);
+							break;
+						}
+						else
+						{
+							for (Sinonimo sinonimo: elemento.getSinonimos())
 							{
-								encontroElemento = false;
-								break;
-							}
-							if(FuncionesTexto.seccionContieneTexto(seccion, elemento.getNombre()))
-							{
-								listaRetorno.add(elemento);
-								break;
-							}
-							else
-							{
-								for (Sinonimo sinonimo: elemento.getSinonimos())
+								if(FuncionesTexto.seccionContieneTexto(seccion, sinonimo.getNombre()))
 								{
-									if(FuncionesTexto.seccionContieneTexto(seccion, sinonimo.getNombre()))
-									{
-										listaRetorno.add(elemento);
-										encontroElemento = true;
-										break;
-									}
+									listaRetorno.add(elemento);
+									encontroElemento = true;
+									break;
 								}
 							}
+						
 						}
 					}	
 				}
@@ -224,10 +224,14 @@ public class ProyectoServiceImp implements ProyectoService
 		{
 			parsedText = devolverTextoPDF(proyecto.getRutaArchivo());
 		}
-		else if(extension.equals("doc") || (extension.equals("docx")))
+		else if(extension.equals("doc"))
 		{
 			parsedText = devolverTextoDOC(proyecto.getRutaArchivo());
-		}		
+		}
+		else if(extension.equals("docx"))
+		{
+			parsedText = devolverTextoDOCX(proyecto.getRutaArchivo());
+		}
         String textoOriginal[] = parsedText.split("\\r?\\n");
 		return textoOriginal;
 	}
@@ -263,6 +267,44 @@ public class ProyectoServiceImp implements ProyectoService
 	
 	
 	private String devolverTextoDOC(String rutaArchivo)
+	{	
+		String textoRetorno = "";
+		HWPFDocument documento = null;
+		FileInputStream fis = null;
+		WordExtractor we= null;
+		try
+		{
+	        File file = new File(rutaArchivo);	
+	        fis = new FileInputStream(file.getAbsolutePath());
+	        documento = new HWPFDocument(fis);
+	        we= new WordExtractor(documento);
+	        String[] array= we.getParagraphText();
+	        for (String txt : array)
+	        {
+	        	textoRetorno = textoRetorno + txt + "\r\n";
+	        }
+	        documento.close();
+	        fis.close();
+	    } 
+		catch (Exception e)
+		{
+	        e.printStackTrace();
+	        try
+	        {
+	        	if (documento != null)
+	        		documento.close();
+				if (fis != null)					
+					fis.close();
+			} catch (IOException e1)
+	        {
+				e1.printStackTrace();
+			}	        
+	    }
+		System.out.println(textoRetorno);
+		return textoRetorno;
+	}
+	
+	private String devolverTextoDOCX(String rutaArchivo)
 	{	
 		String textoRetorno = "";
 		XWPFDocument documento = null;
