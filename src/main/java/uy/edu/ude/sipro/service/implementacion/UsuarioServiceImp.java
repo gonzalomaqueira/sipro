@@ -45,7 +45,7 @@ public class UsuarioServiceImp implements UsuarioService
 		   passwordEncoder.encode(contrasenia);
 	   }
 	   
-	   Usuario usuario = new Usuario(nombreUsuario, contrasenia, nombre, apellido, email, perfil);
+	   Usuario usuario = new Usuario(nombreUsuario, passwordEncoder.encode(contrasenia), nombre, apellido, email, perfil);
 	   usuario.setId(id);
 	   usuarioDao.modificar(usuario);
    }   

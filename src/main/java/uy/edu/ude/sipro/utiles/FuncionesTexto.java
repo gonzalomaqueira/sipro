@@ -221,7 +221,9 @@ public class FuncionesTexto
 	
 	public static boolean esTituloResumen(String linea)
 	{
-		if (FuncionesTexto.esTitulo(linea) &&  (linea.trim().equals("Resumen") || linea.trim().equals("Abstract")))
+		if (FuncionesTexto.esTitulo(linea) &&  
+			(linea.toLowerCase().trim().equals("resumen") || linea.toLowerCase().trim().equals("abstract") 
+			|| linea.toLowerCase().trim().equals("resumen ejecutivo")|| linea.toLowerCase().trim().equals("resumen gerencial")))
 		{
 			return true;
 		}

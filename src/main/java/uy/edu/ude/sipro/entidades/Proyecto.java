@@ -188,7 +188,7 @@ public class Proyecto
 			SeccionTexto secResumen=null;
 			for(SeccionTexto sec : this.DocumentoPorSecciones)
 			{
-				if(sec != null && (sec.getTitulo().trim().equals("Resumen") || sec.getTitulo().trim().equals("Abstract")))
+				if(sec != null && (FuncionesTexto.esTituloResumen(sec.titulo)))
 				{
 					secResumen= sec;
 					break;
