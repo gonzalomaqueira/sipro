@@ -200,7 +200,7 @@ public class FuncionesTexto
 	
 	public static boolean contieneCaracterEspecial(String linea)
 	{
-		String patron = "[\\\\!\"#$%&()*+,./:;<=>?@\\[\\]^_{|}~]+";
+		String patron = "[\\\\!\"#$%&()*+,./;<=>?@\\[\\]^_{|}~]+";
 		Pattern p = Pattern.compile(patron);
 		Matcher m = p.matcher(linea);
 		return m.find();
@@ -221,7 +221,9 @@ public class FuncionesTexto
 	
 	public static boolean esTituloResumen(String linea)
 	{
-		if (FuncionesTexto.esTitulo(linea) &&  (linea.trim().equals("Resumen") || linea.trim().equals("Abstract")))
+		if (FuncionesTexto.esTitulo(linea) &&  (linea.toLowerCase().trim().equals("resumen") || 
+												linea.toLowerCase().trim().equals("abstract") || 
+												linea.toLowerCase().trim().equals("resumen ejecutivo")))
 		{
 			return true;
 		}
@@ -230,7 +232,10 @@ public class FuncionesTexto
 	
 	public static boolean esTituloAlumnos(String linea)
 	{
-		if (FuncionesTexto.esTitulo(linea) && (linea.trim().equals("Alumnos") || linea.trim().equals("Integrantes")))
+		if (FuncionesTexto.esTitulo(linea) && (	linea.toLowerCase().trim().equals("alumnos") || 
+												linea.toLowerCase().trim().equals("integrantes") ||
+												linea.toLowerCase().trim().equals("alumnos:") || 
+												linea.toLowerCase().trim().equals("integrantes:")))
 		{
 			return true;
 		}
@@ -239,7 +244,7 @@ public class FuncionesTexto
 	
 	public static boolean esTituloTutor(String linea)
 	{
-		if (FuncionesTexto.esTitulo(linea) && linea.trim().equals("Tutor"))
+		if (FuncionesTexto.esTitulo(linea) && ( linea.toLowerCase().trim().equals("tutor") || linea.toLowerCase().trim().equals("tutor:") ))
 		{
 			return true;
 		}
@@ -248,7 +253,12 @@ public class FuncionesTexto
 	
 	public static boolean esTituloBibliografia(String linea)
 	{
-		if (FuncionesTexto.esTitulo(linea) && (linea.trim().equals("Bibliografia")|| linea.trim().equals("Bibliografía") || linea.trim().equals("Referencias") ))
+		if (FuncionesTexto.esTitulo(linea) && (	linea.toLowerCase().trim().equals("bibliografia") || 
+												linea.toLowerCase().trim().equals("bibliografía") || 
+												linea.toLowerCase().trim().equals("referencias")  ||
+												linea.toLowerCase().trim().equals("bibliografia:") || 
+												linea.toLowerCase().trim().equals("bibliografía:") || 
+												linea.toLowerCase().trim().equals("referencias:")))
 		{
 			return true;
 		}

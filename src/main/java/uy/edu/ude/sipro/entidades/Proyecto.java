@@ -50,7 +50,7 @@ public class Proyecto
 	@Column(name = "Nombre")
 	private String nombre;
 
-	@NotNull
+
 	@Size(min = 1, max = 255)
 	@Column(name = "Titulo")
 	private String Titulo;
@@ -70,7 +70,6 @@ public class Proyecto
 	private Docente tutor;
 
 	@Lob
-	@Size(min = 1, max = 255)
 	@Column(name = "Tutor")
 	private ArrayList<String> tutorString;
     
@@ -249,7 +248,7 @@ public class Proyecto
 			SeccionTexto secAlumnos=null;
 			for(SeccionTexto sec : this.DocumentoPorSecciones)
 			{
-				if(sec != null && (sec.getTitulo().trim().equals("Alumnos") || sec.getTitulo().trim().equals("Integrantes")))
+				if(sec != null && FuncionesTexto.esTituloAlumnos(sec.getTitulo()))
 				{
 					secAlumnos = sec;
 					break;
@@ -279,7 +278,7 @@ public class Proyecto
 			SeccionTexto secTutor=null;
 			for(SeccionTexto sec : this.DocumentoPorSecciones)
 			{
-				if(sec != null && sec.getTitulo().trim().equals("Tutor"))
+				if(sec != null && FuncionesTexto.esTituloTutor(sec.getTitulo()))
 				{
 					secTutor = sec;
 					break;

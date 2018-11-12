@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
 @SpringBootApplication
-//@EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class})
-@EnableAutoConfiguration
+@EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class})
+//@EnableAutoConfiguration
 public class SiproApplication {
 	
 	public static final String APP_URL = "/";
