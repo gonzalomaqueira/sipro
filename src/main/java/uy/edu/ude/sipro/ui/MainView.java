@@ -17,8 +17,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
 
 import uy.edu.ude.sipro.navegacion.NavigationManager;
-import uy.edu.ude.sipro.ui.vistas.BusquedaView;
-import uy.edu.ude.sipro.ui.vistas.BusquedaViewDesign;
+import uy.edu.ude.sipro.ui.vistas.BusquedasView;
 import uy.edu.ude.sipro.ui.vistas.DocentesView;
 import uy.edu.ude.sipro.ui.vistas.ElementoListadoView;
 import uy.edu.ude.sipro.ui.vistas.ProyectoListadoView;
@@ -43,10 +42,11 @@ public class MainView extends MainViewDesign implements ViewDisplay {
 
 	@PostConstruct
 	public void init() {
+		attachNavigation(busquedas, BusquedasView.class);
 		attachNavigation(proyectos, ProyectoListadoView.class);
 		attachNavigation(usuarios, UsuarioListadoView.class);
 		attachNavigation(elementos, ElementoListadoView.class);
-		attachNavigation(reportes, BusquedaView.class);
+		attachNavigation(reportes, ReportesView.class);
 		attachNavigation(docentes, DocentesView.class);
 		
 		navigationManager.setErrorView(AccesoDenegadoView.class);

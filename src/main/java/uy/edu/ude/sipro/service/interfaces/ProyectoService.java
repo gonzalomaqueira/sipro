@@ -11,9 +11,9 @@ import uy.edu.ude.sipro.valueObjects.DocenteVO;
 
 public interface ProyectoService 
 {
-	void agregar(String nombre, String carrera, Set<DocenteVO> correctores, int nota, String rutaArchivo);
-	void modificar(int id, String nombre, int anio, String carrera, int nota, String rutaArchivo);
-	public void modificar(int id, String nombre, int anio, String carrera, int nota, String resumen, ArrayList<String> alumnos, ArrayList<String> tutorString, Set<Docente> correctores);
+	void agregar(String codigoUde, String nombre, String carrera, Set<DocenteVO> correctoresVO, int nota, String rutaArchivo);
+	void modificar(int id, String codigoUde, String nombre, int anio, String carrera, int nota, String rutaArchivo);
+	public void modificar(int id, String codigoUde, String nombre, String Titulo, int anio, String carrera, int nota, String resumen, ArrayList<String> alumnos, ArrayList<String> tutorString, Set<Docente> correctores);
 	void eliminar(int id);
     Set<Proyecto> obtenerProyectos();
 	Proyecto obtenerProyectoPorId(int idProyecto);
@@ -24,5 +24,6 @@ public interface ProyectoService
 	
 	void procesarProyecto(int id);
 	
-	String buscarProyecto(String keywords) throws Exception;
+	String buscarProyectoES(String keywords) throws Exception;	
+	boolean altaProyectoES(Proyecto proyecto) throws Exception;
 }

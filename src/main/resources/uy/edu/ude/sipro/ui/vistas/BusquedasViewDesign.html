@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <meta name="design-properties" content="{&quot;RULERS_VISIBLE&quot;:true,&quot;GUIDELINES_VISIBLE&quot;:false,&quot;SNAP_TO_OBJECTS&quot;:true,&quot;SNAP_TO_GRID&quot;:true,&quot;SNAPPING_DISTANCE&quot;:10,&quot;GENERATE_GETTERS&quot;:false,&quot;JAVA_SOURCES_ROOT&quot;:&quot;src/main/java&quot;,&quot;THEME&quot;:&quot;siprotema&quot;}">
+  <meta name="vaadin-version" content="8.1.5">
+ </head>
+ <body>
+  <vaadin-css-layout size-full>
+   <vaadin-panel _id="pnlBusqueda">
+    <vaadin-horizontal-layout spacing="false" width-full margin-left margin-right margin-top>
+     <vaadin-css-layout style-name="list-filters" width-full :expand>
+      <vaadin-text-field id="searchField" placeholder="Buscar" width="300px" _id="txtBuscar"></vaadin-text-field>
+      <vaadin-button icon="fonticon://Vaadin-Icons/e805" id="searchButton" plain-text _id="btnBuscar"></vaadin-button>
+     </vaadin-css-layout>
+    </vaadin-horizontal-layout>
+   </vaadin-panel>
+   <vaadin-panel style-name="borderless" responsive id="panelContenedor" height="89%" _id="panelContenedor">
+    <vaadin-vertical-layout id="contenedorResultados" _id="contenedorResultados"></vaadin-vertical-layout>
+   </vaadin-panel>
+  </vaadin-css-layout>
+ </body>
+</html>

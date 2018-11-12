@@ -8,6 +8,7 @@ import uy.edu.ude.sipro.service.implementacion.ProyectoServiceImp;
 
 public class ElasticSearchTester 
 {
+	/*
 	@Test
 	public void ElasticSearchTest01() throws Exception
 	{
@@ -17,5 +18,5 @@ public class ElasticSearchTester
 		System.out.println("RESULTADO \n\n");
 		System.out.println(busqueda);
 	}
-		
+		*/
 }

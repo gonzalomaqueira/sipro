@@ -52,21 +52,24 @@ public class Fachada {
 		return ConversorValueObject.convertirProyectoDetalleVO(proyectoService.obtenerProyectoPorId(idProyecto));
 	}
 	
+	// CORREGIR en vista
 	public void altaProyecto(String nombre, String carrera, Set<DocenteVO> correctores, int nota, String rutaArchivo) 
 	{
-		proyectoService.agregar(nombre, carrera, correctores, nota, rutaArchivo);
+		proyectoService.agregar("codigoUDE prueba", nombre, carrera, correctores, nota, rutaArchivo);
 	}
 	
 	public void modificarProyecto(int id, String nombre, int anio, String carrera, int nota, String rutaArchivo) 
 	{
-		proyectoService.modificar(id, nombre, anio, carrera, nota, rutaArchivo);
+		proyectoService.modificar(id, "CodigoUDE prueba", nombre, anio, carrera, nota, rutaArchivo);
 	}
 	
 	public void modificarProyectoCompleto(int id, String nombre, int anio, String carrera, int nota, String resumen, 
 			ArrayList<String> alumnos, ArrayList<String> tutorString, List<DocenteVO> correctores) 
 	{
-		proyectoService.modificar(  id, 
-									nombre, 
+		proyectoService.modificar(  id,
+									"CodigoUDE prueba",
+									nombre,
+									"Titulo prueba",
 									anio, 
 									carrera, 
 									nota, 
@@ -88,7 +91,7 @@ public class Fachada {
 	
 	public String buscarProyecto(String keywords) throws Exception
 	{
-		return proyectoService.buscarProyecto(keywords);
+		return proyectoService.buscarProyectoES(keywords);
 	}
 	
 	/**************************************************************** Usuarios */	

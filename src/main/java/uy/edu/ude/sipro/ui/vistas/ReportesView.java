@@ -21,6 +21,7 @@ import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Link;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
@@ -28,8 +29,12 @@ import com.vaadin.ui.Window;
 
 import com.vaadin.ui.Button.ClickEvent;
 
+import uy.edu.ude.sipro.entidades.Proyecto;
 import uy.edu.ude.sipro.service.Fachada;
+import uy.edu.ude.sipro.service.implementacion.ProyectoServiceImp;
 import uy.edu.ude.sipro.service.interfaces.ElementoService;
+import uy.edu.ude.sipro.service.interfaces.ProyectoService;
+import uy.edu.ude.sipro.ui.componentes.ResultadoBusqueda;
 
 
 @SpringView
@@ -40,16 +45,21 @@ public class ReportesView extends ReportesViewDesign implements View{
 	Fachada fachada;
 	
 	@Autowired
-	ElementoService elementoService;
+	ProyectoService proyectoService;
 	
 	public void enter(ViewChangeEvent event)
-	{				        
-		BrowserWindowOpener opener = new BrowserWindowOpener(new FileResource(new File("src/main/resources/documentos/JDBC1.pdf")));
-		opener.setWindowName("_blank");
-		opener.extend(boton1);
+	{	
+		Proyecto proy = proyectoService.obtenerProyectoPorId(2);
 		
-		link= new Link("hola", new FileResource(new File("../documentos/JDBC1.pdf")));
-		this.addComponent(link);
+		boolean resultado = false;
+		try {
+			resultado = proyectoService.altaProyectoES(proy);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
+		System.out.println("RESULTADO \n\n");
+		System.out.println(resultado);
 	}
 }
