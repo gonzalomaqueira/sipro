@@ -1,13 +1,13 @@
 package uy.edu.ude.sipro.ui.componentes;
 
-public class Order
+public class ResultadoBusqueda
 {
 	private int idProyecto;
 	private String tituloProyecto;
 	private String resumenBusqueda;
 	private int ordenResultado;
 
-	public Order(int idProyecto, String tituloProyecto, String resumenBusqueda, int ordenResultado) 
+	public ResultadoBusqueda(int idProyecto, String tituloProyecto, String resumenBusqueda, int ordenResultado) 
 	{
 		this.idProyecto = idProyecto;
 		this.tituloProyecto = tituloProyecto;

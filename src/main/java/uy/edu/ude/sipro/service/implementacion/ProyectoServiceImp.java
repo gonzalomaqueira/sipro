@@ -16,6 +16,7 @@ import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,11 +55,10 @@ public class ProyectoServiceImp implements ProyectoService
 	
 	@Transactional
 	@Override
-	public void agregar(String nombre, String carrera, Set<DocenteVO> correctoresVO, int nota, String rutaArchivo) 
+	public void agregar(String codigoUde, String nombre, String carrera, Set<DocenteVO> correctoresVO, int nota, String rutaArchivo) 
 	{
-		
 		Set<Docente> correctores = new HashSet<Docente>();
-		Proyecto proyecto = new Proyecto(nombre, carrera, correctores, nota, rutaArchivo);
+		Proyecto proyecto = new Proyecto(codigoUde, nombre, carrera, correctores, nota, rutaArchivo);
 		for(Docente doc : docenteService.obtenerDocentes())
 		{
 			for(DocenteVO docVO : correctoresVO)
@@ -73,7 +73,6 @@ public class ProyectoServiceImp implements ProyectoService
 		}			
 	    proyecto.setCorrectores(correctores);
 	    proyectoDao.agregar(proyecto);
-	    
 	}
 	
 	@Transactional
@@ -84,9 +83,10 @@ public class ProyectoServiceImp implements ProyectoService
 
 	@Transactional
 	@Override
-	public void modificar(int id, String nombre, int anio, String carrera, int nota, String rutaArchivo) 
+	public void modificar(int id, String codigoUde, String nombre, int anio, String carrera, int nota, String rutaArchivo) 
 	{
 		Proyecto proy= this.obtenerProyectoPorId(id);
+		proy.setCodigoUde(codigoUde);
 		proy.setNombre(nombre);
 		proy.setAnio(anio);
 		proy.setCarrera(carrera);
@@ -96,10 +96,12 @@ public class ProyectoServiceImp implements ProyectoService
 	
 	@Transactional
 	@Override
-	public void modificar(int id, String nombre, int anio, String carrera, int nota, String resumen, ArrayList<String> alumnos, ArrayList<String> tutorString, Set<Docente> correctores)
+	public void modificar(int id, String codigoUde, String nombre, String titulo, int anio, String carrera, int nota, String resumen, ArrayList<String> alumnos, ArrayList<String> tutorString, Set<Docente> correctores)
 	{
 		Proyecto proy= this.obtenerProyectoPorId(id);
+		proy.setCodigoUde(codigoUde);
 		proy.setNombre(nombre);
+		proy.setTitulo(titulo);
 		proy.setAnio(anio);
 		proy.setCarrera(carrera);
 		proy.setTutorString(tutorString);
@@ -378,7 +380,7 @@ public class ProyectoServiceImp implements ProyectoService
 	}
 	
 	@Override
-	public String buscarProyecto(String keywords) throws Exception
+	public String buscarProyectoES(String keywords) throws Exception
 	{
 		String jsonBody = "{\"query\":{\"match\":{\"bio\":\"" + keywords + "\"}},\"highlight\":{\"fields\":{\"bio\":{}}}}";
 		StringBuilder builder = new StringBuilder();
@@ -398,5 +400,35 @@ public class ProyectoServiceImp implements ProyectoService
 		return jsonObject.getJsonObject("hits").getJsonArray("hits").getJsonObject(0).getJsonObject("highlight").toString();
 		
 		
+	}
+	
+	public boolean altaProyectoES(Proyecto proyecto) throws Exception
+	{
+		ArrayList<String> asd = proyecto.getListaStringElementos();
+		
+		String JsonArray = JsonUtil.devolverJsonArray(proyecto.getListaStringElementos());
+		
+		
+		String jsonBody = "{\"id_ude\":\"" + proyecto.getCodigoUde()
+						+ "\",\"titulo\":\"" + proyecto.getTitulo()
+						+ "\",\"Contenido\":\"" + proyecto.getContenido()
+						+ "\",\"Elemento\":" + JsonArray
+						+ "}";
+		
+		StringBuilder builder = new StringBuilder();
+		
+		builder.append(ElasticSearch_Url_Base);
+		builder.append(ElasticSearch_Index);
+		builder.append("proyectos/");
+		builder.append(Integer.toString(proyecto.getId()));
+		
+		HashMap<String, String> headers = new HashMap<>();
+		headers.put("Content-Type", "application/json");		
+		
+		String response = HttpUtil.doPutWithJsonBody(builder.toString(), headers, jsonBody, ElasticSearch_Timeout);
+		
+		JsonObject jsonObject = JsonUtil.parse(response);
+		
+		return jsonObject.getJsonString("result").toString().equals("\"created\"");
 	}
 }

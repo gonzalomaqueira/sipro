@@ -24,6 +24,7 @@ public class MainViewDesign extends HorizontalLayout {
 	protected Label activeViewName;
 	protected Button menuButton;
 	protected CssLayout menu;
+	protected Button busquedas;
 	protected Button proyectos;
 	protected Button usuarios;
 	protected Button elementos;

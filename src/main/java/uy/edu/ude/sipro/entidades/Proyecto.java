@@ -42,10 +42,19 @@ public class Proyecto
 	private int id;
 
 	@NotNull
+	@Column(name = "CodigoUde")
+	private String codigoUde;
+	
+	@NotNull
 	@Size(min = 1, max = 255)
 	@Column(name = "Nombre")
 	private String nombre;
 
+	@NotNull
+	@Size(min = 1, max = 255)
+	@Column(name = "Titulo")
+	private String Titulo;
+	
 	@Column(name = "Anio")
 	private int anio;
 
@@ -105,9 +114,10 @@ public class Proyecto
 		this.fechaUltimaModificacion = vfecha;
 	}
 
-	public Proyecto(String nombre, String carrera, Set<Docente> correctores,  int nota, String rutaArchivo)
+	public Proyecto(String codigoUde, String nombre, String carrera, Set<Docente> correctores,  int nota, String rutaArchivo)
 	{
 		this();
+		this.codigoUde = codigoUde;
 		this.nombre = nombre;
 		this.carrera = carrera;
 		this.correctores = correctores;
@@ -115,10 +125,11 @@ public class Proyecto
 		this.rutaArchivo = rutaArchivo;
 	}
 
-	public Proyecto(String nombre, int anio, String carrera, Set<Docente> correctores, int nota, 
+	public Proyecto(String codigoUde, String nombre, String titulo, int anio, String carrera, Set<Docente> correctores, int nota, 
 			ArrayList<String> alumnos, Docente tutor, String rutaArchivo, String resumen)
 	{
-		this(nombre, carrera, correctores, nota, rutaArchivo);
+		this(codigoUde, nombre, carrera, correctores, nota, rutaArchivo);
+		this.Titulo = titulo;
 		this.anio = anio;
 		this.carrera = carrera;
 		this.alumnos = alumnos;
@@ -129,10 +140,16 @@ public class Proyecto
 
 	public int getId() { return id; }
 	public void setId(int id) {	this.id = id; }
+	
+	public String getCodigoUde() { return codigoUde; }
+	public void setCodigoUde(String codigoUde) { this.codigoUde = codigoUde; }
 
 	public String getNombre() {	return nombre; }
 	public void setNombre(String nombre) { this.nombre = nombre; }
 
+	public String getTitulo() { return Titulo; }
+	public void setTitulo(String titulo) { Titulo = titulo; }
+	
 	public int getAnio() { return anio;	}
 	public void setAnio(int anio) { this.anio = anio; }
 
@@ -282,5 +299,29 @@ public class Proyecto
 		contenido = FuncionesTexto.eliminarEspacios(contenido);
 		
 		return contenido;
+	}
+
+	
+	
+	// Hacer:
+	
+	public String getContenido()
+	{
+		return this.getResumen();
+	}
+
+	public ArrayList<String> getListaStringElementos() 
+	{
+		Set<String> retorno = new HashSet<String>();
+		
+		if (this.getElementosRelacionados() != null)
+		{
+			for (Elemento elem: this.getElementosRelacionados()) 
+			{
+				retorno.add(elem.getNombre());
+			}
+		}
+		
+		return new ArrayList(retorno);
 	}
 }
