@@ -22,7 +22,7 @@ public interface ProyectoService
 	String[] obtenerTextoOriginalProyecto(Proyecto proyecto);	
 	void cargarTutorPorString(Proyecto proyecto);
 	
-	void procesarProyecto(int id);
+	void procesarProyecto(int id) throws Exception;
 	
 	String buscarProyectoES(String keywords) throws Exception;	
 	boolean altaProyectoES(Proyecto proyecto) throws Exception;

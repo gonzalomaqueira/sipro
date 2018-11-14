@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -364,18 +365,21 @@ public class ProyectoServiceImp implements ProyectoService
 
 	@Override
 	@Transactional
-	public void procesarProyecto(int idProyecto)
+	public void procesarProyecto(int idProyecto) throws Exception
 	{
 		Proyecto proyecto= this.obtenerProyectoPorId(idProyecto);
 		String[] textoOriginal= this.obtenerTextoOriginalProyecto(proyecto);
 		proyecto.setDocumentoPorSecciones(FuncionesTexto.armarDocumentoPorSecciones(textoOriginal));
 		proyecto.setAlumnos(proyecto.devolverAlumnos());
 		proyecto.setTutorString(proyecto.devolverTutor());
+		proyecto.setTitulo(proyecto.devolverTitulo(new ArrayList<String>(Arrays.asList(textoOriginal))));
 		this.cargarTutorPorString(proyecto);
 		proyecto.setResumen(FuncionesTexto.convertirArrayAStringEspacios(proyecto.devolverResumen()));
 		proyecto.setElementosRelacionados(this.obtenerElementosProyecto(proyecto, elementoService.obtenerElementos()));
 		proyecto.setAnio(FuncionesTexto.devolverPrimerAnioTexto(textoOriginal));
 		proyecto.setEstado(EstadoProyectoEnum.PROCESADO);
+		//alta en servidor ES
+		this.altaProyectoES(proyecto);
 		this.modificar(proyecto);
 	}
 	
@@ -429,6 +433,7 @@ public class ProyectoServiceImp implements ProyectoService
 		
 		JsonObject jsonObject = JsonUtil.parse(response);
 		
-		return jsonObject.getJsonString("result").toString().equals("\"created\"");
+		return jsonObject.getJsonString("result").toString().equals("\"created\"") || 
+			   jsonObject.getJsonString("result").toString().equals("\"updated\"");
 	}
 }

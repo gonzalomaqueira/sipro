@@ -107,9 +107,16 @@ public class ProyectoListadoView extends ProyectoListadoViewDesign implements Vi
 			{	
 				if( proyectoSeleccionado != null )
 				{
-					fachada.ProcesarProyecto(proyectoSeleccionado.getId());
-					navigationManager.navigateTo(ProyectoDetallesView.class, proyectoSeleccionado.getId());
-					UIUtiles.mostrarNotificacion("PROYECTO", "Procesado exitosamente", Notification.Type.HUMANIZED_MESSAGE);
+					try
+					{
+						fachada.ProcesarProyecto(proyectoSeleccionado.getId());
+						UIUtiles.mostrarNotificacion("PROYECTO", "Procesado exitosamente", Notification.Type.HUMANIZED_MESSAGE);
+						navigationManager.navigateTo(ProyectoDetallesView.class, proyectoSeleccionado.getId());
+					} 
+					catch (Exception e)
+					{
+						UIUtiles.mostrarNotificacion("PROYECTO", "Ocurrió un problema al procesar", Notification.Type.ERROR_MESSAGE);
+					}
 				}
 			}
 		});

@@ -453,4 +453,51 @@ public class FuncionesTexto
 		return false;
 
 	}
+	
+	public static boolean esFechaDocumento(String str)
+	{
+		if(strContieneNumeroEnRango(str, 1, 31) &&
+		   strContieneNumeroEnRango(str, Constantes.FECHA_VALIDA_DESDE, 2050) &&
+		   empiezaMayuscula(str) &&
+		   strContieneMes(str))
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean strContieneNumeroEnRango(String str, int ini, int fin)
+	{
+		if (ini <= fin)
+		{
+			for(int x=ini; x<fin; x++)
+			{
+				if(isContain(str, Integer.toString(x)))
+				{
+					return true;
+				}
+			}	
+		}
+		return false;
+	}
+	
+	public static boolean strContieneMes(String str)
+	{
+		if (isContain(str, "enero") ||
+			isContain(str, "febrero") ||
+			isContain(str, "marzo") ||
+			isContain(str, "abril") ||
+			isContain(str, "mayo") ||
+			isContain(str, "junio") ||
+			isContain(str, "julio") ||
+			isContain(str, "agosto") ||
+			isContain(str, "setiembre") || isContain(str, "septiembre") ||
+			isContain(str, "octubre") ||
+			isContain(str, "noviembre") ||
+			isContain(str, "diciembre"))
+		{
+			return true;
+		}
+		return false;
+	}
 }

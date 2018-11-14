@@ -299,8 +299,31 @@ public class Proyecto
 		
 		return contenido;
 	}
-
 	
+	public String devolverTitulo(ArrayList<String> contenido) 
+	{
+		String retorno = "";
+		for(String linea : contenido)
+		{
+			if (FuncionesTexto.esTituloAlumnos(linea) ||
+				FuncionesTexto.esTituloTutor(linea))
+			{
+				break;
+			}
+			if (!FuncionesTexto.esFechaDocumento(linea)
+				&& !linea.trim().equalsIgnoreCase("1")
+				&& !linea.trim().equalsIgnoreCase("pag. 1")
+				&& !linea.trim().equalsIgnoreCase("pag 1")
+				&& !linea.trim().equalsIgnoreCase("pág. 1")
+				&& !linea.trim().equalsIgnoreCase("pág 1")
+				&& !linea.trim().equalsIgnoreCase("página 1"))
+			{
+				retorno = retorno + " " + linea;
+			}
+		}
+		return retorno.trim();
+	}
+
 	
 	// Hacer:
 	
@@ -323,4 +346,5 @@ public class Proyecto
 		
 		return new ArrayList(retorno);
 	}
+
 }

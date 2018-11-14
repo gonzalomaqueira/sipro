@@ -92,7 +92,7 @@ public class ProyectoNuevoView extends ProyectoNuevoViewDesign implements View
 												 Integer.parseInt(txtNota.getValue()),
 												 Constantes.RUTA_ARCHIVOS + prefijoArchivo + nombreArchivo);
 						   
-							UIUtiles.mostrarNotificacion("PROYECTO", "alta exitosa", Notification.Type.HUMANIZED_MESSAGE);
+							UIUtiles.mostrarNotificacion("PROYECTO", "Alta exitosa", Notification.Type.HUMANIZED_MESSAGE);
 							navigationManager.navigateTo(ProyectoListadoView.class);
 			    		}
 			    		else
