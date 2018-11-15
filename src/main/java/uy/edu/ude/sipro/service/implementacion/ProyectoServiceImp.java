@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.extractor.WordExtractor;
+import org.apache.poi.poifs.filesystem.NPOIFSFileSystem;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.json.JSONArray;
@@ -281,8 +283,20 @@ public class ProyectoServiceImp implements ProyectoService
 	        documento = new HWPFDocument(fis);
 	        we= new WordExtractor(documento);
 	        String[] array= we.getParagraphText();
+	        
+//	        NPOIFSFileSystem fs = new NPOIFSFileSystem(fis);
+//	        WordExtractor extractor = new WordExtractor(fs.getRoot());
+////	        
+//	        String[] array;
+//	        
+//	        for(String rawText : extractor.getParagraphText())
+//	        {
+//	        	String text = extractor.stripFields(rawText);
+//	        }       	        
+	        
 	        for (String txt : array)
 	        {
+	        	txt = we.stripFields(txt);
 	        	textoRetorno = textoRetorno + txt + "\r\n";
 	        }
 	        documento.close();
@@ -364,18 +378,21 @@ public class ProyectoServiceImp implements ProyectoService
 
 	@Override
 	@Transactional
-	public void procesarProyecto(int idProyecto)
+	public void procesarProyecto(int idProyecto) throws Exception
 	{
 		Proyecto proyecto= this.obtenerProyectoPorId(idProyecto);
 		String[] textoOriginal= this.obtenerTextoOriginalProyecto(proyecto);
 		proyecto.setDocumentoPorSecciones(FuncionesTexto.armarDocumentoPorSecciones(textoOriginal));
 		proyecto.setAlumnos(proyecto.devolverAlumnos());
 		proyecto.setTutorString(proyecto.devolverTutor());
+		proyecto.setTitulo(proyecto.devolverTitulo(new ArrayList<String>(Arrays.asList(textoOriginal))));
 		this.cargarTutorPorString(proyecto);
 		proyecto.setResumen(FuncionesTexto.convertirArrayAStringEspacios(proyecto.devolverResumen()));
 		proyecto.setElementosRelacionados(this.obtenerElementosProyecto(proyecto, elementoService.obtenerElementos()));
 		proyecto.setAnio(FuncionesTexto.devolverPrimerAnioTexto(textoOriginal));
 		proyecto.setEstado(EstadoProyectoEnum.PROCESADO);
+		//alta en servidor ES
+		this.altaProyectoES(proyecto, textoOriginal);
 		this.modificar(proyecto);
 	}
 	
@@ -402,7 +419,7 @@ public class ProyectoServiceImp implements ProyectoService
 		
 	}
 	
-	public boolean altaProyectoES(Proyecto proyecto) throws Exception
+	public boolean altaProyectoES(Proyecto proyecto , String[] textoOriginal ) throws Exception
 	{
 		ArrayList<String> asd = proyecto.getListaStringElementos();
 		
@@ -411,7 +428,7 @@ public class ProyectoServiceImp implements ProyectoService
 		
 		String jsonBody = "{\"id_ude\":\"" + proyecto.getCodigoUde()
 						+ "\",\"titulo\":\"" + proyecto.getTitulo()
-						+ "\",\"Contenido\":\"" + proyecto.getContenido()
+						+ "\",\"Contenido\":\"" + FuncionesTexto.limpiarTexto(textoOriginal)
 						+ "\",\"Elemento\":" + JsonArray
 						+ "}";
 		
@@ -429,6 +446,7 @@ public class ProyectoServiceImp implements ProyectoService
 		
 		JsonObject jsonObject = JsonUtil.parse(response);
 		
-		return jsonObject.getJsonString("result").toString().equals("\"created\"");
+		return jsonObject.getJsonString("result").toString().equals("\"created\"") || 
+			   jsonObject.getJsonString("result").toString().equals("\"updated\"");
 	}
 }

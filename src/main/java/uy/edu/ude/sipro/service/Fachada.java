@@ -84,7 +84,7 @@ public class Fachada {
 		proyectoService.eliminar(id);
 	}
 	
-	public void ProcesarProyecto(int idProyecto)
+	public void ProcesarProyecto(int idProyecto) throws Exception
 	{
 		proyectoService.procesarProyecto(idProyecto);
 	}

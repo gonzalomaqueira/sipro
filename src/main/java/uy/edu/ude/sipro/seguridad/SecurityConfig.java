@@ -15,8 +15,8 @@ import uy.edu.ude.sipro.SiproApplication;
 import uy.edu.ude.sipro.service.interfaces.PerfilService;
 
 
-@EnableWebSecurity
-@Configuration
+//@EnableWebSecurity
+//@Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired

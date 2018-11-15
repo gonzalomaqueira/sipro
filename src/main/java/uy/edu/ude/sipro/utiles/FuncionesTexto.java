@@ -1,5 +1,6 @@
 package uy.edu.ude.sipro.utiles;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -200,7 +201,7 @@ public class FuncionesTexto
 	
 	public static boolean contieneCaracterEspecial(String linea)
 	{
-		String patron = "[\\\\!\"#$%&()*+,./:;<=>?@\\[\\]^_{|}~]+";
+		String patron = "[\\\\!\"#$%&()*+,./;<=>?@\\[\\]^_{|}~]+";
 		Pattern p = Pattern.compile(patron);
 		Matcher m = p.matcher(linea);
 		return m.find();
@@ -221,7 +222,9 @@ public class FuncionesTexto
 	
 	public static boolean esTituloResumen(String linea)
 	{
-		if (FuncionesTexto.esTitulo(linea) &&  (linea.trim().equals("Resumen") || linea.trim().equals("Abstract")))
+		if (FuncionesTexto.esTitulo(linea) &&  (linea.toLowerCase().trim().equals("resumen") || 
+												linea.toLowerCase().trim().equals("abstract") || 
+												linea.toLowerCase().trim().equals("resumen ejecutivo")))
 		{
 			return true;
 		}
@@ -230,7 +233,10 @@ public class FuncionesTexto
 	
 	public static boolean esTituloAlumnos(String linea)
 	{
-		if (FuncionesTexto.esTitulo(linea) && (linea.trim().equals("Alumnos") || linea.trim().equals("Integrantes")))
+		if (FuncionesTexto.esTitulo(linea) && (	linea.toLowerCase().trim().equals("alumnos") || 
+												linea.toLowerCase().trim().equals("integrantes") ||
+												linea.toLowerCase().trim().equals("alumnos:") || 
+												linea.toLowerCase().trim().equals("integrantes:")))
 		{
 			return true;
 		}
@@ -239,7 +245,7 @@ public class FuncionesTexto
 	
 	public static boolean esTituloTutor(String linea)
 	{
-		if (FuncionesTexto.esTitulo(linea) && linea.trim().equals("Tutor"))
+		if (FuncionesTexto.esTitulo(linea) && ( linea.toLowerCase().trim().equals("tutor") || linea.toLowerCase().trim().equals("tutor:") ))
 		{
 			return true;
 		}
@@ -248,7 +254,12 @@ public class FuncionesTexto
 	
 	public static boolean esTituloBibliografia(String linea)
 	{
-		if (FuncionesTexto.esTitulo(linea) && (linea.trim().equals("Bibliografia")|| linea.trim().equals("Bibliografía") || linea.trim().equals("Referencias") ))
+		if (FuncionesTexto.esTitulo(linea) && (	linea.toLowerCase().trim().equals("bibliografia") || 
+												linea.toLowerCase().trim().equals("bibliografía") || 
+												linea.toLowerCase().trim().equals("referencias")  ||
+												linea.toLowerCase().trim().equals("bibliografia:") || 
+												linea.toLowerCase().trim().equals("bibliografía:") || 
+												linea.toLowerCase().trim().equals("referencias:")))
 		{
 			return true;
 		}
@@ -443,4 +454,72 @@ public class FuncionesTexto
 		return false;
 
 	}
+	
+	public static boolean esFechaDocumento(String str)
+	{
+		if(strContieneNumeroEnRango(str, 1, 31) &&
+		   strContieneNumeroEnRango(str, Constantes.FECHA_VALIDA_DESDE, 2050) &&
+		   empiezaMayuscula(str) &&
+		   strContieneMes(str))
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean strContieneNumeroEnRango(String str, int ini, int fin)
+	{
+		if (ini <= fin)
+		{
+			for(int x=ini; x<fin; x++)
+			{
+				if(isContain(str, Integer.toString(x)))
+				{
+					return true;
+				}
+			}	
+		}
+		return false;
+	}
+	
+	public static boolean strContieneMes(String str)
+	{
+		if (isContain(str, "enero") ||
+			isContain(str, "febrero") ||
+			isContain(str, "marzo") ||
+			isContain(str, "abril") ||
+			isContain(str, "mayo") ||
+			isContain(str, "junio") ||
+			isContain(str, "julio") ||
+			isContain(str, "agosto") ||
+			isContain(str, "setiembre") || isContain(str, "septiembre") ||
+			isContain(str, "octubre") ||
+			isContain(str, "noviembre") ||
+			isContain(str, "diciembre"))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	public static String limpiarTexto(String[] textoOriginal) 
+	{
+		String retorno="";
+		for(String linea : textoOriginal)
+		{
+			linea = linea.replaceAll("[\u0000-\u001f]", "");
+			linea= linea.replaceAll("\\s+"," ");
+			
+			linea = linea.replaceAll("	"," ");
+			while (linea.contains("  "))
+			{
+				linea = linea.replaceAll("  "," ");
+			}
+			
+			retorno= retorno + " " +  linea;
+		}
+		
+		return retorno;
+	}	
+	
 }
