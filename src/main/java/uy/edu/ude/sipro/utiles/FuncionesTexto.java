@@ -1,5 +1,6 @@
 package uy.edu.ude.sipro.utiles;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -500,4 +501,25 @@ public class FuncionesTexto
 		}
 		return false;
 	}
+
+	public static String limpiarTexto(String[] textoOriginal) 
+	{
+		String retorno="";
+		for(String linea : textoOriginal)
+		{
+			linea = linea.replaceAll("[\u0000-\u001f]", "");
+			linea= linea.replaceAll("\\s+"," ");
+			
+			linea = linea.replaceAll("	"," ");
+			while (linea.contains("  "))
+			{
+				linea = linea.replaceAll("  "," ");
+			}
+			
+			retorno= retorno + " " +  linea;
+		}
+		
+		return retorno;
+	}	
+	
 }

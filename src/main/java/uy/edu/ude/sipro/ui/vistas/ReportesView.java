@@ -53,7 +53,7 @@ public class ReportesView extends ReportesViewDesign implements View{
 		
 		boolean resultado = false;
 		try {
-			resultado = proyectoService.altaProyectoES(proy);
+			//resultado = proyectoService.altaProyectoES(proy);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
