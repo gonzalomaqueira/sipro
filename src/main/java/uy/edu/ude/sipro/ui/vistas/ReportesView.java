@@ -29,9 +29,11 @@ import com.vaadin.ui.Window;
 
 import com.vaadin.ui.Button.ClickEvent;
 
+import uy.edu.ude.sipro.entidades.Elemento;
 import uy.edu.ude.sipro.entidades.Proyecto;
 import uy.edu.ude.sipro.service.Fachada;
 import uy.edu.ude.sipro.service.implementacion.ProyectoServiceImp;
+import uy.edu.ude.sipro.service.interfaces.BusquedaService;
 import uy.edu.ude.sipro.service.interfaces.ElementoService;
 import uy.edu.ude.sipro.service.interfaces.ProyectoService;
 import uy.edu.ude.sipro.ui.componentes.ResultadoBusqueda;
@@ -45,21 +47,25 @@ public class ReportesView extends ReportesViewDesign implements View{
 	Fachada fachada;
 	
 	@Autowired
+	BusquedaService busquedaService;
+	
+	@Autowired
 	ProyectoService proyectoService;
 	
 	public void enter(ViewChangeEvent event)
 	{	
-		Proyecto proy = proyectoService.obtenerProyectoPorId(2);
-		
-		boolean resultado = false;
+		ArrayList<Elemento> resultado= busquedaService.obtenerElementoString("Vaadin tiene jaVa y un poco de caja negra ");	
+		System.out.println("Resulado: \n \n");
+		for(Elemento elem : resultado)
+		{
+			System.out.println(elem.getNombre() + "\n");
+		}
 		try {
-			//resultado = proyectoService.altaProyectoES(proy);
+			String resultado2= busquedaService.buscarElementosProyectoES(resultado);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		System.out.println("RESULTADO \n\n");
-		System.out.println(resultado);
+
 	}
 }

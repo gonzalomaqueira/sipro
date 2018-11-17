@@ -507,19 +507,20 @@ public class FuncionesTexto
 		String retorno="";
 		for(String linea : textoOriginal)
 		{
-			linea = linea.replaceAll("[\u0000-\u001f]", "");
-			linea= linea.replaceAll("\\s+"," ");
-			
-			linea = linea.replaceAll("	"," ");
-			while (linea.contains("  "))
-			{
-				linea = linea.replaceAll("  "," ");
-			}
-			
 			retorno= retorno + " " +  linea;
 		}
+		retorno=limpiarTexto(retorno);
 		
 		return retorno;
-	}	
+	}
+	
+	public static String limpiarTexto(String linea)
+	{
+		String retorno=linea;
+		retorno = retorno.replaceAll("[\u0000-\u001f]", "");
+		retorno= retorno.replaceAll("\\s+"," ");
+		retorno = retorno.replaceAll("\n", "").replace("\r", "");
+		return retorno;
+	}
 	
 }

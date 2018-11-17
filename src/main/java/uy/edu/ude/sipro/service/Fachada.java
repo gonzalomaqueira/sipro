@@ -91,7 +91,7 @@ public class Fachada {
 	
 	public String buscarProyecto(String keywords) throws Exception
 	{
-		return proyectoService.buscarProyectoES(keywords);
+		return null;
 	}
 	
 	/**************************************************************** Usuarios */	
@@ -187,5 +187,9 @@ public class Fachada {
 	{
 		return docenteService.existeDocente(nombre, apellido);
 	}
+	
+	/************************************************************** Busquedas */
+	
+	
 
 }

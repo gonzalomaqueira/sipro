@@ -24,6 +24,6 @@ public interface ProyectoService
 	
 	void procesarProyecto(int id) throws Exception;
 	
-	String buscarProyectoES(String keywords) throws Exception;	
+	
 	boolean altaProyectoES(Proyecto proyecto, String[] textoOriginal) throws Exception;
 }

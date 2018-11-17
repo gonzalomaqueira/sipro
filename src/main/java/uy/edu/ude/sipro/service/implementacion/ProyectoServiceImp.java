@@ -33,6 +33,7 @@ import uy.edu.ude.sipro.service.interfaces.ElementoService;
 import uy.edu.ude.sipro.service.interfaces.ProyectoService;
 import uy.edu.ude.sipro.entidades.Enumerados.EstadoProyectoEnum;
 import uy.edu.ude.sipro.dao.interfaces.ProyectoDao;
+import uy.edu.ude.sipro.utiles.Constantes;
 import uy.edu.ude.sipro.utiles.FuncionesTexto;
 import uy.edu.ude.sipro.utiles.HttpUtil;
 import uy.edu.ude.sipro.utiles.JsonUtil;
@@ -43,10 +44,7 @@ import javax.json.JsonObject;
 @Service
 public class ProyectoServiceImp implements ProyectoService
 {
-	private static final String ElasticSearch_Url_Base = "http://localhost:9200/";
-	private static final String ElasticSearch_Index = "sipro_index/";
-	private static final int ElasticSearch_Timeout = 3000;
-	
+
 	@Autowired
 	private ProyectoDao proyectoDao;
 	
@@ -316,7 +314,7 @@ public class ProyectoServiceImp implements ProyectoService
 				e1.printStackTrace();
 			}	        
 	    }
-		System.out.println(textoRetorno);
+		//System.out.println(textoRetorno);
 		return textoRetorno;
 	}
 	
@@ -396,28 +394,6 @@ public class ProyectoServiceImp implements ProyectoService
 		this.modificar(proyecto);
 	}
 	
-	@Override
-	public String buscarProyectoES(String keywords) throws Exception
-	{
-		String jsonBody = "{\"query\":{\"match\":{\"bio\":\"" + keywords + "\"}},\"highlight\":{\"fields\":{\"bio\":{}}}}";
-		StringBuilder builder = new StringBuilder();
-		
-		builder.append(ElasticSearch_Url_Base);
-		builder.append(ElasticSearch_Index);
-		builder.append("_search");
-		
-		HashMap<String, String> headers = new HashMap<>();
-		headers.put("Content-Type", "application/json");
-		
-		
-		String response = HttpUtil.doPostWithJsonBody(builder.toString(), headers, jsonBody, ElasticSearch_Timeout);
-		
-		JsonObject jsonObject = JsonUtil.parse(response);
-		
-		return jsonObject.getJsonObject("hits").getJsonArray("hits").getJsonObject(0).getJsonObject("highlight").toString();
-		
-		
-	}
 	
 	public boolean altaProyectoES(Proyecto proyecto , String[] textoOriginal ) throws Exception
 	{
@@ -428,21 +404,21 @@ public class ProyectoServiceImp implements ProyectoService
 		
 		String jsonBody = "{\"id_ude\":\"" + proyecto.getCodigoUde()
 						+ "\",\"titulo\":\"" + proyecto.getTitulo()
-						+ "\",\"Contenido\":\"" + FuncionesTexto.limpiarTexto(textoOriginal)
-						+ "\",\"Elemento\":" + JsonArray
+						+ "\",\"contenido\":\"" + FuncionesTexto.limpiarTexto(textoOriginal)
+						+ "\",\"elemento\":" + JsonArray
 						+ "}";
-		
+		System.out.print(jsonBody);
 		StringBuilder builder = new StringBuilder();
 		
-		builder.append(ElasticSearch_Url_Base);
-		builder.append(ElasticSearch_Index);
+		builder.append(Constantes.ElasticSearch_Url_Base);
+		builder.append(Constantes.ElasticSearch_Index);
 		builder.append("proyectos/");
 		builder.append(Integer.toString(proyecto.getId()));
 		
 		HashMap<String, String> headers = new HashMap<>();
 		headers.put("Content-Type", "application/json");		
 		
-		String response = HttpUtil.doPutWithJsonBody(builder.toString(), headers, jsonBody, ElasticSearch_Timeout);
+		String response = HttpUtil.doPutWithJsonBody(builder.toString(), headers, jsonBody, Constantes.ElasticSearch_Timeout);
 		
 		JsonObject jsonObject = JsonUtil.parse(response);
 		
