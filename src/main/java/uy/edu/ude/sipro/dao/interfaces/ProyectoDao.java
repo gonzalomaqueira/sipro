@@ -12,4 +12,5 @@ public interface ProyectoDao
 	void eliminar(Proyecto proyecto);
 	Set<Proyecto> obtenerProyectos();
 	Proyecto obtenerProyectoPorId(int id);
+	Proyecto buscarProyecto(String codigoUde);
 }

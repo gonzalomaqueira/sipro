@@ -1,13 +1,12 @@
-package uy.edu.ude.sipro.service.interfaces;
+package uy.edu.ude.sipro.busquedas;
 
 import java.util.ArrayList;
 
 import uy.edu.ude.sipro.entidades.Elemento;
-import uy.edu.ude.sipro.entidades.Proyecto;
+
 
 public interface BusquedaService {
 	
 	ArrayList<Elemento> obtenerElementoString(String busqueda);
-	String buscarElementosProyectoES(ArrayList<Elemento> elementos) throws Exception;	
-
+	ArrayList<ResultadoBusqueda> buscarElementosProyectoES(ArrayList<Elemento> elementos) throws Exception;	
 }

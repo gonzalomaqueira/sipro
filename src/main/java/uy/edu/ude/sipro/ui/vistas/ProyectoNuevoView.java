@@ -32,6 +32,7 @@ import uy.edu.ude.sipro.utiles.ReceptorArchivos;
 import uy.edu.ude.sipro.valueObjects.DocenteVO;
 import uy.edu.ude.sipro.valueObjects.ProyectoDetalleVO;
 import uy.edu.ude.sipro.valueObjects.ProyectoVO;
+import uy.edu.ude.sipro.valueObjects.UsuarioVO;
 
 
 @SpringView
@@ -86,8 +87,9 @@ public class ProyectoNuevoView extends ProyectoNuevoViewDesign implements View
 						BinderValidationStatus<ProyectoVO> statusValidacion = binder.validate();
 			    		if (statusValidacion.isOk())
 			    		{
-							fachada.altaProyecto(txtNombreProyecto.getValue(),
+							fachada.altaProyecto(
 												 txtCarrera.getValue(),
+												 txtCodigoUde.getValue(),
 												 listaCorrectores,
 												 Integer.parseInt(txtNota.getValue()),
 												 Constantes.RUTA_ARCHIVOS + prefijoArchivo + nombreArchivo);
@@ -201,7 +203,7 @@ public class ProyectoNuevoView extends ProyectoNuevoViewDesign implements View
 
 	private void cargarInterfazInicial()
 	{
-		txtNombreProyecto.setValue("");		
+		txtCodigoUde.setValue("");		
 		txtNota.setValue("");
 	}
 	
@@ -239,10 +241,10 @@ public class ProyectoNuevoView extends ProyectoNuevoViewDesign implements View
 	{
 		binder = new Binder<ProyectoVO>(ProyectoVO.class);
 		
-		binder.forField(txtNombreProyecto)
-			.withValidator(nombre -> nombre.length() >= 3, "Nombre proyecto debe tener al menos 3 caracteres")
-			.bind(ProyectoVO::getNombre, ProyectoVO::setNombre);
-		
+		binder.forField(txtCodigoUde)
+		.withValidator(codigo -> codigo.length() >= 1, "Codigo no puede estar vacío")
+		.withValidator(codigo -> !fachada.existeProyecto(codigo), "Usuario ya existente")
+		.bind(ProyectoVO::getCodigoUde, ProyectoVO::setCodigoUde);
 
         binder.forField(txtNota)
     		.withValidator(nota ->FuncionesTexto.esNumerico(nota), "La nota tiene que ser numérico")

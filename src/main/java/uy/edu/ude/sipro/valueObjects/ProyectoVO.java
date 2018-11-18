@@ -7,24 +7,27 @@ public class ProyectoVO implements Comparable
 {
 	private int id;
 
-	private String nombre;
-
 	private int anio;
+	
+	private String codigoUde;
 
 	private String carrera;
 
 	private int nota;
 	
+	private String titulo;
+	
 	private EstadoProyectoEnum estado;
 	
-	public ProyectoVO(int id, String nombre, int anio, String carrera, int nota, EstadoProyectoEnum estado)
+	public ProyectoVO(int id, int anio, String codigoUde, String carrera, int nota, String titulo, EstadoProyectoEnum estado)
 	{
 		super();
 		this.id = id;
-		this.nombre = nombre;
 		this.anio = anio;
+		this.codigoUde= codigoUde;
 		this.carrera = carrera;
 		this.nota = nota;
+		this.titulo = titulo;
 		this.estado = estado;
 	}
 
@@ -34,14 +37,6 @@ public class ProyectoVO implements Comparable
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
 	}
 
 	public int getAnio() {
@@ -59,6 +54,14 @@ public class ProyectoVO implements Comparable
 	public void setCarrera(String carrera) {
 		this.carrera = carrera;
 	}
+	
+	public String getCodigoUde() {
+		return codigoUde;
+	}
+
+	public void setCodigoUde(String codigoUde) {
+		this.codigoUde = codigoUde;
+	}
 
 	public int getNota() {
 		return nota;
@@ -66,6 +69,14 @@ public class ProyectoVO implements Comparable
 
 	public void setNota(int nota) {
 		this.nota = nota;
+	}
+
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 
 	public Enumerados.EstadoProyectoEnum getEstado() {

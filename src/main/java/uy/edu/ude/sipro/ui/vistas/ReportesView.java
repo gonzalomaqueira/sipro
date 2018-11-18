@@ -29,14 +29,14 @@ import com.vaadin.ui.Window;
 
 import com.vaadin.ui.Button.ClickEvent;
 
+import uy.edu.ude.sipro.busquedas.BusquedaService;
+import uy.edu.ude.sipro.busquedas.ResultadoBusqueda;
 import uy.edu.ude.sipro.entidades.Elemento;
 import uy.edu.ude.sipro.entidades.Proyecto;
 import uy.edu.ude.sipro.service.Fachada;
 import uy.edu.ude.sipro.service.implementacion.ProyectoServiceImp;
-import uy.edu.ude.sipro.service.interfaces.BusquedaService;
 import uy.edu.ude.sipro.service.interfaces.ElementoService;
 import uy.edu.ude.sipro.service.interfaces.ProyectoService;
-import uy.edu.ude.sipro.ui.componentes.ResultadoBusqueda;
 
 
 @SpringView
@@ -61,7 +61,9 @@ public class ReportesView extends ReportesViewDesign implements View{
 			System.out.println(elem.getNombre() + "\n");
 		}
 		try {
-			String resultado2= busquedaService.buscarElementosProyectoES(resultado);
+			
+			ArrayList<ResultadoBusqueda> asdasdas= busquedaService.buscarElementosProyectoES(resultado);
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

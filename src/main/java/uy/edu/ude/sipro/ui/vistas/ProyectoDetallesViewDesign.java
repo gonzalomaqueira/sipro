@@ -28,8 +28,9 @@ public class ProyectoDetallesViewDesign extends VerticalLayout {
 	protected Button btnGuardar;
 	protected Button btnCancelar;
 	protected Button btnVerTextoDocumento;
-	protected TextField txtNombreProyecto;
+	protected TextField txtCodigo;
 	protected TextField txtCarrera;
+	protected TextField txtTitulo;
 	protected Grid<uy.edu.ude.sipro.valueObjects.DocenteVO> grdCorrectores;
 	protected ComboBox<uy.edu.ude.sipro.valueObjects.DocenteVO> cmbCorrectores;
 	protected Button btnAgregarCorrector;

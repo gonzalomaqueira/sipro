@@ -28,6 +28,7 @@ import uy.edu.ude.sipro.entidades.Docente;
 import uy.edu.ude.sipro.entidades.Elemento;
 import uy.edu.ude.sipro.entidades.Proyecto;
 import uy.edu.ude.sipro.entidades.Sinonimo;
+import uy.edu.ude.sipro.entidades.Usuario;
 import uy.edu.ude.sipro.service.interfaces.DocenteService;
 import uy.edu.ude.sipro.service.interfaces.ElementoService;
 import uy.edu.ude.sipro.service.interfaces.ProyectoService;
@@ -55,10 +56,10 @@ public class ProyectoServiceImp implements ProyectoService
 	
 	@Transactional
 	@Override
-	public void agregar(String codigoUde, String nombre, String carrera, Set<DocenteVO> correctoresVO, int nota, String rutaArchivo) 
+	public void agregar(String codigoUde, String carrera, Set<DocenteVO> correctoresVO, int nota, String rutaArchivo) 
 	{
 		Set<Docente> correctores = new HashSet<Docente>();
-		Proyecto proyecto = new Proyecto(codigoUde, nombre, carrera, correctores, nota, rutaArchivo);
+		Proyecto proyecto = new Proyecto(codigoUde, carrera, correctores, nota, rutaArchivo);
 		for(Docente doc : docenteService.obtenerDocentes())
 		{
 			for(DocenteVO docVO : correctoresVO)
@@ -83,11 +84,10 @@ public class ProyectoServiceImp implements ProyectoService
 
 	@Transactional
 	@Override
-	public void modificar(int id, String codigoUde, String nombre, int anio, String carrera, int nota, String rutaArchivo) 
+	public void modificar(int id, String codigoUde, int anio, String carrera, int nota, String rutaArchivo) 
 	{
 		Proyecto proy= this.obtenerProyectoPorId(id);
 		proy.setCodigoUde(codigoUde);
-		proy.setNombre(nombre);
 		proy.setAnio(anio);
 		proy.setCarrera(carrera);
 		proy.setNota(nota);
@@ -96,11 +96,10 @@ public class ProyectoServiceImp implements ProyectoService
 	
 	@Transactional
 	@Override
-	public void modificar(int id, String codigoUde, String nombre, String titulo, int anio, String carrera, int nota, String resumen, ArrayList<String> alumnos, ArrayList<String> tutorString, Set<Docente> correctores)
+	public void modificar(int id, String codigoUde, String titulo, int anio, String carrera, int nota, String resumen, ArrayList<String> alumnos, ArrayList<String> tutorString, Set<Docente> correctores)
 	{
 		Proyecto proy= this.obtenerProyectoPorId(id);
 		proy.setCodigoUde(codigoUde);
-		proy.setNombre(nombre);
 		proy.setTitulo(titulo);
 		proy.setAnio(anio);
 		proy.setCarrera(carrera);
@@ -172,6 +171,13 @@ public class ProyectoServiceImp implements ProyectoService
 	{
 		return proyectoDao.obtenerProyectoPorId(idProyecto);
 	}
+
+   @Transactional
+   @Override
+   public Proyecto buscarProyecto(String codigoUde)
+   {
+	   return proyectoDao.buscarProyecto(codigoUde);
+   }
 
 	@Override
 	public Set<Elemento> obtenerElementosProyecto (Proyecto proyecto, Set<Elemento> listaElementos)
@@ -376,7 +382,7 @@ public class ProyectoServiceImp implements ProyectoService
 
 	@Override
 	@Transactional
-	public void procesarProyecto(int idProyecto) throws Exception
+	public void procesarProyecto(int idProyecto) throws Exception // Hay que controlar que si no guarda en uno, tampoco lo haga en otro
 	{
 		Proyecto proyecto= this.obtenerProyectoPorId(idProyecto);
 		String[] textoOriginal= this.obtenerTextoOriginalProyecto(proyecto);
