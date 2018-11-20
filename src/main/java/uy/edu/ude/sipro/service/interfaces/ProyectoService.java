@@ -14,8 +14,9 @@ public interface ProyectoService
 {
 	void agregar(String codigoUde, String carrera, Set<DocenteVO> correctoresVO, int nota, String rutaArchivo);
 	void modificar(int id, String codigoUde, int anio, String carrera, int nota, String rutaArchivo);
-	public void modificar(int id, String codigoUde, String Titulo, int anio, String carrera, int nota, String resumen, ArrayList<String> alumnos, ArrayList<String> tutorString, Set<Docente> correctores);
-	void eliminar(int id);
+	void modificar(int id, String codigoUde, String titulo, int anio, String carrera, int nota, String resumen, 
+			ArrayList<String> alumnos, ArrayList<String> tutorString, Set<Docente> correctores) throws Exception;
+	void eliminar(int id) throws Exception;
     Set<Proyecto> obtenerProyectos();
 	Proyecto obtenerProyectoPorId(int idProyecto);
 	
@@ -27,5 +28,5 @@ public interface ProyectoService
 	
 	void procesarProyecto(int id) throws Exception;	
 	
-	boolean altaProyectoES(Proyecto proyecto, String[] textoOriginal) throws Exception;
+
 }

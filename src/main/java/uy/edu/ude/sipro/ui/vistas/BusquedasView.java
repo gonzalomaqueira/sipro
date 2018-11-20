@@ -19,6 +19,7 @@ import com.vaadin.ui.Link;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.HorizontalLayout;
 
 import uy.edu.ude.sipro.busquedas.ResultadoBusqueda;
 import uy.edu.ude.sipro.entidades.Elemento;
@@ -60,16 +61,25 @@ public class BusquedasView extends BusquedasViewDesign implements View{
 		panel.setWidth("100%");
 		panel.setHeight("-1px");
 		
-		VerticalLayout layout = new VerticalLayout();
-		layout.setSizeFull();
+		VerticalLayout layoutVer = new VerticalLayout();
+		HorizontalLayout layoutHor = new HorizontalLayout();
+		layoutVer.setSizeFull();
+		layoutHor.setSizeFull();
+		layoutHor.setWidth("-1px");
+		layoutHor.setHeight("-1px");
 			
 		Link linkProyecto= new Link(resultado.getTituloProyecto(), new ExternalResource("http://localhost:8080/#!proyecto-detalles/" + resultado.getIdProyecto(), "_blank"));
 		Label resumenBusqueda = new Label(resultado.getResumenBusqueda(), ContentMode.HTML);
+		Label codigoUde = new Label("- <b> " + resultado.getCodigoUde() + "</b> ", ContentMode.HTML);
+		Label anio = new Label("<i>" + resultado.getAnio() + "</i> ", ContentMode.HTML);
 		resumenBusqueda.setWidth("100%");
-		layout.addComponent(linkProyecto);
-		layout.addComponent(resumenBusqueda);
+		layoutHor.addComponent(linkProyecto);
+		layoutHor.addComponent(codigoUde);
+		layoutVer.addComponent(layoutHor);
+		layoutVer.addComponent(anio);
+		layoutVer.addComponent(resumenBusqueda);
 		
-		panel.setContent(layout);
+		panel.setContent(layoutVer);
 		
 		this.contenedorResultados.addComponent(panel);
 		

@@ -33,6 +33,7 @@ import uy.edu.ude.sipro.service.interfaces.DocenteService;
 import uy.edu.ude.sipro.service.interfaces.ElementoService;
 import uy.edu.ude.sipro.service.interfaces.ProyectoService;
 import uy.edu.ude.sipro.entidades.Enumerados.EstadoProyectoEnum;
+import uy.edu.ude.sipro.busquedas.BusquedaService;
 import uy.edu.ude.sipro.dao.interfaces.ProyectoDao;
 import uy.edu.ude.sipro.utiles.Constantes;
 import uy.edu.ude.sipro.utiles.FuncionesTexto;
@@ -53,6 +54,8 @@ public class ProyectoServiceImp implements ProyectoService
 	private ElementoService elementoService;
 	@Autowired
 	private DocenteService docenteService;
+	@Autowired
+	private BusquedaService busquedaService;
 	
 	@Transactional
 	@Override
@@ -96,7 +99,8 @@ public class ProyectoServiceImp implements ProyectoService
 	
 	@Transactional
 	@Override
-	public void modificar(int id, String codigoUde, String titulo, int anio, String carrera, int nota, String resumen, ArrayList<String> alumnos, ArrayList<String> tutorString, Set<Docente> correctores)
+	public void modificar(int id, String codigoUde, String titulo, int anio, String carrera, int nota, String resumen, 
+							ArrayList<String> alumnos, ArrayList<String> tutorString, Set<Docente> correctores) throws Exception
 	{
 		Proyecto proy= this.obtenerProyectoPorId(id);
 		proy.setCodigoUde(codigoUde);
@@ -136,12 +140,14 @@ public class ProyectoServiceImp implements ProyectoService
 		}		
 	
 		proy.setCorrectores(docentesRetorno);
+		String[] textoOriginal= this.obtenerTextoOriginalProyecto(proy);
+		busquedaService.altaProyectoES(proy, textoOriginal);
 		proyectoDao.modificar(proy);
 	}
 
 	@Transactional
 	@Override
-	public void eliminar(int id) 
+	public void eliminar(int id) throws Exception
 	{
 		Proyecto proyecto = proyectoDao.obtenerProyectoPorId(id);
 		for (Elemento elem: proyecto.getElementosRelacionados())
@@ -155,6 +161,7 @@ public class ProyectoServiceImp implements ProyectoService
 			doc.getProyectosComoCorrector().remove(proyecto);
 		}
 		proyecto.getCorrectores().removeAll(proyecto.getCorrectores());
+		busquedaService.bajaProyectoES(proyecto.getId());
 		proyectoDao.eliminar(proyecto);
 	}
 	
@@ -396,39 +403,10 @@ public class ProyectoServiceImp implements ProyectoService
 		proyecto.setAnio(FuncionesTexto.devolverPrimerAnioTexto(textoOriginal));
 		proyecto.setEstado(EstadoProyectoEnum.PROCESADO);
 		//alta en servidor ES
-		this.altaProyectoES(proyecto, textoOriginal);
+		busquedaService.altaProyectoES(proyecto, textoOriginal);
 		this.modificar(proyecto);
 	}
 	
 	
-	public boolean altaProyectoES(Proyecto proyecto , String[] textoOriginal ) throws Exception
-	{
-		ArrayList<String> asd = proyecto.getListaStringElementos();
-		
-		String JsonArray = JsonUtil.devolverJsonArray(proyecto.getListaStringElementos());
-		
-		
-		String jsonBody = "{\"id_ude\":\"" + proyecto.getCodigoUde()
-						+ "\",\"titulo\":\"" + proyecto.getTitulo()
-						+ "\",\"contenido\":\"" + FuncionesTexto.limpiarTexto(textoOriginal)
-						+ "\",\"elemento\":" + JsonArray
-						+ "}";
-		System.out.print(jsonBody);
-		StringBuilder builder = new StringBuilder();
-		
-		builder.append(Constantes.ElasticSearch_Url_Base);
-		builder.append(Constantes.ElasticSearch_Index);
-		builder.append("proyectos/");
-		builder.append(Integer.toString(proyecto.getId()));
-		
-		HashMap<String, String> headers = new HashMap<>();
-		headers.put("Content-Type", "application/json");		
-		
-		String response = HttpUtil.doPutWithJsonBody(builder.toString(), headers, jsonBody, Constantes.ElasticSearch_Timeout);
-		
-		JsonObject jsonObject = JsonUtil.parse(response);
-		
-		return jsonObject.getJsonString("result").toString().equals("\"created\"") || 
-			   jsonObject.getJsonString("result").toString().equals("\"updated\"");
-	}
+
 }

@@ -94,9 +94,17 @@ public class ProyectoListadoView extends ProyectoListadoViewDesign implements Vi
 			{	
 				if( proyectoSeleccionado != null )
 				{
-					fachada.borrarProyecto(proyectoSeleccionado.getId());
-					UIUtiles.mostrarNotificacion("PROYECTO", "Baja exitosa", Notification.Type.HUMANIZED_MESSAGE);
-					cargarInterfazInicial();
+					try 
+					{
+						fachada.borrarProyecto(proyectoSeleccionado.getId());
+						UIUtiles.mostrarNotificacion("PROYECTO", "Baja exitosa", Notification.Type.HUMANIZED_MESSAGE);
+						cargarInterfazInicial();
+					} catch (Exception e) 
+					{
+						
+						UIUtiles.mostrarNotificacion("PROYECTO", "Ocurrió un problema al eliminar", Notification.Type.ERROR_MESSAGE);
+					}
+					
 				}
 			}
 		});

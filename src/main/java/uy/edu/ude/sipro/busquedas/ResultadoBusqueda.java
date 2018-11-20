@@ -3,12 +3,15 @@ package uy.edu.ude.sipro.busquedas;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import uy.edu.ude.sipro.utiles.Constantes;
+
 public class ResultadoBusqueda
 {
 	private int idProyecto;
 	private String tituloProyecto;
 	private float score;
 	private String codigoUde;
+	private int anio;
 	private ArrayList<String> highlight;
 
 	public ResultadoBusqueda() 
@@ -57,6 +60,14 @@ public class ResultadoBusqueda
 		this.codigoUde = codigoUde;
 	}
 
+	public int getAnio() {
+		return anio;
+	}
+
+	public void setAnio(int anio) {
+		this.anio = anio;
+	}
+
 	public ArrayList<String> getHighlight() {
 		return highlight;
 	}
@@ -72,12 +83,13 @@ public class ResultadoBusqueda
 		
 		int i=0;
 		Iterator<String> iterador = this.highlight.iterator();
-		while(iterador.hasNext() && i <= 3)
+		while(iterador.hasNext() && i < Constantes.CANTIDAD_DETALLES_BUSQUEDA)
 		{
 			String valor = iterador.next();
-			resumen= resumen  +" ... " +  valor;
+			resumen= resumen  + " ..... " +  valor.replaceAll("<em>", "<b>").replaceAll("</em>", "</b>");
 			i++;
 		}
+		resumen = resumen + " ..... ";
 		
 		return resumen;
 	}

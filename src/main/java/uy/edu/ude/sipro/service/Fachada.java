@@ -64,13 +64,9 @@ public class Fachada {
 		proyectoService.agregar(codigoUde, carrera, correctores, nota, rutaArchivo);
 	}
 	
-	public void modificarProyecto(int id, int anio, String carrera, int nota, String rutaArchivo) 
-	{
-		proyectoService.modificar(id, "CodigoUDE prueba", anio, carrera, nota, rutaArchivo);
-	}
-	
+
 	public void modificarProyectoCompleto(int id, String codigoUde, String titulo, int anio, String carrera, int nota, String resumen, 
-			ArrayList<String> alumnos, ArrayList<String> tutorString, List<DocenteVO> correctores) 
+			ArrayList<String> alumnos, ArrayList<String> tutorString, List<DocenteVO> correctores) throws Exception
 	{
 		proyectoService.modificar(  id,
 									codigoUde,
@@ -84,7 +80,7 @@ public class Fachada {
 									ConversorValueObject.convertirListaDocenteVOaDocente(correctores));
 	}
 	
-	public void borrarProyecto(int id)
+	public void borrarProyecto(int id) throws Exception
 	{
 		proyectoService.eliminar(id);
 	}
@@ -203,7 +199,7 @@ public class Fachada {
 	
 	public ArrayList<ResultadoBusqueda> buscarElementosProyectoES (String busqueda) throws Exception
 	{
-		return busquedaSevice.buscarElementosProyectoES(busquedaSevice.obtenerElementoString(busqueda));
+		return busquedaSevice.realizarBusquedaES(busqueda);
 	}
 	
 	

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
@@ -42,7 +43,6 @@ public class HttpUtil
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
 			throw e;
 		}
 	}
@@ -74,7 +74,32 @@ public class HttpUtil
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	public static String doDelete(String url, int timeout) throws Exception
+	{
+		HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
+		HttpClient httpClient = httpClientBuilder.build();
+
+		try
+		{
+			HttpDelete request = new HttpDelete(url);
+
+		    RequestConfig requestConfig = RequestConfig.custom()
+		            .setSocketTimeout(timeout)
+		            .setConnectTimeout(timeout)
+		            .setConnectionRequestTimeout(timeout)
+		            .build();
+
+		    request.setConfig(requestConfig);
+		    HttpResponse response = httpClient.execute(request);
+
+		    return EntityUtils.toString(response.getEntity());
+		}
+		catch(Exception e)
+		{
 			throw e;
 		}
 	}

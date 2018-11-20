@@ -10,4 +10,5 @@ public final class Constantes
 	public static final String ElasticSearch_Index = "sipro_index/";
 	public static final int ElasticSearch_Timeout = 3000;
 	public static final int LARGO_TITULO_MAX = 70;
+	public static final int CANTIDAD_DETALLES_BUSQUEDA = 3;
 }
