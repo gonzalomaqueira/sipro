@@ -60,7 +60,7 @@ public class HttpUtil
 
 		    request.setConfig(requestConfig);
 
-		    StringEntity params = new StringEntity(jsonBody);
+		    StringEntity params = new StringEntity(jsonBody, StandardCharsets.UTF_8);
 		    headers.forEach((v,k) -> request.addHeader(v,k));
 		    
 		    request.setEntity(params);

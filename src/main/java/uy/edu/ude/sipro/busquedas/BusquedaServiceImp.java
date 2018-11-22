@@ -107,7 +107,7 @@ public class BusquedaServiceImp implements BusquedaService {
 	{
 		String jsonBody;
 		
-		ArrayList<Elemento> elementos = this.obtenerElementoString(busqueda);	
+		ArrayList<Elemento> elementos = this.obtenerElementoString(busqueda);
 		
 		if (elementos != null && !elementos.isEmpty())
 		{
@@ -159,33 +159,36 @@ public class BusquedaServiceImp implements BusquedaService {
 		{	
 			JsonValue jsonValue = iterador.next();
 
-			ResultadoBusqueda resultadoBusqueda= new ResultadoBusqueda();
-			
-			String id = jsonValue.asJsonObject().getString("_id");
-			String score = jsonValue.asJsonObject().getJsonNumber("_score").toString();
-			String titulo = jsonValue.asJsonObject().getJsonObject("_source").getString("titulo");
-			String codigoUde = jsonValue.asJsonObject().getJsonObject("_source").getString("id_ude");
-			String anio= jsonValue.asJsonObject().getJsonObject("_source").getString("anio");
-			
-			Iterator<JsonValue> iterHighlight;
-			iterHighlight = jsonValue.asJsonObject().getJsonObject("highlight").getJsonArray("contenido").iterator();
-
-			ArrayList<String> resultadosHighlight = new ArrayList<>();
-			while (iterHighlight.hasNext())
+			if (jsonValue.asJsonObject().getJsonObject("highlight") != null)
 			{
-				JsonValue jsonValueHighlight = iterHighlight.next();
-				String highlight = jsonValueHighlight.toString();
-				resultadosHighlight.add(highlight);
-			}
-						
-			resultadoBusqueda.setIdProyecto(Integer.parseInt(id));
-			resultadoBusqueda.setScore(Float.parseFloat(score));
-			resultadoBusqueda.setTituloProyecto(titulo);
-			resultadoBusqueda.setCodigoUde(codigoUde);
-			resultadoBusqueda.setAnio(Integer.parseInt(anio));
-			resultadoBusqueda.setHighlight(resultadosHighlight);
-			
-			resultado.add(resultadoBusqueda);
+				ResultadoBusqueda resultadoBusqueda= new ResultadoBusqueda();
+				
+				String id = jsonValue.asJsonObject().getString("_id");
+				String score = jsonValue.asJsonObject().getJsonNumber("_score").toString();
+				String titulo = jsonValue.asJsonObject().getJsonObject("_source").getString("titulo");
+				String codigoUde = jsonValue.asJsonObject().getJsonObject("_source").getString("id_ude");
+				String anio= jsonValue.asJsonObject().getJsonObject("_source").getString("anio");
+				
+				Iterator<JsonValue> iterHighlight;
+				iterHighlight = jsonValue.asJsonObject().getJsonObject("highlight").getJsonArray("contenido").iterator();
+
+				ArrayList<String> resultadosHighlight = new ArrayList<>();
+				while (iterHighlight.hasNext())
+				{
+					JsonValue jsonValueHighlight = iterHighlight.next();
+					String highlight = jsonValueHighlight.toString();
+					resultadosHighlight.add(highlight);
+				}
+							
+				resultadoBusqueda.setIdProyecto(Integer.parseInt(id));
+				resultadoBusqueda.setScore(Float.parseFloat(score));
+				resultadoBusqueda.setTituloProyecto(titulo);
+				resultadoBusqueda.setCodigoUde(codigoUde);
+				resultadoBusqueda.setAnio(Integer.parseInt(anio));
+				resultadoBusqueda.setHighlight(resultadosHighlight);
+				
+				resultado.add(resultadoBusqueda);
+			}			
 		}
 		return resultado;
 	}
