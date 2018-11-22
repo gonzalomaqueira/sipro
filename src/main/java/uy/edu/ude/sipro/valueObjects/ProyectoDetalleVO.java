@@ -10,9 +10,11 @@ public class ProyectoDetalleVO implements Comparable
 {
 	private int id;
 
-	private String nombre;
+	private String codigoUde;
 
 	private int anio;
+	
+	private String titulo;
 
 	private String carrera;
 	
@@ -36,13 +38,14 @@ public class ProyectoDetalleVO implements Comparable
 
 	private List <ElementoVO> elementosRelacionados;
 	
-	public ProyectoDetalleVO(int id, String nombre, int anio, String carrera, List<DocenteVO> correctores, int nota, ArrayList<String> alumnos, 
+	public ProyectoDetalleVO(int id, String codigoUde, int anio, String titulo, String carrera, List<DocenteVO> correctores, int nota, ArrayList<String> alumnos, 
 							 DocenteVO tutor, ArrayList<String> tutorString, String rutaArchivo, String resumen, Date fechaAlta, 
 							 Date fechaUltimaModificacion, List<ElementoVO> elementosRelacionados) 
 	{
 		this.id = id;
-		this.nombre = nombre;
+		this.codigoUde = codigoUde;
 		this.anio = anio;
+		this.titulo = titulo;
 		this.carrera = carrera;
 		this.correctores = correctores;
 		this.nota = nota;
@@ -64,12 +67,12 @@ public class ProyectoDetalleVO implements Comparable
 		this.id = id;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public String getCodigoUde() {
+		return codigoUde;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setCodigoUde(String codigoUde) {
+		this.codigoUde = codigoUde;
 	}
 
 	public int getAnio() {
@@ -78,6 +81,14 @@ public class ProyectoDetalleVO implements Comparable
 
 	public void setAnio(int anio) {
 		this.anio = anio;
+	}
+	
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 
 	public String getCarrera() {
@@ -210,4 +221,5 @@ public class ProyectoDetalleVO implements Comparable
 	{
 		return this.getId() - ((ProyectoDetalleVO) comparado).getId();
 	}
+
 }

@@ -87,8 +87,9 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 		    		if (statusValidacion.isOk())
 		    		{
                         cargarDatosProyecto();
-						fachada.modificarProyectoCompleto( 	proyecto.getId(), 
-															proyecto.getNombre(),
+						fachada.modificarProyectoCompleto( 	proyecto.getId(),
+															proyecto.getCodigoUde(),
+															proyecto.getTitulo(),
 															proyecto.getAnio(),
 															proyecto.getCarrera(),
 															proyecto.getNota(),
@@ -214,11 +215,12 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 		actualizarListaCorrectores();
 		if (proyecto != null)
 		{
-			txtNombreProyecto.setValue(proyecto.getNombre());
+			txtCodigo.setValue(proyecto.getCodigoUde());
 			txtCarrera.setValue(proyecto.getCarrera() != null ? proyecto.getCarrera() : "");
 			grdCorrectores.setItems(proyecto.getCorrectores());
 			txtNota.setValue(Integer.toString(proyecto.getNota()));
 			txtAnio.setValue(Integer.toString(proyecto.getAnio()));
+			txtTitulo.setValue(proyecto.getTitulo());
 			txtTutor.setValue(proyecto.getTutorString() != null ? FuncionesTexto.convertirArrayAStringSaltoLinea(new ArrayList<String>(proyecto.getTutorString())) : "");
 			txtAlumnos.setValue(proyecto.getAlumnos() != null ? FuncionesTexto.convertirArrayAStringSaltoLinea(new ArrayList<String>(proyecto.getAlumnos())) : "");
 			txtResumen.setValue(proyecto.getResumen() != null ? proyecto.getResumen() : "");
@@ -258,10 +260,11 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 	
 	private void cargarDatosProyecto()
 	{
-		proyecto.setNombre(txtNombreProyecto.getValue());
+		proyecto.setCodigoUde(txtCodigo.getValue());
 		proyecto.setCarrera(txtCarrera.getValue());
 		proyecto.setNota( Integer.parseInt(txtNota.getValue()));
 		proyecto.setAnio( Integer.parseInt(txtAnio.getValue()));
+		proyecto.setTitulo(txtTitulo.getValue());
 		proyecto.setCorrectores(listaCorrectores);
 		proyecto.setTutorString(FuncionesTexto.convertirStringAArrayList(txtTutor.getValue()));
 		proyecto.setAlumnos(FuncionesTexto.convertirStringAArrayList(txtAlumnos.getValue()));
@@ -272,24 +275,24 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 	{
 		if(opcion)
 		{
-			this.txtNombreProyecto.setReadOnly(false);
 			this.txtCarrera.setReadOnly(false);
 			this.grdCorrectores.setEnabled(true);
 			this.cmbCorrectores.setEnabled(true);
 			this.txtNota.setReadOnly(false);
 			this.txtAnio.setReadOnly(false);
+			this.txtTitulo.setReadOnly(false);
 			this.txtTutor.setReadOnly(false);
 			this.txtAlumnos.setReadOnly(false);
 			this.txtResumen.setReadOnly(false);
 		}
 		else
 		{
-			this.txtNombreProyecto.setReadOnly(true);
 			this.txtCarrera.setReadOnly(true);
 			this.grdCorrectores.setEnabled(false);
 			this.cmbCorrectores.setEnabled(false);
 			this.txtNota.setReadOnly(true);
 			this.txtAnio.setReadOnly(true);
+			this.txtTitulo.setReadOnly(true);
 			this.txtTutor.setReadOnly(true);
 			this.txtAlumnos.setReadOnly(true);
 			this.txtResumen.setReadOnly(true);
@@ -341,10 +344,10 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 	private void SetearBinder()
 	{
 		binder = new Binder<ProyectoDetalleVO>(ProyectoDetalleVO.class);
-		
-		binder.forField(txtNombreProyecto)
-			.withValidator(nombre -> nombre.length() >= 3, "Nombre proyecto debe tener al menos 3 caracteres")
-			.bind(ProyectoDetalleVO::getNombre, ProyectoDetalleVO::setNombre);
+
+		binder.forField(txtTitulo)
+		.withValidator(titulo -> titulo.length() >= 1, "Título no puede estar vacío")
+		.bind(ProyectoDetalleVO::getTitulo, ProyectoDetalleVO::setTitulo);
 		
         binder.forField(txtAnio)
         	.withValidator(anio ->FuncionesTexto.esNumerico(anio), "El año tiene que ser numérico")

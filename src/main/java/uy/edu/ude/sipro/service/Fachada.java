@@ -9,7 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
+import uy.edu.ude.sipro.busquedas.BusquedaService;
+import uy.edu.ude.sipro.busquedas.ResultadoBusqueda;
+import uy.edu.ude.sipro.entidades.Elemento;
 import uy.edu.ude.sipro.entidades.Perfil;
+import uy.edu.ude.sipro.entidades.Proyecto;
 import uy.edu.ude.sipro.entidades.Usuario;
 import uy.edu.ude.sipro.service.interfaces.DocenteService;
 import uy.edu.ude.sipro.service.interfaces.ElementoService;
@@ -39,6 +43,8 @@ public class Fachada {
 	private ElementoService elementoService;
 	@Autowired
 	private DocenteService docenteService;
+	@Autowired
+	private BusquedaService busquedaSevice;
 
 	/**************************************************************** Proyectos */
 	
@@ -53,23 +59,18 @@ public class Fachada {
 	}
 	
 	// CORREGIR en vista
-	public void altaProyecto(String nombre, String carrera, Set<DocenteVO> correctores, int nota, String rutaArchivo) 
+	public void altaProyecto(String carrera, String codigoUde, Set<DocenteVO> correctores, int nota, String rutaArchivo) 
 	{
-		proyectoService.agregar("codigoUDE prueba", nombre, carrera, correctores, nota, rutaArchivo);
+		proyectoService.agregar(codigoUde, carrera, correctores, nota, rutaArchivo);
 	}
 	
-	public void modificarProyecto(int id, String nombre, int anio, String carrera, int nota, String rutaArchivo) 
-	{
-		proyectoService.modificar(id, "CodigoUDE prueba", nombre, anio, carrera, nota, rutaArchivo);
-	}
-	
-	public void modificarProyectoCompleto(int id, String nombre, int anio, String carrera, int nota, String resumen, 
-			ArrayList<String> alumnos, ArrayList<String> tutorString, List<DocenteVO> correctores) 
+
+	public void modificarProyectoCompleto(int id, String codigoUde, String titulo, int anio, String carrera, int nota, String resumen, 
+			ArrayList<String> alumnos, ArrayList<String> tutorString, List<DocenteVO> correctores) throws Exception
 	{
 		proyectoService.modificar(  id,
-									"CodigoUDE prueba",
-									nombre,
-									"Titulo prueba",
+									codigoUde,
+									titulo,
 									anio, 
 									carrera, 
 									nota, 
@@ -79,7 +80,7 @@ public class Fachada {
 									ConversorValueObject.convertirListaDocenteVOaDocente(correctores));
 	}
 	
-	public void borrarProyecto(int id)
+	public void borrarProyecto(int id) throws Exception
 	{
 		proyectoService.eliminar(id);
 	}
@@ -91,7 +92,13 @@ public class Fachada {
 	
 	public String buscarProyecto(String keywords) throws Exception
 	{
-		return proyectoService.buscarProyectoES(keywords);
+		return null;
+	}
+	
+	public boolean existeProyecto(String codigoUde)
+	{
+		Proyecto proy = proyectoService.buscarProyecto(codigoUde);
+		return (proy != null);
 	}
 	
 	/**************************************************************** Usuarios */	
@@ -165,6 +172,13 @@ public class Fachada {
 	{
 		elementoService.eliminar(id);
 	}
+	
+	public boolean actualizarSinonimosElemntosES() throws Exception
+	{
+		ArrayList<Elemento> listaElementos = new ArrayList<Elemento>();
+		listaElementos.addAll(elementoService.obtenerElementos());
+		return busquedaSevice.actualizarSinonimosElemntosES(listaElementos);
+	}
 
 	/**************************************************************** Docentes */
 	
@@ -187,5 +201,14 @@ public class Fachada {
 	{
 		return docenteService.existeDocente(nombre, apellido);
 	}
+	
+	/************************************************************** Busquedas */
+	
+	public ArrayList<ResultadoBusqueda> buscarElementosProyectoES (String busqueda) throws Exception
+	{
+		return busquedaSevice.realizarBusquedaES(busqueda);
+	}
+	
+	
 
 }

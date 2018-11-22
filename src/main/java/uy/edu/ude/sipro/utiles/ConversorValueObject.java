@@ -27,8 +27,9 @@ public class ConversorValueObject
 	public static ProyectoDetalleVO convertirProyectoDetalleVO(Proyecto proyecto)
 	{
 		return new ProyectoDetalleVO( proyecto.getId(), 
-									  proyecto.getNombre(),
+									  proyecto.getCodigoUde(),
 									  proyecto.getAnio(),
+									  proyecto.getTitulo(),
 									  proyecto.getCarrera(),
 									  convertirListaDocenteVO(proyecto.getCorrectores()),
 									  proyecto.getNota(),
@@ -46,10 +47,11 @@ public class ConversorValueObject
 	public static ProyectoVO convertirProyectoVO(Proyecto proyecto)
 	{
 		return new ProyectoVO(proyecto.getId(), 
-							  proyecto.getNombre(),
 							  proyecto.getAnio(),
+							  proyecto.getCodigoUde(),
 							  proyecto.getCarrera(),
 							  proyecto.getNota(),
+							  proyecto.getTitulo(),
 							  proyecto.getEstado());
 	}
 

@@ -9,6 +9,9 @@ import javax.json.JsonReader;
 
 import org.json.JSONArray;
 
+import uy.edu.ude.sipro.entidades.Elemento;
+import uy.edu.ude.sipro.entidades.Sinonimo;
+
 
 public abstract class JsonUtil 
 {
@@ -52,6 +55,32 @@ public abstract class JsonUtil
 			}
 			retorno = retorno + "]";		
 		}		
+		return retorno;
+	}
+	
+	public static String devolverJsonArrayElementosSinonimos(ArrayList<Elemento> elementos)
+	{
+		ArrayList<String> listaStrings = new ArrayList<String>();		
+		if (elementos != null && !elementos.isEmpty())
+		{
+			for(Elemento elem : elementos)
+			{
+				if (elem.getSinonimos() != null && !elem.getSinonimos().isEmpty())
+				{
+					listaStrings.add(devolverStringElementoSinonimos(elem));
+				}
+			}
+		}
+		return devolverJsonArray(listaStrings);
+	}
+
+	private static String devolverStringElementoSinonimos(Elemento elem)
+	{
+		String retorno = elem.getNombre();
+		for(Sinonimo sin : elem.getSinonimos())
+		{
+			retorno = retorno + ", " + sin.getNombre();
+		}
 		return retorno;
 	}
 }

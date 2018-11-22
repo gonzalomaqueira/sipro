@@ -37,7 +37,7 @@ public class main {
 		    HttpResponse response = httpClient.execute(request);
 	
 		    String json = EntityUtils.toString(response.getEntity());
-		    System.out.println(json);
+		    //System.out.println(json);
 		}
 		catch(Exception e)
 		{

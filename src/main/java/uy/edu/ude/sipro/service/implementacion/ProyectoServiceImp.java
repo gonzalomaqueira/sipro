@@ -28,11 +28,14 @@ import uy.edu.ude.sipro.entidades.Docente;
 import uy.edu.ude.sipro.entidades.Elemento;
 import uy.edu.ude.sipro.entidades.Proyecto;
 import uy.edu.ude.sipro.entidades.Sinonimo;
+import uy.edu.ude.sipro.entidades.Usuario;
 import uy.edu.ude.sipro.service.interfaces.DocenteService;
 import uy.edu.ude.sipro.service.interfaces.ElementoService;
 import uy.edu.ude.sipro.service.interfaces.ProyectoService;
 import uy.edu.ude.sipro.entidades.Enumerados.EstadoProyectoEnum;
+import uy.edu.ude.sipro.busquedas.BusquedaService;
 import uy.edu.ude.sipro.dao.interfaces.ProyectoDao;
+import uy.edu.ude.sipro.utiles.Constantes;
 import uy.edu.ude.sipro.utiles.FuncionesTexto;
 import uy.edu.ude.sipro.utiles.HttpUtil;
 import uy.edu.ude.sipro.utiles.JsonUtil;
@@ -43,10 +46,7 @@ import javax.json.JsonObject;
 @Service
 public class ProyectoServiceImp implements ProyectoService
 {
-	private static final String ElasticSearch_Url_Base = "http://localhost:9200/";
-	private static final String ElasticSearch_Index = "sipro_index/";
-	private static final int ElasticSearch_Timeout = 3000;
-	
+
 	@Autowired
 	private ProyectoDao proyectoDao;
 	
@@ -54,13 +54,15 @@ public class ProyectoServiceImp implements ProyectoService
 	private ElementoService elementoService;
 	@Autowired
 	private DocenteService docenteService;
+	@Autowired
+	private BusquedaService busquedaService;
 	
 	@Transactional
 	@Override
-	public void agregar(String codigoUde, String nombre, String carrera, Set<DocenteVO> correctoresVO, int nota, String rutaArchivo) 
+	public void agregar(String codigoUde, String carrera, Set<DocenteVO> correctoresVO, int nota, String rutaArchivo) 
 	{
 		Set<Docente> correctores = new HashSet<Docente>();
-		Proyecto proyecto = new Proyecto(codigoUde, nombre, carrera, correctores, nota, rutaArchivo);
+		Proyecto proyecto = new Proyecto(codigoUde, carrera, correctores, nota, rutaArchivo);
 		for(Docente doc : docenteService.obtenerDocentes())
 		{
 			for(DocenteVO docVO : correctoresVO)
@@ -85,11 +87,10 @@ public class ProyectoServiceImp implements ProyectoService
 
 	@Transactional
 	@Override
-	public void modificar(int id, String codigoUde, String nombre, int anio, String carrera, int nota, String rutaArchivo) 
+	public void modificar(int id, String codigoUde, int anio, String carrera, int nota, String rutaArchivo) 
 	{
 		Proyecto proy= this.obtenerProyectoPorId(id);
 		proy.setCodigoUde(codigoUde);
-		proy.setNombre(nombre);
 		proy.setAnio(anio);
 		proy.setCarrera(carrera);
 		proy.setNota(nota);
@@ -98,11 +99,11 @@ public class ProyectoServiceImp implements ProyectoService
 	
 	@Transactional
 	@Override
-	public void modificar(int id, String codigoUde, String nombre, String titulo, int anio, String carrera, int nota, String resumen, ArrayList<String> alumnos, ArrayList<String> tutorString, Set<Docente> correctores)
+	public void modificar(int id, String codigoUde, String titulo, int anio, String carrera, int nota, String resumen, 
+							ArrayList<String> alumnos, ArrayList<String> tutorString, Set<Docente> correctores) throws Exception
 	{
 		Proyecto proy= this.obtenerProyectoPorId(id);
 		proy.setCodigoUde(codigoUde);
-		proy.setNombre(nombre);
 		proy.setTitulo(titulo);
 		proy.setAnio(anio);
 		proy.setCarrera(carrera);
@@ -139,12 +140,14 @@ public class ProyectoServiceImp implements ProyectoService
 		}		
 	
 		proy.setCorrectores(docentesRetorno);
+		String[] textoOriginal= this.obtenerTextoOriginalProyecto(proy);
+		busquedaService.altaProyectoES(proy, textoOriginal);
 		proyectoDao.modificar(proy);
 	}
 
 	@Transactional
 	@Override
-	public void eliminar(int id) 
+	public void eliminar(int id) throws Exception
 	{
 		Proyecto proyecto = proyectoDao.obtenerProyectoPorId(id);
 		for (Elemento elem: proyecto.getElementosRelacionados())
@@ -158,6 +161,7 @@ public class ProyectoServiceImp implements ProyectoService
 			doc.getProyectosComoCorrector().remove(proyecto);
 		}
 		proyecto.getCorrectores().removeAll(proyecto.getCorrectores());
+		busquedaService.bajaProyectoES(proyecto.getId());
 		proyectoDao.eliminar(proyecto);
 	}
 	
@@ -174,6 +178,13 @@ public class ProyectoServiceImp implements ProyectoService
 	{
 		return proyectoDao.obtenerProyectoPorId(idProyecto);
 	}
+
+   @Transactional
+   @Override
+   public Proyecto buscarProyecto(String codigoUde)
+   {
+	   return proyectoDao.buscarProyecto(codigoUde);
+   }
 
 	@Override
 	public Set<Elemento> obtenerElementosProyecto (Proyecto proyecto, Set<Elemento> listaElementos)
@@ -316,7 +327,7 @@ public class ProyectoServiceImp implements ProyectoService
 				e1.printStackTrace();
 			}	        
 	    }
-		System.out.println(textoRetorno);
+		//System.out.println(textoRetorno);
 		return textoRetorno;
 	}
 	
@@ -378,7 +389,7 @@ public class ProyectoServiceImp implements ProyectoService
 
 	@Override
 	@Transactional
-	public void procesarProyecto(int idProyecto) throws Exception
+	public void procesarProyecto(int idProyecto) throws Exception // Hay que controlar que si no guarda en uno, tampoco lo haga en otro
 	{
 		Proyecto proyecto= this.obtenerProyectoPorId(idProyecto);
 		String[] textoOriginal= this.obtenerTextoOriginalProyecto(proyecto);
@@ -392,61 +403,10 @@ public class ProyectoServiceImp implements ProyectoService
 		proyecto.setAnio(FuncionesTexto.devolverPrimerAnioTexto(textoOriginal));
 		proyecto.setEstado(EstadoProyectoEnum.PROCESADO);
 		//alta en servidor ES
-		this.altaProyectoES(proyecto, textoOriginal);
+		busquedaService.altaProyectoES(proyecto, textoOriginal);
 		this.modificar(proyecto);
 	}
 	
-	@Override
-	public String buscarProyectoES(String keywords) throws Exception
-	{
-		String jsonBody = "{\"query\":{\"match\":{\"bio\":\"" + keywords + "\"}},\"highlight\":{\"fields\":{\"bio\":{}}}}";
-		StringBuilder builder = new StringBuilder();
-		
-		builder.append(ElasticSearch_Url_Base);
-		builder.append(ElasticSearch_Index);
-		builder.append("_search");
-		
-		HashMap<String, String> headers = new HashMap<>();
-		headers.put("Content-Type", "application/json");
-		
-		
-		String response = HttpUtil.doPostWithJsonBody(builder.toString(), headers, jsonBody, ElasticSearch_Timeout);
-		
-		JsonObject jsonObject = JsonUtil.parse(response);
-		
-		return jsonObject.getJsonObject("hits").getJsonArray("hits").getJsonObject(0).getJsonObject("highlight").toString();
-		
-		
-	}
 	
-	public boolean altaProyectoES(Proyecto proyecto , String[] textoOriginal ) throws Exception
-	{
-		ArrayList<String> asd = proyecto.getListaStringElementos();
-		
-		String JsonArray = JsonUtil.devolverJsonArray(proyecto.getListaStringElementos());
-		
-		
-		String jsonBody = "{\"id_ude\":\"" + proyecto.getCodigoUde()
-						+ "\",\"titulo\":\"" + proyecto.getTitulo()
-						+ "\",\"Contenido\":\"" + FuncionesTexto.limpiarTexto(textoOriginal)
-						+ "\",\"Elemento\":" + JsonArray
-						+ "}";
-		
-		StringBuilder builder = new StringBuilder();
-		
-		builder.append(ElasticSearch_Url_Base);
-		builder.append(ElasticSearch_Index);
-		builder.append("proyectos/");
-		builder.append(Integer.toString(proyecto.getId()));
-		
-		HashMap<String, String> headers = new HashMap<>();
-		headers.put("Content-Type", "application/json");		
-		
-		String response = HttpUtil.doPutWithJsonBody(builder.toString(), headers, jsonBody, ElasticSearch_Timeout);
-		
-		JsonObject jsonObject = JsonUtil.parse(response);
-		
-		return jsonObject.getJsonString("result").toString().equals("\"created\"") || 
-			   jsonObject.getJsonString("result").toString().equals("\"updated\"");
-	}
+
 }

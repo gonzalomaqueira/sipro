@@ -25,13 +25,13 @@ public class ProyectoNuevoViewDesign extends VerticalLayout {
 	protected Button btnVolver;
 	protected Button btnGuardar;
 	protected Button btnCancelar;
-	protected TextField txtNombreProyecto;
+	protected TextField txtCodigoUde;
+	protected TextField txtNota;
 	protected TextField txtCarrera;
 	protected ComboBox<uy.edu.ude.sipro.valueObjects.DocenteVO> cmbCorrectores;
 	protected Button btnAgregarCorrector;
 	protected Button btnEliminarCorrector;
 	protected Grid<uy.edu.ude.sipro.valueObjects.DocenteVO> grdCorrectores;
-	protected TextField txtNota;
 	protected Upload updSubirProyecto;
 
 	public ProyectoNuevoViewDesign() {

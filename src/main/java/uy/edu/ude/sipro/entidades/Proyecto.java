@@ -1,7 +1,5 @@
 package uy.edu.ude.sipro.entidades;
 
-
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -25,15 +23,17 @@ import javax.persistence.ManyToOne;
 
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import uy.edu.ude.sipro.entidades.Enumerados.EstadoProyectoEnum;
+import uy.edu.ude.sipro.utiles.Constantes;
 import uy.edu.ude.sipro.utiles.FuncionesTexto;
 import uy.edu.ude.sipro.utiles.SeccionTexto;
 
 @Entity
-@Table(name = "Proyectos")
+@Table(name = "Proyectos", uniqueConstraints = {@UniqueConstraint(name = "uq_codigoUde_Proyectos", columnNames = "codigoUde")})
 public class Proyecto
 {
 	@Id
@@ -44,12 +44,6 @@ public class Proyecto
 	@NotNull
 	@Column(name = "CodigoUde")
 	private String codigoUde;
-	
-	@NotNull
-	@Size(min = 1, max = 255)
-	@Column(name = "Nombre")
-	private String nombre;
-
 
 	@Size(min = 1, max = 255)
 	@Column(name = "Titulo")
@@ -113,21 +107,20 @@ public class Proyecto
 		this.fechaUltimaModificacion = vfecha;
 	}
 
-	public Proyecto(String codigoUde, String nombre, String carrera, Set<Docente> correctores,  int nota, String rutaArchivo)
+	public Proyecto(String codigoUde, String carrera, Set<Docente> correctores,  int nota, String rutaArchivo)
 	{
 		this();
 		this.codigoUde = codigoUde;
-		this.nombre = nombre;
 		this.carrera = carrera;
 		this.correctores = correctores;
 		this.nota = nota;
 		this.rutaArchivo = rutaArchivo;
 	}
 
-	public Proyecto(String codigoUde, String nombre, String titulo, int anio, String carrera, Set<Docente> correctores, int nota, 
+	public Proyecto(String codigoUde, String titulo, int anio, String carrera, Set<Docente> correctores, int nota, 
 			ArrayList<String> alumnos, Docente tutor, String rutaArchivo, String resumen)
 	{
-		this(codigoUde, nombre, carrera, correctores, nota, rutaArchivo);
+		this(codigoUde, carrera, correctores, nota, rutaArchivo);
 		this.Titulo = titulo;
 		this.anio = anio;
 		this.carrera = carrera;
@@ -142,9 +135,6 @@ public class Proyecto
 	
 	public String getCodigoUde() { return codigoUde; }
 	public void setCodigoUde(String codigoUde) { this.codigoUde = codigoUde; }
-
-	public String getNombre() {	return nombre; }
-	public void setNombre(String nombre) { this.nombre = nombre; }
 
 	public String getTitulo() { return Titulo; }
 	public void setTitulo(String titulo) { Titulo = titulo; }
@@ -321,7 +311,12 @@ public class Proyecto
 				retorno = retorno + " " + linea;
 			}
 		}
-		return retorno.trim();
+		int largo = retorno.length();
+		if (retorno.length() > Constantes.LARGO_TITULO_MAX)
+		{
+			largo = Constantes.LARGO_TITULO_MAX;
+		}
+		return retorno.substring(0, largo).trim();
 	}
 
 	
