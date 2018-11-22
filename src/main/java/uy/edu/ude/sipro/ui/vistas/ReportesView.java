@@ -62,7 +62,7 @@ public class ReportesView extends ReportesViewDesign implements View{
 		}
 		try {
 			
-			//ArrayList<ResultadoBusqueda> asdasdas= busquedaService.realizarBusquedaES(resultado);
+			fachada.actualizarSinonimosElemntosES();
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

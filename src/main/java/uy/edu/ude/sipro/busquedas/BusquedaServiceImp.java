@@ -55,12 +55,9 @@ public class BusquedaServiceImp implements BusquedaService {
 		return retorno;
 	}
 	
-	public boolean altaProyectoES(Proyecto proyecto , String[] textoOriginal ) throws Exception
+	public boolean altaProyectoES(Proyecto proyecto, String[] textoOriginal ) throws Exception
 	{
-		ArrayList<String> asd = proyecto.getListaStringElementos();
-		
 		String JsonArray = JsonUtil.devolverJsonArray(proyecto.getListaStringElementos());
-		
 		
 		String jsonBody = "{\"id_ude\":\"" + proyecto.getCodigoUde()
 						+ "\",\"titulo\":\"" + proyecto.getTitulo()
@@ -140,7 +137,7 @@ public class BusquedaServiceImp implements BusquedaService {
 		return obtenerResultadoDesdeJson(response, esBusquedaDirecta);
 		
 	}
-
+	
 	private String obtenerStringDesdeListaElemento(ArrayList<Elemento> elementos) 
 	{
 		String retorno="";
@@ -150,7 +147,7 @@ public class BusquedaServiceImp implements BusquedaService {
 		}
 		return retorno.trim();
 	}
-	
+
 	private ArrayList<ResultadoBusqueda> obtenerResultadoDesdeJson(String json, boolean esBusquedaDirecta) throws Exception
 	{
 		ArrayList<ResultadoBusqueda> resultado= new ArrayList<ResultadoBusqueda>();
@@ -197,5 +194,68 @@ public class BusquedaServiceImp implements BusquedaService {
 			resultado.add(resultadoBusqueda);
 		}
 		return resultado;
+	}
+	
+	@Override
+	public boolean actualizarSinonimosElemntosES(ArrayList<Elemento> elementos) throws Exception
+	{
+		boolean retorno = false;
+		try
+		{
+			abrirCerrarIndiceES(false);
+			
+			String jsonBody = "{\"analysis\": {" + 
+								"    \"filter\": {" + 
+								"      \"filtro_sinonimos\": {" + 
+								"        \"type\": \"synonym\"," + 
+								"        \"synonyms\": "+  JsonUtil.devolverJsonArrayElementosSinonimos(elementos) +
+								"      }" + 
+								"    }" + 
+								"  }" + 
+								"}";
+			
+			StringBuilder builder = new StringBuilder();
+			
+			builder.append(Constantes.ElasticSearch_Url_Base);
+			builder.append(Constantes.ElasticSearch_Index);
+			builder.append("_settings");
+			
+			HashMap<String, String> headers = new HashMap<>();
+			headers.put("Content-Type", "application/json");
+			
+			String response = HttpUtil.doPutWithJsonBody(builder.toString(), headers, jsonBody, Constantes.ElasticSearch_Timeout);
+			
+			JsonObject jsonObject = JsonUtil.parse(response);
+			
+			retorno = jsonObject.getBoolean("acknowledged");
+		}
+		finally
+		{
+			abrirCerrarIndiceES(true);
+		}
+		
+		return retorno;
+	}
+	
+	
+	@Override
+	public boolean abrirCerrarIndiceES(boolean abrirConexion) throws Exception
+	{	
+		StringBuilder builder = new StringBuilder();
+		
+		String accion = abrirConexion ? "_open" : "_close";
+		
+		builder.append(Constantes.ElasticSearch_Url_Base);
+		builder.append(Constantes.ElasticSearch_Index);
+		builder.append(accion);
+		
+		HashMap<String, String> headers = new HashMap<>();
+		headers.put("Content-Type", "application/json");
+		
+		String response = HttpUtil.doPost(builder.toString(), Constantes.ElasticSearch_Timeout);
+		
+		JsonObject jsonObject = JsonUtil.parse(response);
+		
+		return jsonObject.getBoolean("acknowledged");
 	}
 }

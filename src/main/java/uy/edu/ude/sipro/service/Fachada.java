@@ -172,6 +172,13 @@ public class Fachada {
 	{
 		elementoService.eliminar(id);
 	}
+	
+	public boolean actualizarSinonimosElemntosES() throws Exception
+	{
+		ArrayList<Elemento> listaElementos = new ArrayList<Elemento>();
+		listaElementos.addAll(elementoService.obtenerElementos());
+		return busquedaSevice.actualizarSinonimosElemntosES(listaElementos);
+	}
 
 	/**************************************************************** Docentes */
 	
