@@ -103,20 +103,21 @@ public class BusquedaServiceImp implements BusquedaService {
 	}
 	
 	@Override
-	public ArrayList<ResultadoBusqueda> realizarBusquedaES(String busquedaOriginal) throws Exception
+	public ArrayList<ResultadoBusqueda> realizarBusquedaES(String busqueda) throws Exception
 	{
-		String busqueda = busquedaOriginal;
 		String jsonBody;
-		boolean esBusquedaDirecta = true;
 		
 		ArrayList<Elemento> elementos = this.obtenerElementoString(busqueda);	
 		
 		if (elementos != null && !elementos.isEmpty())
 		{
-			esBusquedaDirecta = false;
-			busqueda = this.obtenerStringDesdeListaElemento(elementos);
-			// hay que tunearla
-			jsonBody = "{\"query\":{\"match_phrase\":{\"elemento\":\"" + busqueda + "\"}},\"highlight\":{\"fields\":{\"elemento\":{}}}}";
+			jsonBody = "{\"query\": {\"bool\": {\"should\":[";
+			for(Elemento elem : elementos)
+			{
+				jsonBody = jsonBody + "{\"match_phrase\": {\"contenido\": \"" + elem.getNombre() + "\"}},";
+			}						            	
+			jsonBody = jsonBody.substring(0,jsonBody.length() - 1);
+			jsonBody = jsonBody + "]}},\"highlight\":{\"fields\":{\"contenido\":{}}}}";
 		}
 		else
 		{
@@ -134,7 +135,7 @@ public class BusquedaServiceImp implements BusquedaService {
 		
 		String response = HttpUtil.doPostWithJsonBody(builder.toString(), headers, jsonBody, Constantes.ElasticSearch_Timeout);
 		
-		return obtenerResultadoDesdeJson(response, esBusquedaDirecta);
+		return obtenerResultadoDesdeJson(response);
 		
 	}
 	
@@ -148,7 +149,7 @@ public class BusquedaServiceImp implements BusquedaService {
 		return retorno.trim();
 	}
 
-	private ArrayList<ResultadoBusqueda> obtenerResultadoDesdeJson(String json, boolean esBusquedaDirecta) throws Exception
+	private ArrayList<ResultadoBusqueda> obtenerResultadoDesdeJson(String json) throws Exception
 	{
 		ArrayList<ResultadoBusqueda> resultado= new ArrayList<ResultadoBusqueda>();
 		JsonObject jsonObject = JsonUtil.parse(json);
@@ -167,15 +168,8 @@ public class BusquedaServiceImp implements BusquedaService {
 			String anio= jsonValue.asJsonObject().getJsonObject("_source").getString("anio");
 			
 			Iterator<JsonValue> iterHighlight;
-			if (esBusquedaDirecta)
-			{
-				iterHighlight = jsonValue.asJsonObject().getJsonObject("highlight").getJsonArray("contenido").iterator();
-			}
-			else
-			{
-				iterHighlight = jsonValue.asJsonObject().getJsonObject("highlight").getJsonArray("elemento").iterator();
-			}
-			
+			iterHighlight = jsonValue.asJsonObject().getJsonObject("highlight").getJsonArray("contenido").iterator();
+
 			ArrayList<String> resultadosHighlight = new ArrayList<>();
 			while (iterHighlight.hasNext())
 			{
