@@ -15,6 +15,7 @@ import uy.edu.ude.sipro.entidades.Elemento;
 import uy.edu.ude.sipro.entidades.Proyecto;
 import uy.edu.ude.sipro.entidades.Sinonimo;
 import uy.edu.ude.sipro.service.interfaces.ElementoService;
+import uy.edu.ude.sipro.service.interfaces.ProyectoService;
 import uy.edu.ude.sipro.utiles.Constantes;
 import uy.edu.ude.sipro.utiles.FuncionesTexto;
 import uy.edu.ude.sipro.utiles.HttpUtil;
@@ -25,6 +26,9 @@ public class BusquedaServiceImp implements BusquedaService {
 
 	@Autowired
 	private ElementoService elementoService;
+	
+	@Autowired
+	private ProyectoService proyectoService;
 	
 	@Override
 	public ArrayList<Elemento> obtenerElementoString(String busqueda) {
@@ -105,90 +109,131 @@ public class BusquedaServiceImp implements BusquedaService {
 	@Override
 	public ArrayList<ResultadoBusqueda> realizarBusquedaES(String busqueda) throws Exception
 	{
+		String response;
+		StringBuilder builder = new StringBuilder();
+		builder.append(Constantes.ElasticSearch_Url_Base);
+		builder.append(Constantes.ElasticSearch_Index);
 		String jsonBody;
+		boolean esBusquedaDirecta = false;
 		
+		Proyecto proyectoPorCodigo = proyectoService.buscarProyecto(busqueda);
 		ArrayList<Elemento> elementos = this.obtenerElementoString(busqueda);
 		
-		if (elementos != null && !elementos.isEmpty())
+		if(proyectoPorCodigo != null)
 		{
-			jsonBody = "{\"query\": {\"bool\": {\"should\":[";
-			for(Elemento elem : elementos)
-			{
-				jsonBody = jsonBody + "{\"match_phrase\": {\"contenido\": \"" + elem.getNombre() + "\"}},";
-			}						            	
-			jsonBody = jsonBody.substring(0,jsonBody.length() - 1);
-			jsonBody = jsonBody + "]}},\"highlight\":{\"fields\":{\"contenido\":{}}}}";
+			builder.append("proyectos/");
+			builder.append(proyectoPorCodigo.getId());
+			response = HttpUtil.doGet(builder.toString(), Constantes.ElasticSearch_Timeout);
+			esBusquedaDirecta = true;
 		}
 		else
 		{
-			jsonBody = "{\"query\":{\"match\":{\"contenido\":\"" + busqueda + "\"}},\"highlight\":{\"fields\":{\"contenido\":{}}}}";	
-		}		
+			if (elementos != null && !elementos.isEmpty())
+			{
+				jsonBody = "{\"query\": {\"bool\": {\"should\":[";
+				for(Elemento elem : elementos)
+				{
+					jsonBody = jsonBody + "{\"match_phrase\": {\"contenido\": \"" + elem.getNombre() + "\"}},";
+				}						            	
+				jsonBody = jsonBody.substring(0,jsonBody.length() - 1);
+				jsonBody = jsonBody + "]}},\"highlight\":{\"fields\":{\"contenido\":{}}}}";
+			}
+			else
+			{
+				jsonBody = "{\"query\":{\"match\":{\"contenido\":\"" + busqueda + "\"}},\"highlight\":{\"fields\":{\"contenido\":{}}}}";	
+			}
 		
-		StringBuilder builder = new StringBuilder();
-		
-		builder.append(Constantes.ElasticSearch_Url_Base);
-		builder.append(Constantes.ElasticSearch_Index);
-		builder.append("_search");
-		
-		HashMap<String, String> headers = new HashMap<>();
-		headers.put("Content-Type", "application/json");
-		
-		String response = HttpUtil.doPostWithJsonBody(builder.toString(), headers, jsonBody, Constantes.ElasticSearch_Timeout);
-		
-		return obtenerResultadoDesdeJson(response);
-		
-	}
-	
-	private String obtenerStringDesdeListaElemento(ArrayList<Elemento> elementos) 
-	{
-		String retorno="";
-		for(Elemento elem : elementos)
-		{
-			retorno= retorno + " " + elem.getNombre();
+			builder.append("_search");
+			
+			HashMap<String, String> headers = new HashMap<>();
+			headers.put("Content-Type", "application/json");
+			
+			response = HttpUtil.doPostWithJsonBody(builder.toString(), headers, jsonBody, Constantes.ElasticSearch_Timeout);
 		}
-		return retorno.trim();
+		return obtenerResultadoDesdeJson(response, esBusquedaDirecta);
+		
 	}
 
-	private ArrayList<ResultadoBusqueda> obtenerResultadoDesdeJson(String json) throws Exception
+	private ArrayList<ResultadoBusqueda> obtenerResultadoDesdeJson(String json, boolean esBusquedaDirecta) throws Exception
 	{
 		ArrayList<ResultadoBusqueda> resultado= new ArrayList<ResultadoBusqueda>();
 		JsonObject jsonObject = JsonUtil.parse(json);
+		ResultadoBusqueda resultadoBusqueda;
 		
-		Iterator<JsonValue> iterador = jsonObject.getJsonObject("hits").getJsonArray("hits").iterator();
-		while (iterador.hasNext())
-		{	
-			JsonValue jsonValue = iterador.next();
-
-			if (jsonValue.asJsonObject().getJsonObject("highlight") != null)
+		if (esBusquedaDirecta)
+		{
+			if (jsonObject.getBoolean("found"))
 			{
-				ResultadoBusqueda resultadoBusqueda= new ResultadoBusqueda();
+				resultadoBusqueda= new ResultadoBusqueda();
 				
-				String id = jsonValue.asJsonObject().getString("_id");
-				String score = jsonValue.asJsonObject().getJsonNumber("_score").toString();
-				String titulo = jsonValue.asJsonObject().getJsonObject("_source").getString("titulo");
-				String codigoUde = jsonValue.asJsonObject().getJsonObject("_source").getString("id_ude");
-				String anio= jsonValue.asJsonObject().getJsonObject("_source").getString("anio");
+				String id = jsonObject.getString("_id");
+				String score = "1.0";
+				String titulo = jsonObject.getJsonObject("_source").getString("titulo");
+				String codigoUde = jsonObject.getJsonObject("_source").getString("id_ude");
+				String anio = jsonObject.getJsonObject("_source").getString("anio");
 				
-				Iterator<JsonValue> iterHighlight;
-				iterHighlight = jsonValue.asJsonObject().getJsonObject("highlight").getJsonArray("contenido").iterator();
-
-				ArrayList<String> resultadosHighlight = new ArrayList<>();
-				while (iterHighlight.hasNext())
-				{
-					JsonValue jsonValueHighlight = iterHighlight.next();
-					String highlight = jsonValueHighlight.toString();
-					resultadosHighlight.add(highlight);
-				}
-							
 				resultadoBusqueda.setIdProyecto(Integer.parseInt(id));
 				resultadoBusqueda.setScore(Float.parseFloat(score));
 				resultadoBusqueda.setTituloProyecto(titulo);
 				resultadoBusqueda.setCodigoUde(codigoUde);
 				resultadoBusqueda.setAnio(Integer.parseInt(anio));
-				resultadoBusqueda.setHighlight(resultadosHighlight);
+			
+				if (resultadoBusqueda.getHighlight() == null)
+				{
+					Proyecto proy = proyectoService.obtenerProyectoPorId(resultadoBusqueda.getIdProyecto());
+					String[] textoOriginal= proyectoService.obtenerTextoOriginalProyecto(proy);
+					proy.setDocumentoPorSecciones(FuncionesTexto.armarDocumentoPorSecciones(textoOriginal));
+					
+					resultadoBusqueda.setAbstractProyecto(FuncionesTexto.convertirArrayStringsAString(proy.devolverResumen()));
+				}
 				
 				resultado.add(resultadoBusqueda);
-			}			
+				
+			}
+		}
+		else
+		{
+			Iterator<JsonValue> iterador = jsonObject.getJsonObject("hits").getJsonArray("hits").iterator();	
+			while (iterador.hasNext())
+			{	
+				JsonValue jsonValue = iterador.next();
+	
+				resultadoBusqueda= new ResultadoBusqueda();
+				
+				String id = jsonValue.asJsonObject().getString("_id");
+				String score = jsonValue.asJsonObject().getJsonNumber("_score").toString();
+				String titulo = jsonValue.asJsonObject().getJsonObject("_source").getString("titulo");
+				String codigoUde = jsonValue.asJsonObject().getJsonObject("_source").getString("id_ude");
+				String anio = jsonValue.asJsonObject().getJsonObject("_source").getString("anio");
+				
+				if (jsonValue.asJsonObject().getJsonObject("highlight") != null)
+				{
+					Iterator<JsonValue> iterHighlight;
+					iterHighlight = jsonValue.asJsonObject().getJsonObject("highlight").getJsonArray("contenido").iterator();
+	
+					ArrayList<String> resultadosHighlight = new ArrayList<>();
+					while (iterHighlight.hasNext())
+					{
+						JsonValue jsonValueHighlight = iterHighlight.next();
+						String highlight = jsonValueHighlight.toString();
+						resultadosHighlight.add(highlight);
+					}
+					resultadoBusqueda.setHighlight(resultadosHighlight);
+				}			
+				
+				resultadoBusqueda.setIdProyecto(Integer.parseInt(id));
+				resultadoBusqueda.setScore(Float.parseFloat(score));
+				resultadoBusqueda.setTituloProyecto(titulo);
+				resultadoBusqueda.setCodigoUde(codigoUde);
+				resultadoBusqueda.setAnio(Integer.parseInt(anio));
+			
+				if (resultadoBusqueda.getHighlight() == null)
+				{
+					Proyecto proy = proyectoService.obtenerProyectoPorId(resultadoBusqueda.getIdProyecto());
+					resultadoBusqueda.setAbstractProyecto(FuncionesTexto.convertirArrayStringsAString(proy.devolverResumen()));
+				}
+				resultado.add(resultadoBusqueda);
+			}
 		}
 		return resultado;
 	}

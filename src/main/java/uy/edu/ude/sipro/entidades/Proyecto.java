@@ -342,4 +342,10 @@ public class Proyecto
 		return new ArrayList(retorno);
 	}
 
+	public String devolverInicioResumen()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

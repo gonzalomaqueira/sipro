@@ -8,6 +8,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
@@ -16,6 +17,32 @@ import org.apache.http.util.EntityUtils;
 
 public class HttpUtil 
 {
+	public static String doGet(String url, int timeout) throws Exception
+	{
+		HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
+		HttpClient httpClient = httpClientBuilder.build();
+
+		try
+		{
+			HttpGet request = new HttpGet(url);
+
+		    RequestConfig requestConfig = RequestConfig.custom()
+		            .setSocketTimeout(timeout)
+		            .setConnectTimeout(timeout)
+		            .setConnectionRequestTimeout(timeout)
+		            .build();
+
+		    request.setConfig(requestConfig);
+		    HttpResponse response = httpClient.execute(request);
+
+		    return EntityUtils.toString(response.getEntity());
+		}
+		catch(Exception e)
+		{
+			throw e;
+		}
+	}
+	
 	public static String doPost(String url, int timeout) throws Exception
 	{
 		HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
