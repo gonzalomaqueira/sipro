@@ -59,7 +59,7 @@ public class BusquedaServiceImp implements BusquedaService {
 		return retorno;
 	}
 	
-	public boolean altaProyectoES(Proyecto proyecto, String[] textoOriginal ) throws Exception
+	public boolean altaProyectoES(Proyecto proyecto, String[] textoOriginal) throws Exception
 	{
 		String JsonArray = JsonUtil.devolverJsonArray(proyecto.getListaStringElementos());
 		
@@ -68,6 +68,7 @@ public class BusquedaServiceImp implements BusquedaService {
 						+ "\",\"anio\":\"" + proyecto.getAnio()
 						+ "\",\"tutor\":\"" + proyecto.getTutorString()
 						+ "\",\"contenido\":\"" + FuncionesTexto.limpiarTexto(textoOriginal)
+						+ "\",\"resumen\":\"" + proyecto.getResumen()
 						+ "\",\"elemento\":" + JsonArray
 						+ "}";
 
@@ -171,21 +172,14 @@ public class BusquedaServiceImp implements BusquedaService {
 				String titulo = jsonObject.getJsonObject("_source").getString("titulo");
 				String codigoUde = jsonObject.getJsonObject("_source").getString("id_ude");
 				String anio = jsonObject.getJsonObject("_source").getString("anio");
+				String resumen = jsonObject.getJsonObject("_source").getString("resumen");
 				
 				resultadoBusqueda.setIdProyecto(Integer.parseInt(id));
 				resultadoBusqueda.setScore(Float.parseFloat(score));
 				resultadoBusqueda.setTituloProyecto(titulo);
 				resultadoBusqueda.setCodigoUde(codigoUde);
 				resultadoBusqueda.setAnio(Integer.parseInt(anio));
-			
-				if (resultadoBusqueda.getHighlight() == null)
-				{
-					Proyecto proy = proyectoService.obtenerProyectoPorId(resultadoBusqueda.getIdProyecto());
-					String[] textoOriginal= proyectoService.obtenerTextoOriginalProyecto(proy);
-					proy.setDocumentoPorSecciones(FuncionesTexto.armarDocumentoPorSecciones(textoOriginal));
-					
-					resultadoBusqueda.setAbstractProyecto(FuncionesTexto.convertirArrayStringsAString(proy.devolverResumen()));
-				}
+				resultadoBusqueda.setAbstractProyecto(resumen);
 				
 				resultado.add(resultadoBusqueda);
 				
@@ -205,6 +199,7 @@ public class BusquedaServiceImp implements BusquedaService {
 				String titulo = jsonValue.asJsonObject().getJsonObject("_source").getString("titulo");
 				String codigoUde = jsonValue.asJsonObject().getJsonObject("_source").getString("id_ude");
 				String anio = jsonValue.asJsonObject().getJsonObject("_source").getString("anio");
+				String resumen = jsonValue.asJsonObject().getJsonObject("_source").getString("resumen");
 				
 				if (jsonValue.asJsonObject().getJsonObject("highlight") != null)
 				{
@@ -226,12 +221,8 @@ public class BusquedaServiceImp implements BusquedaService {
 				resultadoBusqueda.setTituloProyecto(titulo);
 				resultadoBusqueda.setCodigoUde(codigoUde);
 				resultadoBusqueda.setAnio(Integer.parseInt(anio));
-			
-				if (resultadoBusqueda.getHighlight() == null)
-				{
-					Proyecto proy = proyectoService.obtenerProyectoPorId(resultadoBusqueda.getIdProyecto());
-					resultadoBusqueda.setAbstractProyecto(FuncionesTexto.convertirArrayStringsAString(proy.devolverResumen()));
-				}
+				resultadoBusqueda.setAbstractProyecto(resumen);
+				
 				resultado.add(resultadoBusqueda);
 			}
 		}
