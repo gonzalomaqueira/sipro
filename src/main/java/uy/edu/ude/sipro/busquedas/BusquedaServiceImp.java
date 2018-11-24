@@ -63,13 +63,15 @@ public class BusquedaServiceImp implements BusquedaService {
 	{
 		String JsonArray = JsonUtil.devolverJsonArray(proyecto.getListaStringElementos());
 		
+		String nota = proyecto.getNota() < 10 ? "0" + proyecto.getNota() : String.valueOf(proyecto.getNota());
+		
 		String jsonBody = "{\"id_ude\":\"" + proyecto.getCodigoUde()
 						+ "\",\"titulo\":\"" + proyecto.getTitulo()
 						+ "\",\"anio\":\"" + proyecto.getAnio()
+						+ "\",\"nota\":\"" + nota
 						+ "\",\"tutor\":\"" + proyecto.getTutorString()
 						+ "\",\"resumen\":\"" + proyecto.getResumen()
 						+ "\",\"contenido\":\"" + FuncionesTexto.limpiarTexto(textoOriginal)
-						//+ "\",\"elemento\":" + JsonArray
 						+ "\"}";
 
 		StringBuilder builder = new StringBuilder();
@@ -108,7 +110,7 @@ public class BusquedaServiceImp implements BusquedaService {
 	}
 	
 	@Override
-	public ArrayList<ResultadoBusqueda> realizarBusquedaES(String busqueda) throws Exception
+	public ArrayList<ResultadoBusqueda> realizarBusquedaES(String busqueda, DatosFiltro datosFiltro) throws Exception
 	{
 		String response;
 		StringBuilder builder = new StringBuilder();
@@ -119,7 +121,7 @@ public class BusquedaServiceImp implements BusquedaService {
 		
 		Proyecto proyectoPorCodigo = proyectoService.buscarProyecto(busqueda);
 		ArrayList<Elemento> elementos = this.obtenerElementoString(busqueda);
-		
+
 		if(proyectoPorCodigo != null)
 		{
 			builder.append("proyectos/");
@@ -129,30 +131,59 @@ public class BusquedaServiceImp implements BusquedaService {
 		}
 		else
 		{
-			if (elementos != null && !elementos.isEmpty())
+			if (busqueda.equals(""))
 			{
-				jsonBody = "{\"_source\":{\"excludes\":[\"contenido\"]},\"query\": {\"bool\": {\"should\":[";
-				for(Elemento elem : elementos)
-				{
-					jsonBody = jsonBody + "{\"match_phrase\": {\"contenido\": \"" + elem.getNombre() + "\"}},";
-				}						            	
-				jsonBody = jsonBody.substring(0,jsonBody.length() - 1);
-				jsonBody = jsonBody + "]}},\"highlight\":{\"fields\":{\"contenido\":{}}}}";
+				jsonBody = "{\"_source\":{\"excludes\":[\"contenido\"]},\"query\":{\"bool\":{\"must\":{\"match_all\":{}}, " 
+						+ this.cargarFiltros(datosFiltro) 
+						+ "}},\"sort\":{\"anio\":{\"order\":\"desc\"}}}";
 			}
 			else
 			{
-				jsonBody = "{\"_source\":{\"excludes\":[\"contenido\"]},\"query\":{\"match\":{\"contenido\":\"" + busqueda + "\"}},\"highlight\":{\"fields\":{\"contenido\":{}}}}";	
+				if (elementos != null && !elementos.isEmpty())
+				{
+					jsonBody = "{\"_source\":{\"excludes\":[\"contenido\"]},\"query\": {\"bool\": {\"should\":[";
+					for(Elemento elem : elementos)
+					{
+						jsonBody = jsonBody + "{\"match_phrase\": {\"contenido\": \"" + elem.getNombre() + "\"}},";
+					}						            	
+					jsonBody = jsonBody.substring(0,jsonBody.length() - 1);
+					jsonBody = jsonBody + "]}},\"highlight\":{\"fields\":{\"contenido\":{}}}}";
+				}
+				else
+				{
+					jsonBody = "{\"_source\":{\"excludes\":[\"contenido\"]},\"query\":{\"match\":{\"contenido\":\"" + busqueda + "\"}},\"highlight\":{\"fields\":{\"contenido\":{}}}}";	
+				}
 			}
-		
-			builder.append("_search");
 			
+			builder.append("_search");			
 			HashMap<String, String> headers = new HashMap<>();
 			headers.put("Content-Type", "application/json");
 			
-			response = HttpUtil.doPostWithJsonBody(builder.toString(), headers, jsonBody, Constantes.ElasticSearch_Timeout);
+			response = HttpUtil.doPostWithJsonBody(builder.toString(), headers, jsonBody, Constantes.ElasticSearch_Timeout);			
 		}
 		return obtenerResultadoDesdeJson(response, esBusquedaDirecta);
 		
+	}
+
+	private String cargarFiltros(DatosFiltro datosFiltro) {
+		
+		String filtro = "\"filter\": ["; 
+		if(datosFiltro.isFiltroHabilitado())
+		{
+			String notaIni = datosFiltro.getNotaIni() < 10 ? "0" + datosFiltro.getNotaIni() : String.valueOf(datosFiltro.getNotaIni());
+			String notaFin = datosFiltro.getNotaFin() < 10 ? "0" + datosFiltro.getNotaFin() : String.valueOf(datosFiltro.getNotaFin());
+			
+			filtro= filtro + "{ \"range\": { \"anio\": { \"gte\": \"" + datosFiltro.getAnioIni() + "\", \"lte\": \"" + datosFiltro.getAnioFin()+ "\" }}},";
+			filtro= filtro + "{ \"range\": { \"nota\": { \"gte\": \"" + notaIni + "\", \"lte\": \"" + notaFin+ "\" }}}";
+			if(datosFiltro.getDocente()!=null)
+			{
+				//falta la parte de tutor
+			}
+		}
+
+		
+		filtro = filtro + "]";
+		return filtro;
 	}
 
 	private ArrayList<ResultadoBusqueda> obtenerResultadoDesdeJson(String json, boolean esBusquedaDirecta) throws Exception
@@ -195,7 +226,11 @@ public class BusquedaServiceImp implements BusquedaService {
 				resultadoBusqueda= new ResultadoBusqueda();
 				
 				String id = jsonValue.asJsonObject().getString("_id");
-				String score = jsonValue.asJsonObject().getJsonNumber("_score").toString();
+				String score = "0.0";
+				if (!jsonValue.asJsonObject().isNull("_score"))
+				{
+					score = jsonValue.asJsonObject().getJsonNumber("_score").toString();
+				}				
 				String titulo = jsonValue.asJsonObject().getJsonObject("_source").getString("titulo");
 				String codigoUde = jsonValue.asJsonObject().getJsonObject("_source").getString("id_ude");
 				String anio = jsonValue.asJsonObject().getJsonObject("_source").getString("anio");

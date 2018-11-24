@@ -1,11 +1,13 @@
 package uy.edu.ude.sipro.ui.vistas;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Calendar;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.servlet.view.InternalResourceView;
 
+import com.github.daishy.rangeslider.RangeSlider;
+import com.github.daishy.rangeslider.client.Range;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -16,43 +18,57 @@ import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Link;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
 
+import uy.edu.ude.sipro.busquedas.DatosFiltro;
 import uy.edu.ude.sipro.busquedas.ResultadoBusqueda;
-import uy.edu.ude.sipro.entidades.Elemento;
 import uy.edu.ude.sipro.service.Fachada;
+import uy.edu.ude.sipro.ui.UIUtiles;
+import uy.edu.ude.sipro.utiles.Constantes;
 
 @SpringView
 @SpringComponent
-public class BusquedasView extends BusquedasViewDesign implements View{
-	
+public class BusquedasView extends BusquedasViewDesign implements View
+{	
 	@Autowired
 	private Fachada fachada;
 	ArrayList<ResultadoBusqueda> resultado= new ArrayList<ResultadoBusqueda>();
 	
+	DatosFiltro datosFiltro;
+
+	RangeSlider sliderAnio;
+	RangeSlider sliderNota;
+	
 	public void enter(ViewChangeEvent event) 
-	{							
+	{
+		this.construirFiltro();
+		this.verificarFiltros();
 		
 		btnBuscar.setClickShortcut(KeyCode.ENTER);
 		
 		btnBuscar.addClickListener(new Button.ClickListener()
 		{
 			public void buttonClick(ClickEvent event)
-			{			
-				try {
+			{
+				try 
+				{
 					contenedorResultados.removeAllComponents();
-					resultado= fachada.buscarElementosProyectoES(txtBuscar.getValue());
+					cargarDatosFiltro();
+					resultado= fachada.buscarElementosProyectoES(txtBuscar.getValue(), datosFiltro);
 					cargarListaComponentes(resultado);
-				} catch (Exception e) {
+				} catch (Exception e) 
+				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}	
-				
+				}					
 			}
-		});		
+		});
+		
+		chkFiltrar.addValueChangeListener(evt -> this.verificarFiltros());
 	}
 	
 	public void cargarComponenteResultado(ResultadoBusqueda resultado)
@@ -91,6 +107,57 @@ public class BusquedasView extends BusquedasViewDesign implements View{
 		{
 			if(r!=null)
 				cargarComponenteResultado(r);
+		}
+	}
+	
+	public void construirFiltro()
+	{	
+		int anioActual = Calendar.getInstance().get(Calendar.YEAR);
+		
+		sliderAnio = new RangeSlider("Años", new Range(Constantes.ANIO_INICIO_BUSQUEDA, anioActual), new Range(anioActual-5, anioActual));		
+		sliderAnio.setSizeFull();
+		sliderAnio.setWidth("280px");
+		sliderAnio.setStep(1);
+		layoutFiltros.addComponent(sliderAnio);
+		
+		sliderNota = new RangeSlider("Notas", new Range(1, 12), new Range(8, 12));
+		sliderNota.setSizeFull();
+		sliderNota.setWidth("280px");
+		sliderNota.setStep(1);		
+		layoutFiltros.addComponent(sliderNota);
+	}
+	
+	public void verificarFiltros()
+	{
+		if (chkFiltrar.getValue())
+    	{
+    		contenedorFiltros.setVisible(true);	
+    	}
+    	else
+    	{
+    		contenedorFiltros.setVisible(false);
+		}
+	}
+	
+	public void cargarDatosFiltro()
+	{
+		if (chkFiltrar.getValue())
+    	{
+    		datosFiltro= new DatosFiltro();
+    		datosFiltro.setFiltroHabilitado(true);
+    		Double anioIni= sliderAnio.getValue().getLower();
+    		Double anioFin= sliderAnio.getValue().getUpper();
+    		Double notaIni= sliderNota.getValue().getLower();
+    		Double notaFin= sliderNota.getValue().getUpper();
+    		datosFiltro.setAnioIni(anioIni.intValue());
+    		datosFiltro.setAnioFin(anioFin.intValue());
+    		datosFiltro.setNotaIni(notaIni.intValue());
+    		datosFiltro.setNotaFin(notaFin.intValue());
+    	}
+    	else
+    	{
+    		datosFiltro= new DatosFiltro();
+    		datosFiltro.setFiltroHabilitado(false);
 		}
 	}
 }

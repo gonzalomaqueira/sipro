@@ -12,4 +12,5 @@ public final class Constantes
 	public static final int LARGO_TITULO_MAX = 70;
 	public static final int CANTIDAD_DETALLES_BUSQUEDA = 3;
 	public static final int LARGO_MAXIMO_RESUMEN_BUSQUEDA = 300;
+	public static final double ANIO_INICIO_BUSQUEDA = 2008;
 }
