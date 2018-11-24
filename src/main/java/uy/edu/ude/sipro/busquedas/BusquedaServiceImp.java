@@ -67,10 +67,10 @@ public class BusquedaServiceImp implements BusquedaService {
 						+ "\",\"titulo\":\"" + proyecto.getTitulo()
 						+ "\",\"anio\":\"" + proyecto.getAnio()
 						+ "\",\"tutor\":\"" + proyecto.getTutorString()
-						+ "\",\"contenido\":\"" + FuncionesTexto.limpiarTexto(textoOriginal)
 						+ "\",\"resumen\":\"" + proyecto.getResumen()
-						+ "\",\"elemento\":" + JsonArray
-						+ "}";
+						+ "\",\"contenido\":\"" + FuncionesTexto.limpiarTexto(textoOriginal)
+						//+ "\",\"elemento\":" + JsonArray
+						+ "\"}";
 
 		StringBuilder builder = new StringBuilder();
 		
@@ -131,7 +131,7 @@ public class BusquedaServiceImp implements BusquedaService {
 		{
 			if (elementos != null && !elementos.isEmpty())
 			{
-				jsonBody = "{\"query\": {\"bool\": {\"should\":[";
+				jsonBody = "{\"_source\":{\"excludes\":[\"contenido\"]},\"query\": {\"bool\": {\"should\":[";
 				for(Elemento elem : elementos)
 				{
 					jsonBody = jsonBody + "{\"match_phrase\": {\"contenido\": \"" + elem.getNombre() + "\"}},";
@@ -141,7 +141,7 @@ public class BusquedaServiceImp implements BusquedaService {
 			}
 			else
 			{
-				jsonBody = "{\"query\":{\"match\":{\"contenido\":\"" + busqueda + "\"}},\"highlight\":{\"fields\":{\"contenido\":{}}}}";	
+				jsonBody = "{\"_source\":{\"excludes\":[\"contenido\"]},\"query\":{\"match\":{\"contenido\":\"" + busqueda + "\"}},\"highlight\":{\"fields\":{\"contenido\":{}}}}";	
 			}
 		
 			builder.append("_search");
