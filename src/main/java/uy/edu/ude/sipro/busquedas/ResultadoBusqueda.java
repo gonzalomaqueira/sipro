@@ -13,19 +13,21 @@ public class ResultadoBusqueda
 	private String codigoUde;
 	private int anio;
 	private ArrayList<String> highlight;
+	private String abstractProyecto;
 
 	public ResultadoBusqueda() 
 	{
 		
 	}
 	
-	public ResultadoBusqueda(int idProyecto, String tituloProyecto, float score, String codigoUde, ArrayList<String> highlight) 
+	public ResultadoBusqueda(int idProyecto, String tituloProyecto, float score, String codigoUde, ArrayList<String> highlight, String abstractProyecto) 
 	{
 		this.idProyecto = idProyecto;
 		this.tituloProyecto = tituloProyecto;
 		this.score = score;
 		this.codigoUde = codigoUde;
 		this.highlight = highlight;
+		this.abstractProyecto = abstractProyecto;
 	}
 
 	public int getIdProyecto() {
@@ -76,19 +78,37 @@ public class ResultadoBusqueda
 		this.highlight = highlight;
 	}
 	
+	public String getAbstractProyecto() {
+		return abstractProyecto;
+	}
+
+	public void setAbstractProyecto(String abstractProyecto) {
+		this.abstractProyecto = abstractProyecto;
+	}
 	
+
 	public String getResumenBusqueda()
 	{
 		String resumen = "";
 		
-		int i=0;
-		Iterator<String> iterador = this.highlight.iterator();
-		while(iterador.hasNext() && i < Constantes.CANTIDAD_DETALLES_BUSQUEDA)
+		if(this.highlight != null)
 		{
-			String valor = iterador.next();
-			resumen= resumen  + " ..... " +  valor.replaceAll("<em>", "<b>").replaceAll("</em>", "</b>");
-			i++;
+			int i=0;
+			Iterator<String> iterador = this.highlight.iterator();
+			while(iterador.hasNext() && i < Constantes.CANTIDAD_DETALLES_BUSQUEDA)
+			{
+				String valor = iterador.next();
+				resumen= resumen  + " ..... " +  valor.replaceAll("<em>", "<b>").replaceAll("</em>", "</b>");
+				i++;
+			}
 		}
+		else
+		{
+			int maximo = this.abstractProyecto.length() > Constantes.LARGO_MAXIMO_RESUMEN_BUSQUEDA 
+					? Constantes.LARGO_MAXIMO_RESUMEN_BUSQUEDA : this.abstractProyecto.length();
+			resumen = this.abstractProyecto.substring(0, maximo);
+		}
+		
 		resumen = resumen + " ..... ";
 		
 		return resumen;

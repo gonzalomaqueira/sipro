@@ -26,7 +26,5 @@ public interface ProyectoService
 	String[] obtenerTextoOriginalProyecto(Proyecto proyecto);	
 	void cargarTutorPorString(Proyecto proyecto);
 	
-	void procesarProyecto(int id) throws Exception;	
-	
-
+	void procesarProyecto(int id) throws Exception;
 }

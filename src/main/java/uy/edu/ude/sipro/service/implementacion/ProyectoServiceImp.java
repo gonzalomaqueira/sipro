@@ -179,12 +179,13 @@ public class ProyectoServiceImp implements ProyectoService
 		return proyectoDao.obtenerProyectoPorId(idProyecto);
 	}
 
-   @Transactional
-   @Override
-   public Proyecto buscarProyecto(String codigoUde)
-   {
-	   return proyectoDao.buscarProyecto(codigoUde);
-   }
+	
+	@Transactional
+	@Override
+	public Proyecto buscarProyecto(String codigoUde)
+	{
+		return proyectoDao.buscarProyecto(codigoUde);
+    }
 
 	@Override
 	public Set<Elemento> obtenerElementosProyecto (Proyecto proyecto, Set<Elemento> listaElementos)

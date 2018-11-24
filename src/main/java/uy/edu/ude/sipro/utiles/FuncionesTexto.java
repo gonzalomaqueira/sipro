@@ -522,5 +522,19 @@ public class FuncionesTexto
 		retorno = retorno.replaceAll("\n", "").replace("\r", "");
 		return retorno;
 	}
+
+	public static String convertirArrayStringsAString(ArrayList<String> arrayStrings)
+	{
+		String retorno="";
+		
+		if (arrayStrings != null)
+		{
+			for(String linea : arrayStrings)
+			{
+				retorno = retorno + " " + linea;
+			}
+		}
+		return retorno.trim();
+	}
 	
 }
