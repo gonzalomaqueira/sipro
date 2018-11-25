@@ -54,12 +54,7 @@ public class ReportesView extends ReportesViewDesign implements View{
 	
 	public void enter(ViewChangeEvent event)
 	{	
-		ArrayList<Elemento> resultado= busquedaService.obtenerElementoString("Vaadin tiene jaVa y un poco de caja negra ");	
-		System.out.println("Resulado: \n \n");
-		for(Elemento elem : resultado)
-		{
-			System.out.println(elem.getNombre() + "\n");
-		}
+
 		try {
 			
 			fachada.actualizarSinonimosElemntosES();

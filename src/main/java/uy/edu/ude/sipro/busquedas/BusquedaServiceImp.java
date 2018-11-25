@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.stream.Collectors;
 
 import javax.json.JsonObject;
 import javax.json.JsonValue;
@@ -28,37 +29,9 @@ public class BusquedaServiceImp implements BusquedaService {
 	private ElementoService elementoService;
 	
 	@Autowired
-	private ProyectoService proyectoService;
+	private ProyectoService proyectoService;		
 	
 	@Override
-	public ArrayList<Elemento> obtenerElementoString(String busqueda) {
-		
-		busqueda= busqueda.toLowerCase().trim();
-		ArrayList<Elemento> retorno= new ArrayList<Elemento>();
-		HashSet<Elemento> elementos= (HashSet<Elemento>) elementoService.obtenerElementos();
-		for(Elemento elem : elementos)
-		{
-			if (busqueda.contains(elem.getNombre().toLowerCase().trim()))
-			{
-				retorno.add(elem);
-			}
-			else
-			{
-				for(Sinonimo sin : elem.getSinonimos())
-				{
-					if(busqueda.contains(sin.getNombre().toLowerCase().trim()))
-					{
-						retorno.add(elem);
-						break;
-					}
-				}
-			}
-		
-		}
-		
-		return retorno;
-	}
-	
 	public boolean altaProyectoES(Proyecto proyecto, String[] textoOriginal) throws Exception
 	{
 		String JsonArray = JsonUtil.devolverJsonArray(proyecto.getListaStringElementos());
@@ -120,7 +93,8 @@ public class BusquedaServiceImp implements BusquedaService {
 		boolean esBusquedaDirecta = false;
 		
 		Proyecto proyectoPorCodigo = proyectoService.buscarProyecto(busqueda);
-		ArrayList<Elemento> elementos = this.obtenerElementoString(busqueda);
+		ArrayList<Elemento> elementosPrimarios = this.obtenerElementoString(busqueda);
+		ArrayList<Elemento> elementosRelacionados = this.obtenerElementosRelacionadosBusqueda(elementosPrimarios);
 
 		if(proyectoPorCodigo != null)
 		{
@@ -135,26 +109,33 @@ public class BusquedaServiceImp implements BusquedaService {
 			{
 				jsonBody = "{\"_source\":{\"excludes\":[\"contenido\"]},\"query\":{\"bool\":{"
 							+ this.cargarFiltros(datosFiltro)
-							+"{\"match_all\":{}}]}},\"sort\":{\"anio\":{\"order\":\"desc\"}}}";
+							+"\"should\": [{\"match_all\":{}}]}},\"sort\":{\"anio\":{\"order\":\"desc\"}}}";
 			}
 			else
 			{
-				if (elementos != null && !elementos.isEmpty())
-				{					
+				if (elementosPrimarios != null && !elementosPrimarios.isEmpty())
+				{
 					jsonBody = "{\"_source\":{\"excludes\":[\"contenido\"]},\"query\":{\"bool\":{"
-								+ this.cargarFiltros(datosFiltro);
-					for(Elemento elem : elementos)
+								+ this.cargarFiltros(datosFiltro) + "\"should\": [";
+					for(Elemento elem : elementosPrimarios)
 					{
-						jsonBody = jsonBody + "{\"match_phrase\": {\"contenido\": \"" + elem.getNombre() + "\"}},";
+						jsonBody = jsonBody + "{\"match_phrase\": {\"contenido\": { \"query\":\"" + elem.getNombre() + "\", \"boost\": 10 }}},";
+					}
+					if (elementosRelacionados != null && !elementosRelacionados.isEmpty())
+					{
+						for(Elemento elem : elementosRelacionados)
+						{
+							jsonBody = jsonBody + "{\"match_phrase\": {\"contenido\": { \"query\":\"" + elem.getNombre() + "\", \"boost\": 1 }}},";
+						}
 					}
 					jsonBody = jsonBody.substring(0,jsonBody.length() - 1);
-					jsonBody = jsonBody + "]}},\"highlight\":{\"fields\":{\"contenido\":{}}}}";
+					jsonBody = jsonBody + "],\"minimum_should_match\" : 1}},\"highlight\":{\"fields\":{\"contenido\":{}}}}";
 				}
 				else
 				{
 					jsonBody = "{\"_source\":{\"excludes\":[\"contenido\"]},\"query\":{\"bool\":{"
 							+ this.cargarFiltros(datosFiltro)
-							+"{\"match\":{\"contenido\":\"" + busqueda + "\"}}]}},\"highlight\":{\"fields\":{\"contenido\":{}}}}";		
+							+"\"should\": [{\"match\":{\"contenido\":\"" + busqueda + "\"}}],\"minimum_should_match\" : 1}},\"highlight\":{\"fields\":{\"contenido\":{}}}}";		
 				}
 			}
 			
@@ -169,13 +150,11 @@ public class BusquedaServiceImp implements BusquedaService {
 	}
 
 	private String cargarFiltros(DatosFiltro datosFiltro)
-	{		
-		String filtros = "";
-		String filtro = "";
-		String must = "\"must\": [";
+	{
+		String filtros = "";			
 		if(datosFiltro.isFiltroHabilitado())
 		{
-			filtro = "\"filter\": ["; 
+			String filtro = "\"filter\": ["; 
 			String notaIni = datosFiltro.getNotaIni() < 10 ? "0" + datosFiltro.getNotaIni() : String.valueOf(datosFiltro.getNotaIni());
 			String notaFin = datosFiltro.getNotaFin() < 10 ? "0" + datosFiltro.getNotaFin() : String.valueOf(datosFiltro.getNotaFin());
 			
@@ -183,13 +162,15 @@ public class BusquedaServiceImp implements BusquedaService {
 			filtro= filtro + "{ \"range\": { \"nota\": { \"gte\": \"" + notaIni + "\", \"lte\": \"" + notaFin+ "\" }}}";
 			filtro = filtro + "],";
 
+			String must = "";
 			if(!datosFiltro.getTutor().isEmpty() || !datosFiltro.getTutor().equals(""))
-			{				
-				must= must + "{ \"match\": { \"tutor\":\"" + datosFiltro.getTutor() + "\" }},";		
-			}						
+			{
+				must = "\"must\": [";
+				must = must + "{ \"match\": { \"tutor\":\"" + datosFiltro.getTutor() + "\" }}";	
+				must = must + "],";
+			}
+			filtros = filtro + must;
 		}
-		filtros = filtro + must;
-
 		return filtros;
 	}
 
@@ -337,4 +318,46 @@ public class BusquedaServiceImp implements BusquedaService {
 		
 		return jsonObject.getBoolean("acknowledged");
 	}
+	
+	
+	private ArrayList<Elemento> obtenerElementoString(String busqueda) {
+		
+		busqueda= busqueda.toLowerCase().trim();
+		ArrayList<Elemento> retorno= new ArrayList<Elemento>();
+		HashSet<Elemento> elementos= (HashSet<Elemento>) elementoService.obtenerElementos();
+		for(Elemento elem : elementos)
+		{
+			if (busqueda.contains(elem.getNombre().toLowerCase().trim()))
+			{
+				retorno.add(elem);
+			}
+			else
+			{
+				for(Sinonimo sin : elem.getSinonimos())
+				{
+					if(busqueda.contains(sin.getNombre().toLowerCase().trim()))
+					{
+						retorno.add(elem);
+						break;
+					}
+				}
+			}
+		
+		}
+		
+		return retorno;
+	}
+	
+	private ArrayList<Elemento> obtenerElementosRelacionadosBusqueda(ArrayList<Elemento> elementosPrimarios)
+	{
+		ArrayList<Elemento> retorno = new ArrayList<Elemento>();
+		for(Elemento elem : elementosPrimarios)
+		{
+			retorno.addAll((ArrayList<Elemento>) elem.getElementosRelacionados()
+					.stream()
+					.filter(x -> !x.isEsCategoria())
+					.collect(Collectors.toList()));
+		}
+		return retorno;
+	}		
 }
