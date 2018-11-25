@@ -133,25 +133,28 @@ public class BusquedaServiceImp implements BusquedaService {
 		{
 			if (busqueda.equals(""))
 			{
-				jsonBody = "{\"_source\":{\"excludes\":[\"contenido\"]},\"query\":{\"bool\":{\"must\":{\"match_all\":{}}, " 
-						+ this.cargarFiltros(datosFiltro) 
-						+ "}},\"sort\":{\"anio\":{\"order\":\"desc\"}}}";
+				jsonBody = "{\"_source\":{\"excludes\":[\"contenido\"]},\"query\":{\"bool\":{"
+							+ this.cargarFiltros(datosFiltro)
+							+"{\"match_all\":{}}]}},\"sort\":{\"anio\":{\"order\":\"desc\"}}}";
 			}
 			else
 			{
 				if (elementos != null && !elementos.isEmpty())
-				{
-					jsonBody = "{\"_source\":{\"excludes\":[\"contenido\"]},\"query\": {\"bool\": {\"should\":[";
+				{					
+					jsonBody = "{\"_source\":{\"excludes\":[\"contenido\"]},\"query\":{\"bool\":{"
+								+ this.cargarFiltros(datosFiltro);
 					for(Elemento elem : elementos)
 					{
 						jsonBody = jsonBody + "{\"match_phrase\": {\"contenido\": \"" + elem.getNombre() + "\"}},";
-					}						            	
+					}
 					jsonBody = jsonBody.substring(0,jsonBody.length() - 1);
 					jsonBody = jsonBody + "]}},\"highlight\":{\"fields\":{\"contenido\":{}}}}";
 				}
 				else
 				{
-					jsonBody = "{\"_source\":{\"excludes\":[\"contenido\"]},\"query\":{\"match\":{\"contenido\":\"" + busqueda + "\"}},\"highlight\":{\"fields\":{\"contenido\":{}}}}";	
+					jsonBody = "{\"_source\":{\"excludes\":[\"contenido\"]},\"query\":{\"bool\":{"
+							+ this.cargarFiltros(datosFiltro)
+							+"{\"match\":{\"contenido\":\"" + busqueda + "\"}}]}},\"highlight\":{\"fields\":{\"contenido\":{}}}}";		
 				}
 			}
 			
@@ -165,25 +168,29 @@ public class BusquedaServiceImp implements BusquedaService {
 		
 	}
 
-	private String cargarFiltros(DatosFiltro datosFiltro) {
-		
-		String filtro = "\"filter\": ["; 
+	private String cargarFiltros(DatosFiltro datosFiltro)
+	{		
+		String filtros = "";
+		String filtro = "";
+		String must = "\"must\": [";
 		if(datosFiltro.isFiltroHabilitado())
 		{
+			filtro = "\"filter\": ["; 
 			String notaIni = datosFiltro.getNotaIni() < 10 ? "0" + datosFiltro.getNotaIni() : String.valueOf(datosFiltro.getNotaIni());
 			String notaFin = datosFiltro.getNotaFin() < 10 ? "0" + datosFiltro.getNotaFin() : String.valueOf(datosFiltro.getNotaFin());
 			
 			filtro= filtro + "{ \"range\": { \"anio\": { \"gte\": \"" + datosFiltro.getAnioIni() + "\", \"lte\": \"" + datosFiltro.getAnioFin()+ "\" }}},";
 			filtro= filtro + "{ \"range\": { \"nota\": { \"gte\": \"" + notaIni + "\", \"lte\": \"" + notaFin+ "\" }}}";
-			if(datosFiltro.getDocente()!=null)
-			{
-				//falta la parte de tutor
-			}
-		}
+			filtro = filtro + "],";
 
-		
-		filtro = filtro + "]";
-		return filtro;
+			if(datosFiltro.getDocente() != null)
+			{				
+				must= must + "{ \"match\": { \"tutor\":" + datosFiltro.getDocente().getNombreCompleto() + " }},";		
+			}						
+		}
+		filtros = filtro + must;
+
+		return filtros;
 	}
 
 	private ArrayList<ResultadoBusqueda> obtenerResultadoDesdeJson(String json, boolean esBusquedaDirecta) throws Exception
