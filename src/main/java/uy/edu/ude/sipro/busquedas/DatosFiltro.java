@@ -4,18 +4,18 @@ import uy.edu.ude.sipro.valueObjects.DocenteVO;
 
 public class DatosFiltro {
 	
-	private DocenteVO docente;
+	private String tutor;
 	private int anioIni;
 	private int anioFin;
 	private int notaIni;
 	private int notaFin;
 	private boolean filtroHabilitado;
 	
-	public DocenteVO getDocente() {
-		return docente;
+	public String getTutor() {
+		return tutor;
 	}
-	public void setDocente(DocenteVO docente) {
-		this.docente = docente;
+	public void setTutor(String tutor) {
+		this.tutor = tutor;
 	}
 	public int getAnioIni() {
 		return anioIni;

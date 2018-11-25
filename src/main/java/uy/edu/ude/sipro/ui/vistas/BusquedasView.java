@@ -3,6 +3,8 @@ package uy.edu.ude.sipro.ui.vistas;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -27,7 +29,6 @@ import com.vaadin.ui.HorizontalLayout;
 import uy.edu.ude.sipro.busquedas.DatosFiltro;
 import uy.edu.ude.sipro.busquedas.ResultadoBusqueda;
 import uy.edu.ude.sipro.service.Fachada;
-import uy.edu.ude.sipro.ui.UIUtiles;
 import uy.edu.ude.sipro.utiles.Constantes;
 
 @SpringView
@@ -36,12 +37,12 @@ public class BusquedasView extends BusquedasViewDesign implements View
 {	
 	@Autowired
 	private Fachada fachada;
-	ArrayList<ResultadoBusqueda> resultado= new ArrayList<ResultadoBusqueda>();
+	private ArrayList<ResultadoBusqueda> resultado= new ArrayList<ResultadoBusqueda>();
 	
-	DatosFiltro datosFiltro;
+	private DatosFiltro datosFiltro;
 
-	RangeSlider sliderAnio;
-	RangeSlider sliderNota;
+	private RangeSlider sliderAnio;
+	private RangeSlider sliderNota;
 	
 	public void enter(ViewChangeEvent event) 
 	{
@@ -86,13 +87,15 @@ public class BusquedasView extends BusquedasViewDesign implements View
 			
 		Link linkProyecto= new Link(resultado.getTituloProyecto(), new ExternalResource("http://localhost:8080/#!proyecto-detalles/" + resultado.getIdProyecto(), "_blank"));
 		Label resumenBusqueda = new Label(resultado.getResumenBusqueda(), ContentMode.HTML);
-		Label codigoUde = new Label("- <b> " + resultado.getCodigoUde() + "</b> ", ContentMode.HTML);
-		Label anio = new Label("<i>" + resultado.getAnio() + "</i> ", ContentMode.HTML);
+		Label codigoUde = new Label("<b>" + resultado.getCodigoUde() + "</b>", ContentMode.HTML);
+		Label anio = new Label(" <i>" + resultado.getAnio() + "</i> ", ContentMode.HTML);
+		Label nota= new Label("  Nota: " + resultado.getNota());
 		resumenBusqueda.setWidth("100%");
-		layoutHor.addComponent(linkProyecto);
+		layoutVer.addComponent(linkProyecto);
 		layoutHor.addComponent(codigoUde);
+		layoutHor.addComponent(anio);
+		layoutHor.addComponent(nota);
 		layoutVer.addComponent(layoutHor);
-		layoutVer.addComponent(anio);
 		layoutVer.addComponent(resumenBusqueda);
 		
 		panel.setContent(layoutVer);
@@ -153,6 +156,7 @@ public class BusquedasView extends BusquedasViewDesign implements View
     		datosFiltro.setAnioFin(anioFin.intValue());
     		datosFiltro.setNotaIni(notaIni.intValue());
     		datosFiltro.setNotaFin(notaFin.intValue());
+    		datosFiltro.setTutor(txtTutor.getValue());
     	}
     	else
     	{
@@ -160,4 +164,5 @@ public class BusquedasView extends BusquedasViewDesign implements View
     		datosFiltro.setFiltroHabilitado(false);
 		}
 	}
+	
 }

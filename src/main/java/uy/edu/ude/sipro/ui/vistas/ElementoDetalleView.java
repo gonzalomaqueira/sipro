@@ -341,7 +341,7 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 	private void cargarListaRelacionados(int idElemento)
 	{
 		
-		listaSubElementoRelacionados= elemento.getElementosRelacionados();
+		listaSubElementoRelacionados= new ArrayList<> (elemento.getElementosRelacionados());
 		elemento.getElementosRelacionados().removeAll(elemento.getElementosRelacionados());
 		this.grdElementoProyecto.setItems( listaSubElementoRelacionados );
 	}
@@ -415,7 +415,7 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 		binder = new Binder<DocenteVO>(DocenteVO.class);
 		
 		binder.forField(txtNombreElemento)
-			.withValidator(nombre -> nombre.length() >= 3, "Nombre debe tener al menos 3 caracteres")
+			.withValidator(nombre -> nombre.length() >= 2, "Nombre debe tener al menos 3 caracteres")
 			.bind(DocenteVO::getNombre, DocenteVO::setNombre);
 		
         binder.forField(chEsCategoria)

@@ -183,9 +183,9 @@ public class BusquedaServiceImp implements BusquedaService {
 			filtro= filtro + "{ \"range\": { \"nota\": { \"gte\": \"" + notaIni + "\", \"lte\": \"" + notaFin+ "\" }}}";
 			filtro = filtro + "],";
 
-			if(datosFiltro.getDocente() != null)
+			if(!datosFiltro.getTutor().isEmpty() || !datosFiltro.getTutor().equals(""))
 			{				
-				must= must + "{ \"match\": { \"tutor\":" + datosFiltro.getDocente().getNombreCompleto() + " }},";		
+				must= must + "{ \"match\": { \"tutor\":\"" + datosFiltro.getTutor() + "\" }},";		
 			}						
 		}
 		filtros = filtro + must;
@@ -210,6 +210,7 @@ public class BusquedaServiceImp implements BusquedaService {
 				String titulo = jsonObject.getJsonObject("_source").getString("titulo");
 				String codigoUde = jsonObject.getJsonObject("_source").getString("id_ude");
 				String anio = jsonObject.getJsonObject("_source").getString("anio");
+				String nota = jsonObject.getJsonObject("_source").getString("nota");
 				String resumen = jsonObject.getJsonObject("_source").getString("resumen");
 				
 				resultadoBusqueda.setIdProyecto(Integer.parseInt(id));
@@ -217,6 +218,7 @@ public class BusquedaServiceImp implements BusquedaService {
 				resultadoBusqueda.setTituloProyecto(titulo);
 				resultadoBusqueda.setCodigoUde(codigoUde);
 				resultadoBusqueda.setAnio(Integer.parseInt(anio));
+				resultadoBusqueda.setNota(Integer.parseInt(nota));
 				resultadoBusqueda.setAbstractProyecto(resumen);
 				
 				resultado.add(resultadoBusqueda);
@@ -241,6 +243,7 @@ public class BusquedaServiceImp implements BusquedaService {
 				String titulo = jsonValue.asJsonObject().getJsonObject("_source").getString("titulo");
 				String codigoUde = jsonValue.asJsonObject().getJsonObject("_source").getString("id_ude");
 				String anio = jsonValue.asJsonObject().getJsonObject("_source").getString("anio");
+				String nota = jsonValue.asJsonObject().getJsonObject("_source").getString("nota");
 				String resumen = jsonValue.asJsonObject().getJsonObject("_source").getString("resumen");
 				
 				if (jsonValue.asJsonObject().getJsonObject("highlight") != null)
@@ -263,6 +266,7 @@ public class BusquedaServiceImp implements BusquedaService {
 				resultadoBusqueda.setTituloProyecto(titulo);
 				resultadoBusqueda.setCodigoUde(codigoUde);
 				resultadoBusqueda.setAnio(Integer.parseInt(anio));
+				resultadoBusqueda.setNota(Integer.parseInt(nota));
 				resultadoBusqueda.setAbstractProyecto(resumen);
 				
 				resultado.add(resultadoBusqueda);
