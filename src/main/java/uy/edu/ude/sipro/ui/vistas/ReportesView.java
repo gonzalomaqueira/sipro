@@ -55,14 +55,31 @@ public class ReportesView extends ReportesViewDesign implements View{
 	public void enter(ViewChangeEvent event)
 	{	
 
-		try {
-			
-			fachada.actualizarSinonimosElemntosES();
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		// Create the first tab
+		VerticalLayout tab1 = new VerticalLayout();
+		
+		tab1.addComponent(new Label("Tab1"));
+		tab.addTab(tab1, "titulo tab1");
+
+		VerticalLayout tab2 = new VerticalLayout();
+		
+		tab2.addComponent(new Label("Tab2"));
+		tab.addTab(tab2, "titulo tab2");
+		
+		VerticalLayout tab3 = new VerticalLayout();
+		
+		tab3.addComponent(new Label("Tab3"));
+		tab.addTab(tab3, "titulo tab3");
+
+		
+//		try {
+//			
+//			fachada.actualizarSinonimosElemntosES();
+//			
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 
 	}
 }
