@@ -27,4 +27,5 @@ public interface ProyectoService
 	void cargarTutorPorString(Proyecto proyecto);
 	
 	void procesarProyecto(int id) throws Exception;
+	void cargarDatosProyectoES(Proyecto proyecto) throws Exception;
 }

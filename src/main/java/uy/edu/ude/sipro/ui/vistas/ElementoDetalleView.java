@@ -151,7 +151,6 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 			    		if(chEsCategoria.getValue().equals("si"))
 			    			esCategoria= true;
 			    		
-			    		//aca sacaria enumerado por string(ya que no se ve en base)
 			    		TipoElemento tipo= null;
 			    		if(chTipo.getValue().equals("TECNOLOGIA"))
 			    		{

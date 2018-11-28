@@ -402,6 +402,15 @@ public class ProyectoServiceImp implements ProyectoService
 		this.modificar(proyecto);
 	}
 	
+	@Override
+	@Transactional
+	public void cargarDatosProyectoES(Proyecto proyecto) throws Exception
+	{
+
+		String[] textoOriginal= this.obtenerTextoOriginalProyecto(proyecto);
+		busquedaService.altaProyectoES(proyecto, textoOriginal);
+	}
+	
 	
 
 }

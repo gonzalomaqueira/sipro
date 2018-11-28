@@ -13,4 +13,5 @@ public interface BusquedaService
 	ArrayList<ResultadoBusqueda> realizarBusquedaES(String busqueda, DatosFiltro datosFiltro) throws Exception;
 	boolean actualizarSinonimosElemntosES(ArrayList<Elemento> elementos) throws Exception;
 	boolean abrirCerrarIndiceES(boolean abrirConexion) throws Exception;
+	ArrayList<Integer> obtenerListaProyectosES() throws Exception;
 }

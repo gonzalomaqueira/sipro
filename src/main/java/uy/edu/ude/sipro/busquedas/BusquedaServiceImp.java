@@ -359,5 +359,37 @@ public class BusquedaServiceImp implements BusquedaService {
 					.collect(Collectors.toList()));
 		}
 		return retorno;
-	}		
+	}
+	
+	public ArrayList<Integer> obtenerListaProyectosES() throws Exception
+	{
+		ArrayList<Integer> listaRetorno = new ArrayList<>();
+
+		String jsonBody = "{\"_source\":false,\"query\":{\"match_all\":{}}}";		
+		
+		StringBuilder builder = new StringBuilder();
+		builder.append(Constantes.ElasticSearch_Url_Base);
+		builder.append(Constantes.ElasticSearch_Index);
+		builder.append("proyectos/_search");
+		
+		HashMap<String, String> headers = new HashMap<>();
+		headers.put("Content-Type", "application/json");
+		String response = HttpUtil.doPostWithJsonBody(builder.toString(), headers, jsonBody, Constantes.ElasticSearch_Timeout);
+		
+		JsonObject jsonObject = JsonUtil.parse(response);
+		
+		if (jsonObject.getJsonObject("hits") != null)
+		{
+			Iterator<JsonValue> iterador = jsonObject.getJsonObject("hits").getJsonArray("hits").iterator();	
+			while (iterador.hasNext())
+			{	
+				JsonValue jsonValue = iterador.next();
+				String id = jsonValue.asJsonObject().getString("_id");
+				
+				listaRetorno.add(Integer.parseInt(id));
+			}
+		}
+	
+		return listaRetorno;
+	}
 }

@@ -85,10 +85,16 @@ public class ElementoListadoView extends ElementoListadoViewDesign implements Vi
 			{	
 				if( elementoSeleccionado!=null )
 				{
-					fachada.eliminarElemento(elementoSeleccionado.getId());
-					UIUtiles.mostrarNotificacion("ELEMENTO", "Baja exitosa", Notification.Type.HUMANIZED_MESSAGE);
-					navigationManager.navigateTo(ElementoListadoView.class);
-					
+					try
+					{
+						fachada.eliminarElemento(elementoSeleccionado.getId());
+						UIUtiles.mostrarNotificacion("ELEMENTO", "Baja exitosa", Notification.Type.HUMANIZED_MESSAGE);
+						navigationManager.navigateTo(ElementoListadoView.class);
+					}
+					catch (Exception e)
+					{
+						UIUtiles.mostrarNotificacion("ELEMENTOS", "Ocurrió un error al eliminar el elemento", Notification.Type.ERROR_MESSAGE);
+					}					
 				}
 			}
 		});		
