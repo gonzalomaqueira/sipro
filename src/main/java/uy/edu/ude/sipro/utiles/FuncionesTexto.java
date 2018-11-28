@@ -22,6 +22,7 @@ public class FuncionesTexto
 		
         documentoPorSecciones.add(armarSeccionAlumnos(textoOriginal));
         documentoPorSecciones.add(armarSeccionTutor(textoOriginal));
+        documentoPorSecciones.add(armarSeccionBibliografia(textoOriginal));
          
         List<String> Textolista = new ArrayList<String>(Arrays.asList(textoOriginal));
         
@@ -145,6 +146,39 @@ public class FuncionesTexto
 		return seccion;
 	}	
 		
+	public static SeccionTexto armarSeccionBibliografia(String texto[])
+	{
+        SeccionTexto seccion = null;
+        ArrayList<String> contenido = new ArrayList<String>();
+        boolean encontreTituloBibliografia = false;
+        
+		for (String linea : texto)
+        {
+			if (FuncionesTexto.esTituloBibliografia(linea))
+    	    {
+    	    	encontreTituloBibliografia = true;
+    	    	if (seccion != null)
+    	    	{
+    	    		seccion.setContenido(contenido);
+    	    	}
+    	    	seccion = new SeccionTexto();
+    	    	contenido = new ArrayList<String>();
+    	    	seccion.setTitulo(linea);
+			}
+    	    else
+    	    {
+    	    	if (encontreTituloBibliografia)
+    	    	{
+    	    		contenido.add(linea);
+    	    	}
+    	    }
+        }
+		if (seccion != null)
+		{
+			seccion.setContenido(contenido);
+		}
+		return seccion;
+	}
 	
 	public static boolean esTitulo (String linea)
 	{

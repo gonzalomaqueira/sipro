@@ -38,6 +38,7 @@ public class ConversorValueObject
 									  proyecto.getTutorString(),
 									  proyecto.getRutaArchivo(),
 									  proyecto.getResumen(),
+									  proyecto.getBibliografia(),
 									  proyecto.getFechaAlta(),
 									  proyecto.getFechaUltimaModificacion(),
 									  convertirListaElementoVO(proyecto.getElementosRelacionados()));
