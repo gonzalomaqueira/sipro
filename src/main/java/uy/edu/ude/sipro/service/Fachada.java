@@ -67,7 +67,7 @@ public class Fachada {
 	
 
 	public void modificarProyectoCompleto(int id, String codigoUde, String titulo, int anio, String carrera, int nota, String resumen, 
-			ArrayList<String> alumnos, ArrayList<String> tutorString, List<DocenteVO> correctores) throws Exception
+			ArrayList<String> alumnos, ArrayList<String> tutorString, List<DocenteVO> correctores, ArrayList<String> bibliografia) throws Exception
 	{
 		proyectoService.modificar(  id,
 									codigoUde,
@@ -78,7 +78,8 @@ public class Fachada {
 									resumen, 
 									alumnos, 
 									tutorString,
-									ConversorValueObject.convertirListaDocenteVOaDocente(correctores));
+									ConversorValueObject.convertirListaDocenteVOaDocente(correctores),
+									bibliografia);
 	}
 	
 	public void borrarProyecto(int id) throws Exception
