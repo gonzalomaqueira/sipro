@@ -12,6 +12,7 @@ public class ResultadoBusqueda
 	private float score;
 	private String codigoUde;
 	private int anio;
+	private int nota;
 	private ArrayList<String> highlight;
 	private String abstractProyecto;
 
@@ -68,6 +69,14 @@ public class ResultadoBusqueda
 
 	public void setAnio(int anio) {
 		this.anio = anio;
+	}
+	
+	public int getNota() {
+		return nota;
+	}
+
+	public void setNota(int nota) {
+		this.nota = nota;
 	}
 
 	public ArrayList<String> getHighlight() {

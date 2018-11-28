@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
 import uy.edu.ude.sipro.busquedas.BusquedaService;
+import uy.edu.ude.sipro.busquedas.DatosFiltro;
 import uy.edu.ude.sipro.busquedas.ResultadoBusqueda;
 import uy.edu.ude.sipro.entidades.Elemento;
 import uy.edu.ude.sipro.entidades.Perfil;
@@ -204,9 +205,9 @@ public class Fachada {
 	
 	/************************************************************** Busquedas */
 	
-	public ArrayList<ResultadoBusqueda> buscarElementosProyectoES (String busqueda) throws Exception
+	public ArrayList<ResultadoBusqueda> buscarElementosProyectoES (String busqueda, DatosFiltro datosFiltro) throws Exception
 	{
-		return busquedaSevice.realizarBusquedaES(busqueda);
+		return busquedaSevice.realizarBusquedaES(busqueda, datosFiltro);
 	}
 	
 	

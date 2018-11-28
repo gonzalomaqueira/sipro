@@ -10,7 +10,7 @@
 //$v-border-radius: 4px;
 
 // Affects the color of some component elements, e.g Button, Panel title, etc
-//$v-background-color: hsl(210, 0%, 98%);
+$v-background-color: hsl(0, 0%, 100%);
 // Affects the color of content areas, e.g  Panel and Window content, TextField input etc
 //$v-app-background-color: $v-background-color;
 
@@ -34,13 +34,11 @@ $v-focus-color: #1a22d6;
 $app-background-gradient: unquote("linear-gradient(to right bottom, #1a22d6, #0068fd)");
 
 @import "../valo/valo.scss";
-@import 'ordersgrid';
 @import 'menu';
 
 @mixin siprotema {
 
 @include valo;
-@include ordersgrid;
 @include menu;
 
  .v-errorindicator {
@@ -56,6 +54,26 @@ $app-background-gradient: unquote("linear-gradient(to right bottom, #1a22d6, #00
     display: inline-block;
     text-align: center;
   }
+  
+  .v-label.header {
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 12px;
+      margin-bottom: $v-layout-spacing-vertical;
+      margin-top: $v-layout-spacing-vertical;
+      border-bottom: 2px solid rgba(0, 0, 0, .1);
+    }
+
+	.list-filters {
+	    .v-textfield,
+	    .v-button,
+	    .v-checkbox {
+	      // CSS-layout has no built-in spacing
+	      margin-bottom: $v-layout-spacing-vertical;
+	      margin-right: $v-layout-spacing-horizontal;
+	      vertical-align: middle;
+	    }
+	  }
 
 }
 
