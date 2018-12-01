@@ -10,7 +10,7 @@ import uy.edu.ude.sipro.service.Fachada;
 @Component
 public class Inicio {
 	
-	@ Autowired
+	@Autowired
 	private Fachada fachada;
  
 	@PostConstruct

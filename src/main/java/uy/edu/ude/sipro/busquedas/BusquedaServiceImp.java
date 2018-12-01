@@ -46,7 +46,7 @@ public class BusquedaServiceImp implements BusquedaService {
 						+ "\",\"resumen\":\"" + proyecto.getResumen()
 						+ "\",\"contenido\":\"" + FuncionesTexto.limpiarTexto(textoOriginal)
 						+ "\"}";
-
+		System.out.println(jsonBody);
 		StringBuilder builder = new StringBuilder();
 		
 		builder.append(Constantes.ElasticSearch_Url_Base);
@@ -109,7 +109,7 @@ public class BusquedaServiceImp implements BusquedaService {
 			{
 				jsonBody = "{\"_source\":{\"excludes\":[\"contenido\"]},\"query\":{\"bool\":{"
 							+ this.cargarFiltros(datosFiltro)
-							+"\"should\": [{\"match_all\":{}}]}},\"sort\":{\"anio\":{\"order\":\"desc\"}}}";
+							+"\"should\": [{\"match_all\":{}}]}},\"sort\":{\"anio\":{\"order\":\"desc\"}}, \"size\": 1000}";
 			}
 			else
 			{
@@ -129,13 +129,13 @@ public class BusquedaServiceImp implements BusquedaService {
 						}
 					}
 					jsonBody = jsonBody.substring(0,jsonBody.length() - 1);
-					jsonBody = jsonBody + "],\"minimum_should_match\" : 1}},\"highlight\":{\"fields\":{\"contenido\":{}}}}";
+					jsonBody = jsonBody + "],\"minimum_should_match\" : 1}},\"highlight\":{\"fields\":{\"contenido\":{}}}, \"size\": 1000}";
 				}
 				else
 				{
 					jsonBody = "{\"_source\":{\"excludes\":[\"contenido\"]},\"query\":{\"bool\":{"
 							+ this.cargarFiltros(datosFiltro)
-							+"\"should\": [{\"match\":{\"contenido\":\"" + busqueda + "\"}}],\"minimum_should_match\" : 1}},\"highlight\":{\"fields\":{\"contenido\":{}}}}";		
+							+"\"should\": [{\"match\":{\"contenido\":\"" + busqueda + "\"}}],\"minimum_should_match\" : 1}},\"highlight\":{\"fields\":{\"contenido\":{}}}, \"size\": 1000}";		
 				}
 			}
 			
@@ -365,7 +365,7 @@ public class BusquedaServiceImp implements BusquedaService {
 	{
 		ArrayList<Integer> listaRetorno = new ArrayList<>();
 
-		String jsonBody = "{\"_source\":false,\"query\":{\"match_all\":{}}}";		
+		String jsonBody = "{\"_source\":false,\"query\":{\"match_all\":{}}, \"size\": 1000}";		
 		
 		StringBuilder builder = new StringBuilder();
 		builder.append(Constantes.ElasticSearch_Url_Base);
