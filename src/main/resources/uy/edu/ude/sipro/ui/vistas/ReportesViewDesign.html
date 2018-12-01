@@ -6,8 +6,35 @@
   <meta name="vaadin-version" content="8.1.5">
  </head>
  <body>
-  <vaadin-vertical-layout spacing="false" margin="false">
-   <vaadin-tab-sheet id="tab" _id="tab"></vaadin-tab-sheet>
+  <vaadin-vertical-layout spacing="false" margin-right="false" margin-bottom="false">
+   <vaadin-css-layout width-full>
+    <vaadin-vertical-layout size-auto>
+     <vaadin-label style-name="header" plain-text>
+       Tutor 
+     </vaadin-label>
+     <vaadin-combo-box id="cmbTutor" data-item-type="java.lang.String" _id="cmbTutor">
+      <option item="Option1">Option 1</option>
+      <option item="Option2">Option 2</option>
+      <option item="Option3">Option 3</option>
+     </vaadin-combo-box>
+    </vaadin-vertical-layout>
+    <vaadin-vertical-layout size-auto>
+     <vaadin-label style-name="header" plain-text>
+       Elementos 
+     </vaadin-label>
+     <vaadin-combo-box id="cmbElemento" data-item-type="java.lang.String" _id="cmbElemento">
+      <option item="Option1">Option 1</option>
+      <option item="Option2">Option 2</option>
+      <option item="Option3">Option 3</option>
+     </vaadin-combo-box>
+    </vaadin-vertical-layout>
+   </vaadin-css-layout>
+   <vaadin-vertical-layout id="cssFiltros" _id="cssFiltros"></vaadin-vertical-layout>
+   <vaadin-css-layout width-full>
+    <vaadin-button id="btnGenerarReporte" plain-text _id="btnGenerarReporte">
+      Generar Reporte 
+    </vaadin-button>
+   </vaadin-css-layout>
   </vaadin-vertical-layout>
  </body>
 </html>

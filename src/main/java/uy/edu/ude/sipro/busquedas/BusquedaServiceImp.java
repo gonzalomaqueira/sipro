@@ -374,8 +374,11 @@ public class BusquedaServiceImp implements BusquedaService {
 		
 		HashMap<String, String> headers = new HashMap<>();
 		headers.put("Content-Type", "application/json");
-		String response = HttpUtil.doPostWithJsonBody(builder.toString(), headers, jsonBody, Constantes.ElasticSearch_Timeout);
 		
+		Thread.sleep(1000);
+		
+		String response = HttpUtil.doPostWithJsonBody(builder.toString(), headers, jsonBody, Constantes.ElasticSearch_Timeout);
+
 		JsonObject jsonObject = JsonUtil.parse(response);
 		
 		if (jsonObject.getJsonObject("hits") != null)

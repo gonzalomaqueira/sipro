@@ -42,16 +42,7 @@ public class SiproUI extends UI{
 		
 		setContent(mainView);
 
-		navigationManager.navigateToDefaultView();
-		
-		try
-		{
-			fachada.sincronizacionDatosInicial();
-		}
-		catch (Exception e)
-		{
-			UIUtiles.mostrarNotificacion("INICIO", "Hubo algun problema con la sincroinización de información", Notification.Type.ERROR_MESSAGE);
-		}
+		navigationManager.navigateToDefaultView();			
 		
 	}
 

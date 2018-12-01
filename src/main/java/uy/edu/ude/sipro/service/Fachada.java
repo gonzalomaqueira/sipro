@@ -216,10 +216,12 @@ public class Fachada {
 	/************************************************************** Otros */ 
 	public void sincronizacionDatosInicial() throws Exception
 	{
-		busquedaSevice.actualizarSinonimosElemntosES(new ArrayList<Elemento>(elementoService.obtenerElementos()));
+		System.out.println("entró a método sincronizacionDatosInicial()");
+		busquedaSevice.actualizarSinonimosElemntosES(new ArrayList<Elemento>(elementoService.obtenerElementos()));			
 		
 		Set<Proyecto> proyectosBD = proyectoService.obtenerProyectos();
 		ArrayList<Integer> idsProyectosIndizados = busquedaSevice.obtenerListaProyectosES();
+		
 		boolean encontre;
 		if(proyectosBD != null && !proyectosBD.isEmpty())
 		{
@@ -244,7 +246,7 @@ public class Fachada {
 				}
 			}
 		}
-		
+
 		if(idsProyectosIndizados!=null && !idsProyectosIndizados.isEmpty())
 		{
 			for(int id : idsProyectosIndizados)
