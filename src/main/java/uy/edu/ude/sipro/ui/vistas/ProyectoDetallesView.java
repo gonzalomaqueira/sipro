@@ -289,6 +289,7 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 	{
 		if(opcion)
 		{
+			this.layoutCorrectores.setVisible(true);
 			this.txtCarrera.setReadOnly(false);
 			this.grdCorrectores.setEnabled(true);
 			this.cmbCorrectores.setEnabled(true);
@@ -302,6 +303,7 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 		}
 		else
 		{
+			this.layoutCorrectores.setVisible(false);
 			this.txtCarrera.setReadOnly(true);
 			this.grdCorrectores.setEnabled(false);
 			this.cmbCorrectores.setEnabled(false);

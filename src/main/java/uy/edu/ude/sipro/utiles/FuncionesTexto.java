@@ -607,7 +607,7 @@ public class FuncionesTexto
 		{
 			char c=aux.toString().charAt(n);
 			byte b = (byte)c;
-			if(b < 32 || b == 92)
+			if(b>=0 && b < 32 || b == 92)
 				aux.setCharAt(n, ' ');	
 		}
 	

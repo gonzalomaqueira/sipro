@@ -42,6 +42,7 @@ public class ProyectoDetallesViewDesign extends VerticalLayout {
 	protected CssLayout tabResumen;
 	protected TextArea txtResumen;
 	protected CssLayout tabCorrectores;
+	protected HorizontalLayout layoutCorrectores;
 	protected ComboBox<uy.edu.ude.sipro.valueObjects.DocenteVO> cmbCorrectores;
 	protected Button btnAgregarCorrector;
 	protected Button btnEliminarCorrector;
