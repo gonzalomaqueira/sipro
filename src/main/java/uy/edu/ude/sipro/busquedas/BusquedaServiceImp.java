@@ -37,6 +37,7 @@ public class BusquedaServiceImp implements BusquedaService {
 		String JsonArray = JsonUtil.devolverJsonArray(proyecto.getListaStringElementos());
 		
 		String nota = proyecto.getNota() < 10 ? "0" + proyecto.getNota() : String.valueOf(proyecto.getNota());
+		textoOriginal = FuncionesTexto.eliminarBibliografia(textoOriginal);
 		
 		String jsonBody = "{\"id_ude\":\"" + proyecto.getCodigoUde()
 						+ "\",\"titulo\":\"" + proyecto.getTitulo()
@@ -46,7 +47,9 @@ public class BusquedaServiceImp implements BusquedaService {
 						+ "\",\"resumen\":\"" + proyecto.getResumen()
 						+ "\",\"contenido\":\"" + FuncionesTexto.limpiarTexto(textoOriginal)
 						+ "\"}";
+		
 		System.out.println(jsonBody);
+		
 		StringBuilder builder = new StringBuilder();
 		
 		builder.append(Constantes.ElasticSearch_Url_Base);
@@ -55,7 +58,9 @@ public class BusquedaServiceImp implements BusquedaService {
 		builder.append(Integer.toString(proyecto.getId()));
 		
 		HashMap<String, String> headers = new HashMap<>();
-		headers.put("Content-Type", "application/json");		
+		headers.put("Content-Type", "application/json");
+		
+		jsonBody = FuncionesTexto.limpiarTextoFull(jsonBody);
 		
 		String response = HttpUtil.doPutWithJsonBody(builder.toString(), headers, jsonBody, Constantes.ElasticSearch_Timeout);
 		
@@ -68,7 +73,6 @@ public class BusquedaServiceImp implements BusquedaService {
 	@Override
 	public boolean bajaProyectoES(int idProyecto ) throws Exception
 	{
-
 		StringBuilder builder = new StringBuilder();
 		
 		builder.append(Constantes.ElasticSearch_Url_Base);

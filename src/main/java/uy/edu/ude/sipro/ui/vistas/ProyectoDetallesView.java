@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vaadin.data.Binder;
 import com.vaadin.data.BinderValidationStatus;
-import com.vaadin.data.converter.StringToIntegerConverter;
-import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.BrowserWindowOpener;
@@ -235,9 +233,14 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 
 	private void expandirTextAreas()
 	{
-		txtBibliografia.setRows(proyecto.getBibliografia().size() + 1);
-		txtAlumnos.setRows(proyecto.getAlumnos().size() + 1);
-		txtTutor.setRows(proyecto.getTutorString().size() + 1);
+		if (txtBibliografia != null && !txtBibliografia.getValue().equals(""))
+			txtBibliografia.setRows(proyecto.getBibliografia().size() + 1);
+		
+		if (txtAlumnos != null && !txtAlumnos.getValue().equals(""))
+			txtAlumnos.setRows(proyecto.getAlumnos().size() + 1);
+		
+		if (txtTutor != null && !txtTutor.getValue().equals(""))
+			txtTutor.setRows(proyecto.getTutorString().size() + 1);
 	}
 
 	private List<ElementoVO> obtenerElementosPorTipo(List<ElementoVO> elementosRelacionados, TipoElemento tipo)

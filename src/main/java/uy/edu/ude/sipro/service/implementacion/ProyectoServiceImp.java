@@ -109,7 +109,7 @@ public class ProyectoServiceImp implements ProyectoService
 		proy.setCarrera(carrera);
 		proy.setTutorString(tutorString);
 		proy.setNota(nota);
-		proy.setResumen(resumen);
+		proy.setResumen(FuncionesTexto.limpiarTexto(resumen));
 		proy.setAlumnos(alumnos);
 		proy.setBibliografia(bibliografia);
 		this.cargarTutorPorString(proy);
@@ -202,32 +202,34 @@ public class ProyectoServiceImp implements ProyectoService
 				{
 					for(SeccionTexto seccion : proyecto.getDocumentoPorSecciones())
 					{
-						if (encontroElemento)
+						if (seccion != null)
 						{
-							encontroElemento = false;
-							break;
-						}
-						if (!FuncionesTexto.esTituloBibliografia(seccion.getTitulo()))
-						{
-							if(FuncionesTexto.seccionContieneTexto(seccion, elemento.getNombre()))
+							if (encontroElemento)
 							{
-								listaRetorno.add(elemento);
+								encontroElemento = false;
 								break;
 							}
-							else
+							if (!FuncionesTexto.esTituloBibliografia(seccion.getTitulo()))
 							{
-								for (Sinonimo sinonimo: elemento.getSinonimos())
+								if(FuncionesTexto.seccionContieneTexto(seccion, elemento.getNombre()))
 								{
-									if(FuncionesTexto.seccionContieneTexto(seccion, sinonimo.getNombre()))
-									{
-										listaRetorno.add(elemento);
-										encontroElemento = true;
-										break;
-									}
+									listaRetorno.add(elemento);
+									break;
 								}
-							
+								else
+								{
+									for (Sinonimo sinonimo: elemento.getSinonimos())
+									{
+										if(FuncionesTexto.seccionContieneTexto(seccion, sinonimo.getNombre()))
+										{
+											listaRetorno.add(elemento);
+											encontroElemento = true;
+											break;
+										}
+									}								
+								}
 							}
-						}
+						}						
 					}	
 				}
 			}
@@ -383,23 +385,31 @@ public class ProyectoServiceImp implements ProyectoService
 
 	@Override
 	@Transactional
-	public void procesarProyecto(int idProyecto) throws Exception // Hay que controlar que si no guarda en uno, tampoco lo haga en otro
+	public void procesarProyecto(int idProyecto) throws Exception //TODO Hay que controlar que si no guarda en uno, tampoco lo haga en otro
 	{
-		Proyecto proyecto= this.obtenerProyectoPorId(idProyecto);
-		String[] textoOriginal= this.obtenerTextoOriginalProyecto(proyecto);
-		proyecto.setDocumentoPorSecciones(FuncionesTexto.armarDocumentoPorSecciones(textoOriginal));
-		proyecto.setAlumnos(proyecto.devolverAlumnos());
-		proyecto.setTutorString(proyecto.devolverTutor());
-		proyecto.setBibliografia(proyecto.devolverBibliografia());
-		proyecto.setTitulo(proyecto.devolverTitulo(new ArrayList<String>(Arrays.asList(textoOriginal))));
-		this.cargarTutorPorString(proyecto);
-		proyecto.setResumen(FuncionesTexto.convertirArrayAStringEspacios(proyecto.devolverResumen()));
-		proyecto.setElementosRelacionados(this.obtenerElementosProyecto(proyecto, elementoService.obtenerElementos()));
-		proyecto.setAnio(FuncionesTexto.devolverPrimerAnioTexto(textoOriginal));
-		proyecto.setEstado(EstadoProyectoEnum.PROCESADO);
-		//alta en servidor ES
-		busquedaService.altaProyectoES(proyecto, textoOriginal);
-		this.modificar(proyecto);
+		try
+		{
+			Proyecto proyecto= this.obtenerProyectoPorId(idProyecto);
+			String[] textoOriginal= this.obtenerTextoOriginalProyecto(proyecto);
+			proyecto.setDocumentoPorSecciones(FuncionesTexto.armarDocumentoPorSecciones(textoOriginal));
+			proyecto.setAlumnos(proyecto.devolverAlumnos());
+			proyecto.setTutorString(proyecto.devolverTutor());
+			proyecto.setBibliografia(proyecto.devolverBibliografia());
+			proyecto.setTitulo(proyecto.devolverTitulo(new ArrayList<String>(Arrays.asList(textoOriginal))));
+			this.cargarTutorPorString(proyecto);
+			proyecto.setResumen(FuncionesTexto.convertirArrayAStringEspacios(proyecto.devolverResumen()));
+			proyecto.setElementosRelacionados(this.obtenerElementosProyecto(proyecto, elementoService.obtenerElementos()));
+			proyecto.setAnio(FuncionesTexto.devolverPrimerAnioTexto(textoOriginal));
+			proyecto.setEstado(EstadoProyectoEnum.PROCESADO);
+			//alta en servidor ES
+			busquedaService.altaProyectoES(proyecto, textoOriginal);
+			this.modificar(proyecto);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			throw e;
+		}
 	}
 	
 	@Override

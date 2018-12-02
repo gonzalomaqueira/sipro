@@ -1,5 +1,6 @@
 package uy.edu.ude.sipro.utiles;
 
+import java.nio.charset.Charset;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -551,9 +552,11 @@ public class FuncionesTexto
 	public static String limpiarTexto(String linea)
 	{
 		String retorno=linea;
-		retorno = retorno.replaceAll("[\u0000-\u001f]", "");
+		retorno = retorno.replaceAll("[\u0000-\u001f]", " ");
 		retorno= retorno.replaceAll("\\s+"," ");
 		retorno = retorno.replaceAll("\n", "").replace("\r", "");
+		retorno = limpiarTextoFull(retorno);
+				
 		return retorno;
 	}
 
@@ -569,6 +572,46 @@ public class FuncionesTexto
 			}
 		}
 		return retorno.trim();
+	}
+
+	public static String[] eliminarBibliografia(String[] texto) 
+	{
+		String[] retorno = texto;
+		ArrayList<String> aux = new ArrayList<>();
+		
+		for (String linea : texto)
+        {
+			if (!esTituloBibliografia(linea))
+			{
+				aux.add(linea);
+			}
+			else
+			{
+				break;
+			}
+        }		
+		if (aux != null && !aux.isEmpty())
+		{					
+			retorno = new String[aux.size()];
+			retorno = aux.toArray(retorno);
+		}
+		
+		return retorno;
+	}
+
+	public static String limpiarTextoFull(String texto) 
+	{
+		StringBuilder aux = new StringBuilder(texto);  
+			
+		for (int n=0; n <aux.toString().length (); n++)
+		{
+			char c=aux.toString().charAt(n);
+			byte b = (byte)c;
+			if(b < 32 || b == 92)
+				aux.setCharAt(n, ' ');	
+		}
+	
+		return aux.toString();
 	}
 	
 }
