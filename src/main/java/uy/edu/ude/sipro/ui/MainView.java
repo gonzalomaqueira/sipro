@@ -23,6 +23,7 @@ import uy.edu.ude.sipro.service.Fachada;
 import uy.edu.ude.sipro.ui.vistas.BusquedasView;
 import uy.edu.ude.sipro.ui.vistas.DocentesView;
 import uy.edu.ude.sipro.ui.vistas.ElementoListadoView;
+import uy.edu.ude.sipro.ui.vistas.PerfilView;
 import uy.edu.ude.sipro.ui.vistas.ProyectoListadoView;
 import uy.edu.ude.sipro.ui.vistas.ReportesView;
 import uy.edu.ude.sipro.ui.vistas.UsuarioListadoView;
@@ -51,6 +52,7 @@ public class MainView extends MainViewDesign implements ViewDisplay {
 		attachNavigation(elementos, ElementoListadoView.class);
 		attachNavigation(reportes, ReportesView.class);
 		attachNavigation(docentes, DocentesView.class);
+		attachNavigation(perfil, PerfilView.class);
 		
 		navigationManager.setErrorView(AccesoDenegadoView.class);
 		salir.addClickListener(e -> logout());

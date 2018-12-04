@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.github.daishy.rangeslider.RangeSlider;
 import com.github.daishy.rangeslider.client.Range;
@@ -28,7 +30,10 @@ import com.vaadin.ui.HorizontalLayout;
 
 import uy.edu.ude.sipro.busquedas.DatosFiltro;
 import uy.edu.ude.sipro.busquedas.ResultadoBusqueda;
+import uy.edu.ude.sipro.entidades.Usuario;
+import uy.edu.ude.sipro.seguridad.SecurityUtils;
 import uy.edu.ude.sipro.service.Fachada;
+import uy.edu.ude.sipro.service.interfaces.UsuarioService;
 import uy.edu.ude.sipro.utiles.Constantes;
 
 @SpringView
@@ -37,6 +42,10 @@ public class BusquedasView extends BusquedasViewDesign implements View
 {	
 	@Autowired
 	private Fachada fachada;
+	
+	@Autowired
+	private UsuarioService usuarioService;
+	
 	private ArrayList<ResultadoBusqueda> resultado= new ArrayList<ResultadoBusqueda>();
 	
 	private DatosFiltro datosFiltro;
@@ -46,6 +55,7 @@ public class BusquedasView extends BusquedasViewDesign implements View
 	
 	public void enter(ViewChangeEvent event) 
 	{
+		this.obtenerCredenciales();
 		this.construirFiltro();
 		this.verificarFiltros();
 		
@@ -163,6 +173,13 @@ public class BusquedasView extends BusquedasViewDesign implements View
     		datosFiltro= new DatosFiltro();
     		datosFiltro.setFiltroHabilitado(false);
 		}
+	}
+	
+	public void obtenerCredenciales()
+	{
+
+		Usuario user=SecurityUtils.getCurrentUser(usuarioService);
+
 	}
 	
 }

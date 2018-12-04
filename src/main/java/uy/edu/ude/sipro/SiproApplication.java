@@ -16,8 +16,8 @@ import uy.edu.ude.sipro.service.Fachada;
 import uy.edu.ude.sipro.ui.UIUtiles;
 
 @SpringBootApplication
-@EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class})
-//@EnableAutoConfiguration
+//@EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class})
+@EnableAutoConfiguration
 public class SiproApplication {
 	
 	public static final String APP_URL = "/";

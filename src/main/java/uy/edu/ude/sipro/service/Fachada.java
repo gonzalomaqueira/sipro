@@ -7,9 +7,11 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.handler.UserRoleAuthorizationInterceptor;
 
 import uy.edu.ude.sipro.entidades.Enumerados.EstadoProyectoEnum;
 import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
+import uy.edu.ude.sipro.seguridad.SecurityUtils;
 import uy.edu.ude.sipro.busquedas.BusquedaService;
 import uy.edu.ude.sipro.busquedas.DatosFiltro;
 import uy.edu.ude.sipro.busquedas.ResultadoBusqueda;
@@ -151,6 +153,19 @@ public class Fachada {
 	public UsuarioVO obtenerUsuarioPorId(int id)
 	{
 		return ConversorValueObject.convertirUsuarioVO(usuarioService.buscarUsuarioPorId(id));
+	}
+	
+	public UsuarioVO obtenerUsuarioLogeado()
+	{
+		UsuarioVO usuarioRetorno= new UsuarioVO();
+		Usuario usuario=SecurityUtils.getCurrentUser(usuarioService);
+		usuarioRetorno.setUsuario(usuario.getUsuario());
+		usuarioRetorno.setNombre(usuario.getNombre());
+		usuarioRetorno.setApellido(usuario.getApellido());
+		usuarioRetorno.setEmail(usuario.getEmail());
+		usuarioRetorno.setContrasenia(usuario.getContrasenia());
+		return usuarioRetorno;
+		
 	}
 
 	
