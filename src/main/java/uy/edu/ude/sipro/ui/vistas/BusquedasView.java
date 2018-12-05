@@ -55,7 +55,6 @@ public class BusquedasView extends BusquedasViewDesign implements View
 	
 	public void enter(ViewChangeEvent event) 
 	{
-		this.obtenerCredenciales();
 		this.construirFiltro();
 		this.verificarFiltros();
 		
@@ -95,7 +94,8 @@ public class BusquedasView extends BusquedasViewDesign implements View
 		layoutHor.setWidth("-1px");
 		layoutHor.setHeight("-1px");
 			
-		Link linkProyecto= new Link(resultado.getTituloProyecto(), new ExternalResource("http://localhost:8080/#!proyecto-detalles/" + resultado.getIdProyecto(), "_blank"));
+		Link linkProyecto= new Link(resultado.getTituloProyecto(), new ExternalResource("http://localhost:8080/#!proyecto-detalles/" + resultado.getIdProyecto()));
+		linkProyecto.setTargetName("_blank");
 		Label resumenBusqueda = new Label(resultado.getResumenBusqueda(), ContentMode.HTML);
 		Label codigoUde = new Label("<b>" + resultado.getCodigoUde() + "</b>", ContentMode.HTML);
 		Label anio = new Label(" <i>" + resultado.getAnio() + "</i> ", ContentMode.HTML);
@@ -174,12 +174,6 @@ public class BusquedasView extends BusquedasViewDesign implements View
     		datosFiltro.setFiltroHabilitado(false);
 		}
 	}
-	
-	public void obtenerCredenciales()
-	{
 
-		Usuario user=SecurityUtils.getCurrentUser(usuarioService);
-
-	}
 	
 }

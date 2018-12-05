@@ -138,13 +138,6 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 			}
 		}); 
 		
-		btnVolver.addClickListener(new Button.ClickListener()
-		{
-			public void buttonClick(ClickEvent event)
-			{	
-				navigationManager.navigateTo(ProyectoListadoView.class);
-			}
-		});
 		
 		cmbCorrectores.addValueChangeListener(evt -> 
 		{
