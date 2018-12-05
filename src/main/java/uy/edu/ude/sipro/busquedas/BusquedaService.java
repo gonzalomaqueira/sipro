@@ -14,4 +14,5 @@ public interface BusquedaService
 	boolean actualizarSinonimosElemntosES(ArrayList<Elemento> elementos) throws Exception;
 	boolean abrirCerrarIndiceES(boolean abrirConexion) throws Exception;
 	ArrayList<Integer> obtenerListaProyectosES() throws Exception;
+	void creacionIncideES() throws Exception;
 }

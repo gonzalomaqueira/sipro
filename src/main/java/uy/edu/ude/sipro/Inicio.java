@@ -18,6 +18,7 @@ public class Inicio {
 	{
 		try
 		{
+			fachada.creacionIncideES();
 			fachada.sincronizacionDatosInicial();
 		}
 		catch (Exception e)

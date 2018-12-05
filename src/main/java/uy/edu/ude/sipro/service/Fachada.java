@@ -229,6 +229,12 @@ public class Fachada {
 	}
 
 	/************************************************************** Otros */ 
+	
+	public void creacionIncideES() throws Exception
+	{
+		busquedaSevice.creacionIncideES();
+	}
+	
 	public void sincronizacionDatosInicial() throws Exception
 	{
 		System.out.println("entró a método sincronizacionDatosInicial()");

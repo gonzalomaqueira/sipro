@@ -313,9 +313,6 @@ public class BusquedaServiceImp implements BusquedaService {
 		builder.append(Constantes.ElasticSearch_Index);
 		builder.append(accion);
 		
-		HashMap<String, String> headers = new HashMap<>();
-		headers.put("Content-Type", "application/json");
-		
 		String response = HttpUtil.doPost(builder.toString(), Constantes.ElasticSearch_Timeout);
 		
 		JsonObject jsonObject = JsonUtil.parse(response);
@@ -398,5 +395,38 @@ public class BusquedaServiceImp implements BusquedaService {
 		}
 	
 		return listaRetorno;
+	}
+	
+	public void creacionIncideES() throws Exception
+	{
+		StringBuilder builder = new StringBuilder();
+		
+		builder.append(Constantes.ElasticSearch_Url_Base);
+		builder.append(Constantes.ElasticSearch_Index);
+		
+		String response = HttpUtil.doGet(builder.toString(), Constantes.ElasticSearch_Timeout);
+		JsonObject jsonObject = JsonUtil.parse(response);
+		
+		if (jsonObject.getJsonObject("error") != null)
+		{
+			String jsonBody = "{\"settings\":{\"index\":{\"analysis\":{\"filter\":{\"filtro_sinonimos\":{"
+					+ "\"type\":\"synonym\",\"synonyms\":[]}},\"analyzer\":{\"sinonimos_analyzer\":{"
+					+ "\"tokenizer\":\"standard\",\"filter\":[\"lowercase\",\"filtro_sinonimos\"]}}}}},"
+					+ "\"mappings\":{\"proyectos\":{\"properties\":{\"contenido\":{\"type\":\"text\",\"analyzer\":"
+					+ "\"sinonimos_analyzer\"},\"anio\":{\"type\":\"text\",\"fielddata\":true},\"nota\":{"
+					+ "\"type\":\"text\",\"fielddata\":true},\"tutor\":{\"type\":\"text\",\"fielddata\":true}}}}}";
+			
+			HashMap<String, String> headers = new HashMap<>();
+			headers.put("Content-Type", "application/json");
+			
+			response = HttpUtil.doPutWithJsonBody(builder.toString(), headers, jsonBody, Constantes.ElasticSearch_Timeout);
+			
+			jsonObject = JsonUtil.parse(response);
+			
+			if (!jsonObject.getBoolean("acknowledged"))
+			{
+				throw new Exception("Problema la crear el índice");
+			}
+		}
 	}
 }
