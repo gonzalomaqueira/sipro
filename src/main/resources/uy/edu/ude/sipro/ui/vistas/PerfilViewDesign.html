@@ -21,35 +21,7 @@
       </vaadin-button>
      </vaadin-horizontal-layout>
     </vaadin-css-layout>
-    <vaadin-css-layout></vaadin-css-layout>
-    <vaadin-css-layout responsive width-full>
-     <vaadin-label style-name="header" width-full plain-text>
-       Usuario(login) 
-     </vaadin-label>
-     <vaadin-text-field style-name="full" id="txtUsuario" width-full readonly _id="txtUsuario"></vaadin-text-field>
-    </vaadin-css-layout>
-    <vaadin-css-layout></vaadin-css-layout>
-    <vaadin-css-layout responsive width-full>
-     <vaadin-horizontal-layout width-full>
-      <vaadin-vertical-layout spacing="false" size-full margin="false">
-       <vaadin-label style-name="header" width-full plain-text>
-         Contraseña 
-       </vaadin-label>
-       <vaadin-text-field style-name="full" id="txtContrasenia" width-full _id="txtContrasenia"></vaadin-text-field>
-      </vaadin-vertical-layout>
-      <vaadin-vertical-layout spacing="false" size-full margin="false">
-       <vaadin-label style-name="header" width-full plain-text>
-         Repetir contraseña 
-       </vaadin-label>
-       <vaadin-text-field style-name="full" id="txtRepetirContasenia" width-full _id="txtRepetirContasenia"></vaadin-text-field>
-      </vaadin-vertical-layout>
-     </vaadin-horizontal-layout>
-     <vaadin-label visible="false" style-name="success" plain-text _id="lblContraseñasIguales"></vaadin-label>
-    </vaadin-css-layout>
-    <vaadin-label visible="false" style-name="failure" plain-text _id="lblContraseñasIncorrectas">
-      Las contraseñas no coinciden 
-    </vaadin-label>
-    <vaadin-css-layout></vaadin-css-layout>
+    <vaadin-css-layout width-full></vaadin-css-layout>
     <vaadin-css-layout responsive width-full>
      <vaadin-horizontal-layout width-full>
       <vaadin-vertical-layout spacing="false" size-full margin="false">
@@ -66,22 +38,43 @@
       </vaadin-vertical-layout>
      </vaadin-horizontal-layout>
     </vaadin-css-layout>
-    <vaadin-css-layout></vaadin-css-layout>
+    <vaadin-css-layout width-full></vaadin-css-layout>
     <vaadin-css-layout responsive width-full>
      <vaadin-horizontal-layout width-full>
       <vaadin-vertical-layout spacing="false" size-full margin="false">
-       <vaadin-label style-name="header" width-full plain-text>
+       <vaadin-label style-name="header" width="50%" plain-text>
          Email 
        </vaadin-label>
-       <vaadin-text-field style-name="full" id="txtEmail" width-full _id="txtEmail"></vaadin-text-field>
-      </vaadin-vertical-layout>
-      <vaadin-vertical-layout spacing="false" size-full margin="false">
-       <vaadin-label style-name="header" width-full plain-text>
-         Perfil 
-       </vaadin-label>
-       <vaadin-combo-box id="cmbPerfil" width-full data-item-type="uy.edu.ude.sipro.valueObjects.PerfilVO" _id="cmbPerfil"></vaadin-combo-box>
+       <vaadin-text-field style-name="full" id="txtEmail" width="50%" _id="txtEmail"></vaadin-text-field>
       </vaadin-vertical-layout>
      </vaadin-horizontal-layout>
+    </vaadin-css-layout>
+    <vaadin-css-layout width-full></vaadin-css-layout>
+    <vaadin-css-layout responsive width-full>
+     <vaadin-check-box caption="Cambiar contraseña" id="chkContrasenias" _id="chkContrasenias"></vaadin-check-box>
+    </vaadin-css-layout>
+    <vaadin-css-layout width-full></vaadin-css-layout>
+    <vaadin-css-layout responsive id="cssContasenias" width-full _id="cssContasenias">
+     <vaadin-vertical-layout spacing="false" size-full margin="false">
+      <vaadin-label style-name="header" width-full plain-text>
+        Contraseña actual 
+      </vaadin-label>
+      <vaadin-text-field style-name="full" id="txtContraseniaActual" width-full _id="txtContraseniaActual"></vaadin-text-field>
+     </vaadin-vertical-layout>
+     <vaadin-css-layout width-full></vaadin-css-layout>
+     <vaadin-vertical-layout spacing="false" size-full margin="false">
+      <vaadin-label style-name="header" width-full plain-text>
+        nueva contraseña 
+      </vaadin-label>
+      <vaadin-text-field style-name="full" id="txtContrasenia" width-full _id="txtContrasenia"></vaadin-text-field>
+     </vaadin-vertical-layout>
+     <vaadin-css-layout width-full></vaadin-css-layout>
+     <vaadin-vertical-layout spacing="false" size-full margin="false">
+      <vaadin-label style-name="header" width-full plain-text>
+        Repetir nueva contraseña 
+      </vaadin-label>
+      <vaadin-text-field style-name="full" id="txtRepetirContasenia" width-full _id="txtRepetirContasenia"></vaadin-text-field>
+     </vaadin-vertical-layout>
     </vaadin-css-layout>
    </vaadin-css-layout>
   </vaadin-vertical-layout>

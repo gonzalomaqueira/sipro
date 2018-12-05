@@ -127,8 +127,7 @@ public class ElementoServiceImp implements ElementoService
 			for(SubElementoVO subElem : elementosRelacionados)
 			{
 				if(elem.getId() == subElem.getId())
-				{
-					
+				{					
 					listaGuardar.add(elem);
 					elem.getElementosOrigen().add(elemento);
 				}

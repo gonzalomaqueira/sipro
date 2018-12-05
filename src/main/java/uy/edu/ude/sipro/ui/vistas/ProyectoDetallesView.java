@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vaadin.data.Binder;
 import com.vaadin.data.BinderValidationStatus;
-import com.vaadin.data.converter.StringToIntegerConverter;
-import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.BrowserWindowOpener;
@@ -96,7 +94,8 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 															proyecto.getResumen(),
 															proyecto.getAlumnos(),
 															proyecto.getTutorString(),															
-															proyecto.getCorrectores());
+															proyecto.getCorrectores(),
+															proyecto.getBibliografia());
 							
 						
 						 UIUtiles.mostrarNotificacion("PROYECTO", "Modificación exitosa", Notification.Type.HUMANIZED_MESSAGE);	
@@ -223,11 +222,25 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 			txtTitulo.setValue(proyecto.getTitulo());
 			txtTutor.setValue(proyecto.getTutorString() != null ? FuncionesTexto.convertirArrayAStringSaltoLinea(new ArrayList<String>(proyecto.getTutorString())) : "");
 			txtAlumnos.setValue(proyecto.getAlumnos() != null ? FuncionesTexto.convertirArrayAStringSaltoLinea(new ArrayList<String>(proyecto.getAlumnos())) : "");
+			txtBibliografia.setValue(proyecto.getBibliografia() != null ? FuncionesTexto.convertirArrayAStringSaltoLinea(new ArrayList<String>(proyecto.getBibliografia())) : "");
 			txtResumen.setValue(proyecto.getResumen() != null ? proyecto.getResumen() : "");
 			grdTecnologias.setItems(this.obtenerElementosPorTipo(proyecto.getElementosRelacionados(), TipoElemento.TECNOLOGIA));
 			grdMetodologiaTesting.setItems(this.obtenerElementosPorTipo(proyecto.getElementosRelacionados(), TipoElemento.METODOLOGIA_TESTING));
 			grdModeloProceso.setItems(this.obtenerElementosPorTipo(proyecto.getElementosRelacionados(), TipoElemento.MODELO_PROCESO));
 		}
+		this.expandirTextAreas();
+	}
+
+	private void expandirTextAreas()
+	{
+		if (txtBibliografia != null && !txtBibliografia.getValue().equals(""))
+			txtBibliografia.setRows(proyecto.getBibliografia().size() + 1);
+		
+		if (txtAlumnos != null && !txtAlumnos.getValue().equals(""))
+			txtAlumnos.setRows(proyecto.getAlumnos().size() + 1);
+		
+		if (txtTutor != null && !txtTutor.getValue().equals(""))
+			txtTutor.setRows(proyecto.getTutorString().size() + 1);
 	}
 
 	private List<ElementoVO> obtenerElementosPorTipo(List<ElementoVO> elementosRelacionados, TipoElemento tipo)
@@ -269,12 +282,14 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 		proyecto.setTutorString(FuncionesTexto.convertirStringAArrayList(txtTutor.getValue()));
 		proyecto.setAlumnos(FuncionesTexto.convertirStringAArrayList(txtAlumnos.getValue()));
 		proyecto.setResumen(txtResumen.getValue());
+		proyecto.setBibliografia(FuncionesTexto.convertirStringAArrayList(txtBibliografia.getValue()));
 	}
 	
 	private void permitirEdicion(boolean opcion)
 	{
 		if(opcion)
 		{
+			this.layoutCorrectores.setVisible(true);
 			this.txtCarrera.setReadOnly(false);
 			this.grdCorrectores.setEnabled(true);
 			this.cmbCorrectores.setEnabled(true);
@@ -284,9 +299,11 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 			this.txtTutor.setReadOnly(false);
 			this.txtAlumnos.setReadOnly(false);
 			this.txtResumen.setReadOnly(false);
+			this.txtBibliografia.setReadOnly(false);
 		}
 		else
 		{
+			this.layoutCorrectores.setVisible(false);
 			this.txtCarrera.setReadOnly(true);
 			this.grdCorrectores.setEnabled(false);
 			this.cmbCorrectores.setEnabled(false);
@@ -296,6 +313,7 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 			this.txtTutor.setReadOnly(true);
 			this.txtAlumnos.setReadOnly(true);
 			this.txtResumen.setReadOnly(true);
+			this.txtBibliografia.setReadOnly(true);
 		}	
 	}
 	

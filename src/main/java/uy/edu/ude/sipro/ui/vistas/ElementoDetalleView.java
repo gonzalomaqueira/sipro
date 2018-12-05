@@ -151,7 +151,6 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 			    		if(chEsCategoria.getValue().equals("si"))
 			    			esCategoria= true;
 			    		
-			    		//aca sacaria enumerado por string(ya que no se ve en base)
 			    		TipoElemento tipo= null;
 			    		if(chTipo.getValue().equals("TECNOLOGIA"))
 			    		{
@@ -341,7 +340,7 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 	private void cargarListaRelacionados(int idElemento)
 	{
 		
-		listaSubElementoRelacionados= elemento.getElementosRelacionados();
+		listaSubElementoRelacionados= new ArrayList<> (elemento.getElementosRelacionados());
 		elemento.getElementosRelacionados().removeAll(elemento.getElementosRelacionados());
 		this.grdElementoProyecto.setItems( listaSubElementoRelacionados );
 	}
@@ -415,7 +414,7 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 		binder = new Binder<DocenteVO>(DocenteVO.class);
 		
 		binder.forField(txtNombreElemento)
-			.withValidator(nombre -> nombre.length() >= 3, "Nombre debe tener al menos 3 caracteres")
+			.withValidator(nombre -> nombre.length() >= 2, "Nombre debe tener al menos 3 caracteres")
 			.bind(DocenteVO::getNombre, DocenteVO::setNombre);
 		
         binder.forField(chEsCategoria)

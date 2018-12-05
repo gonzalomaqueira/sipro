@@ -7,9 +7,13 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.handler.UserRoleAuthorizationInterceptor;
 
+import uy.edu.ude.sipro.entidades.Enumerados.EstadoProyectoEnum;
 import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
+import uy.edu.ude.sipro.seguridad.SecurityUtils;
 import uy.edu.ude.sipro.busquedas.BusquedaService;
+import uy.edu.ude.sipro.busquedas.DatosFiltro;
 import uy.edu.ude.sipro.busquedas.ResultadoBusqueda;
 import uy.edu.ude.sipro.entidades.Elemento;
 import uy.edu.ude.sipro.entidades.Perfil;
@@ -66,7 +70,7 @@ public class Fachada {
 	
 
 	public void modificarProyectoCompleto(int id, String codigoUde, String titulo, int anio, String carrera, int nota, String resumen, 
-			ArrayList<String> alumnos, ArrayList<String> tutorString, List<DocenteVO> correctores) throws Exception
+			ArrayList<String> alumnos, ArrayList<String> tutorString, List<DocenteVO> correctores, ArrayList<String> bibliografia) throws Exception
 	{
 		proyectoService.modificar(  id,
 									codigoUde,
@@ -77,7 +81,8 @@ public class Fachada {
 									resumen, 
 									alumnos, 
 									tutorString,
-									ConversorValueObject.convertirListaDocenteVOaDocente(correctores));
+									ConversorValueObject.convertirListaDocenteVOaDocente(correctores),
+									bibliografia);
 	}
 	
 	public void borrarProyecto(int id) throws Exception
@@ -149,6 +154,19 @@ public class Fachada {
 	{
 		return ConversorValueObject.convertirUsuarioVO(usuarioService.buscarUsuarioPorId(id));
 	}
+	
+	public UsuarioVO obtenerUsuarioLogeado()
+	{
+		UsuarioVO usuarioRetorno= new UsuarioVO();
+		Usuario usuario=SecurityUtils.getCurrentUser(usuarioService);
+		usuarioRetorno.setUsuario(usuario.getUsuario());
+		usuarioRetorno.setNombre(usuario.getNombre());
+		usuarioRetorno.setApellido(usuario.getApellido());
+		usuarioRetorno.setEmail(usuario.getEmail());
+		usuarioRetorno.setContrasenia(usuario.getContrasenia());
+		return usuarioRetorno;
+		
+	}
 
 	
 	/**************************************************************** Elementos */
@@ -158,26 +176,27 @@ public class Fachada {
 		return ConversorValueObject.convertirListaElementoVO(elementoService.obtenerElementos());
 	}
 
-	public void altaElemento(String nombre, boolean esCategoria, TipoElemento tipoElemento, List<SubElementoVO> elementosRelacionados, List<SinonimoVO> sinonimos) 
+	public void altaElemento(String nombre, boolean esCategoria, TipoElemento tipoElemento, List<SubElementoVO> elementosRelacionados, List<SinonimoVO> sinonimos) throws Exception 
 	{
 		elementoService.altaElemento(nombre, esCategoria, tipoElemento, new HashSet<SubElementoVO>(elementosRelacionados), new HashSet<SinonimoVO>(sinonimos));
+		busquedaSevice.actualizarSinonimosElemntosES(new ArrayList<Elemento>(elementoService.obtenerElementos()));
 	}
 
-	public void modificarElemento(int id, String nombre, boolean esCategoria, TipoElemento tipoElemento, List<SubElementoVO> elementosRelacionados, List<SinonimoVO> sinonimos)
+	public void modificarElemento(int id, String nombre, boolean esCategoria, TipoElemento tipoElemento, List<SubElementoVO> elementosRelacionados, List<SinonimoVO> sinonimos) throws Exception
 	{
 		elementoService.modificar(id, nombre, esCategoria, tipoElemento, new HashSet<SubElementoVO>(elementosRelacionados), new HashSet<SinonimoVO>(sinonimos));
+		busquedaSevice.actualizarSinonimosElemntosES(new ArrayList<Elemento>(elementoService.obtenerElementos()));
 	}
 
-	public void eliminarElemento(int id) 
+	public void eliminarElemento(int id) throws Exception
 	{
 		elementoService.eliminar(id);
+		busquedaSevice.actualizarSinonimosElemntosES(new ArrayList<Elemento>(elementoService.obtenerElementos()));
 	}
 	
 	public boolean actualizarSinonimosElemntosES() throws Exception
 	{
-		ArrayList<Elemento> listaElementos = new ArrayList<Elemento>();
-		listaElementos.addAll(elementoService.obtenerElementos());
-		return busquedaSevice.actualizarSinonimosElemntosES(listaElementos);
+		return busquedaSevice.actualizarSinonimosElemntosES(new ArrayList<Elemento>(elementoService.obtenerElementos()));
 	}
 
 	/**************************************************************** Docentes */
@@ -204,11 +223,72 @@ public class Fachada {
 	
 	/************************************************************** Busquedas */
 	
-	public ArrayList<ResultadoBusqueda> buscarElementosProyectoES (String busqueda) throws Exception
+	public ArrayList<ResultadoBusqueda> buscarElementosProyectoES (String busqueda, DatosFiltro datosFiltro) throws Exception
 	{
-		return busquedaSevice.realizarBusquedaES(busqueda);
+		return busquedaSevice.realizarBusquedaES(busqueda, datosFiltro);
+	}
+
+	/************************************************************** Otros */ 
+	
+	public void creacionIncideES() throws Exception
+	{
+		busquedaSevice.creacionIncideES();
 	}
 	
-	
+	public void sincronizacionDatosInicial() throws Exception
+	{
+		System.out.println("entró a método sincronizacionDatosInicial()");
+		busquedaSevice.actualizarSinonimosElemntosES(new ArrayList<Elemento>(elementoService.obtenerElementos()));			
+		
+		Set<Proyecto> proyectosBD = proyectoService.obtenerProyectos();
+		ArrayList<Integer> idsProyectosIndizados = busquedaSevice.obtenerListaProyectosES();
+		
+		boolean encontre;
+		if(proyectosBD != null && !proyectosBD.isEmpty())
+		{
+			for(Proyecto proy : proyectosBD)
+			{
+				encontre=false;
+				if(idsProyectosIndizados!=null && !idsProyectosIndizados.isEmpty())
+				{
+					for(int id : idsProyectosIndizados)
+					{
+						if(proy.getId() == id)
+						{
+							encontre= true;
+							break;
+						}
+					}
+				}
+				
+				if(!encontre && proy.getEstado().equals(EstadoProyectoEnum.PROCESADO))
+				{
+					proyectoService.cargarDatosProyectoES(proy);
+				}
+			}
+		}
 
+		if(idsProyectosIndizados!=null && !idsProyectosIndizados.isEmpty())
+		{
+			for(int id : idsProyectosIndizados)
+			{
+				encontre=false;
+				if(proyectosBD != null && !proyectosBD.isEmpty())
+				{
+					for(Proyecto proy : proyectosBD)
+					{
+						if(proy.getId() == id)
+						{
+							encontre= true;
+							break;
+						}
+					}
+				}
+				if(!encontre)
+				{
+					busquedaSevice.bajaProyectoES(id);
+				}
+			}
+		}
+	}
 }

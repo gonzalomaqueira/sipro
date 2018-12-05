@@ -1,5 +1,6 @@
 package uy.edu.ude.sipro.utiles;
 
+import java.nio.charset.Charset;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,6 +23,7 @@ public class FuncionesTexto
 		
         documentoPorSecciones.add(armarSeccionAlumnos(textoOriginal));
         documentoPorSecciones.add(armarSeccionTutor(textoOriginal));
+        documentoPorSecciones.add(armarSeccionBibliografia(textoOriginal));
          
         List<String> Textolista = new ArrayList<String>(Arrays.asList(textoOriginal));
         
@@ -145,6 +147,39 @@ public class FuncionesTexto
 		return seccion;
 	}	
 		
+	public static SeccionTexto armarSeccionBibliografia(String texto[])
+	{
+        SeccionTexto seccion = null;
+        ArrayList<String> contenido = new ArrayList<String>();
+        boolean encontreTituloBibliografia = false;
+        
+		for (String linea : texto)
+        {
+			if (FuncionesTexto.esTituloBibliografia(linea))
+    	    {
+    	    	encontreTituloBibliografia = true;
+    	    	if (seccion != null)
+    	    	{
+    	    		seccion.setContenido(contenido);
+    	    	}
+    	    	seccion = new SeccionTexto();
+    	    	contenido = new ArrayList<String>();
+    	    	seccion.setTitulo(linea);
+			}
+    	    else
+    	    {
+    	    	if (encontreTituloBibliografia)
+    	    	{
+    	    		contenido.add(linea);
+    	    	}
+    	    }
+        }
+		if (seccion != null)
+		{
+			seccion.setContenido(contenido);
+		}
+		return seccion;
+	}
 	
 	public static boolean esTitulo (String linea)
 	{
@@ -517,10 +552,66 @@ public class FuncionesTexto
 	public static String limpiarTexto(String linea)
 	{
 		String retorno=linea;
-		retorno = retorno.replaceAll("[\u0000-\u001f]", "");
+		retorno = retorno.replaceAll("[\u0000-\u001f]", " ");
 		retorno= retorno.replaceAll("\\s+"," ");
 		retorno = retorno.replaceAll("\n", "").replace("\r", "");
+		retorno = limpiarTextoFull(retorno);
+				
 		return retorno;
+	}
+
+	public static String convertirArrayStringsAString(ArrayList<String> arrayStrings)
+	{
+		String retorno="";
+		
+		if (arrayStrings != null)
+		{
+			for(String linea : arrayStrings)
+			{
+				retorno = retorno + " " + linea;
+			}
+		}
+		return retorno.trim();
+	}
+
+	public static String[] eliminarBibliografia(String[] texto) 
+	{
+		String[] retorno = texto;
+		ArrayList<String> aux = new ArrayList<>();
+		
+		for (String linea : texto)
+        {
+			if (!esTituloBibliografia(linea))
+			{
+				aux.add(linea);
+			}
+			else
+			{
+				break;
+			}
+        }		
+		if (aux != null && !aux.isEmpty())
+		{					
+			retorno = new String[aux.size()];
+			retorno = aux.toArray(retorno);
+		}
+		
+		return retorno;
+	}
+
+	public static String limpiarTextoFull(String texto) 
+	{
+		StringBuilder aux = new StringBuilder(texto);  
+			
+		for (int n=0; n <aux.toString().length (); n++)
+		{
+			char c=aux.toString().charAt(n);
+			byte b = (byte)c;
+			if(b>=0 && b < 32 || b == 92)
+				aux.setCharAt(n, ' ');	
+		}
+	
+		return aux.toString();
 	}
 	
 }

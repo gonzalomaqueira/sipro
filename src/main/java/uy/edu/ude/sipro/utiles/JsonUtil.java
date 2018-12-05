@@ -76,11 +76,12 @@ public abstract class JsonUtil
 
 	private static String devolverStringElementoSinonimos(Elemento elem)
 	{
-		String retorno = elem.getNombre();
+		String retorno = "";
 		for(Sinonimo sin : elem.getSinonimos())
 		{
-			retorno = retorno + ", " + sin.getNombre();
+			retorno = retorno + "," + sin.getNombre();
 		}
+		retorno = retorno.substring(1) + " => " + elem.getNombre();
 		return retorno;
 	}
 }

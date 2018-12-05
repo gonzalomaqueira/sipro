@@ -30,6 +30,8 @@ public class ProyectoDetalleVO implements Comparable
 	
 	private String resumen;
 	
+	private ArrayList<String> bibliografia;
+	
 	private String rutaArchivo;
 	
 	private Date fechaAlta;
@@ -39,7 +41,7 @@ public class ProyectoDetalleVO implements Comparable
 	private List <ElementoVO> elementosRelacionados;
 	
 	public ProyectoDetalleVO(int id, String codigoUde, int anio, String titulo, String carrera, List<DocenteVO> correctores, int nota, ArrayList<String> alumnos, 
-							 DocenteVO tutor, ArrayList<String> tutorString, String rutaArchivo, String resumen, Date fechaAlta, 
+							 DocenteVO tutor, ArrayList<String> tutorString, String rutaArchivo, String resumen, ArrayList<String> bibliografia, Date fechaAlta, 
 							 Date fechaUltimaModificacion, List<ElementoVO> elementosRelacionados) 
 	{
 		this.id = id;
@@ -54,6 +56,7 @@ public class ProyectoDetalleVO implements Comparable
 		this.tutorString = tutorString;
 		this.rutaArchivo = rutaArchivo;
 		this.resumen = resumen;
+		this.bibliografia = bibliografia;
 		this.fechaAlta = fechaAlta;
 		this.fechaUltimaModificacion = fechaUltimaModificacion;
 		this.elementosRelacionados = elementosRelacionados;
@@ -179,6 +182,14 @@ public class ProyectoDetalleVO implements Comparable
 		this.elementosRelacionados = elementosRelacionados;
 	}
 	
+	public ArrayList<String> getBibliografia() {
+		return bibliografia;
+	}
+
+	public void setBibliografia(ArrayList<String> bibliografia) {
+		this.bibliografia = bibliografia;
+	}
+
 	public String getAnioString() 
 	{
 		return Integer.toString(this.anio);

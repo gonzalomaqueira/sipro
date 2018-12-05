@@ -10,16 +10,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewDisplay;
 import com.vaadin.navigator.ViewLeaveAction;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.spring.access.SecuredViewAccessControl;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 
 import uy.edu.ude.sipro.navegacion.NavigationManager;
+import uy.edu.ude.sipro.service.Fachada;
 import uy.edu.ude.sipro.ui.vistas.BusquedasView;
 import uy.edu.ude.sipro.ui.vistas.DocentesView;
 import uy.edu.ude.sipro.ui.vistas.ElementoListadoView;
+import uy.edu.ude.sipro.ui.vistas.PerfilView;
 import uy.edu.ude.sipro.ui.vistas.ProyectoListadoView;
 import uy.edu.ude.sipro.ui.vistas.ReportesView;
 import uy.edu.ude.sipro.ui.vistas.UsuarioListadoView;
@@ -48,12 +52,14 @@ public class MainView extends MainViewDesign implements ViewDisplay {
 		attachNavigation(elementos, ElementoListadoView.class);
 		attachNavigation(reportes, ReportesView.class);
 		attachNavigation(docentes, DocentesView.class);
+		attachNavigation(perfil, PerfilView.class);
 		
 		navigationManager.setErrorView(AccesoDenegadoView.class);
-
-
 		salir.addClickListener(e -> logout());
+		
+
 	}
+
 
 	/**
 	 * Makes clicking the given button navigate to the given view if the user

@@ -30,7 +30,7 @@ public class MainViewDesign extends HorizontalLayout {
 	protected Button elementos;
 	protected Button docentes;
 	protected Button reportes;
-	protected Button configuracion;
+	protected Button perfil;
 	protected Button salir;
 	protected VerticalLayout content;
 

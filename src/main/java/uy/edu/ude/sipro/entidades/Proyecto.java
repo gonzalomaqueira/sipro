@@ -73,6 +73,10 @@ public class Proyecto
 	@Lob
 	@Column(name = "Alumnos")
 	private ArrayList<String> alumnos;
+	
+	@Lob
+	@Column(name = "Bibliografia")
+	private ArrayList<String> bibliografia;
 
 	@NotNull
 	@Column(name = "RutaArchivo")
@@ -165,6 +169,9 @@ public class Proyecto
 
 	public String getResumen() { return resumen; }
 	public void setResumen(String resumen) { this.resumen = resumen; }
+	
+	public ArrayList<String> getBibliografia() { return bibliografia; }
+	public void setBibliografia(ArrayList<String> bibliografia) { this.bibliografia = bibliografia; }
 
 	public Date getFechaAlta() { return fechaAlta; }
 	public void setFechaAlta(Date fechaAlta) { this.fechaAlta = fechaAlta; }
@@ -231,7 +238,44 @@ public class Proyecto
 		return contenido;
 	}
 	
-	public ArrayList<String> devolverAlumnos () 
+	public ArrayList<String> devolverBibliografia() 
+	{
+		if(this.DocumentoPorSecciones != null)
+		{
+			SeccionTexto secBibliografia = null;
+			for(SeccionTexto sec : this.DocumentoPorSecciones)
+			{
+				if(sec != null && (FuncionesTexto.esTituloBibliografia(sec.titulo)))
+				{
+					secBibliografia = sec;
+					break;
+				}
+			}
+			if (secBibliografia != null)
+			{
+				return limpiarBibliografia(secBibliografia.getContenido());
+			}
+		}
+		return null;
+	}
+	
+	private ArrayList<String> limpiarBibliografia(ArrayList<String> contenido)
+	{
+		int largoList = contenido.size();
+		for(int x=0; x<contenido.size(); x++)
+		{
+			if(contenido.get(x).trim().equals(""))
+			{
+				contenido.remove(x);
+				x--;
+			}
+			else
+				break;
+		}
+		return contenido;
+	}
+	
+	public ArrayList<String> devolverAlumnos() 
 	{
 		if( this.DocumentoPorSecciones!=null ) 
 		{
@@ -318,9 +362,6 @@ public class Proyecto
 		}
 		return retorno.substring(0, largo).trim();
 	}
-
-	
-	// Hacer:
 	
 	public String getContenido()
 	{
@@ -341,5 +382,4 @@ public class Proyecto
 		
 		return new ArrayList(retorno);
 	}
-
 }

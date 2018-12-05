@@ -7,10 +7,12 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.navigator.SpringViewProvider;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 
 
 import uy.edu.ude.sipro.navegacion.NavigationManager;
+import uy.edu.ude.sipro.service.Fachada;
 
 
 @SpringUI
@@ -24,6 +26,9 @@ public class SiproUI extends UI{
 	private final NavigationManager navigationManager;
 
 	private final MainView mainView;
+		
+	@Autowired
+	private Fachada fachada;
 	
 	@Autowired
 	public SiproUI(SpringViewProvider viewProvider, NavigationManager navigationManager, MainView mainView) {
@@ -37,7 +42,7 @@ public class SiproUI extends UI{
 		
 		setContent(mainView);
 
-		navigationManager.navigateToDefaultView();
+		navigationManager.navigateToDefaultView();			
 		
 	}
 
