@@ -13,13 +13,10 @@ import com.vaadin.ui.Button;
 
 import net.sf.jasperreports.engine.JRException;
 
-/**
- * Utilitarios para constuir reportes Jasper con Vaadin-
- *
- */
+
 public class ReportsUtil {
 
-    public void prepareForPdfReport(String reportTemplate, String reportOutputFilename, Button buttonToExtend, Map<String, Object> parametros,
+   /* public void prepareForPdfReport(String reportTemplate, String reportOutputFilename, Button buttonToExtend, Map<String, Object> parametros,
             List<? extends Object> datos) {
         reportOutputFilename += ("_" + getDateAsString() + ".pdf");
         StreamResource myResource = createPdfResource(reportTemplate, reportOutputFilename, parametros, datos);
@@ -44,7 +41,7 @@ public class ReportsUtil {
                 ReportGenerator reportGenerator = new ReportGenerator();
 
                 try {
-                    reportGenerator.executeReport(templatePath, pdfBuffer, parametros, datos);
+   //                 reportGenerator.executeReport(templatePath, pdfBuffer, parametros, datos);
                 } catch (JRException e) {
                     // TODO
                 }
@@ -57,5 +54,5 @@ public class ReportsUtil {
         return (String.valueOf(Calendar.getInstance().get(Calendar.YEAR)) + String.valueOf(Calendar.getInstance().get(Calendar.MONTH) + 1)
                 + String.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) + String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY))
                 + String.valueOf(Calendar.getInstance().get(Calendar.MINUTE)) + String.valueOf(Calendar.getInstance().get(Calendar.SECOND)));
-    }
+    }*/
 }

@@ -24,7 +24,7 @@ public class Reportes {
 		//InputStream arq = getClass().getResourceAsStream("/reportes/reporteTemplate.jrxml");
 		JasperReport report = JasperCompileManager.compileReport(arq);
 		JasperPrint print = JasperFillManager.fillReport(report, null, new JRBeanCollectionDataSource(lista));
-		JasperExportManager.exportReportToPdfFile(print, "C:\\reportes\\reporte1.pdf");
+		JasperExportManager.exportReportToPdfFile(print, "C:\\reportes\\reporte221.pdf");
 	}
 
 }

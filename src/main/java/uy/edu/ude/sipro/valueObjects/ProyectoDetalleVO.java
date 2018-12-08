@@ -6,6 +6,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import uy.edu.ude.sipro.entidades.Enumerados;
+import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
+import uy.edu.ude.sipro.utiles.FuncionesTexto;
+
 public class ProyectoDetalleVO implements Comparable
 {
 	private int id;
@@ -196,8 +200,7 @@ public class ProyectoDetalleVO implements Comparable
 	}
 
 	public void setAnioString(String anio) 
-	{
-		
+	{		
 		try
 		{
 			this.anio =Integer.parseInt(anio);
@@ -205,8 +208,7 @@ public class ProyectoDetalleVO implements Comparable
 		catch(Exception e)
 		{
 			
-		}
-		
+		}		
 	}
 
 	public String getNotaString() 
@@ -225,6 +227,65 @@ public class ProyectoDetalleVO implements Comparable
 			
 		}
 	}
+	
+	public String getStringTutorString()
+	{
+		return FuncionesTexto.convertirArrayAStringSaltoLinea(this.getTutorString());
+	}
+	
+	public String getStringAlumnos()
+	{
+		return FuncionesTexto.convertirArrayAStringSaltoLinea(this.getAlumnos());
+	}
+	
+	public String getTecnologias()
+	{
+		String retorno="";
+		for(ElementoVO e : this.getElementosRelacionados())
+		{
+			if(e.getTipoElemento() == TipoElemento.TECNOLOGIA)
+				retorno= retorno + e.getNombre()+ "\n";
+		}
+		return retorno;
+	}
+	
+	public String getMetodologiaTesting()
+	{
+		String retorno="";
+		for(ElementoVO e : this.getElementosRelacionados())
+		{
+			if(e.getTipoElemento() == TipoElemento.METODOLOGIA_TESTING)
+				retorno= retorno + e.getNombre()+ "\n";
+		}
+		return retorno;
+	}
+	
+	public String getModeloProceso()
+	{
+		String retorno="";
+		for(ElementoVO e : this.getElementosRelacionados())
+		{
+			if(e.getTipoElemento() == TipoElemento.MODELO_PROCESO)
+				retorno= retorno + e.getNombre() + "\n";
+		}
+		return retorno;
+	}
+	
+	public String getStringBibliografia()
+	{
+		return FuncionesTexto.convertirArrayAStringSaltoLinea(this.getBibliografia());
+	}
+	
+	public String getStringCorrectores()
+	{
+		String retorno="";
+		for(DocenteVO corrector : this.getCorrectores())
+		{
+			retorno= retorno + corrector.getNombreCompleto()+ "\n";
+		}
+		return retorno;
+	}
+	
 	
 
 	@Override

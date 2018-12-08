@@ -1,9 +1,15 @@
 package uy.edu.ude.sipro.ui.vistas;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +20,9 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.server.FileResource;
+import com.vaadin.server.Page;
+import com.vaadin.server.ResourceReference;
+import com.vaadin.server.StreamResource;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Button;
@@ -21,8 +30,10 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.components.grid.SingleSelectionModel;
 
+import net.sf.jasperreports.engine.JRException;
 import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
 import uy.edu.ude.sipro.navegacion.NavigationManager;
+import uy.edu.ude.sipro.reportes.ReportGenerator;
 import uy.edu.ude.sipro.service.Fachada;
 import uy.edu.ude.sipro.ui.UIUtiles;
 import uy.edu.ude.sipro.utiles.FuncionesTexto;
@@ -135,6 +146,14 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 					navigationManager.navigateTo(ProyectoDetallesView.class, idProyecto);
 				}
 				btnCancelar.setVisible(false);
+			}
+		}); 
+		
+		btnGenerarReporte.addClickListener(new Button.ClickListener()
+		{
+			public void buttonClick(ClickEvent event)
+			{	
+				generarReporte(proyecto);
 			}
 		}); 
 		
@@ -374,6 +393,35 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
         
         binder.readBean(proyecto);
 	}
+	
+	private void generarReporte(ProyectoDetalleVO proyecto) 
+	{
+        StreamResource res = new StreamResource(new StreamResource.StreamSource() 
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public InputStream getStream() {
+                ByteArrayOutputStream pdfBuffer = new ByteArrayOutputStream();
+                ReportGenerator reportGenerator = new ReportGenerator();
+
+                try 
+                {
+                    Map<String, Object> parametros = new HashMap<>();
+                    parametros.put("proyecto",  proyecto);
+                    reportGenerator.executeReportNoDS("reportes/proyectoTemplate.jrxml", pdfBuffer, parametros);
+                    
+                } catch (Exception e) 
+                {
+					e.printStackTrace();
+				}
+                return new ByteArrayInputStream(pdfBuffer.toByteArray());
+            }
+        }, "Documento" + Math.random() + ".pdf");
+        setResource("descarga", res);
+        ResourceReference rr = ResourceReference.create(res, this, "descarga");
+        Page.getCurrent().open(rr.getURL(), "_blank");
+    }
 
 
 }

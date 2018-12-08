@@ -1,0 +1,1239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="075a4164-472d-47c9-8408-5078a10b8357">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="consutlasDS" uuid="376a0bf1-e25c-49b0-adf1-f18d4df51e31">
+		<parameter name="consultas" class="java.util.List" nestedType="com.portalnutricion.common.vos.entidades.ConsultaVO"/>
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+		<field name="resultadoConsulta" class="java.lang.String">
+			<fieldDescription><![CDATA[resultadoConsulta]]></fieldDescription>
+		</field>
+		<field name="fechaAgendadaDate" class="java.util.Date"/>
+		<field name="nutricionista" class="com.portalnutricion.common.vos.entidades.NutricionistaVO"/>
+	</subDataset>
+	<parameter name="consultas" class="java.util.List" nestedType="com.portalnutricion.common.vos.entidades.ConsultaVO"/>
+	<parameter name="mostrarUltimaMedicion" class="java.lang.Boolean"/>
+	<parameter name="mostrarConsultas" class="java.lang.Boolean"/>
+	<parameter name="mostrarPlan" class="java.lang.Boolean"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<detail>
+		<band height="127">
+			<staticText>
+				<reportElement x="162" y="0" width="230" height="30" uuid="b321ec97-1e3c-496f-861d-0997d0bc3c5f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte de paciente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="61" width="48" height="20" uuid="f2ed99e7-03a1-4c3c-bd70-6a7e5481ecb7">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Paciente: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="63" y="61" width="188" height="20" uuid="5e0b2106-67d7-4a1c-9fbc-6c5ca5e59b0b">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{paciente}.getNombre() + " " + $P{paciente}.getApellido()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="265" y="61" width="84" height="20" uuid="6563de8f-218b-4ca1-9bb4-9b40389b9696">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Fecha nacimiento:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="363" y="61" width="106" height="20" uuid="1a38e5c9-beae-40d9-b821-38482d263922">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{paciente}.getFechaNacimiento() != null ? new SimpleDateFormat("dd/MM/yyyy").format($P{paciente}.getFechaNacimiento()) : "N/A"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="483" y="61" width="34" height="20" uuid="23ec5424-26ec-445a-91bd-10300c0645d3">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Sexo:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="534" y="61" width="20" height="20" uuid="412eba7c-ad32-4734-9832-137318a12b57">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{paciente}.getSexo()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="1" y="57" width="554" height="1" uuid="c4dadc8c-9294-4be5-bd5e-2ff9f76847c2"/>
+			</line>
+			<staticText>
+				<reportElement x="1" y="94" width="48" height="20" uuid="1f2482f8-336a-444a-ab11-79caf7250fa6">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Email:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="63" y="94" width="188" height="20" uuid="cd6314f6-d849-4d2d-b618-feb90b133df9">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{paciente}.getEmail()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="265" y="94" width="84" height="20" uuid="5d60f1d7-10ec-46b4-ba2b-e803e4844a59">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Teléfono:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="363" y="94" width="106" height="20" uuid="69138af9-9c25-43ec-ac3a-4417d5bf12bc">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{paciente}.getTelefono()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="27" width="556" height="30" uuid="25d56fcd-019c-4313-945d-c8be39b4a792"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Datos generales]]></text>
+			</staticText>
+		</band>
+		<band height="376">
+			<printWhenExpression><![CDATA[$P{mostrarUltimaMedicion} && $P{medicion} != null]]></printWhenExpression>
+			<staticText>
+				<reportElement x="180" y="114" width="100" height="20" isRemoveLineWhenBlank="true" uuid="b587a54a-7d3b-44fc-afed-01b878145e16">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Altura rodilla (cm)]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement x="80" y="139" width="70" height="20" isRemoveLineWhenBlank="true" uuid="aae47103-9080-471e-b39e-ee950f05fd65"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{medicion}.getPesoHabitual()]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="480" y="321" width="70" height="20" isRemoveLineWhenBlank="true" uuid="aba91295-dbc2-4400-af6b-eb3cac4b7ec1"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{medicion}.getPliegueSubescapular()]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="80" y="114" width="70" height="20" isRemoveLineWhenBlank="true" uuid="17c8bf10-62a3-4755-852a-81729a108e16"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{medicion}.getPesoDeseado()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="180" y="241" width="100" height="20" isRemoveLineWhenBlank="true" uuid="9b20912c-c93c-45df-93cc-84de92bc6205">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Muslo (cm)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="276" width="100" height="30" isRemoveLineWhenBlank="true" uuid="f1643733-be28-4201-90f5-34217a696eab"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pliegues]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="47" width="100" height="30" isRemoveLineWhenBlank="true" uuid="9bcbb168-57f6-4854-b901-434693db7d2f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Medidas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="180" y="321" width="100" height="20" isRemoveLineWhenBlank="true" uuid="129ef5d1-a518-4b46-8a30-9043af8b56e2">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Biceps (mm)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="114" width="80" height="20" isRemoveLineWhenBlank="true" uuid="fe9e5c80-946d-4023-b3a8-884f242b07ad">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Peso deseado (kg)]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement x="80" y="241" width="70" height="20" isRemoveLineWhenBlank="true" uuid="01eb3ca0-bedc-453a-8179-05440a637aa8"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{medicion}.getPerimetroRadial()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="380" y="114" width="100" height="20" isRemoveLineWhenBlank="true" uuid="166e5adf-ded4-4240-8087-7be519e5413d">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Cintura (cm)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="321" width="80" height="20" isRemoveLineWhenBlank="true" uuid="8a1a34d0-4211-4feb-824c-6df2d754c400">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Triceps (mm)]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="275" width="554" height="1" isRemoveLineWhenBlank="true" uuid="e0fafc9b-f359-4b52-b642-addbbc597bb7"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="0" y="346" width="80" height="20" isRemoveLineWhenBlank="true" uuid="8e1ffa9a-3cd3-4df3-a5b5-555bd471d191">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Abdominal (mm)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="139" width="80" height="20" isRemoveLineWhenBlank="true" uuid="e66368cf-4b49-4731-a4ec-c9604e375242">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Peso habitual (kg)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="321" width="100" height="20" isRemoveLineWhenBlank="true" uuid="91b4c9be-7926-4b2f-91ae-fbb525540ccf">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Subescapular (mm)]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement x="280" y="241" width="70" height="20" isRemoveLineWhenBlank="true" uuid="d7db4816-72dc-4a57-9686-6abd9e9b4196"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{medicion}.getPerimetroMuslo()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="307" width="554" height="1" isRemoveLineWhenBlank="true" uuid="58ee37f7-a24a-480c-87d5-73bed4707ba0"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<textField pattern="">
+				<reportElement x="480" y="216" width="70" height="20" isRemoveLineWhenBlank="true" uuid="2b191e3d-ce18-4e15-a097-600f0a077e30"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{medicion}.getPerimetroPantorrilla()]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="480" y="89" width="70" height="20" isRemoveLineWhenBlank="true" uuid="6884ac5b-d85e-4a67-9ad4-5d184dacd81d"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{medicion}.getCadera()]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="80" y="89" width="70" height="20" isRemoveLineWhenBlank="true" uuid="cad2bb36-141e-45d0-a705-6407feccc14d"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{medicion}.getPesoActual()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="76" width="554" height="1" isRemoveLineWhenBlank="true" uuid="da1d9b37-b93e-4855-9dcc-029594846081"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="380" y="216" width="100" height="20" isRemoveLineWhenBlank="true" uuid="94be0741-8f5b-4ddd-9341-7e2ab2c93002">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Pantorrilla (cm)]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement x="80" y="216" width="70" height="20" isRemoveLineWhenBlank="true" uuid="faa44967-8886-4c9b-926f-843750697d96"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{medicion}.getPerimetroBraquial()]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="480" y="346" width="70" height="20" isRemoveLineWhenBlank="true" uuid="236a5240-0ff8-4920-8cf8-9282a3172eda"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{medicion}.getPliegueSuprailiaco()]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="280" y="216" width="70" height="20" isRemoveLineWhenBlank="true" uuid="9d2829a8-4e44-47a2-9a02-bba1cc3c0677"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{medicion}.getPerimetroBusto()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="171" width="80" height="30" isRemoveLineWhenBlank="true" uuid="b07b9214-a17f-498a-a88c-ee9e886f648f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Perímetros]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement x="280" y="89" width="70" height="20" isRemoveLineWhenBlank="true" uuid="55f7d248-adff-4146-8be6-e7b5a13b0553"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{medicion}.getTalla()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="202" width="554" height="1" isRemoveLineWhenBlank="true" uuid="118591a8-e880-4467-a7a9-a7ea13eed847"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<textField pattern="">
+				<reportElement x="480" y="114" width="70" height="20" isRemoveLineWhenBlank="true" uuid="628ed4c0-da9e-40f1-ace1-c77724599b9e"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{medicion}.getCintura()]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="280" y="114" width="70" height="20" isRemoveLineWhenBlank="true" uuid="336f9311-a92a-4b91-b140-829bef16ac22"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{medicion}.getAlturaRodilla()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="380" y="346" width="100" height="20" isRemoveLineWhenBlank="true" uuid="4fec81f2-7a4a-4c3c-98ba-a97d7a0e38ad">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Suprailiaco (mm)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="216" width="80" height="20" isRemoveLineWhenBlank="true" uuid="af9d152c-d157-4ae0-a876-f1f197051382">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Braquial (cm)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="241" width="80" height="20" isRemoveLineWhenBlank="true" uuid="0b65d3ab-dd30-4c37-b416-d6801c4cf5ba">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Radial (cm)]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement x="80" y="346" width="70" height="20" isRemoveLineWhenBlank="true" uuid="6423cf52-d641-4f19-9038-c0d12770fbe0"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{medicion}.getPliegueAbdominal()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="380" y="89" width="100" height="20" isRemoveLineWhenBlank="true" uuid="a7372145-506a-4cf6-bc54-14d2f150c4d9">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Cadera (cm)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="180" y="89" width="100" height="20" isRemoveLineWhenBlank="true" uuid="b1b9dc0f-29b8-477a-9ca1-37a516b4ba10">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Altura (m)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="89" width="80" height="20" isRemoveLineWhenBlank="true" uuid="acd98d00-6d83-48c1-9b57-4c78baf17cf8">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Peso actual (kg)]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="170" width="554" height="1" isRemoveLineWhenBlank="true" uuid="79138f41-2034-43ea-b385-929aa6a2758f"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="47" width="554" height="1" isRemoveLineWhenBlank="true" uuid="7e140695-cd80-47e8-be00-aa2f35b07730"/>
+			</line>
+			<textField pattern="">
+				<reportElement x="80" y="321" width="70" height="20" isRemoveLineWhenBlank="true" uuid="c53cb4e2-ec41-461f-8329-c80df190a5e8"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{medicion}.getPliegueTriceps()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="180" y="346" width="100" height="20" isRemoveLineWhenBlank="true" uuid="3b86e09d-879b-4938-b68e-8c47eeb27dac">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Pectoral (mm)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="180" y="216" width="100" height="20" isRemoveLineWhenBlank="true" uuid="d3c31923-fc58-43fc-8c23-e1219c5246dc">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Busto (cm)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="17" width="554" height="30" isRemoveLineWhenBlank="true" uuid="335d088d-5bb3-4371-8588-b5de9973f486"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Última medición]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement x="280" y="346" width="70" height="20" isRemoveLineWhenBlank="true" uuid="51ccb3f2-cff7-4d09-964e-a876a6c5968d"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{medicion}.getPlieguePectoral()]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="280" y="321" width="70" height="20" isRemoveLineWhenBlank="true" uuid="fb9b40e4-9d81-4278-8093-0b535440aadc"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{medicion}.getPliegueBiceps()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="4" width="554" height="1" isRemoveLineWhenBlank="true" uuid="6ad67666-fa7d-4441-946e-4e5a3833b415"/>
+			</line>
+			<line>
+				<reportElement x="0" y="0" width="554" height="1" isRemoveLineWhenBlank="true" uuid="47117533-a715-49a7-b3a1-26338a85733e"/>
+			</line>
+		</band>
+		<band height="144">
+			<printWhenExpression><![CDATA[$P{mostrarConsultas} && $P{consultas} != null && !$P{consultas}.isEmpty()]]></printWhenExpression>
+			<staticText>
+				<reportElement x="1" y="17" width="554" height="30" uuid="716101fd-4c26-49ad-a63c-6639b32b44a0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Historial de consultas]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="" x="1" y="50" width="555" height="60" isPrintInFirstWholeBand="true" uuid="2c501668-f141-4e8e-a427-6f22541c6720">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="consutlasDS" uuid="0f0a37bb-6d2a-4a9d-b643-0975db7e5b04">
+						<datasetParameter name="consultas">
+							<datasetParameterExpression><![CDATA[$P{consultas}]]></datasetParameterExpression>
+						</datasetParameter>
+						<dataSourceExpression><![CDATA[new  net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{consultas})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="80" uuid="e6fbb8de-586a-4999-b2f6-b5b76adfbb24">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="80" height="30" uuid="cc57ce71-e8eb-4b04-87e0-a13f29038568"/>
+								<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Fecha]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField pattern="dd/M/yyyy">
+								<reportElement x="0" y="0" width="80" height="30" uuid="eee73cd4-21a4-45ee-81e4-a06cd5088913"/>
+								<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0"/>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{fechaAgendadaDate}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="150" uuid="de28d1be-2ae7-4833-a0a2-8f2d21345c99">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="150" height="30" uuid="fb258f43-8123-4b31-9804-d3236b1099e3"/>
+								<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Nutricionista]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="150" height="30" uuid="0b7558a2-aa32-497f-b059-e762de73ad10"/>
+								<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0"/>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{nutricionista}.getNombre() + " " + $F{nutricionista}.getApellido()]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="325" uuid="665e8c3d-8898-4d4d-b312-0450633f65bb">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="325" height="30" uuid="ecf661d7-c409-498c-8359-f95aab5ab839"/>
+								<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Resultado]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="325" height="30" uuid="90f8ed35-3415-4775-a389-b23c797bbfb1"/>
+								<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0"/>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{resultadoConsulta} != null ? $F{resultadoConsulta} : "Resultado no ingresado"]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<line>
+				<reportElement x="1" y="0" width="554" height="1" isRemoveLineWhenBlank="true" uuid="d65381f2-00cb-41be-a81e-9ab4d57b7dd4"/>
+			</line>
+			<line>
+				<reportElement x="1" y="4" width="554" height="1" isRemoveLineWhenBlank="true" uuid="71143a41-0ce6-4034-b7bd-21c88920268e"/>
+			</line>
+			<line>
+				<reportElement x="0" y="47" width="554" height="1" isRemoveLineWhenBlank="true" uuid="08d8caa7-5219-4f8c-b79d-c40aae0ec5bc"/>
+			</line>
+		</band>
+		<band height="765">
+			<printWhenExpression><![CDATA[$P{mostrarPlan} && $P{planActual} != null]]></printWhenExpression>
+			<line>
+				<reportElement x="1" y="0" width="554" height="1" isRemoveLineWhenBlank="true" uuid="ebb33825-c921-4b45-bce6-74f5d13a21fe"/>
+			</line>
+			<line>
+				<reportElement x="1" y="4" width="554" height="1" isRemoveLineWhenBlank="true" uuid="1be32bed-c4a7-4d80-80d3-9b8fff32292f"/>
+			</line>
+			<line>
+				<reportElement x="0" y="76" width="554" height="1" isRemoveLineWhenBlank="true" uuid="b6dbbeec-1191-4281-bc9b-1ff45f41bf31"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="47" width="80" height="30" isRemoveLineWhenBlank="true" uuid="e8fb7a40-97c8-4de1-8f0b-593ab2fd4dc4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lunes]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="47" width="554" height="1" isRemoveLineWhenBlank="true" uuid="23185e59-b9e0-4cae-af0f-99de49dfac5d"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="76" width="80" height="30" isRemoveLineWhenBlank="true" uuid="59bc6042-bfec-456b-845e-e1866a77821b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Desayuno]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="106" width="80" height="30" isRemoveLineWhenBlank="true" uuid="aba7eb32-db96-4355-b57f-8ebc362cbc23"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Almuerzo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="136" width="80" height="30" isRemoveLineWhenBlank="true" uuid="b40d5590-7dfb-4802-8803-2e332c9c49bc"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Merienda]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="166" width="80" height="30" isRemoveLineWhenBlank="true" uuid="077edd8a-d3f2-4c76-98ca-a6f62ac4f6b3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cena]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="196" width="80" height="30" isRemoveLineWhenBlank="true" uuid="2728d71b-6834-4ab0-92a6-9ede473520a6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Colaciones]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="76" width="474" height="30" uuid="059d7087-b21f-472c-9258-9e20ff965060"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getDesayuno1()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="106" width="474" height="30" uuid="dcba5d5e-22fe-41ce-80e4-bd654e32a340"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getAlmuerzo1()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="136" width="474" height="30" uuid="d5d8e397-d2c0-4edd-b89e-3c34ba3c02de"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getMerienda1()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="166" width="474" height="30" uuid="8a635ee1-fac8-4e88-b226-41b35e5eb518"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getCena1()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="196" width="474" height="30" uuid="299f03cf-8fca-4cca-b122-b1ec9cba165b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getColacion1()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="1" y="226" width="554" height="1" isRemoveLineWhenBlank="true" uuid="fa5aeca2-96de-4b7e-8175-ae7e6d807936"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="255" width="554" height="1" isRemoveLineWhenBlank="true" uuid="3d6c8b01-eff9-4c2d-9162-ededa2e5e7a3"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="1" y="405" width="554" height="1" isRemoveLineWhenBlank="true" uuid="f0ffca5a-b74d-444c-a9bc-86d339b07f58"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="80" y="375" width="474" height="30" uuid="65bcfe8b-42f0-41b6-ab2f-3cb35cfc772f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getColacion2()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="315" width="474" height="30" uuid="a59c2a19-2040-4732-8ffa-5c3668e00dcd"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getMerienda2()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="285" width="80" height="30" isRemoveLineWhenBlank="true" uuid="5f6a3c91-3adc-4276-94e9-74c9a4c4dbd4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Almuerzo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="315" width="80" height="30" isRemoveLineWhenBlank="true" uuid="47401901-1c2a-483d-8a8a-d96f1c515923"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Merienda]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="226" width="80" height="30" isRemoveLineWhenBlank="true" uuid="efed1de1-bab0-4cb0-a5e3-f2fba5b63907"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Martes]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="255" width="80" height="30" isRemoveLineWhenBlank="true" uuid="19927d72-9a43-45fa-a6cc-6097f1d5854f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Desayuno]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="345" width="474" height="30" uuid="cf8901d0-94d4-4b97-93ce-1e3279191780"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getCena2()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="255" width="474" height="30" uuid="f5aaa017-8f4a-41a7-8105-4752bcceab31"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getDesayuno2()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="345" width="80" height="30" isRemoveLineWhenBlank="true" uuid="04593f28-6cd1-4608-a3a7-c8dfbc625469"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cena]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="285" width="474" height="30" uuid="8a2105fd-7ceb-4ecb-ab12-540bbfb024d2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getAlmuerzo2()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="375" width="80" height="30" isRemoveLineWhenBlank="true" uuid="5b6ce005-d23e-40ac-a005-034ab935bb20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Colaciones]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="434" width="554" height="1" isRemoveLineWhenBlank="true" uuid="3db7ee45-01ec-4138-b764-7dea3f997c3c"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="1" y="584" width="554" height="1" isRemoveLineWhenBlank="true" uuid="9d502d2f-d028-49e4-b4cf-1bf0b606a61a"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="80" y="554" width="474" height="30" uuid="168c82bc-a482-4c8e-b43c-79fbbd18dd0a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getColacion3()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="494" width="474" height="30" uuid="2ae9f817-1c33-4434-9d24-938a89447ada"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getMerienda3()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="464" width="80" height="30" isRemoveLineWhenBlank="true" uuid="1d5cf074-0c6d-43b9-ae3e-d0d5da463577"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Almuerzo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="494" width="80" height="30" isRemoveLineWhenBlank="true" uuid="b969cbe7-048d-4364-8dcc-32ea0bca6d3d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Merienda]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="405" width="80" height="30" isRemoveLineWhenBlank="true" uuid="d6fa2627-69e0-427e-936e-8fd98ac6ad8a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Miércoles]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="434" width="80" height="30" isRemoveLineWhenBlank="true" uuid="c8700e4f-922d-4818-8585-798dbb5346be"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Desayuno]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="524" width="474" height="30" uuid="d79524d3-fc87-4296-ac42-67aea508d0b5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getCena3()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="434" width="474" height="30" uuid="9d05f016-b037-4e76-9ce8-d2e85be841c4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getDesayuno3()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="524" width="80" height="30" isRemoveLineWhenBlank="true" uuid="bfc66064-56d2-4198-b0bd-a8fe8fd99a23"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cena]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="464" width="474" height="30" uuid="c50e055e-07bb-4674-b5c9-ae09e94f9542"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getAlmuerzo3()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="554" width="80" height="30" isRemoveLineWhenBlank="true" uuid="6446105e-6468-41b4-a7b1-dbeea5717b31"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Colaciones]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="614" width="554" height="1" isRemoveLineWhenBlank="true" uuid="ede31781-91f7-4b45-a15a-b95d65da0d56"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="1" y="764" width="554" height="1" isRemoveLineWhenBlank="true" uuid="8bb19329-2ee3-48ec-aee9-55491a69a5fb"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="80" y="734" width="474" height="30" uuid="d1996651-7579-4860-9fe7-c54df8208214"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getColacion4()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="674" width="474" height="30" uuid="52f04203-9915-4148-9d98-9a88aae0ea52"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getMerienda4()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="644" width="80" height="30" isRemoveLineWhenBlank="true" uuid="40e36e53-cd18-4056-8f9b-746a16f16276"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Almuerzo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="674" width="80" height="30" isRemoveLineWhenBlank="true" uuid="3f3c0f40-0492-4cac-84f3-19d1b283c927"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Merienda]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="585" width="80" height="30" isRemoveLineWhenBlank="true" uuid="0390af2b-648b-4250-88ea-76a00eae037a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Jueves]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="614" width="80" height="30" isRemoveLineWhenBlank="true" uuid="a731dcb3-9f79-4409-a647-90f3ed6b6d89"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Desayuno]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="704" width="474" height="30" uuid="7b4ef30e-1452-42bd-8b4d-207dd1f82bb8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getCena4()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="614" width="474" height="30" uuid="456163c8-79a6-4a44-ab11-3420f79b24d7"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getDesayuno4()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="704" width="80" height="30" isRemoveLineWhenBlank="true" uuid="2c9eef18-acff-491d-9b7b-0d7fcd2fe0eb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cena]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="644" width="474" height="30" uuid="66b1e8b4-e1f7-44e0-bda4-660ce0a47d37"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getAlmuerzo4()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="734" width="80" height="30" isRemoveLineWhenBlank="true" uuid="19ef6646-fcc1-4b7b-a5eb-1a0c429dd437"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Colaciones]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="1" y="5" width="554" height="42" uuid="f818a5f2-01d9-4c8e-9e4c-99b0c6e1b156"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="14" isBold="true"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Plan actual: " + $P{planActual}.getTitulo()]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="541">
+			<printWhenExpression><![CDATA[$P{mostrarPlan} && $P{planActual} != null]]></printWhenExpression>
+			<line>
+				<reportElement x="0" y="29" width="554" height="1" isRemoveLineWhenBlank="true" uuid="48ac1585-9fba-4c5e-9dd0-d5922d599d99"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="1" y="179" width="554" height="1" isRemoveLineWhenBlank="true" uuid="80f8c5c7-782f-4e64-81ec-94c0387a37e6"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="80" y="149" width="474" height="30" uuid="b86f688b-da5f-4881-bcc9-aeb268e61bbb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getColacion5()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="89" width="474" height="30" uuid="04e8ce6b-462b-4d3c-9a12-19e6240a670a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getMerienda5()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="59" width="80" height="30" isRemoveLineWhenBlank="true" uuid="7b2c3e93-b822-4c9e-9748-3e3e1eb196ae"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Almuerzo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="89" width="80" height="30" isRemoveLineWhenBlank="true" uuid="b668aa49-8639-4c98-b0de-05c12a5d8c4a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Merienda]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="0" width="80" height="30" isRemoveLineWhenBlank="true" uuid="52015629-dc47-4362-bee9-a042a47d339b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Viernes]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="29" width="80" height="30" isRemoveLineWhenBlank="true" uuid="f61d1388-b488-4129-a046-7a8ec36396b6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Desayuno]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="119" width="474" height="30" uuid="3bdc0d00-6012-4309-be84-a6c50bb55492"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getCena5()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="29" width="474" height="30" uuid="b7f13ad6-959b-45a0-9932-30dd9db6d50e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getDesayuno5()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="119" width="80" height="30" isRemoveLineWhenBlank="true" uuid="6049d382-0823-450c-9e22-460b75d9958e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cena]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="59" width="474" height="30" uuid="4f855c31-42ce-4390-8544-7c2487fd9c08"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getAlmuerzo5()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="149" width="80" height="30" isRemoveLineWhenBlank="true" uuid="af2dbdab-fd95-41ea-89af-b1906b3d6dfd"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Colaciones]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="209" width="554" height="1" isRemoveLineWhenBlank="true" uuid="51a3a40f-2a39-4a67-94bc-128f80e17ca3"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="1" y="359" width="554" height="1" isRemoveLineWhenBlank="true" uuid="347b2300-6ad2-4f86-8046-07aeb69cc475"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="80" y="329" width="474" height="30" uuid="2410a59c-a5b3-45d4-830d-7dc7391fb176"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getColacion6()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="269" width="474" height="30" uuid="ae62c249-80e6-4368-97a3-acc62381404d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getMerienda6()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="239" width="80" height="30" isRemoveLineWhenBlank="true" uuid="bea7b857-a93c-42dc-94e6-163be1856656"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Almuerzo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="269" width="80" height="30" isRemoveLineWhenBlank="true" uuid="e0306c54-2a65-401b-85e0-170135e58da6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Merienda]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="180" width="80" height="30" isRemoveLineWhenBlank="true" uuid="9029c67e-2bd2-44d9-becd-d18b81f0714e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sábado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="209" width="80" height="30" isRemoveLineWhenBlank="true" uuid="ded42cd5-3786-40b1-be0b-fa653323b8b0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Desayuno]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="299" width="474" height="30" uuid="4808a165-4f3d-4b2a-8862-7f62d725f75e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getCena6()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="209" width="474" height="30" uuid="6ee1e7ca-d9e3-4f71-aaec-3f4aa35c6843"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getDesayuno6()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="299" width="80" height="30" isRemoveLineWhenBlank="true" uuid="c608bab2-30f8-4247-bb8a-4dfce2396a92"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cena]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="239" width="474" height="30" uuid="0b09b621-a2c7-49c0-a2aa-de250f958dce"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getAlmuerzo6()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="329" width="80" height="30" isRemoveLineWhenBlank="true" uuid="ad1178cb-52e8-42ac-ad54-beb28a75380e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Colaciones]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="389" width="554" height="1" isRemoveLineWhenBlank="true" uuid="e7afc29b-a66c-4b36-a4c8-7280c08d6f22"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="1" y="539" width="554" height="1" isRemoveLineWhenBlank="true" uuid="a4265bdb-04ee-415f-96b1-9cc6f9812200"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="80" y="509" width="474" height="30" uuid="b12118ae-c038-46cf-9bfe-ab576b7c9db2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getColacion7()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="449" width="474" height="30" uuid="ada64efa-8683-4ce7-9da4-c097aecfa240"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getMerienda7()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="419" width="80" height="30" isRemoveLineWhenBlank="true" uuid="e7ecbf5d-6a3d-4bf8-ac3b-e66ac89adf9a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Almuerzo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="449" width="80" height="30" isRemoveLineWhenBlank="true" uuid="b6aa3749-5334-4636-9009-363827c85430"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Merienda]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="360" width="80" height="30" isRemoveLineWhenBlank="true" uuid="5393434d-ea15-4422-bc7d-feceaaee50a0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Domingo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="389" width="80" height="30" isRemoveLineWhenBlank="true" uuid="b56e2aed-8a01-48c8-8ea2-d782e9f2ce52"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Desayuno]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="479" width="474" height="30" uuid="c00a4eaf-442e-45ed-b415-e8859f04c034"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getCena7()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="389" width="474" height="30" uuid="aafa85ee-84a6-421b-88eb-28694f6b9de3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getDesayuno7()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="479" width="80" height="30" isRemoveLineWhenBlank="true" uuid="e6b8306a-eddf-4839-ab6e-6a8436e26f2d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cena]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="419" width="474" height="30" uuid="29f73b90-98a5-4963-a5c8-dc48364a18d1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{planActual}.getAlmuerzo7()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="509" width="80" height="30" isRemoveLineWhenBlank="true" uuid="f9ce47e8-021d-41b9-9091-95e7ed1a4002"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Colaciones]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

@@ -28,6 +28,7 @@ public class ProyectoDetallesViewDesign extends VerticalLayout {
 	protected Button btnGuardar;
 	protected Button btnCancelar;
 	protected Button btnVerTextoDocumento;
+	protected Button btnGenerarReporte;
 	protected CssLayout tabGeneral;
 	protected HorizontalLayout contenedorAnioNota;
 	protected TextField txtCodigo;
