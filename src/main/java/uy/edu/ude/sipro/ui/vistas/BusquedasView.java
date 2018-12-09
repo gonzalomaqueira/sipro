@@ -21,10 +21,14 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Layout;
 import com.vaadin.ui.Link;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.PopupView;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
 
@@ -55,7 +59,6 @@ public class BusquedasView extends BusquedasViewDesign implements View
 	
 	public void enter(ViewChangeEvent event) 
 	{
-		this.obtenerCredenciales();
 		this.construirFiltro();
 		this.verificarFiltros();
 		
@@ -79,7 +82,7 @@ public class BusquedasView extends BusquedasViewDesign implements View
 			}
 		});
 		
-		chkFiltrar.addValueChangeListener(evt -> this.verificarFiltros());
+		chkFiltrar.addValueChangeListener(evt -> this.desplegarPopUP());
 	}
 	
 	public void cargarComponenteResultado(ResultadoBusqueda resultado)
@@ -95,7 +98,8 @@ public class BusquedasView extends BusquedasViewDesign implements View
 		layoutHor.setWidth("-1px");
 		layoutHor.setHeight("-1px");
 			
-		Link linkProyecto= new Link(resultado.getTituloProyecto(), new ExternalResource("http://localhost:8080/#!proyecto-detalles/" + resultado.getIdProyecto(), "_blank"));
+		Link linkProyecto= new Link(resultado.getTituloProyecto(), new ExternalResource("http://localhost:8080/#!proyecto-detalles/" + resultado.getIdProyecto()));
+		linkProyecto.setTargetName("_blank");
 		Label resumenBusqueda = new Label(resultado.getResumenBusqueda(), ContentMode.HTML);
 		Label codigoUde = new Label("<b>" + resultado.getCodigoUde() + "</b>", ContentMode.HTML);
 		Label anio = new Label(" <i>" + resultado.getAnio() + "</i> ", ContentMode.HTML);
@@ -111,7 +115,7 @@ public class BusquedasView extends BusquedasViewDesign implements View
 		panel.setContent(layoutVer);
 		
 		this.contenedorResultados.addComponent(panel);
-		
+	
 	}
 	
 	public void cargarListaComponentes(ArrayList<ResultadoBusqueda> resultado)
@@ -175,11 +179,49 @@ public class BusquedasView extends BusquedasViewDesign implements View
 		}
 	}
 	
-	public void obtenerCredenciales()
+	public void desplegarPopUP()
 	{
+//		// Content for the PopupView
+//
+//		VerticalLayout popupContent = new VerticalLayout();
+//		popupContent.addComponent(new Label("Este es el mensaje"));
+//		popupContent.setSizeFull();
+//		
+//		// The component itself
+//		PopupView popup = new PopupView("Este es mi pop up", popupContent);
+//		// A component to open the view
+//		popup.setVisible(true);
+//		popup.setPopupVisible(true);
+		VerticalLayout layout = new VerticalLayout();
+		
+		int anioActual = Calendar.getInstance().get(Calendar.YEAR);
+		
+		sliderAnio = new RangeSlider("Años", new Range(Constantes.ANIO_INICIO_BUSQUEDA, anioActual), new Range(anioActual-5, anioActual));		
+		sliderAnio.setSizeFull();
+		sliderAnio.setWidth("280px");
+		sliderAnio.setStep(1);
+		layout.addComponent(sliderAnio);
+		
+		sliderNota = new RangeSlider("Notas", new Range(1, 12), new Range(8, 12));
+		sliderNota.setSizeFull();
+		sliderNota.setWidth("280px");
+		sliderNota.setStep(1);		
+		layout.addComponent(sliderNota);
+		
+	       
+       layout.setMargin(true);
+       Window popUp;
+       popUp = new Window("Filtros", layout);
+       popUp.setModal(true);
+       popUp.setResizable(false);
+       popUp.center();
+       popUp.setHeight("400");
+       popUp.setWidth("400");
+       UI.getCurrent().addWindow(popUp);
 
-		Usuario user=SecurityUtils.getCurrentUser(usuarioService);
+
 
 	}
+
 	
 }

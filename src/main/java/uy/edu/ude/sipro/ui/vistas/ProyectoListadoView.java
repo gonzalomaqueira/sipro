@@ -76,7 +76,7 @@ public class ProyectoListadoView extends ProyectoListadoViewDesign implements Vi
 			public void buttonClick(ClickEvent event)
 			{	
 				if(proyectoSeleccionado != null)
-					navigationManager.navigateTo(ProyectoDetallesView.class , proyectoSeleccionado.getId());
+					navigationManager.navigateTo(ProyectoDetallesView.class , proyectoSeleccionado.getId() );
 			}
 		});
 		

@@ -1,5 +1,8 @@
 package uy.edu.ude.sipro.ui.vistas;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
@@ -29,6 +32,7 @@ public class DocentesView extends DocentesViewDesign implements View {
 	private Fachada fachada;
 	private Binder<DocenteVO> binder;
 	private DocenteVO docenteSeleccionado;
+	private List<DocenteVO> listaDocentes;
 	
     private final NavigationManager navigationManager;
     
@@ -40,10 +44,15 @@ public class DocentesView extends DocentesViewDesign implements View {
 	
 	@Override
 	public void enter(ViewChangeEvent event)
-	{
+	{				
 		cargarInterfazInicial();
 		docenteSeleccionado= new DocenteVO();
-		this.SetearBinder();
+		this.SetearBinder();				
+		
+		txtBuscar.addValueChangeListener(evt -> 
+		{
+		    filtrarLista(evt.getValue());
+		});
 		
 		btnNuevo.addClickListener(new Button.ClickListener()
 		{
@@ -146,12 +155,13 @@ public class DocentesView extends DocentesViewDesign implements View {
 	
 		
 	}
-	
+
 	private void cargarInterfazInicial()
 	{
+		this.listaDocentes = fachada.obtenerDocentes();
 		txtNombreDocente.clear();
 		txtApellidoDocente.clear();
-		grdDocentes.setItems(fachada.obtenerDocentes());
+		grdDocentes.setItems(this.listaDocentes);
 		btnCancelar.setVisible(false);
 		btnAgregar.setVisible(false);
 		btnBorrar.setVisible(false);
@@ -175,4 +185,16 @@ public class DocentesView extends DocentesViewDesign implements View {
         binder.readBean(docenteSeleccionado);
 	}
 	
+	private void filtrarLista(String texto) 
+	{
+		List<DocenteVO> listaAux = new ArrayList<>();
+		for (DocenteVO docente : this.listaDocentes)
+		{
+			if (docente.getNombreCompleto().toLowerCase().contains(texto.toLowerCase().trim()))
+			{
+				listaAux.add(docente);
+			}
+		}
+		grdDocentes.setItems(listaAux);
+	}
 }

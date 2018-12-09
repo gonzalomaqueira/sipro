@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteTemplate" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a5033cf9-a2a0-4385-ab7f-7b635e44ce27">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteTemplate" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a5033cf9-a2a0-4385-ab7f-7b635e44ce27">
 	<property name="ireport.zoom" value="1.9487171000000014"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<field name="titulo" class="java.lang.String"/>
 	<field name="codigoUde" class="java.lang.String"/>
-	<field name="nota" class="java.lang.String"/>
-	<field name="anio" class="java.lang.String"/>
+	<field name="nota" class="java.lang.Integer"/>
+	<field name="anio" class="java.lang.Integer"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -25,7 +25,7 @@
 		<band height="35" splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="61" splitType="Stretch">
+		<band height="62" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="0" width="188" height="20" uuid="6e901100-4535-4384-9c92-0dc93c0c5376"/>
 				<text><![CDATA[Titulo]]></text>
@@ -54,7 +54,7 @@
 				<reportElement x="188" y="0" width="188" height="20" uuid="177ad7b5-17d6-4060-a4a3-72fbf88e1c9d"/>
 				<textFieldExpression><![CDATA[$F{codigoUde}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="false">
 				<reportElement x="376" y="0" width="188" height="20" uuid="bee70eed-1ff8-4ce3-8816-4f04dfa87641"/>
 				<textFieldExpression><![CDATA[$F{nota}]]></textFieldExpression>
 			</textField>

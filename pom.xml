@@ -145,12 +145,15 @@
 		<dependency>
 		    <groupId>org.eclipse.jdt.core.compiler</groupId>
 		    <artifactId>ecj</artifactId>
-		    <version>4.6.1</version>
+		    <version>4.6.1</version>    
 		</dependency>
 		
-		
-		
-		
+		<dependency>
+		    <groupId>net.sf.jasperreports</groupId>
+		    <artifactId>jasperreports-fonts</artifactId>
+		    <version>6.0.0</version>
+		</dependency>
+			
 	</dependencies>
 
 	<dependencyManagement>

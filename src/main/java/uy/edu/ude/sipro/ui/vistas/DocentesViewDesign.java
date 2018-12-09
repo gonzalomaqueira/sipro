@@ -29,6 +29,7 @@ public class DocentesViewDesign extends VerticalLayout {
 	protected TextField txtNombreDocente;
 	protected CssLayout cssApellido;
 	protected TextField txtApellidoDocente;
+	protected TextField txtBuscar;
 	protected Grid<uy.edu.ude.sipro.valueObjects.DocenteVO> grdDocentes;
 
 	public DocentesViewDesign() {

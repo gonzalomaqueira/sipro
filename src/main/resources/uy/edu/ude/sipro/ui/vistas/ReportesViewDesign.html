@@ -6,35 +6,60 @@
   <meta name="vaadin-version" content="8.1.5">
  </head>
  <body>
-  <vaadin-vertical-layout spacing="false" margin-right="false" margin-bottom="false">
+  <vaadin-vertical-layout spacing="false" margin-top="false">
    <vaadin-css-layout width-full>
-    <vaadin-vertical-layout size-auto>
-     <vaadin-label style-name="header" plain-text>
-       Tutor 
-     </vaadin-label>
-     <vaadin-combo-box id="cmbTutor" data-item-type="java.lang.String" _id="cmbTutor">
-      <option item="Option1">Option 1</option>
-      <option item="Option2">Option 2</option>
-      <option item="Option3">Option 3</option>
-     </vaadin-combo-box>
-    </vaadin-vertical-layout>
-    <vaadin-vertical-layout size-auto>
-     <vaadin-label style-name="header" plain-text>
-       Elementos 
-     </vaadin-label>
-     <vaadin-combo-box id="cmbElemento" data-item-type="java.lang.String" _id="cmbElemento">
-      <option item="Option1">Option 1</option>
-      <option item="Option2">Option 2</option>
-      <option item="Option3">Option 3</option>
-     </vaadin-combo-box>
-    </vaadin-vertical-layout>
+    <vaadin-css-layout responsive width-full>
+     <vaadin-horizontal-layout style-name="v-window-top-toolbar">
+      <vaadin-button style-name="friendly small" id="btnGenerarReporte" plain-text _id="btnGenerarReporte">
+        Generar Reporte 
+      </vaadin-button>
+      <vaadin-button style-name="small" id="btnLimpiar" width="100px" plain-text _id="btnLimpiar">
+        Limpiar 
+      </vaadin-button>
+     </vaadin-horizontal-layout>
+    </vaadin-css-layout>
+    <vaadin-css-layout width-full></vaadin-css-layout>
+    <vaadin-css-layout width-full>
+     <vaadin-vertical-layout spacing="false" size-auto margin="false">
+      <vaadin-label style-name="header" plain-text>
+        Tutor 
+      </vaadin-label>
+      <vaadin-combo-box id="cmbTutor" data-item-type="java.lang.String" _id="cmbTutor">
+       <option item="Option1">Option 1</option>
+       <option item="Option2">Option 2</option>
+       <option item="Option3">Option 3</option>
+      </vaadin-combo-box>
+     </vaadin-vertical-layout>
+    </vaadin-css-layout>
+    <vaadin-css-layout width-full></vaadin-css-layout>
+    <vaadin-css-layout width-full>
+     <vaadin-vertical-layout spacing="false" size-auto margin="false">
+      <vaadin-label style-name="header" plain-text>
+        Elementos 
+      </vaadin-label>
+      <vaadin-combo-box id="cmbElemento" data-item-type="java.lang.String" _id="cmbElemento">
+       <option item="Option1">Option 1</option>
+       <option item="Option2">Option 2</option>
+       <option item="Option3">Option 3</option>
+      </vaadin-combo-box>
+     </vaadin-vertical-layout>
+    </vaadin-css-layout>
+    <vaadin-css-layout width-full></vaadin-css-layout>
+    <vaadin-css-layout width-full>
+     <vaadin-vertical-layout spacing="false" size-auto margin="false">
+      <vaadin-label style-name="header" plain-text>
+        CORRECTORES 
+      </vaadin-label>
+      <vaadin-combo-box id="cmbCorrectores" data-item-type="java.lang.String" _id="cmbCorrectores">
+       <option item="Option1">Option 1</option>
+       <option item="Option2">Option 2</option>
+       <option item="Option3">Option 3</option>
+      </vaadin-combo-box>
+     </vaadin-vertical-layout>
+    </vaadin-css-layout>
    </vaadin-css-layout>
-   <vaadin-vertical-layout id="cssFiltros" _id="cssFiltros"></vaadin-vertical-layout>
-   <vaadin-css-layout width-full>
-    <vaadin-button id="btnGenerarReporte" plain-text _id="btnGenerarReporte">
-      Generar Reporte 
-    </vaadin-button>
-   </vaadin-css-layout>
+   <vaadin-css-layout width-full></vaadin-css-layout>
+   <vaadin-vertical-layout spacing="false" id="cssFiltros" margin="false" _id="cssFiltros"></vaadin-vertical-layout>
   </vaadin-vertical-layout>
  </body>
 </html>

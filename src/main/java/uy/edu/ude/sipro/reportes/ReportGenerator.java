@@ -21,10 +21,7 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 
-/**
- * Utilitario para construir reportes Jasper con Vaadin.
- *
- */
+
 public class ReportGenerator {
 
     private static final Logger log = LoggerFactory.getLogger(ReportGenerator.class);
