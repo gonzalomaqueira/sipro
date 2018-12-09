@@ -23,7 +23,8 @@
     </vaadin-css-layout>
     <vaadin-css-layout width-full></vaadin-css-layout>
     <vaadin-css-layout responsive size-full>
-     <vaadin-grid style-name="half" id="grdElementos" width-full height="400px" data-item-type="uy.edu.ude.sipro.valueObjects.ElementoVO" _id="grdElementos">
+     <vaadin-text-field id="txtBuscar" placeholder="Filtar..." _id="txtBuscar"></vaadin-text-field>
+     <vaadin-grid style-name="half" id="grdElementos" height-mode="row" width-full data-item-type="uy.edu.ude.sipro.valueObjects.ElementoVO" _id="grdElementos">
       <table>
        <colgroup>
         <col column-id="nombre" sortable>
@@ -37,7 +38,6 @@
       </table>
      </vaadin-grid>
     </vaadin-css-layout>
-    <vaadin-css-layout></vaadin-css-layout>
     <vaadin-css-layout responsive width-full>
      <vaadin-label style-name="h4" width-full plain-text>
        Se relaciona con 

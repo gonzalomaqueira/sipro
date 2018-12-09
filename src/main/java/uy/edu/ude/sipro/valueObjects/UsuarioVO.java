@@ -8,6 +8,7 @@ public class UsuarioVO implements Comparable
 	private String apellido;
 	private String email;
 	private String contrasenia;
+	private String contraseniaActual;
 	private String repetirContrasenia;
 	private PerfilVO perfil;
 	
@@ -58,6 +59,12 @@ public class UsuarioVO implements Comparable
 	}
 	public void setRepetirContrasenia(String repetirContrasenia) {
 		this.repetirContrasenia = repetirContrasenia;
+	}
+	public String getContraseniaActual() {
+		return contraseniaActual;
+	}
+	public void setContraseniaActual(String contraseniaActual) {
+		this.contraseniaActual = contraseniaActual;
 	}
 	@Override
 	public int compareTo(Object comparado)

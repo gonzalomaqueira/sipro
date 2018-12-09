@@ -5,6 +5,7 @@ import com.vaadin.annotations.DesignRoot;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.TextArea;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.declarative.Design;
 
@@ -23,6 +24,7 @@ public class ElementoListadoViewDesign extends VerticalLayout {
 	protected Button btnAgregar;
 	protected Button btnEliminar;
 	protected Button btnVerDetalles;
+	protected TextField txtBuscar;
 	protected Grid<uy.edu.ude.sipro.valueObjects.ElementoVO> grdElementos;
 	protected TextArea txtRelaciones;
 	protected TextArea txtSinonimos;
