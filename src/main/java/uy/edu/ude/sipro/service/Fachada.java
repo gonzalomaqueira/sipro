@@ -159,15 +159,15 @@ public class Fachada {
 	{
 		UsuarioVO usuarioRetorno= new UsuarioVO();
 		Usuario usuario=SecurityUtils.getCurrentUser(usuarioService);
+		usuarioRetorno.setId(usuario.getId());
+		usuarioRetorno.setPerfil(ConversorValueObject.convertirPerfilVO(usuario.getPerfil()));
 		usuarioRetorno.setUsuario(usuario.getUsuario());
 		usuarioRetorno.setNombre(usuario.getNombre());
 		usuarioRetorno.setApellido(usuario.getApellido());
 		usuarioRetorno.setEmail(usuario.getEmail());
 		usuarioRetorno.setContrasenia(usuario.getContrasenia());
-		return usuarioRetorno;
-		
+		return usuarioRetorno;		
 	}
-
 	
 	/**************************************************************** Elementos */
 	

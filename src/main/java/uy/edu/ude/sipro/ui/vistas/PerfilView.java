@@ -1,6 +1,7 @@
 package uy.edu.ude.sipro.ui.vistas;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.vaadin.data.Binder;
 import com.vaadin.data.BinderValidationStatus;
@@ -32,6 +33,9 @@ public class PerfilView extends PerfilViewDesign implements View{
 	private boolean editContrasenia;
 	private boolean esModoEdicion;
 	private final NavigationManager navigationManager;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
     @Autowired
     public PerfilView (NavigationManager navigationManager)
@@ -91,15 +95,23 @@ public class PerfilView extends PerfilViewDesign implements View{
 			public void buttonClick(ClickEvent event) 
 			{
 		    	try 
-		    	{
+		    	{		    		    		
 		    		BinderValidationStatus<UsuarioVO> statusValidacion = binder.validate();
 		    		if (statusValidacion.isOk())
 		    		{
                         binder.writeBean(usuario);
                         
-			    		if(usuario.getId() > 0)
-			    		{
-
+                        if (!editContrasenia)
+		    			{
+			    			fachada.modificarUsuario(	usuario.getId(),
+								    					usuario.getUsuario(),
+								    					usuario.getNombre(),
+								    					usuario.getApellido(),
+								    					usuario.getEmail(),
+								    					usuario.getPerfil());
+		    			}
+		    			else
+		    			{
 			    			fachada.modificarUsuario(	usuario.getId(),
 								    					usuario.getUsuario(),
 								    					usuario.getContrasenia(),
@@ -107,11 +119,11 @@ public class PerfilView extends PerfilViewDesign implements View{
 								    					usuario.getApellido(),
 								    					usuario.getEmail(),
 								    					usuario.getPerfil());
+		    			}                        			    		
+	
+		    			UIUtiles.mostrarNotificacion("USUARIO", "Modificación exitosa", Notification.Type.HUMANIZED_MESSAGE);			    			
+		    			navigationManager.navigateTo(PerfilView.class);
 			    		
-	    		
-			    			UIUtiles.mostrarNotificacion("USUARIO", "Modificación exitosa", Notification.Type.HUMANIZED_MESSAGE);			    			
-			    			navigationManager.navigateTo(PerfilView.class);
-			    		}
 		    		}
 		    		else
 		    		{
@@ -169,7 +181,6 @@ public class PerfilView extends PerfilViewDesign implements View{
 	{
 		binder = new Binder<UsuarioVO>(UsuarioVO.class);
 		
-		
         binder.forField(txtNombre)
         	.withValidator(nombre -> nombre.length() >= 2, "Nombre debe tener al menos 2 caracteres")
         	.bind(UsuarioVO::getNombre, UsuarioVO::setNombre);
@@ -182,21 +193,22 @@ public class PerfilView extends PerfilViewDesign implements View{
         	.withValidator(new EmailValidator("El formato del email no es válido "))
         	.bind(UsuarioVO::getEmail, UsuarioVO::setEmail);
         
-        /*
+        
         binder.forField(txtContrasenia)
-        	.withValidator(c -> c.length() >= 5 && (esModoEdicion && editContrasenia), "La contraseña debe contener al menos 5 caracteres")
+        	.withValidator(c -> !esModoEdicion || !editContrasenia || c.length() >= 5, "La contraseña debe contener al menos 5 caracteres")
         	.bind(UsuarioVO::getContrasenia, UsuarioVO::setContrasenia);
 
         binder.forField(txtRepetirContasenia)
-        	.withValidator(c -> c.equals(txtContrasenia.getValue()) && (esModoEdicion && editContrasenia), "Las contraseñas no coinciden")
+        	.withValidator(c -> !esModoEdicion || !editContrasenia || c.equals(txtContrasenia.getValue()), "Las contraseñas no coinciden")
         	.bind(UsuarioVO::getRepetirContrasenia, UsuarioVO::setRepetirContrasenia);
         
         binder.forField(txtContraseniaActual)
-    	.withValidator(c -> c.equals(usuario.getContrasenia()) && (esModoEdicion && editContrasenia), "Las contraseñas actual no es correcta")
+    	.withValidator(c -> !esModoEdicion || !editContrasenia || 
+    			passwordEncoder.matches(c, usuario.getContrasenia()), "Las contraseñas actual no es correcta")
     	.bind(UsuarioVO::getContraseniaActual, UsuarioVO::setContraseniaActual);
-        */
         
-        binder.readBean(usuario);
+        
+       // binder.readBean(usuario);
 	}
 	
 }
