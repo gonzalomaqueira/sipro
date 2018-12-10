@@ -72,8 +72,7 @@ public class ReportesView extends ReportesViewDesign implements View{
 		btnGenerarReporte.addClickListener(new Button.ClickListener()
 		{
 			public void buttonClick(ClickEvent event)
-			{
-				
+			{				
 				DatosFiltro datosFiltro = new DatosFiltro();
 				datosFiltro.setAnioIni(2011);
 				datosFiltro.setAnioFin(2018);

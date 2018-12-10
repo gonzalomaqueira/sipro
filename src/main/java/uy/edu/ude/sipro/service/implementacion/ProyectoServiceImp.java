@@ -79,11 +79,6 @@ public class ProyectoServiceImp implements ProyectoService
 	    proyectoDao.agregar(proyecto);
 	}
 	
-	@Transactional
-	private void modificar(Proyecto proyecto)
-	{
-		proyectoDao.modificar(proyecto);
-	}
 
 	@Transactional
 	@Override
@@ -148,6 +143,13 @@ public class ProyectoServiceImp implements ProyectoService
 
 	@Transactional
 	@Override
+	public void modificar(Proyecto proyecto)
+	{
+		proyectoDao.modificar(proyecto);
+	}
+	
+	@Transactional
+	@Override
 	public void eliminar(int id) throws Exception
 	{
 		Proyecto proyecto = proyectoDao.obtenerProyectoPorId(id);
@@ -161,6 +163,12 @@ public class ProyectoServiceImp implements ProyectoService
 		{
 			doc.getProyectosComoCorrector().remove(proyecto);
 		}
+		
+		if (proyecto.getTutor() != null)
+		{
+			proyecto.getTutor().getProyectosComoTutor().remove(proyecto);
+		}
+				
 		proyecto.getCorrectores().removeAll(proyecto.getCorrectores());
 		busquedaService.bajaProyectoES(proyecto.getId());
 		proyectoDao.eliminar(proyecto);

@@ -16,6 +16,9 @@ public interface ProyectoService
 	void modificar(int id, String codigoUde, int anio, String carrera, int nota, String rutaArchivo);
 	void modificar(int id, String codigoUde, String titulo, int anio, String carrera, int nota, String resumen, 
 			ArrayList<String> alumnos, ArrayList<String> tutorString, Set<Docente> correctores, ArrayList<String> bibliografia) throws Exception;
+	
+	void modificar(Proyecto proyecto);
+	
 	void eliminar(int id) throws Exception;
     Set<Proyecto> obtenerProyectos();
 	Proyecto obtenerProyectoPorId(int idProyecto);

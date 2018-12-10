@@ -206,9 +206,10 @@ public class Fachada {
 		return ConversorValueObject.convertirListaDocenteVO(docenteService.obtenerDocentes());
 	}
 
-	public void altaDocente(String nombre, String apellido) 
+	public void altaDocente(String nombre, String apellido) throws Exception 
 	{
 		docenteService.agregar(nombre, apellido);
+		actualizarDocentesProyectos();
 	}
 
 	public void eliminarDocente(int id)
@@ -219,6 +220,19 @@ public class Fachada {
 	public boolean existeDocente(String nombre, String apellido)
 	{
 		return docenteService.existeDocente(nombre, apellido);
+	}
+	
+	public void actualizarDocentesProyectos() throws Exception
+	{
+		Set<Proyecto> proyectos= proyectoService.obtenerProyectos();
+		for(Proyecto proy : proyectos)
+		{
+			proyectoService.cargarTutorPorString(proy);
+			if (proy.getTutor() != null)
+			{
+				proyectoService.modificar(proy);
+			}
+		}
 	}
 	
 	/************************************************************** Busquedas */
