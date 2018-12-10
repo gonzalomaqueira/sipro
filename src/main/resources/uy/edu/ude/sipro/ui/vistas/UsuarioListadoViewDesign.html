@@ -23,23 +23,20 @@
      </vaadin-horizontal-layout>
     </vaadin-css-layout>
     <vaadin-css-layout width-full></vaadin-css-layout>
-    <vaadin-css-layout size-full>
+    <vaadin-css-layout width-full>
+     <vaadin-text-field id="txtBuscar" placeholder="Filtar..." _id="txtBuscar"></vaadin-text-field>
      <vaadin-grid style-name="half" id="grdUsuarios" height-mode="undefined" width-full data-item-type="uy.edu.ude.sipro.valueObjects.UsuarioVO" _id="grdUsuarios">
       <table>
        <colgroup>
-        <col column-id="id" sortable>
         <col column-id="usuario" sortable>
         <col column-id="nombre" sortable>
         <col column-id="apellido" sortable>
-        <col column-id="email" sortable>
        </colgroup>
        <thead>
         <tr default>
-         <th plain-text column-ids="id">Id</th>
          <th plain-text column-ids="usuario">Usuario</th>
          <th plain-text column-ids="nombre">Nombre</th>
          <th plain-text column-ids="apellido">Apellido</th>
-         <th plain-text column-ids="email">Email</th>
         </tr>
        </thead>
        <tbody></tbody>

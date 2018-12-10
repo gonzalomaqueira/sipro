@@ -5,6 +5,7 @@ import com.vaadin.annotations.DesignRoot;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.declarative.Design;
@@ -25,8 +26,8 @@ public class UsuarioDetalleViewDesign extends VerticalLayout {
 	protected Button btnGuardar;
 	protected Button btnCancelar;
 	protected TextField txtUsuario;
-	protected TextField txtContrasenia;
-	protected TextField txtRepetirContasenia;
+	protected PasswordField txtContrasenia;
+	protected PasswordField txtRepetirContasenia;
 	protected Label lblContraseñasIguales;
 	protected Label lblContraseñasIncorrectas;
 	protected TextField txtNombre;

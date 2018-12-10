@@ -1,5 +1,8 @@
 package uy.edu.ude.sipro.ui.vistas;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vaadin.navigator.View;
@@ -14,6 +17,7 @@ import com.vaadin.ui.components.grid.SingleSelectionModel;
 import uy.edu.ude.sipro.navegacion.NavigationManager;
 import uy.edu.ude.sipro.service.Fachada;
 import uy.edu.ude.sipro.ui.UIUtiles;
+import uy.edu.ude.sipro.valueObjects.DocenteVO;
 import uy.edu.ude.sipro.valueObjects.ElementoVO;
 import uy.edu.ude.sipro.valueObjects.SinonimoVO;
 import uy.edu.ude.sipro.valueObjects.SubElementoVO;
@@ -30,6 +34,8 @@ public class ElementoListadoView extends ElementoListadoViewDesign implements Vi
 	
 	private final NavigationManager navigationManager;
 	
+	private List<ElementoVO> listaElementos;
+	
     @Autowired
     public ElementoListadoView (NavigationManager navigationManager)
     {
@@ -41,6 +47,11 @@ public class ElementoListadoView extends ElementoListadoViewDesign implements Vi
 		btnVerDetalles.setEnabled(false);
 		cargarListaElementos();
 		btnEliminar.setEnabled(false);
+		
+		txtBuscar.addValueChangeListener(evt -> 
+		{
+		    filtrarLista(evt.getValue());
+		});
 		
 		grdElementos.addSelectionListener(evt -> 
 		{
@@ -102,7 +113,8 @@ public class ElementoListadoView extends ElementoListadoViewDesign implements Vi
 	
 	private void cargarListaElementos()
 	{
-		this.grdElementos.setItems(fachada.obtenerElementos());
+		listaElementos=fachada.obtenerElementos();
+		this.grdElementos.setItems(listaElementos);
 	}
 	
 	private void cargarListaRelaciones()
@@ -125,6 +137,19 @@ public class ElementoListadoView extends ElementoListadoViewDesign implements Vi
 			texto= texto.concat("; ");
 		}
 		txtSinonimos.setValue(texto);
+	}
+	
+	private void filtrarLista(String texto) 
+	{
+		List<ElementoVO> listaAux = new ArrayList<>();
+		for (ElementoVO elemento : this.listaElementos)
+		{
+			if (elemento.getNombre().toLowerCase().contains(texto.toLowerCase().trim()))
+			{
+				listaAux.add(elemento);
+			}
+		}
+		grdElementos.setItems(listaAux);
 	}
 
 }

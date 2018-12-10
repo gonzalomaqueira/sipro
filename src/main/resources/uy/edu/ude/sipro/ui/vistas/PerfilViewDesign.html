@@ -10,11 +10,11 @@
    <vaadin-css-layout responsive width-full :center>
     <vaadin-css-layout responsive width-full>
      <vaadin-horizontal-layout style-name="v-window-top-toolbar" responsive>
-      <vaadin-button icon="fonticon://Vaadin-Icons/e7b0" style-name="small" id="btnVolver" width="87px" plain-text _id="btnVolver">
-        Volver 
-      </vaadin-button>
-      <vaadin-button style-name="friendly small" id="btnGuardar" width="87px" plain-text _id="btnGuardar" :middle>
+      <vaadin-button visible="false" style-name="friendly small" id="btnGuardar" width="87px" plain-text _id="btnGuardar" :middle>
         Guardar 
+      </vaadin-button>
+      <vaadin-button style-name="primary small" id="btnEditar" plain-text _id="btnEditar">
+        Editar 
       </vaadin-button>
       <vaadin-button style-name="small" id="btnCancelar" width="87px" plain-text _id="btnCancelar" :middle>
         Cancelar 
@@ -59,22 +59,22 @@
       <vaadin-label style-name="header" width-full plain-text>
         Contraseña actual 
       </vaadin-label>
-      <vaadin-text-field style-name="full" id="txtContraseniaActual" width-full _id="txtContraseniaActual"></vaadin-text-field>
+      <vaadin-password-field id="txtContraseniaActual" width-full _id="txtContraseniaActual"></vaadin-password-field>
      </vaadin-vertical-layout>
      <vaadin-css-layout width-full></vaadin-css-layout>
      <vaadin-vertical-layout spacing="false" size-full margin="false">
       <vaadin-label style-name="header" width-full plain-text>
         nueva contraseña 
       </vaadin-label>
-      <vaadin-text-field style-name="full" id="txtContrasenia" width-full _id="txtContrasenia"></vaadin-text-field>
+      <vaadin-password-field id="txtContrasenia" width-full _id="txtContrasenia"></vaadin-password-field>
      </vaadin-vertical-layout>
      <vaadin-css-layout width-full></vaadin-css-layout>
      <vaadin-vertical-layout spacing="false" size-full margin="false">
       <vaadin-label style-name="header" width-full plain-text>
         Repetir nueva contraseña 
       </vaadin-label>
-      <vaadin-text-field style-name="full" id="txtRepetirContasenia" width-full _id="txtRepetirContasenia"></vaadin-text-field>
      </vaadin-vertical-layout>
+     <vaadin-password-field id="txtRepetirContasenia" width-full _id="txtRepetirContasenia"></vaadin-password-field>
     </vaadin-css-layout>
    </vaadin-css-layout>
   </vaadin-vertical-layout>

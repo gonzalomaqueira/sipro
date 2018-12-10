@@ -1,5 +1,6 @@
 package uy.edu.ude.sipro.ui.vistas;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import com.vaadin.ui.components.grid.SingleSelectionModel;
 import uy.edu.ude.sipro.navegacion.NavigationManager;
 import uy.edu.ude.sipro.service.Fachada;
 import uy.edu.ude.sipro.ui.UIUtiles;
+import uy.edu.ude.sipro.valueObjects.ElementoVO;
 import uy.edu.ude.sipro.valueObjects.UsuarioVO;
 
 @SpringView
@@ -30,6 +32,7 @@ public class UsuarioListadoView extends UsuarioListadoViewDesign implements View
 	
 	private UsuarioVO usuarioSeleccionado;
 	private List<UsuarioVO> listaUsuarios;
+	private UsuarioVO usuarioLogueado;
 	
 	
 	private final NavigationManager navigationManager;
@@ -42,8 +45,14 @@ public class UsuarioListadoView extends UsuarioListadoViewDesign implements View
     
 	public void enter(ViewChangeEvent event) 
 	{
+		usuarioLogueado= fachada.obtenerUsuarioLogeado();
 		grdUsuarios.addColumn(usuario -> usuario.getPerfil().getDescripcion()).setCaption("Perfil");
 		cargarInterfazInicial();
+		
+		txtBuscar.addValueChangeListener(evt -> 
+		{
+		    filtrarLista(evt.getValue());
+		});
 		
 		btnAgregar.addClickListener(new Button.ClickListener()
 		{
@@ -58,9 +67,14 @@ public class UsuarioListadoView extends UsuarioListadoViewDesign implements View
 		    	
 		    	try 
 		    	{
-		    		fachada.eliminarUsuario(usuarioSeleccionado.getId()); 	
-			    	cargarInterfazInicial();
-			    	UIUtiles.mostrarNotificacion("USUARIO", "Baja exitosa", Notification.Type.HUMANIZED_MESSAGE);
+		    		if(!usuarioLogueado.getUsuario().equals(usuarioSeleccionado.getUsuario()))
+		    		{
+			    		fachada.eliminarUsuario(usuarioSeleccionado.getId()); 	
+				    	cargarInterfazInicial();
+				    	UIUtiles.mostrarNotificacion("USUARIO", "Baja exitosa", Notification.Type.HUMANIZED_MESSAGE);
+		    		}
+		    		else
+		    			UIUtiles.mostrarNotificacion("USUARIO", "No esta permitido borra usuario con el cual ingreso", Notification.Type.ERROR_MESSAGE);
 		    	}
 		    	catch (Exception e)
 				{
@@ -103,5 +117,23 @@ public class UsuarioListadoView extends UsuarioListadoViewDesign implements View
 		btnAgregar.setEnabled(true);
 		listaUsuarios = fachada.obtenerUsuarios();
 		grdUsuarios.setItems(listaUsuarios);
+	}
+	
+	private void filtrarLista(String texto) 
+	{
+		List<UsuarioVO> listaAux = new ArrayList<>();
+		for (UsuarioVO usuario : this.listaUsuarios)
+		{
+			String aux=usuario.getNombre()+" "+usuario.getApellido();
+			if (usuario.getNombre().toLowerCase().contains(texto.toLowerCase().trim()) ||
+				usuario.getApellido().toLowerCase().contains(texto.toLowerCase().trim()) ||
+				usuario.getEmail().toLowerCase().contains(texto.toLowerCase().trim()) ||
+				aux.toLowerCase().contains(texto.toLowerCase().trim()) ||
+				usuario.getPerfil().getDescripcion().toLowerCase().contains(texto.toLowerCase().trim()))
+			{
+				listaAux.add(usuario);
+			}
+		}
+		grdUsuarios.setItems(listaAux);
 	}
 }

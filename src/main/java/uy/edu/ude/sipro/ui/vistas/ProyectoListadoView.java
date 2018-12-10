@@ -1,5 +1,6 @@
 package uy.edu.ude.sipro.ui.vistas;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,10 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.Grid;
 import com.vaadin.ui.components.grid.SingleSelectionModel;
 
 import uy.edu.ude.sipro.entidades.Enumerados.EstadoProyectoEnum;
@@ -18,6 +22,7 @@ import uy.edu.ude.sipro.navegacion.NavigationManager;
 import uy.edu.ude.sipro.service.Fachada;
 import uy.edu.ude.sipro.ui.UIUtiles;
 import uy.edu.ude.sipro.valueObjects.ProyectoVO;
+import uy.edu.ude.sipro.valueObjects.UsuarioVO;
 
 @SpringView
 @SpringComponent
@@ -40,6 +45,11 @@ public class ProyectoListadoView extends ProyectoListadoViewDesign implements Vi
 	public void enter(ViewChangeEvent event)
 	{
 		cargarInterfazInicial();
+		
+		txtBuscar.addValueChangeListener(evt -> 
+		{
+		    filtrarLista(evt.getValue());
+		});
 		
 		grdProyectos.addSelectionListener(evt -> 
 		{
@@ -153,4 +163,27 @@ public class ProyectoListadoView extends ProyectoListadoViewDesign implements Vi
 			}
 		}
 	}
+	
+	private void filtrarLista(String texto) 
+	{
+		List<ProyectoVO> listaAux = new ArrayList<>();
+		for (ProyectoVO proy : this.listaProyectos)
+		{
+			if (	proy.getEstado().toString().toLowerCase().contains(texto.toLowerCase().trim()) ||
+					proy.getCodigoUde().toLowerCase().contains(texto.toLowerCase().trim()) ||
+					( proy.getTitulo()!=null && !proy.getTitulo().isEmpty() &&
+					proy.getTitulo().toLowerCase().contains(texto.toLowerCase().trim()) )  ||
+					( proy.getCarrera()!=null && !proy.getCarrera().isEmpty() &&
+					proy.getCarrera().toLowerCase().contains(texto.toLowerCase().trim()) ) ||
+					Integer.toString(proy.getNota()).contains(texto.toLowerCase().trim()) ||
+					Integer.toString(proy.getAnio()).contains(texto.toLowerCase().trim()) 
+					)
+			{
+				listaAux.add(proy);
+			}
+		}
+		grdProyectos.setItems(listaAux);
+	}
+	
+   
 }
