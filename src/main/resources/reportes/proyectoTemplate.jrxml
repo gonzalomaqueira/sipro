@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="proyectoTemplate" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6cc3cd3b-98b6-4285-86ab-ea3c18ddcf52">
-	<property name="ireport.zoom" value="2.5937424601000094"/>
+	<property name="ireport.zoom" value="1.7715610000000064"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="1056"/>
+	<property name="ireport.y" value="56"/>
 	<parameter name="proyecto" class="uy.edu.ude.sipro.valueObjects.ProyectoDetalleVO"/>
 	<background>
 		<band splitType="Stretch"/>
