@@ -1,6 +1,9 @@
 package uy.edu.ude.sipro.busquedas;
 
+import java.util.List;
+
 import uy.edu.ude.sipro.valueObjects.DocenteVO;
+import uy.edu.ude.sipro.valueObjects.ElementoVO;
 
 public class DatosFiltro {
 	
@@ -9,6 +12,8 @@ public class DatosFiltro {
 	private int anioFin;
 	private int notaIni;
 	private int notaFin;
+	private List<DocenteVO> listaCorrectores;
+	private List<ElementoVO> listaElementos;
 	private boolean filtroHabilitado;
 	
 	public String getTutor() {
@@ -40,6 +45,18 @@ public class DatosFiltro {
 	}
 	public void setNotaFin(int notaFin) {
 		this.notaFin = notaFin;
+	}	
+	public List<DocenteVO> getListaCorrectores() {
+		return listaCorrectores;
+	}
+	public void setListaCorrectores(List<DocenteVO> listaCorrectores) {
+		this.listaCorrectores = listaCorrectores;
+	}
+	public List<ElementoVO> getListaElementos() {
+		return listaElementos;
+	}
+	public void setListaElementos(List<ElementoVO> listaElementos) {
+		this.listaElementos = listaElementos;
 	}
 	public boolean isFiltroHabilitado() {
 		return filtroHabilitado;
@@ -47,7 +64,42 @@ public class DatosFiltro {
 	public void setFiltroHabilitado(boolean filtroHabilitado) {
 		this.filtroHabilitado = filtroHabilitado;
 	}
-
 	
-
+	public String getStringRangoAnios()
+	{
+		return this.getAnioIni() + " - " + this.getAnioFin();
+	}
+	
+	public String getStringRangoNotas()
+	{
+		return this.getNotaIni() + " - " + this.getNotaFin();
+	}
+	
+	public String getStringListaCorrectores()
+	{
+		String retorno = "";
+		if (this.getListaCorrectores() != null && !this.getListaCorrectores().isEmpty())
+		{
+			for(DocenteVO corrector : this.getListaCorrectores())
+			{
+				retorno = retorno + corrector.getNombreCompleto() + ", ";
+			}
+			retorno = retorno.substring(0, retorno.length()-2);
+		}
+		return retorno;
+	}
+	
+	public String getStringListaElementos()
+	{
+		String retorno = "";
+		if (this.getListaElementos() != null && !this.getListaElementos().isEmpty())
+		{
+			for(ElementoVO elemento : this.getListaElementos())
+			{
+				retorno = retorno + elemento.getNombre() + ", ";
+			}
+			retorno = retorno.substring(0, retorno.length()-2);
+		}
+		return retorno;
+	}
 }

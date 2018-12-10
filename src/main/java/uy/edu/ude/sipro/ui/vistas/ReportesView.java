@@ -28,7 +28,7 @@ import com.vaadin.ui.Button.ClickEvent;
 
 import net.sf.jasperreports.engine.JRException;
 import uy.edu.ude.sipro.busquedas.BusquedaService;
-
+import uy.edu.ude.sipro.busquedas.DatosFiltro;
 import uy.edu.ude.sipro.entidades.Enumerados.EstadoProyectoEnum;
 import uy.edu.ude.sipro.reportes.ReportGenerator;
 import uy.edu.ude.sipro.reportes.Reportes;
@@ -36,6 +36,8 @@ import uy.edu.ude.sipro.service.Fachada;
 
 import uy.edu.ude.sipro.service.interfaces.ProyectoService;
 import uy.edu.ude.sipro.utiles.Constantes;
+import uy.edu.ude.sipro.valueObjects.DocenteVO;
+import uy.edu.ude.sipro.valueObjects.ElementoVO;
 import uy.edu.ude.sipro.valueObjects.ProyectoVO;
 
 
@@ -59,47 +61,55 @@ public class ReportesView extends ReportesViewDesign implements View{
 	{	
 		this.construirFiltro();
 		
-		ArrayList<ProyectoVO> lista= new ArrayList<ProyectoVO>();
-		ProyectoVO proyecto1= new ProyectoVO(1, 1, "Lic Informatica", "El proyecto de miguel1", 12, "El proyecto de miguel1", EstadoProyectoEnum.PROCESADO);
-		ProyectoVO proyecto2= new ProyectoVO(2, 2, "Lic Informatica", "El proyecto de miguel2", 12, "El proyecto de miguel2", EstadoProyectoEnum.PROCESADO);
-		ProyectoVO proyecto3= new ProyectoVO(3, 3, "Lic Informatica", "El proyecto de miguel3", 12, "El proyecto de miguel3", EstadoProyectoEnum.PROCESADO);
-		lista.add(proyecto1);
-		lista.add(proyecto2);
-		lista.add(proyecto3);
+		ArrayList<ProyectoVO> listaResultado= new ArrayList<ProyectoVO>();
+		ProyectoVO proyecto1= new ProyectoVO(1, 2014, "#123", "Licenciatura en informatica", 12, "SIPRO, el mejor proyecto del mundo mundial", EstadoProyectoEnum.PROCESADO);
+		ProyectoVO proyecto2= new ProyectoVO(2, 2017, "#234", "Ingeniería en informática", 9, "Ingenierizando la facultad de la UDE", EstadoProyectoEnum.PROCESADO);
+		ProyectoVO proyecto3= new ProyectoVO(3, 2012, "#456", "Manualidad avanzada", 11, "Miguel pintando", EstadoProyectoEnum.PROCESADO);
+		listaResultado.add(proyecto1);
+		listaResultado.add(proyecto2);
+		listaResultado.add(proyecto3);
 		
 		btnGenerarReporte.addClickListener(new Button.ClickListener()
 		{
 			public void buttonClick(ClickEvent event)
 			{
-//				Reportes reporte= new  Reportes();
-//				try {
-//					reporte.generarReporte(lista);
-//					Page.getCurrent().open("C:\\reportes\\reporte1.pdf", "_blank");
-//				} catch (FileNotFoundException | JRException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
 				
-				generarReporteEjemplo(lista);
+				DatosFiltro datosFiltro = new DatosFiltro();
+				datosFiltro.setAnioIni(2011);
+				datosFiltro.setAnioFin(2018);
+				datosFiltro.setNotaIni(7);
+				datosFiltro.setNotaFin(12);
+				datosFiltro.setTutor("Sirely");
+				List<DocenteVO> listaCorrectores = new ArrayList<>();
+				listaCorrectores.add(new DocenteVO("Miguel","Rojas"));
+				listaCorrectores.add(new DocenteVO("Ariel","Ron"));
+				datosFiltro.setListaCorrectores(listaCorrectores);
+				List<ElementoVO> listaElementos = new ArrayList<>();
+				listaElementos.add(new ElementoVO("Java"));
+				listaElementos.add(new ElementoVO("Microsoft SQL Server"));
+				datosFiltro.setListaElementos(listaElementos);
 				
+	
+				generarReporteListaProyectos(listaResultado, datosFiltro);
 			}
 		});	
 	}
 	
-	private void generarReporteEjemplo(ArrayList<ProyectoVO> listaProyectos) {
+	private void generarReporteListaProyectos(ArrayList<ProyectoVO> listaProyectos, DatosFiltro datosFiltro) 
+	{
         StreamResource res = new StreamResource(new StreamResource.StreamSource() {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public InputStream getStream() {
+            public InputStream getStream()
+            {
                 ByteArrayOutputStream pdfBuffer = new ByteArrayOutputStream();
                 ReportGenerator reportGenerator = new ReportGenerator();
-
-                try {
-//                    reportGenerator.executeReport("/reportes/reporteTemplate.jrxml", pdfBuffer, null, listaProyectos);
-                	
+                try 
+                {
                     Map<String, Object> parametros = new HashMap<>();
-                	reportGenerator.executeReport("reportes/reporteTemplate.jrxml", pdfBuffer, parametros, listaProyectos);
+                    parametros.put("datosFiltro", datosFiltro);
+                	reportGenerator.executeReport("reportes/listaProyectosTemplate.jrxml", pdfBuffer, parametros, listaProyectos);
                 } catch (Exception e) 
                 {
 					e.printStackTrace();
