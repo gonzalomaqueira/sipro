@@ -57,6 +57,8 @@ public class ReportesView extends ReportesViewDesign implements View{
 	private RangeSlider sliderAnio;
 	private RangeSlider sliderNota;
 	
+	private DatosFiltro datosFiltro;
+	
 	public void enter(ViewChangeEvent event)
 	{	
 		this.construirFiltro();
@@ -128,14 +130,14 @@ public class ReportesView extends ReportesViewDesign implements View{
 		
 		sliderAnio = new RangeSlider("Años", new Range(Constantes.ANIO_INICIO_BUSQUEDA, anioActual), new Range(anioActual-5, anioActual));		
 		sliderAnio.setSizeFull();
-		sliderAnio.setWidth("280px");
+		sliderAnio.setWidth("350px");
 		sliderAnio.setStep(1);
-		cssFiltros.addComponent(sliderAnio);
+		layoutFiltros.addComponent(sliderAnio);
 		
 		sliderNota = new RangeSlider("Notas", new Range(1, 12), new Range(8, 12));
 		sliderNota.setSizeFull();
-		sliderNota.setWidth("280px");
+		sliderNota.setWidth("350");
 		sliderNota.setStep(1);		
-		cssFiltros.addComponent(sliderNota);
+		layoutFiltros.addComponent(sliderNota);
 	}
 }
