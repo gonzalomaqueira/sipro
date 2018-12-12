@@ -12,7 +12,9 @@ public class DatosFiltro {
 	private int anioFin;
 	private int notaIni;
 	private int notaFin;
-	private List<DocenteVO> listaCorrectores;
+	
+	private DocenteVO tutorObjeto;
+	private DocenteVO Corrector;
 	private List<ElementoVO> listaElementos;
 	private boolean filtroHabilitado;
 	
@@ -46,12 +48,6 @@ public class DatosFiltro {
 	public void setNotaFin(int notaFin) {
 		this.notaFin = notaFin;
 	}	
-	public List<DocenteVO> getListaCorrectores() {
-		return listaCorrectores;
-	}
-	public void setListaCorrectores(List<DocenteVO> listaCorrectores) {
-		this.listaCorrectores = listaCorrectores;
-	}
 	public List<ElementoVO> getListaElementos() {
 		return listaElementos;
 	}
@@ -73,20 +69,19 @@ public class DatosFiltro {
 	public String getStringRangoNotas()
 	{
 		return this.getNotaIni() + " - " + this.getNotaFin();
-	}
+	}	
 	
-	public String getStringListaCorrectores()
-	{
-		String retorno = "";
-		if (this.getListaCorrectores() != null && !this.getListaCorrectores().isEmpty())
-		{
-			for(DocenteVO corrector : this.getListaCorrectores())
-			{
-				retorno = retorno + corrector.getNombreCompleto() + ", ";
-			}
-			retorno = retorno.substring(0, retorno.length()-2);
-		}
-		return retorno;
+	public DocenteVO getTutorObjeto() {
+		return tutorObjeto;
+	}
+	public void setTutorObjeto(DocenteVO tutorObjeto) {
+		this.tutorObjeto = tutorObjeto;
+	}
+	public DocenteVO getCorrector() {
+		return Corrector;
+	}
+	public void setCorrector(DocenteVO corrector) {
+		Corrector = corrector;
 	}
 	
 	public String getStringListaElementos()

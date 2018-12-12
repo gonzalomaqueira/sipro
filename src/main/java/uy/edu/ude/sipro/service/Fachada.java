@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import uy.edu.ude.sipro.busquedas.BusquedaService;
 import uy.edu.ude.sipro.busquedas.DatosFiltro;
 import uy.edu.ude.sipro.busquedas.ResultadoBusqueda;
 import uy.edu.ude.sipro.entidades.Elemento;
+import uy.edu.ude.sipro.entidades.Enumerados;
 import uy.edu.ude.sipro.entidades.Perfil;
 import uy.edu.ude.sipro.entidades.Proyecto;
 import uy.edu.ude.sipro.entidades.Usuario;
@@ -290,5 +292,37 @@ public class Fachada {
 				}
 			}
 		}
+	}
+
+	public List<ProyectoVO> obtenerListaProyectosFiltro(DatosFiltro datosFiltro) 
+	{
+		Set<Proyecto> listaRetorno = proyectoService.obtenerProyectos();
+		
+		listaRetorno = listaRetorno.stream().filter(x -> x.getEstado().equals(Enumerados.EstadoProyectoEnum.PROCESADO)
+				   && x.getNota() >= datosFiltro.getNotaIni() && x.getNota() <= datosFiltro.getNotaFin()
+			  	   && x.getAnio() >= datosFiltro.getAnioIni() && x.getAnio() <= datosFiltro.getAnioFin()).collect(Collectors.toSet());
+		
+		if (datosFiltro.getTutorObjeto() != null)
+		{
+			listaRetorno = listaRetorno.stream().filter(x -> x.getTutor() != null
+					&& x.getTutor().getNombreCompleto().equals(datosFiltro.getTutorObjeto().getNombreCompleto()))
+					.collect(Collectors.toSet());
+		}
+
+		if (datosFiltro.getCorrector() != null)
+		{
+			listaRetorno = listaRetorno.stream().filter(x -> x.getCorrectores() != null && !x.getCorrectores().isEmpty()
+					&& x.getCorrectores().stream().anyMatch(y -> y.getNombreCompleto().equals(datosFiltro.getCorrector().getNombreCompleto())))
+					.collect(Collectors.toSet());
+		}
+		
+		if (datosFiltro.getListaElementos() != null && !datosFiltro.getListaElementos().isEmpty())
+		{
+			listaRetorno = listaRetorno.stream().filter(x -> x.getElementosRelacionados() != null && !x.getElementosRelacionados().isEmpty()
+					&& x.getElementosRelacionados().stream().allMatch(y -> datosFiltro.getStringListaElementos().contains(y.getNombre())))
+					.collect(Collectors.toSet());
+		}
+		
+		return ConversorValueObject.convertirListaProyectoVO(listaRetorno);
 	}
 }

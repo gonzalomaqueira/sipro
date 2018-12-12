@@ -66,4 +66,6 @@ public class Docente
 
 	public List<Proyecto> getProyectosComoCorrector() { return proyectosComoCorrector; }
 	public void setProyectosComoCorrector(List<Proyecto> proyectosComoCorrector) { this.proyectosComoCorrector = proyectosComoCorrector; }
+
+	public String getNombreCompleto() { return this.nombre + " " + this.apellido;}
 }
