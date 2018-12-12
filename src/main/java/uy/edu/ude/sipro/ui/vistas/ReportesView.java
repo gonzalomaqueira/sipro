@@ -71,14 +71,6 @@ public class ReportesView extends ReportesViewDesign implements View{
 	{	
 		datosFiltro= new DatosFiltro();
 		this.construirFiltro();
-		
-//		ArrayList<ProyectoVO> listaResultado= new ArrayList<ProyectoVO>();
-//		ProyectoVO proyecto1= new ProyectoVO(1, 2014, "#123", "Licenciatura en informatica", 12, "SIPRO, el mejor proyecto del mundo mundial", EstadoProyectoEnum.PROCESADO);
-//		ProyectoVO proyecto2= new ProyectoVO(2, 2017, "#234", "Ingeniería en informática", 9, "Ingenierizando la facultad de la UDE", EstadoProyectoEnum.PROCESADO);
-//		ProyectoVO proyecto3= new ProyectoVO(3, 2012, "#456", "Manualidad avanzada", 11, "Miguel pintando", EstadoProyectoEnum.PROCESADO);
-//		listaResultado.add(proyecto1);
-//		listaResultado.add(proyecto2);
-//		listaResultado.add(proyecto3);
 //		
 		btnGenerarReporte.addClickListener(new Button.ClickListener()
 		{
@@ -128,7 +120,7 @@ public class ReportesView extends ReportesViewDesign implements View{
 		datosFiltro.setAnioFin(anioFin.intValue());
 		datosFiltro.setNotaIni(notaIni.intValue());
 		datosFiltro.setNotaFin(notaFin.intValue());	
-//		datosFiltro.setTutorObjeto(new DocenteVO("Miguel", "Rojas"));
+		datosFiltro.setTutorObjeto(new DocenteVO("Miguel", "Rojas"));
 //		datosFiltro.setCorrector(new DocenteVO("Ariel", "Ron"));
 //		datosFiltro.setTutorObjeto(tutorSeleccionado);
 //		datosFiltro.setCorrector(correctorSeleccionado);
