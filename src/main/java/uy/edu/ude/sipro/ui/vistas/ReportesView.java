@@ -80,82 +80,6 @@ public class ReportesView extends ReportesViewDesign implements View{
 		cargarCmbRelaciones();
 		cargarCmbDocentes();
 		this.construirFiltro();
-		
-//		ArrayList<ProyectoVO> listaResultado= new ArrayList<ProyectoVO>();
-//		ProyectoVO proyecto1= new ProyectoVO(1, 2014, "#123", "Licenciatura en informatica", 12, "SIPRO, el mejor proyecto del mundo mundial", EstadoProyectoEnum.PROCESADO);
-//		ProyectoVO proyecto2= new ProyectoVO(2, 2017, "#234", "Ingeniería en informática", 9, "Ingenierizando la facultad de la UDE", EstadoProyectoEnum.PROCESADO);
-//		ProyectoVO proyecto3= new ProyectoVO(3, 2012, "#456", "Manualidad avanzada", 11, "Miguel pintando", EstadoProyectoEnum.PROCESADO);
-//		listaResultado.add(proyecto1);
-//		listaResultado.add(proyecto2);
-//		listaResultado.add(proyecto3);
-		
-		btnAgregarRelacion.addClickListener(new Button.ClickListener()
-		{
-			public void buttonClick(ClickEvent event)
-			{	
-				if(elementoSeleccionado.getId()!=0)//ver esto, no detecta null, ver si en base nunca genera un elemento id =0!!!!!!!
-				{
-					listaElementosSeleccionados.add(elementoSeleccionado);
-					grdElementoProyecto.setItems( listaElementosSeleccionados );
-					cmbElementos.clear();
-					cargarCmbRelaciones();
-				}
-			}
-		});
-		
-		btnEliminarRelacion.addClickListener(new Button.ClickListener()
-		{
-			public void buttonClick(ClickEvent event)
-			{			
-				listaElementosSeleccionados.remove(elementoSeleccionado);
-				grdElementoProyecto.setItems( listaElementosSeleccionados );
-				cargarCmbRelaciones();
-			}
-		});
-		
-		cmbElementos.addValueChangeListener(evt -> 
-		{
-		    if (!evt.getSource().isEmpty()) 
-		    {
-		    	elementoSeleccionado= evt.getValue();
-		    	btnAgregarRelacion.setEnabled(true);
-		    }
-		});
-		
-		cmbCorrector.addValueChangeListener(evt -> 
-		{
-		    if (!evt.getSource().isEmpty()) 
-		    {
-		    	correctorSeleccionado= evt.getValue();
-		    }
-		});
-		
-		cmbTutor.addValueChangeListener(evt -> 
-		{
-		    if (!evt.getSource().isEmpty()) 
-		    {
-		    	tutorSeleccionado= evt.getValue();
-		    }
-		});
-		
-		grdElementoProyecto.addSelectionListener(evt -> 
-		{
-			SingleSelectionModel<ElementoVO> singleSelect = (SingleSelectionModel<ElementoVO>) grdElementoProyecto.getSelectionModel();
-			singleSelect.setDeselectAllowed(false);
-			try
-			{
-				if (singleSelect.getSelectedItem() != null)
-				{
-					elementoSeleccionado = singleSelect.getSelectedItem().get();
-					btnAgregarRelacion.setEnabled(false);
-					btnEliminarRelacion.setVisible(true);
-				}
-			}
-			catch (Exception e)
-			{
-			}
-		});
-		
 		btnGenerarReporte.addClickListener(new Button.ClickListener()
 		{
 			public void buttonClick(ClickEvent event)
@@ -204,7 +128,7 @@ public class ReportesView extends ReportesViewDesign implements View{
 		datosFiltro.setAnioFin(anioFin.intValue());
 		datosFiltro.setNotaIni(notaIni.intValue());
 		datosFiltro.setNotaFin(notaFin.intValue());	
-//		datosFiltro.setTutorObjeto(new DocenteVO("Miguel", "Rojas"));
+		datosFiltro.setTutorObjeto(new DocenteVO("Miguel", "Rojas"));
 //		datosFiltro.setCorrector(new DocenteVO("Ariel", "Ron"));
 //		datosFiltro.setTutorObjeto(tutorSeleccionado);
 //		datosFiltro.setCorrector(correctorSeleccionado);
