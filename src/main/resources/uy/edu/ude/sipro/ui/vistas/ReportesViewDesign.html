@@ -3,7 +3,7 @@
  <head>
   <meta charset="UTF-8">
   <meta name="design-properties" content="{&quot;RULERS_VISIBLE&quot;:true,&quot;GUIDELINES_VISIBLE&quot;:false,&quot;SNAP_TO_OBJECTS&quot;:true,&quot;SNAP_TO_GRID&quot;:true,&quot;SNAPPING_DISTANCE&quot;:10,&quot;GENERATE_GETTERS&quot;:false,&quot;JAVA_SOURCES_ROOT&quot;:&quot;src/main/java&quot;,&quot;THEME&quot;:&quot;siprotema&quot;}">
-  <meta name="vaadin-version" content="8.1.5">
+  <meta name="vaadin-version" content="8.0.5">
  </head>
  <body>
   <vaadin-vertical-layout margin-top="false">
@@ -28,21 +28,13 @@
      <vaadin-label style-name="header" width-full plain-text>
        Tutor 
      </vaadin-label>
-     <vaadin-combo-box id="cmbTutor" placeholder="Filtrar..." data-item-type="java.lang.String" _id="cmbTutor">
-      <option item="Option1">Option 1</option>
-      <option item="Option2">Option 2</option>
-      <option item="Option3">Option 3</option>
-     </vaadin-combo-box>
+     <vaadin-combo-box id="cmbTutor" placeholder="Filtrar..." data-item-type="uy.edu.ude.sipro.valueObjects.DocenteVO" _id="cmbTutor"></vaadin-combo-box>
     </vaadin-vertical-layout>
     <vaadin-vertical-layout margin="false">
      <vaadin-label style-name="header" width-full plain-text>
        Corrector 
      </vaadin-label>
-     <vaadin-combo-box id="cmbCorrector" placeholder="Filtrar..." data-item-type="java.lang.String" _id="cmbCorrector">
-      <option item="Option1">Option 1</option>
-      <option item="Option2">Option 2</option>
-      <option item="Option3">Option 3</option>
-     </vaadin-combo-box>
+     <vaadin-combo-box id="cmbCorrector" placeholder="Filtrar..." data-item-type="uy.edu.ude.sipro.valueObjects.DocenteVO" _id="cmbCorrector"></vaadin-combo-box>
     </vaadin-vertical-layout>
    </vaadin-horizontal-layout>
    <vaadin-vertical-layout margin="false">
@@ -50,26 +42,22 @@
       Elementos 
     </vaadin-label>
     <vaadin-horizontal-layout>
-     <vaadin-combo-box id="cmbElementos" placeholder="Filtrar..." data-item-type="java.lang.String" _id="cmbElementos">
-      <option item="Option1">Option 1</option>
-      <option item="Option2">Option 2</option>
-      <option item="Option3">Option 3</option>
-     </vaadin-combo-box>
+     <vaadin-combo-box id="cmbElementos" placeholder="Filtrar..." data-item-type="uy.edu.ude.sipro.valueObjects.ElementoVO" _id="cmbElementos"></vaadin-combo-box>
      <vaadin-button icon="fonticon://Vaadin-Icons/e801" style-name="friendly icon-only small" id="btnAgregarRelacion" plain-text _id="btnAgregarRelacion">
        Agregar 
      </vaadin-button>
-     <vaadin-button icon="fonticon://Vaadin-Icons/e91b" style-name="danger icon-only small" id="btnEliminarRelacion" plain-text _id="btnEliminarRelacion">
+     <vaadin-button visible="false" icon="fonticon://Vaadin-Icons/e91b" style-name="danger icon-only small" id="btnEliminarRelacion" plain-text _id="btnEliminarRelacion">
        Eliminar 
      </vaadin-button>
     </vaadin-horizontal-layout>
-    <vaadin-grid id="grdElementoProyecto" height-mode="undefined" width="350px" data-item-type="uy.edu.ude.sipro.valueObjects.SubElementoVO" _id="grdElementoProyecto">
+    <vaadin-grid id="grdElementoProyecto" height-mode="undefined" width="350px" data-item-type="uy.edu.ude.sipro.valueObjects.ElementoVO" _id="grdElementoProyecto">
      <table>
       <colgroup>
        <col column-id="nombre" sortable>
       </colgroup>
       <thead>
        <tr default>
-        <th plain-text column-ids="nombre">FILTRAR POR...</th>
+        <th plain-text column-ids="nombre">Nombre</th>
        </tr>
       </thead>
       <tbody></tbody>

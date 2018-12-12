@@ -22,12 +22,12 @@ import com.vaadin.ui.declarative.Design;
 public class ReportesViewDesign extends VerticalLayout {
 	protected Button btnGenerarReporte;
 	protected Button btnLimpiar;
-	protected ComboBox<java.lang.String> cmbTutor;
-	protected ComboBox<java.lang.String> cmbCorrector;
-	protected ComboBox<java.lang.String> cmbElementos;
+	protected ComboBox<uy.edu.ude.sipro.valueObjects.DocenteVO> cmbTutor;
+	protected ComboBox<uy.edu.ude.sipro.valueObjects.DocenteVO> cmbCorrector;
+	protected ComboBox<uy.edu.ude.sipro.valueObjects.ElementoVO> cmbElementos;
 	protected Button btnAgregarRelacion;
 	protected Button btnEliminarRelacion;
-	protected Grid<uy.edu.ude.sipro.valueObjects.SubElementoVO> grdElementoProyecto;
+	protected Grid<uy.edu.ude.sipro.valueObjects.ElementoVO> grdElementoProyecto;
 	protected VerticalLayout layoutAnios;
 	protected VerticalLayout layoutNotas;
 

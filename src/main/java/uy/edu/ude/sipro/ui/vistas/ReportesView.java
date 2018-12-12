@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.hibernate.mapping.Set;
@@ -28,6 +29,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.components.grid.SingleSelectionModel;
 
 import net.sf.jasperreports.engine.JRException;
 import uy.edu.ude.sipro.busquedas.BusquedaService;
@@ -44,6 +46,7 @@ import uy.edu.ude.sipro.valueObjects.DocenteVO;
 import uy.edu.ude.sipro.valueObjects.ElementoVO;
 import uy.edu.ude.sipro.valueObjects.ProyectoDetalleVO;
 import uy.edu.ude.sipro.valueObjects.ProyectoVO;
+import uy.edu.ude.sipro.valueObjects.SubElementoVO;
 
 
 @SpringView
@@ -65,13 +68,18 @@ public class ReportesView extends ReportesViewDesign implements View{
 	private DatosFiltro datosFiltro;
 	private DocenteVO tutorSeleccionado;
 	private DocenteVO correctorSeleccionado;
-	private List<ElementoVO> listaElementosSeleccionados;
+	private ElementoVO elementoSeleccionado;
+	private ArrayList<ElementoVO> listaElementosSeleccionados;
+	private ArrayList<ElementoVO> todosElementos;
 	
 	public void enter(ViewChangeEvent event)
 	{	
 		datosFiltro= new DatosFiltro();
+		todosElementos= (ArrayList<ElementoVO>) fachada.obtenerElementos();
+		listaElementosSeleccionados = new ArrayList<ElementoVO>();
+		cargarCmbRelaciones();
+		cargarCmbDocentes();
 		this.construirFiltro();
-//		
 		btnGenerarReporte.addClickListener(new Button.ClickListener()
 		{
 			public void buttonClick(ClickEvent event)
@@ -148,5 +156,29 @@ public class ReportesView extends ReportesViewDesign implements View{
 		sliderNota.setWidth("350px");
 		sliderNota.setStep(1);		
 		layoutNotas.addComponent(sliderNota);
+	}
+	
+	private void cargarCmbRelaciones()
+	{		
+		ArrayList<ElementoVO>  aux= new ArrayList<>(todosElementos);
+		for(ElementoVO elem : todosElementos)
+		{
+			if(listaElementosSeleccionados.contains(elem))
+			{
+				aux.remove(elem);
+				
+			}
+		}
+		cmbElementos.setItems(aux);
+		cmbElementos.setItemCaptionGenerator(ElementoVO::getNombre);	
+	}
+	
+	private void cargarCmbDocentes()
+	{		
+		List<DocenteVO> docentes=fachada.obtenerDocentes();
+		cmbCorrector.setItems(docentes);
+		cmbCorrector.setItemCaptionGenerator(DocenteVO::getNombreCompleto);
+		cmbTutor.setItems(docentes);
+		cmbTutor.setItemCaptionGenerator(DocenteVO::getNombreCompleto);	
 	}
 }
