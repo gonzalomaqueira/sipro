@@ -6,123 +6,86 @@
   <meta name="vaadin-version" content="8.1.5">
  </head>
  <body>
-  <vaadin-vertical-layout margin="false">
-   <vaadin-css-layout id="layoutFiltros" size-full _id="layoutFiltros">
-    <vaadin-css-layout responsive width-full>
-     <vaadin-horizontal-layout style-name="v-window-top-toolbar">
-      <vaadin-button style-name="friendly small" id="btnGenerarReporte" plain-text _id="btnGenerarReporte">
-        Generar Reporte 
-      </vaadin-button>
-      <vaadin-button style-name="small" id="btnLimpiar" width="100px" plain-text _id="btnLimpiar">
-        Limpiar 
-      </vaadin-button>
-     </vaadin-horizontal-layout>
-    </vaadin-css-layout>
-    <vaadin-horizontal-layout width-full margin-left margin-right>
-     <vaadin-css-layout width-full>
-      <vaadin-vertical-layout margin="false">
-       <vaadin-label style-name="header" width-full plain-text>
-         Tutores 
-       </vaadin-label>
-      </vaadin-vertical-layout>
-      <vaadin-vertical-layout margin="false">
-       <vaadin-horizontal-layout width-full>
-        <vaadin-combo-box id="cmbTutor" placeholder="Filtrar..." empty-selection-caption="TODOS" width="170%" data-item-type="java.lang.String" _id="cmbTutor">
-         <option item="Option1">Option 1</option>
-         <option item="Option2">Option 2</option>
-         <option item="Option3">Option 3</option>
-        </vaadin-combo-box>
-        <vaadin-button width="20%" plain-text :middle :right></vaadin-button>
-       </vaadin-horizontal-layout>
-       <vaadin-grid header-visible="false" id="grdTutores" width-full height="150px" data-item-type="uy.edu.ude.sipro.valueObjects.DocenteVO" _id="grdTutores">
-        <table>
-         <colgroup>
-          <col column-id="id" sortable>
-          <col column-id="nombre" sortable>
-          <col column-id="apellido" sortable>
-          <col column-id="nombreCompleto" sortable>
-         </colgroup>
-         <thead>
-          <tr default>
-           <th plain-text column-ids="id">Id</th>
-           <th plain-text column-ids="nombre">Nombre</th>
-           <th plain-text column-ids="apellido">Apellido</th>
-           <th plain-text column-ids="nombreCompleto">NombreCompleto</th>
-          </tr>
-         </thead>
-         <tbody></tbody>
-        </table>
-       </vaadin-grid>
-      </vaadin-vertical-layout>
-     </vaadin-css-layout>
-     <vaadin-css-layout width-full>
-      <vaadin-vertical-layout margin="false">
-       <vaadin-label style-name="header" width-full plain-text>
-         CORRECTORES 
-       </vaadin-label>
-      </vaadin-vertical-layout>
-      <vaadin-vertical-layout margin="false">
-       <vaadin-combo-box id="cmbCorrectores" placeholder="Filtrar..." empty-selection-caption="TODOS" width-full data-item-type="java.lang.String" _id="cmbCorrectores">
-        <option item="Option1">Option 1</option>
-        <option item="Option2">Option 2</option>
-        <option item="Option3">Option 3</option>
-       </vaadin-combo-box>
-       <vaadin-grid header-visible="false" id="grdCorrectores" width-full height="150px" data-item-type="uy.edu.ude.sipro.valueObjects.DocenteVO" _id="grdCorrectores">
-        <table>
-         <colgroup>
-          <col column-id="id" sortable>
-          <col column-id="nombre" sortable>
-          <col column-id="apellido" sortable>
-          <col column-id="nombreCompleto" sortable>
-         </colgroup>
-         <thead>
-          <tr default>
-           <th plain-text column-ids="id">Id</th>
-           <th plain-text column-ids="nombre">Nombre</th>
-           <th plain-text column-ids="apellido">Apellido</th>
-           <th plain-text column-ids="nombreCompleto">NombreCompleto</th>
-          </tr>
-         </thead>
-         <tbody></tbody>
-        </table>
-       </vaadin-grid>
-      </vaadin-vertical-layout>
-     </vaadin-css-layout>
-     <vaadin-css-layout width-full>
-      <vaadin-vertical-layout margin="false">
-       <vaadin-label style-name="header" width-full plain-text>
-         Elementos 
-       </vaadin-label>
-      </vaadin-vertical-layout>
-      <vaadin-vertical-layout margin="false">
-       <vaadin-combo-box id="cmbElemento" placeholder="Filtrar..." empty-selection-caption="TODOS" width-full data-item-type="java.lang.String" _id="cmbElemento">
-        <option item="Option1">Option 1</option>
-        <option item="Option2">Option 2</option>
-        <option item="Option3">Option 3</option>
-       </vaadin-combo-box>
-       <vaadin-grid header-visible="false" id="grdElementos" width-full height="150px" data-item-type="uy.edu.ude.sipro.valueObjects.DocenteVO" _id="grdElemntos">
-        <table>
-         <colgroup>
-          <col column-id="id" sortable>
-          <col column-id="nombre" sortable>
-          <col column-id="apellido" sortable>
-          <col column-id="nombreCompleto" sortable>
-         </colgroup>
-         <thead>
-          <tr default>
-           <th plain-text column-ids="id">Id</th>
-           <th plain-text column-ids="nombre">Nombre</th>
-           <th plain-text column-ids="apellido">Apellido</th>
-           <th plain-text column-ids="nombreCompleto">NombreCompleto</th>
-          </tr>
-         </thead>
-         <tbody></tbody>
-        </table>
-       </vaadin-grid>
-      </vaadin-vertical-layout>
-     </vaadin-css-layout>
+  <vaadin-vertical-layout margin-top="false">
+   <vaadin-css-layout responsive width-full>
+    <vaadin-horizontal-layout style-name="v-window-top-toolbar">
+     <vaadin-button style-name="friendly small" id="btnGenerarReporte" plain-text _id="btnGenerarReporte">
+       Generar Reporte 
+     </vaadin-button>
+     <vaadin-button style-name="small" id="btnLimpiar" width="100px" plain-text _id="btnLimpiar">
+       Limpiar 
+     </vaadin-button>
     </vaadin-horizontal-layout>
    </vaadin-css-layout>
+   <vaadin-label style-name="bold" width="400px" plain-text>
+     LISTADO DE PROYECTOS 
+   </vaadin-label>
+   <vaadin-label width="500px" plain-text>
+     Seleccione los filtros que desee aplicar para generar el reporte. 
+   </vaadin-label>
+   <vaadin-horizontal-layout width-full>
+    <vaadin-vertical-layout margin="false">
+     <vaadin-label style-name="header" width-full plain-text>
+       Tutor 
+     </vaadin-label>
+     <vaadin-combo-box id="cmbTutor" placeholder="Filtrar..." data-item-type="java.lang.String" _id="cmbTutor">
+      <option item="Option1">Option 1</option>
+      <option item="Option2">Option 2</option>
+      <option item="Option3">Option 3</option>
+     </vaadin-combo-box>
+    </vaadin-vertical-layout>
+    <vaadin-vertical-layout margin="false">
+     <vaadin-label style-name="header" width-full plain-text>
+       Corrector 
+     </vaadin-label>
+     <vaadin-combo-box id="cmbCorrector" placeholder="Filtrar..." data-item-type="java.lang.String" _id="cmbCorrector">
+      <option item="Option1">Option 1</option>
+      <option item="Option2">Option 2</option>
+      <option item="Option3">Option 3</option>
+     </vaadin-combo-box>
+    </vaadin-vertical-layout>
+   </vaadin-horizontal-layout>
+   <vaadin-vertical-layout margin="false">
+    <vaadin-label style-name="header" width="50%" plain-text>
+      Elementos 
+    </vaadin-label>
+    <vaadin-horizontal-layout>
+     <vaadin-combo-box id="cmbElementos" placeholder="Filtrar..." data-item-type="java.lang.String" _id="cmbElementos">
+      <option item="Option1">Option 1</option>
+      <option item="Option2">Option 2</option>
+      <option item="Option3">Option 3</option>
+     </vaadin-combo-box>
+     <vaadin-button icon="fonticon://Vaadin-Icons/e801" style-name="friendly icon-only small" id="btnAgregarRelacion" plain-text _id="btnAgregarRelacion">
+       Agregar 
+     </vaadin-button>
+     <vaadin-button icon="fonticon://Vaadin-Icons/e91b" style-name="danger icon-only small" id="btnEliminarRelacion" plain-text _id="btnEliminarRelacion">
+       Eliminar 
+     </vaadin-button>
+    </vaadin-horizontal-layout>
+    <vaadin-grid id="grdElementoProyecto" height-mode="undefined" width="350px" data-item-type="uy.edu.ude.sipro.valueObjects.SubElementoVO" _id="grdElementoProyecto">
+     <table>
+      <colgroup>
+       <col column-id="nombre" sortable>
+      </colgroup>
+      <thead>
+       <tr default>
+        <th plain-text column-ids="nombre">FILTRAR POR...</th>
+       </tr>
+      </thead>
+      <tbody></tbody>
+     </table>
+    </vaadin-grid>
+   </vaadin-vertical-layout>
+   <vaadin-vertical-layout id="layoutAnios" margin="false" _id="layoutAnios">
+    <vaadin-label style-name="header" width="50%" plain-text>
+      Años 
+    </vaadin-label>
+   </vaadin-vertical-layout>
+   <vaadin-vertical-layout id="layoutNotas" margin="false" _id="layoutNotas">
+    <vaadin-label style-name="header" width="50%" plain-text>
+      Notas 
+    </vaadin-label>
+   </vaadin-vertical-layout>
   </vaadin-vertical-layout>
  </body>
 </html>

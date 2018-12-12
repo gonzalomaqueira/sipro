@@ -9,9 +9,12 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import org.hibernate.mapping.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.daishy.rangeslider.RangeSlider;
@@ -29,6 +32,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import net.sf.jasperreports.engine.JRException;
 import uy.edu.ude.sipro.busquedas.BusquedaService;
 import uy.edu.ude.sipro.busquedas.DatosFiltro;
+import uy.edu.ude.sipro.entidades.Enumerados;
 import uy.edu.ude.sipro.entidades.Enumerados.EstadoProyectoEnum;
 import uy.edu.ude.sipro.reportes.ReportGenerator;
 import uy.edu.ude.sipro.reportes.Reportes;
@@ -38,6 +42,7 @@ import uy.edu.ude.sipro.service.interfaces.ProyectoService;
 import uy.edu.ude.sipro.utiles.Constantes;
 import uy.edu.ude.sipro.valueObjects.DocenteVO;
 import uy.edu.ude.sipro.valueObjects.ElementoVO;
+import uy.edu.ude.sipro.valueObjects.ProyectoDetalleVO;
 import uy.edu.ude.sipro.valueObjects.ProyectoVO;
 
 
@@ -58,41 +63,22 @@ public class ReportesView extends ReportesViewDesign implements View{
 	private RangeSlider sliderNota;
 	
 	private DatosFiltro datosFiltro;
+	private DocenteVO tutorSeleccionado;
+	private DocenteVO correctorSeleccionado;
+	private List<ElementoVO> listaElementosSeleccionados;
 	
 	public void enter(ViewChangeEvent event)
 	{	
+		datosFiltro= new DatosFiltro();
 		this.construirFiltro();
-		
-		ArrayList<ProyectoVO> listaResultado= new ArrayList<ProyectoVO>();
-		ProyectoVO proyecto1= new ProyectoVO(1, 2014, "#123", "Licenciatura en informatica", 12, "SIPRO, el mejor proyecto del mundo mundial", EstadoProyectoEnum.PROCESADO);
-		ProyectoVO proyecto2= new ProyectoVO(2, 2017, "#234", "Ingeniería en informática", 9, "Ingenierizando la facultad de la UDE", EstadoProyectoEnum.PROCESADO);
-		ProyectoVO proyecto3= new ProyectoVO(3, 2012, "#456", "Manualidad avanzada", 11, "Miguel pintando", EstadoProyectoEnum.PROCESADO);
-		listaResultado.add(proyecto1);
-		listaResultado.add(proyecto2);
-		listaResultado.add(proyecto3);
-		
+//		
 		btnGenerarReporte.addClickListener(new Button.ClickListener()
 		{
 			public void buttonClick(ClickEvent event)
 			{
-				
-				DatosFiltro datosFiltro = new DatosFiltro();
-				datosFiltro.setAnioIni(2011);
-				datosFiltro.setAnioFin(2018);
-				datosFiltro.setNotaIni(7);
-				datosFiltro.setNotaFin(12);
-				datosFiltro.setTutor("Sirely");
-				List<DocenteVO> listaCorrectores = new ArrayList<>();
-				listaCorrectores.add(new DocenteVO("Miguel","Rojas"));
-				listaCorrectores.add(new DocenteVO("Ariel","Ron"));
-				datosFiltro.setListaCorrectores(listaCorrectores);
-				List<ElementoVO> listaElementos = new ArrayList<>();
-				listaElementos.add(new ElementoVO("Java"));
-				listaElementos.add(new ElementoVO("Microsoft SQL Server"));
-				datosFiltro.setListaElementos(listaElementos);
-				
-	
-				generarReporteListaProyectos(listaResultado, datosFiltro);
+				cargarDatosFiltro();
+				ArrayList<ProyectoVO> lista = cargarListaProyectos();
+				generarReporteListaProyectos(lista, datosFiltro);
 			}
 		});	
 	}
@@ -124,20 +110,43 @@ public class ReportesView extends ReportesViewDesign implements View{
         Page.getCurrent().open(rr.getURL(), "_blank");
     }
 	
+	public void cargarDatosFiltro()
+	{
+		Double anioIni= sliderAnio.getValue().getLower();
+		Double anioFin= sliderAnio.getValue().getUpper();
+		Double notaIni= sliderNota.getValue().getLower();
+		Double notaFin= sliderNota.getValue().getUpper();
+		datosFiltro.setAnioIni(anioIni.intValue());
+		datosFiltro.setAnioFin(anioFin.intValue());
+		datosFiltro.setNotaIni(notaIni.intValue());
+		datosFiltro.setNotaFin(notaFin.intValue());	
+		datosFiltro.setTutorObjeto(new DocenteVO("Miguel", "Rojas"));
+//		datosFiltro.setCorrector(new DocenteVO("Ariel", "Ron"));
+//		datosFiltro.setTutorObjeto(tutorSeleccionado);
+//		datosFiltro.setCorrector(correctorSeleccionado);
+//		datosFiltro.setListaElementos(listaElementosSeleccionados);
+		
+	}	
+	
+	public ArrayList<ProyectoVO> cargarListaProyectos()
+	{
+		return (ArrayList<ProyectoVO>) fachada.obtenerListaProyectosFiltro(datosFiltro);
+	}
+		
 	public void construirFiltro()
 	{	
 		int anioActual = Calendar.getInstance().get(Calendar.YEAR);
 		
-		sliderAnio = new RangeSlider("Años", new Range(Constantes.ANIO_INICIO_BUSQUEDA, anioActual), new Range(anioActual-5, anioActual));		
+		sliderAnio = new RangeSlider( new Range(Constantes.ANIO_INICIO_BUSQUEDA, anioActual), new Range(Constantes.ANIO_INICIO_BUSQUEDA, anioActual));		
 		sliderAnio.setSizeFull();
 		sliderAnio.setWidth("350px");
 		sliderAnio.setStep(1);
-		layoutFiltros.addComponent(sliderAnio);
+		layoutAnios.addComponent(sliderAnio);
 		
-		sliderNota = new RangeSlider("Notas", new Range(1, 12), new Range(8, 12));
+		sliderNota = new RangeSlider( new Range(1, 12), new Range(1, 12));
 		sliderNota.setSizeFull();
-		sliderNota.setWidth("350");
+		sliderNota.setWidth("350px");
 		sliderNota.setStep(1);		
-		layoutFiltros.addComponent(sliderNota);
+		layoutNotas.addComponent(sliderNota);
 	}
 }
