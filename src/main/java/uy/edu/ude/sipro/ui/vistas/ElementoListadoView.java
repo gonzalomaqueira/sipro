@@ -125,6 +125,8 @@ public class ElementoListadoView extends ElementoListadoViewDesign implements Vi
 			texto= texto.concat(elemento.getNombre());
 			texto= texto.concat("; ");
 		}
+		if(texto.length()>=2)
+			texto= texto.substring(0,texto.length()-2);
 		txtRelaciones.setValue(texto);
 	}
 	
@@ -136,6 +138,8 @@ public class ElementoListadoView extends ElementoListadoViewDesign implements Vi
 			texto= texto.concat(sinonimo.getNombre());
 			texto= texto.concat("; ");
 		}
+		if(texto.length()>=2)
+			texto= texto.substring(0,texto.length()-2);
 		txtSinonimos.setValue(texto);
 	}
 	

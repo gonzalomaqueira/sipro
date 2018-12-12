@@ -319,7 +319,7 @@ public class Fachada {
 		if (datosFiltro.getListaElementos() != null && !datosFiltro.getListaElementos().isEmpty())
 		{
 			listaRetorno = listaRetorno.stream().filter(x -> x.getElementosRelacionados() != null && !x.getElementosRelacionados().isEmpty()
-					&& x.getElementosRelacionados().stream().allMatch(y -> datosFiltro.getStringListaElementos().contains(y.getNombre())))
+					&& x.getElementosRelacionados().stream().anyMatch(y -> datosFiltro.getStringListaElementos().contains(y.getNombre())))
 					.collect(Collectors.toSet());
 		}
 		

@@ -36,6 +36,7 @@ import uy.edu.ude.sipro.busquedas.BusquedaService;
 import uy.edu.ude.sipro.busquedas.DatosFiltro;
 import uy.edu.ude.sipro.entidades.Enumerados;
 import uy.edu.ude.sipro.entidades.Enumerados.EstadoProyectoEnum;
+import uy.edu.ude.sipro.navegacion.NavigationManager;
 import uy.edu.ude.sipro.reportes.ReportGenerator;
 import uy.edu.ude.sipro.reportes.Reportes;
 import uy.edu.ude.sipro.service.Fachada;
@@ -72,6 +73,15 @@ public class ReportesView extends ReportesViewDesign implements View{
 	private ArrayList<ElementoVO> listaElementosSeleccionados;
 	private ArrayList<ElementoVO> todosElementos;
 	
+	
+    private final NavigationManager navigationManager;
+    
+    @Autowired
+    public ReportesView (NavigationManager navigationManager)
+    {
+    	this.navigationManager = navigationManager;
+    }
+	
 	public void enter(ViewChangeEvent event)
 	{	
 		datosFiltro= new DatosFiltro();
@@ -80,12 +90,89 @@ public class ReportesView extends ReportesViewDesign implements View{
 		cargarCmbRelaciones();
 		cargarCmbDocentes();
 		this.construirFiltro();
+		
+		btnLimpiar.addClickListener(new Button.ClickListener()
+		{
+			public void buttonClick(ClickEvent event)
+			{			
+				navigationManager.navigateTo(ReportesView.class);
+			}
+		});
+		
+		btnAgregarRelacion.addClickListener(new Button.ClickListener()
+		{
+			public void buttonClick(ClickEvent event)
+			{	
+				if(elementoSeleccionado.getId()!=0)
+				{
+					listaElementosSeleccionados.add(elementoSeleccionado);
+					btnAgregarRelacion.setEnabled(false);
+					grdElementoProyecto.setItems( listaElementosSeleccionados );
+					cmbElementos.clear();
+					cargarCmbRelaciones();
+				}
+			}
+		});
+		
+		btnEliminarRelacion.addClickListener(new Button.ClickListener()
+		{
+			public void buttonClick(ClickEvent event)
+			{			
+				listaElementosSeleccionados.remove(elementoSeleccionado);
+				grdElementoProyecto.setItems( listaElementosSeleccionados );
+				cargarCmbRelaciones();
+			}
+		});
+		
+		cmbElementos.addValueChangeListener(evt -> 
+		{
+		    if (!evt.getSource().isEmpty()) 
+		    {
+		    	elementoSeleccionado= evt.getValue();
+		    	btnAgregarRelacion.setEnabled(true);
+		    }
+		});
+		
+		cmbCorrector.addValueChangeListener(evt -> 
+		{
+		    if (!evt.getSource().isEmpty()) 
+		    {
+		    	correctorSeleccionado= evt.getValue();
+		    }
+		});
+		
+		cmbTutor.addValueChangeListener(evt -> 
+		{
+		    if (!evt.getSource().isEmpty()) 
+		    {
+		    	tutorSeleccionado= evt.getValue();
+		    }
+		});
+		
+		grdElementoProyecto.addSelectionListener(evt -> 
+		{
+			SingleSelectionModel<ElementoVO> singleSelect = (SingleSelectionModel<ElementoVO>) grdElementoProyecto.getSelectionModel();
+			singleSelect.setDeselectAllowed(false);
+			try
+			{
+				if (singleSelect.getSelectedItem() != null)
+				{
+					elementoSeleccionado = singleSelect.getSelectedItem().get();
+					btnAgregarRelacion.setEnabled(false);
+					btnEliminarRelacion.setVisible(true);
+				}
+			}
+			catch (Exception e)
+			{
+			}
+		});
+
 		btnGenerarReporte.addClickListener(new Button.ClickListener()
 		{
 			public void buttonClick(ClickEvent event)
 			{
 				cargarDatosFiltro();
-				ArrayList<ProyectoVO> lista = cargarListaProyectos();
+				ArrayList<ProyectoVO> lista = cargarListaProyectos();				
 				generarReporteListaProyectos(lista, datosFiltro);
 			}
 		});	
@@ -102,10 +189,23 @@ public class ReportesView extends ReportesViewDesign implements View{
                 ByteArrayOutputStream pdfBuffer = new ByteArrayOutputStream();
                 ReportGenerator reportGenerator = new ReportGenerator();
                 try 
-                {
+                {                    
+                    if (datosFiltro.getTutorObjeto() == null)
+            			datosFiltro.setTutorObjeto(new DocenteVO("",""));            		
+            		if (datosFiltro.getCorrector() == null)
+            			datosFiltro.setCorrector(new DocenteVO("",""));                    
+                    
                     Map<String, Object> parametros = new HashMap<>();
                     parametros.put("datosFiltro", datosFiltro);
-                	reportGenerator.executeReport("reportes/listaProyectosTemplate.jrxml", pdfBuffer, parametros, listaProyectos);
+                    if (listaProyectos.isEmpty())
+                    {
+                    	listaProyectos.add(new ProyectoVO(1,1,"","",1,"",Enumerados.EstadoProyectoEnum.PROCESADO));
+                    	reportGenerator.executeReport("reportes/listaProyectosVacioTemplate.jrxml", pdfBuffer, parametros, listaProyectos);// new ArrayList<>());
+                    }
+                    else
+                    {
+                    	reportGenerator.executeReport("reportes/listaProyectosTemplate.jrxml", pdfBuffer, parametros, listaProyectos);
+                    }
                 } catch (Exception e) 
                 {
 					e.printStackTrace();
@@ -128,12 +228,9 @@ public class ReportesView extends ReportesViewDesign implements View{
 		datosFiltro.setAnioFin(anioFin.intValue());
 		datosFiltro.setNotaIni(notaIni.intValue());
 		datosFiltro.setNotaFin(notaFin.intValue());	
-		datosFiltro.setTutorObjeto(new DocenteVO("Miguel", "Rojas"));
-//		datosFiltro.setCorrector(new DocenteVO("Ariel", "Ron"));
-//		datosFiltro.setTutorObjeto(tutorSeleccionado);
-//		datosFiltro.setCorrector(correctorSeleccionado);
-//		datosFiltro.setListaElementos(listaElementosSeleccionados);
-		
+		datosFiltro.setTutorObjeto(tutorSeleccionado);
+		datosFiltro.setCorrector(correctorSeleccionado);
+		datosFiltro.setListaElementos(listaElementosSeleccionados);		
 	}	
 	
 	public ArrayList<ProyectoVO> cargarListaProyectos()
