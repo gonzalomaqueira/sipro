@@ -32,6 +32,7 @@ import uy.edu.ude.sipro.entidades.Usuario;
 import uy.edu.ude.sipro.service.interfaces.DocenteService;
 import uy.edu.ude.sipro.service.interfaces.ElementoService;
 import uy.edu.ude.sipro.service.interfaces.ProyectoService;
+import uy.edu.ude.sipro.entidades.Enumerados.CategoriaProyectoEnum;
 import uy.edu.ude.sipro.entidades.Enumerados.EstadoProyectoEnum;
 import uy.edu.ude.sipro.busquedas.BusquedaService;
 import uy.edu.ude.sipro.dao.interfaces.ProyectoDao;
@@ -99,8 +100,8 @@ public class ProyectoServiceImp implements ProyectoService
 	
 	@Transactional
 	@Override
-	public void modificar(int id, String codigoUde, String titulo, int anio, String carrera, int nota, String resumen, 
-							ArrayList<String> alumnos, ArrayList<String> tutorString, Set<Docente> correctores, ArrayList<String> bibliografia) throws Exception
+	public void modificar(int id, String codigoUde, String titulo, int anio, String carrera, int nota, String resumen, ArrayList<String> alumnos,
+			ArrayList<String> tutorString, Set<Docente> correctores, ArrayList<String> bibliografia, CategoriaProyectoEnum categoria) throws Exception
 	{
 		Proyecto proy= this.obtenerProyectoPorId(id);
 		proy.setCodigoUde(codigoUde);
@@ -112,6 +113,7 @@ public class ProyectoServiceImp implements ProyectoService
 		proy.setResumen(FuncionesTexto.limpiarTexto(resumen));
 		proy.setAlumnos(alumnos);
 		proy.setBibliografia(bibliografia);
+		proy.setCategoria(categoria);
 		this.cargarTutorPorString(proy);
 		
 		Set<Docente> docentes= docenteService.obtenerDocentes();
@@ -401,6 +403,7 @@ public class ProyectoServiceImp implements ProyectoService
 			proyecto.setElementosRelacionados(this.obtenerElementosProyecto(proyecto, elementoService.obtenerElementos()));
 			proyecto.setAnio(FuncionesTexto.devolverPrimerAnioTexto(textoOriginal));
 			proyecto.setEstado(EstadoProyectoEnum.PROCESADO);
+			proyecto.setCategoria(proyecto.obtenerCategoria());
 			//alta en servidor ES
 			busquedaService.altaProyectoES(proyecto, textoOriginal);
 			this.modificar(proyecto);
@@ -416,7 +419,6 @@ public class ProyectoServiceImp implements ProyectoService
 	@Transactional
 	public void cargarDatosProyectoES(Proyecto proyecto) throws Exception
 	{
-
 		String[] textoOriginal= this.obtenerTextoOriginalProyecto(proyecto);
 		busquedaService.altaProyectoES(proyecto, textoOriginal);
 	}

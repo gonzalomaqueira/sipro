@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -31,6 +33,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.components.grid.SingleSelectionModel;
 
 import net.sf.jasperreports.engine.JRException;
+import uy.edu.ude.sipro.entidades.Enumerados.CategoriaProyectoEnum;
 import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
 import uy.edu.ude.sipro.navegacion.NavigationManager;
 import uy.edu.ude.sipro.reportes.ReportGenerator;
@@ -67,7 +70,6 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 	
 	public void enter(ViewChangeEvent event)
 	{
-		
 		cargarInterfazInicial();
 		this.listaDocentes= fachada.obtenerDocentes();
 
@@ -106,9 +108,9 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 															proyecto.getAlumnos(),
 															proyecto.getTutorString(),															
 															proyecto.getCorrectores(),
-															proyecto.getBibliografia());
+															proyecto.getBibliografia(),
+															proyecto.getCategoria());
 							
-						
 						 UIUtiles.mostrarNotificacion("PROYECTO", "Modificación exitosa", Notification.Type.HUMANIZED_MESSAGE);	
 					     cargarInterfazInicial();
 					}
@@ -217,6 +219,7 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 	{
 		btnGuardar.setVisible(true);
 		btnEditar.setVisible(false);
+		cmbCategoria.setValue(CategoriaProyectoEnum.OTRO);
 	}
 	
 	private void cargarVistaModificarProyecto(int idProyecto)
@@ -232,6 +235,7 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 			txtNota.setValue(Integer.toString(proyecto.getNota()));
 			txtAnio.setValue(Integer.toString(proyecto.getAnio()));
 			txtTitulo.setValue(proyecto.getTitulo());
+			cmbCategoria.setValue(proyecto.getCategoria());
 			txtTutor.setValue(proyecto.getTutorString() != null ? FuncionesTexto.convertirArrayAStringSaltoLinea(new ArrayList<String>(proyecto.getTutorString())) : "");
 			txtAlumnos.setValue(proyecto.getAlumnos() != null ? FuncionesTexto.convertirArrayAStringSaltoLinea(new ArrayList<String>(proyecto.getAlumnos())) : "");
 			txtBibliografia.setValue(proyecto.getBibliografia() != null ? FuncionesTexto.convertirArrayAStringSaltoLinea(new ArrayList<String>(proyecto.getBibliografia())) : "");
@@ -268,9 +272,16 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 
 	private void cargarInterfazInicial()
 	{
+		List<CategoriaProyectoEnum> listaCategorias = new ArrayList<>();
+		listaCategorias.add(CategoriaProyectoEnum.DESARROLLO);
+		listaCategorias.add(CategoriaProyectoEnum.INFRAESTRUCTURA);
+		listaCategorias.add(CategoriaProyectoEnum.OTRO);
+		cmbCategoria.setItems(listaCategorias);
+
 		permitirEdicion(false);
 		btnEditar.setVisible(true);
 		btnGuardar.setVisible(false);
+		btnCancelar.setVisible(false);
 		cmbCorrectores.setEnabled(false);
 	}
 	
@@ -295,6 +306,7 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 		proyecto.setAlumnos(FuncionesTexto.convertirStringAArrayList(txtAlumnos.getValue()));
 		proyecto.setResumen(txtResumen.getValue());
 		proyecto.setBibliografia(FuncionesTexto.convertirStringAArrayList(txtBibliografia.getValue()));
+		proyecto.setCategoria(cmbCategoria.getValue());
 	}
 	
 	private void permitirEdicion(boolean opcion)
@@ -312,6 +324,7 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 			this.txtAlumnos.setReadOnly(false);
 			this.txtResumen.setReadOnly(false);
 			this.txtBibliografia.setReadOnly(false);
+			this.cmbCategoria.setReadOnly(false);
 		}
 		else
 		{
@@ -326,6 +339,7 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 			this.txtAlumnos.setReadOnly(true);
 			this.txtResumen.setReadOnly(true);
 			this.txtBibliografia.setReadOnly(true);
+			this.cmbCategoria.setReadOnly(true);
 		}	
 	}
 	

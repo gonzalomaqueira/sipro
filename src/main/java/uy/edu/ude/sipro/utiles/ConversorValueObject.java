@@ -41,7 +41,8 @@ public class ConversorValueObject
 									  proyecto.getBibliografia(),
 									  proyecto.getFechaAlta(),
 									  proyecto.getFechaUltimaModificacion(),
-									  convertirListaElementoVO(proyecto.getElementosRelacionados()));
+									  convertirListaElementoVO(proyecto.getElementosRelacionados()),
+									  proyecto.getCategoria());
 						
 	}
 	
@@ -53,7 +54,8 @@ public class ConversorValueObject
 							  proyecto.getCarrera(),
 							  proyecto.getNota(),
 							  proyecto.getTitulo(),
-							  proyecto.getEstado());
+							  proyecto.getEstado(),
+							  proyecto.getCategoria());
 	}
 
 	public static List<ProyectoVO> convertirListaProyectoVO(Set<Proyecto> listaProyectos)
@@ -239,7 +241,4 @@ public class ConversorValueObject
 		}
 		return vRetorno;
 	}
-
-
-
 }

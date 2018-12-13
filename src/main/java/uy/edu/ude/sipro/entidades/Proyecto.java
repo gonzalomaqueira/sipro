@@ -27,7 +27,9 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import uy.edu.ude.sipro.entidades.Enumerados.CategoriaProyectoEnum;
 import uy.edu.ude.sipro.entidades.Enumerados.EstadoProyectoEnum;
+import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
 import uy.edu.ude.sipro.utiles.Constantes;
 import uy.edu.ude.sipro.utiles.FuncionesTexto;
 import uy.edu.ude.sipro.utiles.SeccionTexto;
@@ -100,12 +102,16 @@ public class Proyecto
 	@JoinTable(name = "RelProyectoElemento", joinColumns = { @JoinColumn(name = "idProyecto") }, inverseJoinColumns = { @JoinColumn(name = "idElemento") })
 	private Set<Elemento> elementosRelacionados;
 	
+	@Enumerated(EnumType.STRING)
+	private CategoriaProyectoEnum categoria;
+	
 	@Transient
 	private List<SeccionTexto> DocumentoPorSecciones;
 
 	public Proyecto()
 	{
 		this.estado = EstadoProyectoEnum.SIN_PROCESAR;
+		this.categoria = CategoriaProyectoEnum.OTRO;
 		Date vfecha = new Date();
 		this.fechaAlta = vfecha;
 		this.fechaUltimaModificacion = vfecha;
@@ -192,6 +198,9 @@ public class Proyecto
 	public List<SeccionTexto> getDocumentoPorSecciones() { return DocumentoPorSecciones; }
 	public void setDocumentoPorSecciones(List<SeccionTexto> documentoPorSecciones) { DocumentoPorSecciones = documentoPorSecciones; }
 	
+	public CategoriaProyectoEnum getCategoria() { return categoria; }
+	public void setCategoria(CategoriaProyectoEnum categoriaProyecto) { this.categoria = categoriaProyecto; }
+
 	/** MÉTODOS **/
 	
 	public ArrayList<String> devolverResumen() 
@@ -381,5 +390,18 @@ public class Proyecto
 		}
 		
 		return new ArrayList(retorno);
+	}
+
+	public CategoriaProyectoEnum obtenerCategoria()
+	{
+		CategoriaProyectoEnum categoria = CategoriaProyectoEnum.OTRO;
+		if (this.elementosRelacionados != null && !this.elementosRelacionados.isEmpty()
+				&& this.elementosRelacionados.stream().anyMatch(x -> !x.esCategoria
+																 && (x.tipoElemento == TipoElemento.METODOLOGIA_TESTING
+																  || x.tipoElemento == TipoElemento.MODELO_PROCESO)))
+		{
+			categoria = CategoriaProyectoEnum.DESARROLLO;
+		}
+		return categoria;
 	}
 }

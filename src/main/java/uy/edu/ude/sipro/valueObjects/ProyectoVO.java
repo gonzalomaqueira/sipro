@@ -1,6 +1,7 @@
 package uy.edu.ude.sipro.valueObjects;
 
 import uy.edu.ude.sipro.entidades.Enumerados;
+import uy.edu.ude.sipro.entidades.Enumerados.CategoriaProyectoEnum;
 import uy.edu.ude.sipro.entidades.Enumerados.EstadoProyectoEnum;
 
 public class ProyectoVO implements Comparable
@@ -19,7 +20,9 @@ public class ProyectoVO implements Comparable
 	
 	private EstadoProyectoEnum estado;
 	
-	public ProyectoVO(int id, int anio, String codigoUde, String carrera, int nota, String titulo, EstadoProyectoEnum estado)
+	private CategoriaProyectoEnum categoria;
+	
+	public ProyectoVO(int id, int anio, String codigoUde, String carrera, int nota, String titulo, EstadoProyectoEnum estado, CategoriaProyectoEnum categoria)
 	{
 		super();
 		this.id = id;
@@ -29,6 +32,7 @@ public class ProyectoVO implements Comparable
 		this.nota = nota;
 		this.titulo = titulo;
 		this.estado = estado;
+		this.categoria = categoria;
 	}
 
 	public int getId() {
@@ -87,6 +91,14 @@ public class ProyectoVO implements Comparable
 		this.estado = estado;
 	}
 	
+	public CategoriaProyectoEnum getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(CategoriaProyectoEnum categoria) {
+		this.categoria = categoria;
+	}
+
 	public String getNotaString() 
 	{
 		return Integer.toString(this.nota);
