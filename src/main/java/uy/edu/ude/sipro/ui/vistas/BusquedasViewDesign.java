@@ -25,10 +25,8 @@ public class BusquedasViewDesign extends CssLayout {
 	protected Panel pnlBusqueda;
 	protected TextField txtBuscar;
 	protected Button btnBuscar;
-	protected CheckBox chkFiltrar;
-	protected CssLayout contenedorFiltros;
-	protected VerticalLayout layoutFiltros;
-	protected TextField txtTutor;
+	protected Button btnFiltrar;
+	protected CheckBox chkFiltros;
 	protected Panel panelContenedor;
 	protected VerticalLayout contenedorResultados;
 

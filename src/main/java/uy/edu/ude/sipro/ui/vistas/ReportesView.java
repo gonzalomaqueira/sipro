@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 
 import org.hibernate.mapping.Set;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 
 import com.github.daishy.rangeslider.RangeSlider;
 import com.github.daishy.rangeslider.client.Range;
@@ -53,6 +54,7 @@ import uy.edu.ude.sipro.valueObjects.SubElementoVO;
 
 @SpringView
 @SpringComponent
+@Secured({"admin", "bibliotecario", "alumno", "tutor"})
 public class ReportesView extends ReportesViewDesign implements View{
 	
 	@Autowired

@@ -6,6 +6,15 @@ public class PerfilVO implements Comparable
 	private int Id;	
 	private String descripcion;
 	
+	public PerfilVO() {
+
+	}
+	
+	public PerfilVO(int id, String descripcion) {
+		Id = id;
+		this.descripcion = descripcion;
+	}
+
 	public int getId() 
 	{
 		return Id;

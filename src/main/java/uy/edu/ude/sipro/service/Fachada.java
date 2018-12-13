@@ -113,7 +113,7 @@ public class Fachada {
 	/**************************************************************** Usuarios */	
 	
 	public List<UsuarioVO> obtenerUsuarios()
-	{
+	{	
 		return ConversorValueObject.convertirListaUsuarioVO(usuarioService.obtenerUsuarios());
 	}
 	
@@ -172,6 +172,7 @@ public class Fachada {
 		usuarioRetorno.setContrasenia(usuario.getContrasenia());
 		return usuarioRetorno;		
 	}
+	
 	
 	/**************************************************************** Elementos */
 	
@@ -326,5 +327,47 @@ public class Fachada {
 		}
 		
 		return ConversorValueObject.convertirListaProyectoVO(listaRetorno);
+	}
+	
+	///////////////////////////////////////inicio
+	
+	public void crearUsuariosInicio()
+	{
+		boolean existeAdmin=false;
+		boolean existeInvit=false;
+		List <UsuarioVO> usuarios= this.obtenerUsuarios();
+		for(UsuarioVO usu : usuarios)
+		{
+			if(usu.getUsuario().equals("admin"))
+			{
+				existeAdmin=true;
+			}
+			if(usu.getUsuario().equals("Invitado"))
+			{
+				existeInvit=true;
+			}
+			if(existeAdmin && existeInvit)
+			{
+				break;
+			}
+		}
+		if(!existeAdmin)
+		{
+			this.altaUsuario("admin", "admin", "admin", "admin", "admin@admin.com", new PerfilVO(1,"admin") );
+		}
+		if(!existeInvit)
+		{
+			this.altaUsuario("Invitado", "Invitado", "Invitado", "Invitado", "Invitado@Invitado.com", new PerfilVO(2,"invitado") );
+		}
+
+	}
+	
+	public void crearPerfileInicio()
+	{
+		perfilService.agregar(1, "admin");
+		perfilService.agregar(2, "invitado");
+		perfilService.agregar(3, "bibliotecario");
+		perfilService.agregar(4, "tutor");
+		perfilService.agregar(5, "alumno");
 	}
 }

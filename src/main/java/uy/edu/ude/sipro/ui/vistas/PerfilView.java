@@ -1,6 +1,7 @@
 package uy.edu.ude.sipro.ui.vistas;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.vaadin.data.Binder;
@@ -24,6 +25,7 @@ import uy.edu.ude.sipro.valueObjects.UsuarioVO;
 
 @SpringView
 @SpringComponent
+@Secured({"admin", "bibliotecario", "alumno", "tutor"})
 public class PerfilView extends PerfilViewDesign implements View{
 	
 	@Autowired
