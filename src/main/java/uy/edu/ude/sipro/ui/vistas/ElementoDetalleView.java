@@ -201,11 +201,13 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 		{
 			public void buttonClick(ClickEvent event)
 			{	
-				if(subElementoSeleccionado.getId()!=0)//ver esto, no detecta null, ver si en base nunca genera un elemento id =0!!!!!!!
+				if(subElementoSeleccionado.getId()!=0)
 				{
 					listaSubElementoRelacionados.add(subElementoSeleccionado);
 					grdElementoProyecto.setItems( listaSubElementoRelacionados );
+					btnAgregarRelacion.setEnabled(false);
 					cargarCmbRelaciones();
+					cmbElementoRelacion.clear();
 				}
 			}
 		});
@@ -364,37 +366,30 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 	
 	private void cargarCmbRelaciones()
 	{		
-		if(elemento != null)
+		//Elimina del combo relaciones a el mismo
+		List<ElementoVO> relaciones= fachada.obtenerElementos();
+		List<ElementoVO> relacionesAux= new ArrayList<ElementoVO>(relaciones);
+		for(ElementoVO elem : relacionesAux)
 		{
-			//Elimina del combo relaciones a el mismo
-			List<ElementoVO> relaciones= fachada.obtenerElementos();
-			List<ElementoVO> relacionesAux= new ArrayList<ElementoVO>(relaciones);
-			for(ElementoVO elem : relacionesAux)
+			if(elemento != null && elem.getId()==elemento.getId())
 			{
-				if(elem.getId()==elemento.getId())
+				relaciones.remove(elem);
+			}
+			
+			for(SubElementoVO subElem : listaSubElementoRelacionados)
+			{
+				if(subElem.getId()==elem.getId())
 				{
 					relaciones.remove(elem);
-				}
-				
-				for(SubElementoVO subElem : listaSubElementoRelacionados)
-				{
-					if(subElem.getId()==elem.getId())
-					{
-						relaciones.remove(elem);
-					    break;
-					}
+				    break;
 				}
 			}
-			cmbElementoRelacion.setItems(relaciones);
-			cmbElementoRelacion.setItemCaptionGenerator(ElementoVO::getNombre);
-			cmbElementoRelacion.setValue(null);
-			btnAgregarRelacion.setEnabled(false);
 		}
-		else
-		{
-			cmbElementoRelacion.setItems(fachada.obtenerElementos());
-			cmbElementoRelacion.setItemCaptionGenerator(ElementoVO::getNombre);
-		}
+		cmbElementoRelacion.setItems(relaciones);
+		cmbElementoRelacion.setItemCaptionGenerator(ElementoVO::getNombre);
+		cmbElementoRelacion.setValue(null);
+		btnAgregarRelacion.setEnabled(false);
+		
 	}
 	
 	private boolean listaContieneSinonimo(List<SinonimoVO> listaSinonimos, String sinonimoBuscado)
