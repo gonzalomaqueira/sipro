@@ -62,10 +62,20 @@
          <vaadin-text-field style-name="full" id="txtTitulo" width-full _id="txtTitulo"></vaadin-text-field>
         </vaadin-css-layout>
         <vaadin-css-layout responsive width-full>
-         <vaadin-label style-name="header" width-full plain-text>
-           Carrera 
-         </vaadin-label>
-         <vaadin-text-field style-name="full" id="txtCarrera" width-full _id="txtCarrera"></vaadin-text-field>
+         <vaadin-horizontal-layout width-full>
+          <vaadin-vertical-layout spacing="false" margin="false">
+           <vaadin-label style-name="header" width-full plain-text>
+             Carrera 
+           </vaadin-label>
+           <vaadin-text-field style-name="full" id="txtCarrera" width-full _id="txtCarrera"></vaadin-text-field>
+          </vaadin-vertical-layout>
+          <vaadin-vertical-layout spacing="false" margin="false">
+           <vaadin-label style-name="header" width-full plain-text>
+             Categoría 
+           </vaadin-label>
+           <vaadin-combo-box empty-selection-allowed="false" id="cmbCategoria" text-input-allowed="false" empty-selection-caption="OTRO" width-full readonly data-item-type="uy.edu.ude.sipro.entidades.Enumerados.CategoriaProyectoEnum" _id="cmbCategoria"></vaadin-combo-box>
+          </vaadin-vertical-layout>
+         </vaadin-horizontal-layout>
         </vaadin-css-layout>
         <vaadin-css-layout responsive width-full>
          <vaadin-horizontal-layout width-full _id="contenedorTutorAlumnos">

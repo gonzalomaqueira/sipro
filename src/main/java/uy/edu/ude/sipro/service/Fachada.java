@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.handler.UserRoleAuthorizationInterceptor;
 
+import uy.edu.ude.sipro.entidades.Enumerados.CategoriaProyectoEnum;
 import uy.edu.ude.sipro.entidades.Enumerados.EstadoProyectoEnum;
 import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
 import uy.edu.ude.sipro.seguridad.SecurityUtils;
@@ -72,7 +73,7 @@ public class Fachada {
 	
 
 	public void modificarProyectoCompleto(int id, String codigoUde, String titulo, int anio, String carrera, int nota, String resumen, 
-			ArrayList<String> alumnos, ArrayList<String> tutorString, List<DocenteVO> correctores, ArrayList<String> bibliografia) throws Exception
+			ArrayList<String> alumnos, ArrayList<String> tutorString, List<DocenteVO> correctores, ArrayList<String> bibliografia, CategoriaProyectoEnum categoria) throws Exception
 	{
 		proyectoService.modificar(  id,
 									codigoUde,
@@ -84,7 +85,8 @@ public class Fachada {
 									alumnos, 
 									tutorString,
 									ConversorValueObject.convertirListaDocenteVOaDocente(correctores),
-									bibliografia);
+									bibliografia,
+									categoria);
 	}
 	
 	public void borrarProyecto(int id) throws Exception

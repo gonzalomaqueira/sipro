@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import uy.edu.ude.sipro.entidades.Enumerados;
+import uy.edu.ude.sipro.entidades.Enumerados.CategoriaProyectoEnum;
 import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
 import uy.edu.ude.sipro.utiles.FuncionesTexto;
 
@@ -44,9 +45,11 @@ public class ProyectoDetalleVO implements Comparable
 
 	private List <ElementoVO> elementosRelacionados;
 	
+	private CategoriaProyectoEnum categoria;
+	
 	public ProyectoDetalleVO(int id, String codigoUde, int anio, String titulo, String carrera, List<DocenteVO> correctores, int nota, ArrayList<String> alumnos, 
 							 DocenteVO tutor, ArrayList<String> tutorString, String rutaArchivo, String resumen, ArrayList<String> bibliografia, Date fechaAlta, 
-							 Date fechaUltimaModificacion, List<ElementoVO> elementosRelacionados) 
+							 Date fechaUltimaModificacion, List<ElementoVO> elementosRelacionados, CategoriaProyectoEnum categoria) 
 	{
 		this.id = id;
 		this.codigoUde = codigoUde;
@@ -64,6 +67,7 @@ public class ProyectoDetalleVO implements Comparable
 		this.fechaAlta = fechaAlta;
 		this.fechaUltimaModificacion = fechaUltimaModificacion;
 		this.elementosRelacionados = elementosRelacionados;
+		this.categoria = categoria;
 	}
 
 	public int getId() {
@@ -192,6 +196,14 @@ public class ProyectoDetalleVO implements Comparable
 
 	public void setBibliografia(ArrayList<String> bibliografia) {
 		this.bibliografia = bibliografia;
+	}
+
+	public CategoriaProyectoEnum getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(CategoriaProyectoEnum categoria) {
+		this.categoria = categoria;
 	}
 
 	public String getAnioString() 

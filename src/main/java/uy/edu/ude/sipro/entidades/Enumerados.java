@@ -8,6 +8,13 @@ public class Enumerados
 		SIN_PROCESAR
 	}
 	
+	public enum CategoriaProyectoEnum
+	{
+		DESARROLLO,
+		INFRAESTRUCTURA,
+		OTRO
+	}
+	
 	public enum TipoElemento
 	{
 		TECNOLOGIA,

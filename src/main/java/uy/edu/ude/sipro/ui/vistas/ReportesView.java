@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JRException;
 import uy.edu.ude.sipro.busquedas.BusquedaService;
 import uy.edu.ude.sipro.busquedas.DatosFiltro;
 import uy.edu.ude.sipro.entidades.Enumerados;
+import uy.edu.ude.sipro.entidades.Enumerados.CategoriaProyectoEnum;
 import uy.edu.ude.sipro.entidades.Enumerados.EstadoProyectoEnum;
 import uy.edu.ude.sipro.navegacion.NavigationManager;
 import uy.edu.ude.sipro.reportes.ReportGenerator;
@@ -199,7 +200,7 @@ public class ReportesView extends ReportesViewDesign implements View{
                     parametros.put("datosFiltro", datosFiltro);
                     if (listaProyectos.isEmpty())
                     {
-                    	listaProyectos.add(new ProyectoVO(1,1,"","",1,"",Enumerados.EstadoProyectoEnum.PROCESADO));
+                    	listaProyectos.add(new ProyectoVO(1,1,"","",1,"",Enumerados.EstadoProyectoEnum.PROCESADO, CategoriaProyectoEnum.OTRO));
                     	reportGenerator.executeReport("reportes/listaProyectosVacioTemplate.jrxml", pdfBuffer, parametros, listaProyectos);// new ArrayList<>());
                     }
                     else

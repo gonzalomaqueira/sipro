@@ -36,6 +36,7 @@ public class ProyectoDetallesViewDesign extends VerticalLayout {
 	protected TextField txtNota;
 	protected TextField txtTitulo;
 	protected TextField txtCarrera;
+	protected ComboBox<uy.edu.ude.sipro.entidades.Enumerados.CategoriaProyectoEnum> cmbCategoria;
 	protected HorizontalLayout contenedorTutorAlumnos;
 	protected TextArea txtTutor;
 	protected TextArea txtAlumnos;
