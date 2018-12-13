@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -26,6 +27,7 @@ import uy.edu.ude.sipro.valueObjects.UsuarioVO;
 
 @SpringView
 @SpringComponent
+@Secured({"admin", "bibliotecario", "tutor"})
 public class ProyectoListadoView extends ProyectoListadoViewDesign implements View{
 	
 	@Autowired
@@ -33,6 +35,7 @@ public class ProyectoListadoView extends ProyectoListadoViewDesign implements Vi
 	
 	private ProyectoVO proyectoSeleccionado;
 	private List<ProyectoVO> listaProyectos;
+	private UsuarioVO usuario;
 	
 	private final NavigationManager navigationManager;
 	
@@ -44,6 +47,10 @@ public class ProyectoListadoView extends ProyectoListadoViewDesign implements Vi
 	
 	public void enter(ViewChangeEvent event)
 	{
+		usuario = fachada.obtenerUsuarioLogeado();
+		if(usuario.getPerfil().getDescripcion().equals("bibliotecario"))
+			btnProcesar.setVisible(false);
+		
 		cargarInterfazInicial();
 		
 		txtBuscar.addValueChangeListener(evt -> 

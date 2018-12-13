@@ -24,7 +24,7 @@ import uy.edu.ude.sipro.valueObjects.UsuarioVO;
 
 @SpringView
 @SpringComponent
-//@Secured("admin")
+@Secured("admin")
 public class UsuarioListadoView extends UsuarioListadoViewDesign implements View
 {
 	@Autowired
@@ -45,7 +45,7 @@ public class UsuarioListadoView extends UsuarioListadoViewDesign implements View
     
 	public void enter(ViewChangeEvent event) 
 	{
-		//usuarioLogueado= fachada.obtenerUsuarioLogeado();
+		usuarioLogueado= fachada.obtenerUsuarioLogeado();
 		grdUsuarios.addColumn(usuario -> usuario.getPerfil().getDescripcion()).setCaption("Perfil");
 		cargarInterfazInicial();
 		

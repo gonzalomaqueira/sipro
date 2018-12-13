@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 
 import com.vaadin.data.Binder;
 import com.vaadin.data.BinderValidationStatus;
@@ -48,11 +49,13 @@ import uy.edu.ude.sipro.valueObjects.UsuarioVO;
 
 @SpringView
 @SpringComponent
+@Secured({"admin", "bibliotecario", "invitado", "alumno", "tutor"})
 public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements View
 {
 	@Autowired
 	private Fachada fachada;
 
+	private UsuarioVO usuario;
 	private ProyectoDetalleVO proyecto;
     private DocenteVO correctorSeleccionado;
     private Binder<ProyectoDetalleVO> binder;
@@ -70,6 +73,15 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 	
 	public void enter(ViewChangeEvent event)
 	{
+		btnEditar.setVisible(false);
+		
+		usuario = fachada.obtenerUsuarioLogeado();
+		if(!usuario.getPerfil().getDescripcion().equals("admin"))
+		{
+			layoutBotones.setVisible(false);
+			layoutBotones.setEnabled(false);
+		}
+		
 		cargarInterfazInicial();
 		this.listaDocentes= fachada.obtenerDocentes();
 

@@ -19,8 +19,9 @@ public class Perfil
 	@Column(name="Descripcion")
 	private String descripcion;
 	
-	public Perfil (String desc)
+	public Perfil (int id, String desc)
 	{
+		this.Id=id;
 		this.descripcion = desc;
 	}
 

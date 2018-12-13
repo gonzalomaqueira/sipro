@@ -6,6 +6,7 @@ import uy.edu.ude.sipro.entidades.Perfil;
 
 public interface PerfilService
 {
+	void agregar(int id, String contenido);
     Set<Perfil> obtenerPerfiles();
     String[] obtenerPerfilesString();
 }

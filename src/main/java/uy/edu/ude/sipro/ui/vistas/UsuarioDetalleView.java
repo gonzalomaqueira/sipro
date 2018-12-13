@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 
 import com.vaadin.data.Binder;
 import com.vaadin.data.BinderValidationStatus;
@@ -24,6 +25,7 @@ import uy.edu.ude.sipro.valueObjects.UsuarioVO;
 
 @SpringView
 @SpringComponent
+@Secured("admin")
 public class UsuarioDetalleView extends UsuarioDetalleViewDesign implements View
 {
 	@Autowired

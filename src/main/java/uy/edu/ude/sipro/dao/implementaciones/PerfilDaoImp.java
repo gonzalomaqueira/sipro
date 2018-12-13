@@ -11,6 +11,7 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 
+import uy.edu.ude.sipro.entidades.Docente;
 import uy.edu.ude.sipro.entidades.Perfil;
 import uy.edu.ude.sipro.dao.interfaces.PerfilDao;
 
@@ -19,6 +20,12 @@ public class PerfilDaoImp implements PerfilDao
 {
 	@PersistenceContext
 	private EntityManager em;
+	
+	@Override
+	public void agregar(Perfil perfil)
+	{
+		em.merge(perfil);
+	}
 	
 	@Override
 	public Set<Perfil> obtenerPerfiles() 

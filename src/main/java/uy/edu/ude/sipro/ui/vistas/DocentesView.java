@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.annotation.Secured;
 
 import com.vaadin.data.Binder;
 import com.vaadin.data.BinderValidationStatus;
@@ -26,6 +27,7 @@ import uy.edu.ude.sipro.valueObjects.DocenteVO;
 @SpringView
 @SpringComponent
 @Scope("prototype")
+@Secured("admin")
 public class DocentesView extends DocentesViewDesign implements View {
 	
 	@Autowired

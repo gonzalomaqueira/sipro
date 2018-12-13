@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -19,6 +20,7 @@ import com.vaadin.server.ExternalResource;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
@@ -26,9 +28,12 @@ import com.vaadin.ui.Link;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.PopupView;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import com.vaadin.ui.Window.CloseEvent;
+import com.vaadin.ui.Window.CloseListener;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
 
@@ -42,6 +47,7 @@ import uy.edu.ude.sipro.utiles.Constantes;
 
 @SpringView
 @SpringComponent
+@Secured({"admin", "bibliotecario", "invitado", "alumno", "tutor"})
 public class BusquedasView extends BusquedasViewDesign implements View
 {	
 	@Autowired
@@ -51,16 +57,19 @@ public class BusquedasView extends BusquedasViewDesign implements View
 	private UsuarioService usuarioService;
 	
 	private ArrayList<ResultadoBusqueda> resultado= new ArrayList<ResultadoBusqueda>();
-	
+	private Window popUp;
 	private DatosFiltro datosFiltro;
-
+	private TextField txtTutor= new TextField();
+	private TextField txtCorrector= new TextField();
+	Button btnAplicarFiltros = new Button("Aplicar");
+	Button btnLimpiarFiltros = new Button("Limpiar");
 	private RangeSlider sliderAnio;
 	private RangeSlider sliderNota;
 	
 	public void enter(ViewChangeEvent event) 
 	{
-		this.construirFiltro();
-		this.verificarFiltros();
+		datosFiltro= new DatosFiltro();
+		datosFiltro.setFiltroHabilitado(false);
 		
 		btnBuscar.setClickShortcut(KeyCode.ENTER);
 		
@@ -71,8 +80,17 @@ public class BusquedasView extends BusquedasViewDesign implements View
 				try 
 				{
 					contenedorResultados.removeAllComponents();
-					cargarDatosFiltro();
-					resultado= fachada.buscarElementosProyectoES(txtBuscar.getValue(), datosFiltro);
+					if(chkFiltros.getValue())
+					{
+						resultado= fachada.buscarElementosProyectoES(txtBuscar.getValue(), datosFiltro);
+					}
+					else
+					{
+						DatosFiltro datosFiltroAux= new DatosFiltro();
+						datosFiltroAux.setFiltroHabilitado(false);
+						resultado= fachada.buscarElementosProyectoES(txtBuscar.getValue(), datosFiltroAux);
+					}
+					
 					cargarListaComponentes(resultado);
 				} catch (Exception e) 
 				{
@@ -82,7 +100,53 @@ public class BusquedasView extends BusquedasViewDesign implements View
 			}
 		});
 		
-		chkFiltrar.addValueChangeListener(evt -> this.desplegarPopUP());
+		btnFiltrar.addClickListener(new Button.ClickListener()
+		{
+			public void buttonClick(ClickEvent event)
+			{
+				desplegarPopUP();
+			}
+		});
+		
+		btnAplicarFiltros.addClickListener(new Button.ClickListener()
+		{
+			public void buttonClick(ClickEvent event)
+			{
+				datosFiltro= new DatosFiltro();
+	    		datosFiltro.setFiltroHabilitado(true);
+	    		Double anioIni= sliderAnio.getValue().getLower();
+	    		Double anioFin= sliderAnio.getValue().getUpper();
+	    		Double notaIni= sliderNota.getValue().getLower();
+	    		Double notaFin= sliderNota.getValue().getUpper();
+	    		datosFiltro.setAnioIni(anioIni.intValue());
+	    		datosFiltro.setAnioFin(anioFin.intValue());
+	    		datosFiltro.setNotaIni(notaIni.intValue());
+	    		datosFiltro.setNotaFin(notaFin.intValue());
+	    		datosFiltro.setTutor(txtTutor.getValue());
+	    		popUp.close();
+	    		chkFiltros.setValue(true);
+			}
+		});
+		
+		btnLimpiarFiltros.addClickListener(new Button.ClickListener()
+		{
+			public void buttonClick(ClickEvent event)
+			{
+				datosFiltro= new DatosFiltro();
+				datosFiltro.setFiltroHabilitado(false);
+				int anioActual = Calendar.getInstance().get(Calendar.YEAR);
+				sliderAnio = new RangeSlider("Años", new Range(Constantes.ANIO_INICIO_BUSQUEDA, anioActual), new Range(Constantes.ANIO_INICIO_BUSQUEDA, anioActual));		
+				sliderNota = new RangeSlider("Notas", new Range(1, 12), new Range(1, 12));
+				txtCorrector.clear();
+				txtTutor.clear();
+				popUp.close();
+				desplegarPopUP();
+				
+			}
+		});
+		
+
+	
 	}
 	
 	public void cargarComponenteResultado(ResultadoBusqueda resultado)
@@ -127,99 +191,68 @@ public class BusquedasView extends BusquedasViewDesign implements View
 		}
 	}
 	
-	public void construirFiltro()
-	{	
-		int anioActual = Calendar.getInstance().get(Calendar.YEAR);
-		
-		sliderAnio = new RangeSlider("Años", new Range(Constantes.ANIO_INICIO_BUSQUEDA, anioActual), new Range(anioActual-5, anioActual));		
-		sliderAnio.setSizeFull();
-		sliderAnio.setWidth("280px");
-		sliderAnio.setStep(1);
-		layoutFiltros.addComponent(sliderAnio);
-		
-		sliderNota = new RangeSlider("Notas", new Range(1, 12), new Range(8, 12));
-		sliderNota.setSizeFull();
-		sliderNota.setWidth("280px");
-		sliderNota.setStep(1);		
-		layoutFiltros.addComponent(sliderNota);
-	}
-	
-	public void verificarFiltros()
-	{
-		if (chkFiltrar.getValue())
-    	{
-    		contenedorFiltros.setVisible(true);	
-    	}
-    	else
-    	{
-    		contenedorFiltros.setVisible(false);
-		}
-	}
-	
-	public void cargarDatosFiltro()
-	{
-		if (chkFiltrar.getValue())
-    	{
-    		datosFiltro= new DatosFiltro();
-    		datosFiltro.setFiltroHabilitado(true);
-    		Double anioIni= sliderAnio.getValue().getLower();
-    		Double anioFin= sliderAnio.getValue().getUpper();
-    		Double notaIni= sliderNota.getValue().getLower();
-    		Double notaFin= sliderNota.getValue().getUpper();
-    		datosFiltro.setAnioIni(anioIni.intValue());
-    		datosFiltro.setAnioFin(anioFin.intValue());
-    		datosFiltro.setNotaIni(notaIni.intValue());
-    		datosFiltro.setNotaFin(notaFin.intValue());
-    		datosFiltro.setTutor(txtTutor.getValue());
-    	}
-    	else
-    	{
-    		datosFiltro= new DatosFiltro();
-    		datosFiltro.setFiltroHabilitado(false);
-		}
-	}
-	
 	public void desplegarPopUP()
 	{
-//		// Content for the PopupView
-//
-//		VerticalLayout popupContent = new VerticalLayout();
-//		popupContent.addComponent(new Label("Este es el mensaje"));
-//		popupContent.setSizeFull();
-//		
-//		// The component itself
-//		PopupView popup = new PopupView("Este es mi pop up", popupContent);
-//		// A component to open the view
-//		popup.setVisible(true);
-//		popup.setPopupVisible(true);
+
+		HorizontalLayout hTutor= new HorizontalLayout();
+		Label lblTutor= new Label("Tutor: ");
+		hTutor.addComponent(lblTutor);
+		hTutor.addComponent(txtTutor);
+		
+		HorizontalLayout hCorrector= new HorizontalLayout();
+		Label lblCorrector= new Label("Corrector: ");
+		hCorrector.addComponent(lblCorrector);
+		hCorrector.addComponent(txtCorrector);
+	
+		
 		VerticalLayout layout = new VerticalLayout();
+		layout.addComponent(hTutor);
+		layout.setComponentAlignment(hTutor, Alignment.TOP_CENTER);
+		layout.addComponent(hCorrector);
+		layout.setComponentAlignment(hCorrector, Alignment.TOP_CENTER);
 		
 		int anioActual = Calendar.getInstance().get(Calendar.YEAR);
+		if(sliderAnio==null)
+			sliderAnio = new RangeSlider("Años", new Range(Constantes.ANIO_INICIO_BUSQUEDA, anioActual), new Range(Constantes.ANIO_INICIO_BUSQUEDA, anioActual));
+		else
+			sliderAnio = new RangeSlider("Años", new Range(Constantes.ANIO_INICIO_BUSQUEDA, anioActual), new Range(sliderAnio.getValue().getLower(), sliderAnio.getValue().getUpper()));
 		
-		sliderAnio = new RangeSlider("Años", new Range(Constantes.ANIO_INICIO_BUSQUEDA, anioActual), new Range(anioActual-5, anioActual));		
 		sliderAnio.setSizeFull();
 		sliderAnio.setWidth("280px");
 		sliderAnio.setStep(1);
 		layout.addComponent(sliderAnio);
+		layout.setComponentAlignment(sliderAnio, Alignment.TOP_CENTER);
 		
-		sliderNota = new RangeSlider("Notas", new Range(1, 12), new Range(8, 12));
+		if(sliderNota==null)
+			sliderNota = new RangeSlider("Notas", new Range(1, 12), new Range(1, 12));
+		else
+			sliderNota = new RangeSlider("Notas", new Range(1, 12), new Range(sliderNota.getValue().getLower(), sliderNota.getValue().getUpper()));
+		
 		sliderNota.setSizeFull();
 		sliderNota.setWidth("280px");
 		sliderNota.setStep(1);		
 		layout.addComponent(sliderNota);
+		layout.setComponentAlignment(sliderNota, Alignment.TOP_CENTER);
 		
-	       
-       layout.setMargin(true);
-       Window popUp;
-       popUp = new Window("Filtros", layout);
-       popUp.setModal(true);
-       popUp.setResizable(false);
-       popUp.center();
-       popUp.setHeight("400");
-       popUp.setWidth("400");
-       UI.getCurrent().addWindow(popUp);
-
-
+		HorizontalLayout hBotones= new HorizontalLayout();
+		hBotones.addComponent(btnAplicarFiltros);
+		hBotones.setComponentAlignment(btnAplicarFiltros, Alignment.BOTTOM_CENTER);
+		
+		hBotones.addComponent(btnLimpiarFiltros);
+		hBotones.setComponentAlignment(btnLimpiarFiltros, Alignment.BOTTOM_CENTER);
+		
+		layout.addComponent(hBotones);
+		layout.setComponentAlignment(hBotones, Alignment.BOTTOM_CENTER);
+		
+		
+		layout.setMargin(true);
+		popUp = new Window("Filtros", layout);
+		popUp.setModal(true);
+		popUp.setResizable(false);
+		popUp.center();
+		popUp.setHeight("350");
+		popUp.setWidth("400");
+		UI.getCurrent().addWindow(popUp);
 
 	}
 

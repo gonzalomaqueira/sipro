@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -24,6 +25,7 @@ import uy.edu.ude.sipro.valueObjects.SubElementoVO;
 
 @SpringView
 @SpringComponent
+@Secured("admin")
 public class ElementoListadoView extends ElementoListadoViewDesign implements View{
 	
 	

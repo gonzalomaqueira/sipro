@@ -3,7 +3,7 @@
  <head>
   <meta charset="UTF-8">
   <meta name="design-properties" content="{&quot;RULERS_VISIBLE&quot;:true,&quot;GUIDELINES_VISIBLE&quot;:false,&quot;SNAP_TO_OBJECTS&quot;:true,&quot;SNAP_TO_GRID&quot;:true,&quot;SNAPPING_DISTANCE&quot;:10,&quot;GENERATE_GETTERS&quot;:false,&quot;JAVA_SOURCES_ROOT&quot;:&quot;src/main/java&quot;,&quot;THEME&quot;:&quot;siprotema&quot;}">
-  <meta name="vaadin-version" content="8.1.5">
+  <meta name="vaadin-version" content="8.0.5">
  </head>
  <body>
   <vaadin-css-layout style-name="layout" size-full>
@@ -13,12 +13,8 @@
       <vaadin-css-layout style-name="list-filters" width-full>
        <vaadin-text-field id="searchField" placeholder="Buscar" width="300px" _id="txtBuscar"></vaadin-text-field>
        <vaadin-button icon="fonticon://Vaadin-Icons/e805" id="searchButton" plain-text _id="btnBuscar"></vaadin-button>
-       <vaadin-check-box caption="Filtrar" id="chkFiltrar" _id="chkFiltrar"></vaadin-check-box>
-      </vaadin-css-layout>
-      <vaadin-css-layout style-name="list-filters" id="contenedorFiltros" width-full _id="contenedorFiltros" :middle :center>
-       <vaadin-vertical-layout id="layoutFiltros" size-auto margin="false" _id="layoutFiltros">
-        <vaadin-text-field caption="Tutor" style-name="small" id="txtTutor" width="250px" _id="txtTutor"></vaadin-text-field>
-       </vaadin-vertical-layout>
+       <vaadin-button icon="fonticon://Vaadin-Icons/e6a2" id="btnFiltrar" plain-text _id="btnFiltrar"></vaadin-button>
+       <vaadin-check-box caption="Aplicar filtros" id="chkFiltros" _id="chkFiltros"></vaadin-check-box>
       </vaadin-css-layout>
      </vaadin-vertical-layout>
     </vaadin-horizontal-layout>
