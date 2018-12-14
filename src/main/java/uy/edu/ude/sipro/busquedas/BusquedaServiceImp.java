@@ -44,6 +44,7 @@ public class BusquedaServiceImp implements BusquedaService {
 						+ "\",\"anio\":\"" + proyecto.getAnio()
 						+ "\",\"nota\":\"" + nota
 						+ "\",\"tutor\":\"" + proyecto.getTutorString()
+						+ "\",\"correctores\":\"" + proyecto.getCorrectoresString()
 						+ "\",\"resumen\":\"" + proyecto.getResumen()
 						+ "\",\"contenido\":\"" + FuncionesTexto.limpiarTexto(textoOriginal)
 						+ "\"}";
@@ -167,12 +168,27 @@ public class BusquedaServiceImp implements BusquedaService {
 			filtro = filtro + "],";
 
 			String must = "";
-			if(!datosFiltro.getTutor().isEmpty() || !datosFiltro.getTutor().equals(""))
+			boolean cargoTutor = false;
+			boolean cargoCorrector = false;
+			if(!datosFiltro.getTutorString().isEmpty() || !datosFiltro.getTutorString().equals(""))
 			{
+				cargoTutor = true;
 				must = "\"must\": [";
-				must = must + "{ \"match\": { \"tutor\":\"" + datosFiltro.getTutor() + "\" }}";	
-				must = must + "],";
+				must = must + "{ \"match\": { \"tutor\":\"" + datosFiltro.getTutorString() + "\" }}";	
 			}
+			if(!datosFiltro.getCorrectorString().isEmpty() || !datosFiltro.getCorrectorString().equals(""))
+			{
+				cargoCorrector = true;
+				if (!cargoTutor)
+					must = "\"must\": [";
+				else
+					must = must + ", ";	
+				
+				must = must + "{ \"match\": { \"correctores\":\"" + datosFiltro.getCorrectorString() + "\" }}";
+			}
+			if (cargoTutor || cargoCorrector)
+				must = must + "],";
+			
 			filtros = filtro + must;
 		}
 		return filtros;

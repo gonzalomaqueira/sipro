@@ -195,8 +195,8 @@ public class ReportesView extends ReportesViewDesign implements View{
                 {                    
                     if (datosFiltro.getTutorObjeto() == null)
             			datosFiltro.setTutorObjeto(new DocenteVO("",""));            		
-            		if (datosFiltro.getCorrector() == null)
-            			datosFiltro.setCorrector(new DocenteVO("",""));                    
+            		if (datosFiltro.getCorrectorObjeto() == null)
+            			datosFiltro.setCorrectorObjeto(new DocenteVO("",""));                    
                     
                     Map<String, Object> parametros = new HashMap<>();
                     parametros.put("datosFiltro", datosFiltro);
@@ -232,7 +232,7 @@ public class ReportesView extends ReportesViewDesign implements View{
 		datosFiltro.setNotaIni(notaIni.intValue());
 		datosFiltro.setNotaFin(notaFin.intValue());	
 		datosFiltro.setTutorObjeto(tutorSeleccionado);
-		datosFiltro.setCorrector(correctorSeleccionado);
+		datosFiltro.setCorrectorObjeto(correctorSeleccionado);
 		datosFiltro.setListaElementos(listaElementosSeleccionados);		
 	}	
 	

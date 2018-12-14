@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="proyectoTemplate" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6cc3cd3b-98b6-4285-86ab-ea3c18ddcf52">
 	<property name="ireport.zoom" value="1.6105100000000068"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="397"/>
+	<property name="ireport.y" value="589"/>
 	<parameter name="proyecto" class="uy.edu.ude.sipro.valueObjects.ProyectoDetalleVO"/>
 	<background>
 		<band splitType="Stretch"/>
@@ -98,7 +98,7 @@
 				<text><![CDATA[CATEGORÍA:]]></text>
 			</staticText>
 		</band>
-		<band height="165">
+		<band height="159">
 			<staticText>
 				<reportElement x="19" y="0" width="100" height="20" uuid="643124b9-e277-4989-b798-2d557d34df82"/>
 				<textElement markup="none">
@@ -142,7 +142,7 @@
 				<text><![CDATA[METODOLOGÍAS DE TESTING:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="200" y="74" width="152" height="157" uuid="2ea40b74-1dcb-4f5e-a827-a6b9cf407b31"/>
+				<reportElement x="200" y="74" width="152" height="168" uuid="2ea40b74-1dcb-4f5e-a827-a6b9cf407b31"/>
 				<textFieldExpression><![CDATA[$P{proyecto}.getMetodologiaTesting()]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -152,8 +152,8 @@
 				</textElement>
 				<text><![CDATA[TECNOLOGÍAS:]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="19" y="74" width="141" height="157" uuid="f9324fe6-6328-4bc1-b842-fb5a0c53b8f5"/>
+			<textField isBlankWhenNull="false">
+				<reportElement x="19" y="74" width="141" height="168" isRemoveLineWhenBlank="true" uuid="f9324fe6-6328-4bc1-b842-fb5a0c53b8f5"/>
 				<textFieldExpression><![CDATA[$P{proyecto}.getTecnologias()]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -164,7 +164,7 @@
 				<text><![CDATA[MODELOS DE PROCESO:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="387" y="74" width="141" height="157" uuid="9f1cb142-56bc-4a53-9060-7c1866f3c038"/>
+				<reportElement x="387" y="74" width="141" height="168" uuid="9f1cb142-56bc-4a53-9060-7c1866f3c038"/>
 				<textFieldExpression><![CDATA[$P{proyecto}.getModeloProceso()]]></textFieldExpression>
 			</textField>
 			<staticText>

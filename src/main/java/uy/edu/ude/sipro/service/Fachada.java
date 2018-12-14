@@ -312,10 +312,10 @@ public class Fachada {
 					.collect(Collectors.toSet());
 		}
 
-		if (datosFiltro.getCorrector() != null)
+		if (datosFiltro.getCorrectorObjeto() != null)
 		{
 			listaRetorno = listaRetorno.stream().filter(x -> x.getCorrectores() != null && !x.getCorrectores().isEmpty()
-					&& x.getCorrectores().stream().anyMatch(y -> y.getNombreCompleto().equals(datosFiltro.getCorrector().getNombreCompleto())))
+					&& x.getCorrectores().stream().anyMatch(y -> y.getNombreCompleto().equals(datosFiltro.getCorrectorObjeto().getNombreCompleto())))
 					.collect(Collectors.toSet());
 		}
 		

@@ -123,7 +123,8 @@ public class BusquedasView extends BusquedasViewDesign implements View
 	    		datosFiltro.setAnioFin(anioFin.intValue());
 	    		datosFiltro.setNotaIni(notaIni.intValue());
 	    		datosFiltro.setNotaFin(notaFin.intValue());
-	    		datosFiltro.setTutor(txtTutor.getValue());
+	    		datosFiltro.setTutorString(txtTutor.getValue());
+	    		datosFiltro.setCorrectorString(txtCorrector.getValue());
 	    		popUp.close();
 	    		chkFiltros.setValue(true);
 			}
@@ -265,7 +266,6 @@ public class BusquedasView extends BusquedasViewDesign implements View
 		layout.addComponent(hBotones);
 		layout.setComponentAlignment(hBotones, Alignment.BOTTOM_CENTER);
 		
-		
 		layout.setMargin(true);
 		popUp = new Window("Filtros", layout);
 		popUp.setModal(true);
@@ -274,8 +274,5 @@ public class BusquedasView extends BusquedasViewDesign implements View
 		popUp.setHeight("350");
 		popUp.setWidth("400");
 		UI.getCurrent().addWindow(popUp);
-
 	}
-
-	
 }

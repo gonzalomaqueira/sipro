@@ -201,6 +201,22 @@ public class Proyecto
 	public CategoriaProyectoEnum getCategoria() { return categoria; }
 	public void setCategoria(CategoriaProyectoEnum categoriaProyecto) { this.categoria = categoriaProyecto; }
 
+	public String getCorrectoresString()
+	{
+		String retorno = "";
+		
+		if (this.correctores != null && !this.correctores.isEmpty())
+		{
+			for(Docente corrector : this.correctores)
+			{
+				retorno = retorno + corrector.getNombreCompleto() + ", ";
+			}
+			retorno = retorno.substring(0, retorno.length()-2);
+		}
+		
+		return retorno;
+	}
+	
 	/** MÉTODOS **/
 	
 	public ArrayList<String> devolverResumen() 
