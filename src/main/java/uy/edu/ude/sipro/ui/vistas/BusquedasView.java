@@ -35,6 +35,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 
 import uy.edu.ude.sipro.busquedas.DatosFiltro;
@@ -68,6 +69,7 @@ public class BusquedasView extends BusquedasViewDesign implements View
 	
 	public void enter(ViewChangeEvent event) 
 	{
+		layoutSinResultados.setVisible(false);
 		datosFiltro= new DatosFiltro();
 		datosFiltro.setFiltroHabilitado(false);
 		
@@ -90,7 +92,6 @@ public class BusquedasView extends BusquedasViewDesign implements View
 						datosFiltroAux.setFiltroHabilitado(false);
 						resultado= fachada.buscarElementosProyectoES(txtBuscar.getValue(), datosFiltroAux);
 					}
-					
 					cargarListaComponentes(resultado);
 				} catch (Exception e) 
 				{
@@ -122,7 +123,8 @@ public class BusquedasView extends BusquedasViewDesign implements View
 	    		datosFiltro.setAnioFin(anioFin.intValue());
 	    		datosFiltro.setNotaIni(notaIni.intValue());
 	    		datosFiltro.setNotaFin(notaFin.intValue());
-	    		datosFiltro.setTutor(txtTutor.getValue());
+	    		datosFiltro.setTutorString(txtTutor.getValue());
+	    		datosFiltro.setCorrectorString(txtCorrector.getValue());
 	    		popUp.close();
 	    		chkFiltros.setValue(true);
 			}
@@ -140,13 +142,9 @@ public class BusquedasView extends BusquedasViewDesign implements View
 				txtCorrector.clear();
 				txtTutor.clear();
 				popUp.close();
-				desplegarPopUP();
-				
+				desplegarPopUP();			
 			}
 		});
-		
-
-	
 	}
 	
 	public void cargarComponenteResultado(ResultadoBusqueda resultado)
@@ -184,26 +182,36 @@ public class BusquedasView extends BusquedasViewDesign implements View
 	
 	public void cargarListaComponentes(ArrayList<ResultadoBusqueda> resultado)
 	{
-		for(ResultadoBusqueda r : resultado)
+		if (resultado != null && !resultado.isEmpty())
 		{
-			if(r!=null)
-				cargarComponenteResultado(r);
+			layoutSinResultados.setVisible(false);
+			for(ResultadoBusqueda r : resultado)
+			{
+				if(r!=null)
+					cargarComponenteResultado(r);
+			}
+		}
+		else
+		{
+			layoutSinResultados.setVisible(true);
 		}
 	}
 	
 	public void desplegarPopUP()
 	{
-
 		HorizontalLayout hTutor= new HorizontalLayout();
-		Label lblTutor= new Label("Tutor: ");
+		Label lblTutor= new Label("Tutor:");
+		lblTutor.setWidth("80px");
+		txtTutor.setWidth("260px");
 		hTutor.addComponent(lblTutor);
 		hTutor.addComponent(txtTutor);
 		
 		HorizontalLayout hCorrector= new HorizontalLayout();
-		Label lblCorrector= new Label("Corrector: ");
+		Label lblCorrector= new Label("Corrector:");
+		lblCorrector.setWidth("80px");
+		txtCorrector.setWidth("260px");
 		hCorrector.addComponent(lblCorrector);
 		hCorrector.addComponent(txtCorrector);
-	
 		
 		VerticalLayout layout = new VerticalLayout();
 		layout.addComponent(hTutor);
@@ -213,26 +221,40 @@ public class BusquedasView extends BusquedasViewDesign implements View
 		
 		int anioActual = Calendar.getInstance().get(Calendar.YEAR);
 		if(sliderAnio==null)
-			sliderAnio = new RangeSlider("Años", new Range(Constantes.ANIO_INICIO_BUSQUEDA, anioActual), new Range(Constantes.ANIO_INICIO_BUSQUEDA, anioActual));
+			sliderAnio = new RangeSlider(new Range(Constantes.ANIO_INICIO_BUSQUEDA, anioActual), new Range(Constantes.ANIO_INICIO_BUSQUEDA, anioActual));
 		else
-			sliderAnio = new RangeSlider("Años", new Range(Constantes.ANIO_INICIO_BUSQUEDA, anioActual), new Range(sliderAnio.getValue().getLower(), sliderAnio.getValue().getUpper()));
+			sliderAnio = new RangeSlider(new Range(Constantes.ANIO_INICIO_BUSQUEDA, anioActual), new Range(sliderAnio.getValue().getLower(), sliderAnio.getValue().getUpper()));
 		
+		layout.addComponent(new CssLayout());
+		
+		HorizontalLayout hAnios= new HorizontalLayout();
+		Label lblAnios= new Label("Años:");
+		lblAnios.setWidth("80px");
 		sliderAnio.setSizeFull();
-		sliderAnio.setWidth("280px");
+		sliderAnio.setWidth("260px");
 		sliderAnio.setStep(1);
-		layout.addComponent(sliderAnio);
-		layout.setComponentAlignment(sliderAnio, Alignment.TOP_CENTER);
+		hAnios.addComponent(lblAnios);
+		hAnios.addComponent(sliderAnio);
+		layout.addComponent(hAnios);
+		layout.setComponentAlignment(hAnios, Alignment.TOP_CENTER);
 		
 		if(sliderNota==null)
-			sliderNota = new RangeSlider("Notas", new Range(1, 12), new Range(1, 12));
+			sliderNota = new RangeSlider(new Range(1, 12), new Range(1, 12));
 		else
-			sliderNota = new RangeSlider("Notas", new Range(1, 12), new Range(sliderNota.getValue().getLower(), sliderNota.getValue().getUpper()));
+			sliderNota = new RangeSlider(new Range(1, 12), new Range(sliderNota.getValue().getLower(), sliderNota.getValue().getUpper()));
 		
+		layout.addComponent(new CssLayout());
+		
+		HorizontalLayout hNotas= new HorizontalLayout();
+		Label lblNotas= new Label("Notas:");
+		lblNotas.setWidth("80px");
 		sliderNota.setSizeFull();
-		sliderNota.setWidth("280px");
+		sliderNota.setWidth("260px");
 		sliderNota.setStep(1);		
-		layout.addComponent(sliderNota);
-		layout.setComponentAlignment(sliderNota, Alignment.TOP_CENTER);
+		hNotas.addComponent(lblNotas);
+		hNotas.addComponent(sliderNota);
+		layout.addComponent(hNotas);
+		layout.setComponentAlignment(hNotas, Alignment.TOP_CENTER);
 		
 		HorizontalLayout hBotones= new HorizontalLayout();
 		hBotones.addComponent(btnAplicarFiltros);
@@ -244,7 +266,6 @@ public class BusquedasView extends BusquedasViewDesign implements View
 		layout.addComponent(hBotones);
 		layout.setComponentAlignment(hBotones, Alignment.BOTTOM_CENTER);
 		
-		
 		layout.setMargin(true);
 		popUp = new Window("Filtros", layout);
 		popUp.setModal(true);
@@ -253,8 +274,5 @@ public class BusquedasView extends BusquedasViewDesign implements View
 		popUp.setHeight("350");
 		popUp.setWidth("400");
 		UI.getCurrent().addWindow(popUp);
-
 	}
-
-	
 }

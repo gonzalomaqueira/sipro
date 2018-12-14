@@ -7,22 +7,29 @@ import uy.edu.ude.sipro.valueObjects.ElementoVO;
 
 public class DatosFiltro {
 	
-	private String tutor;
+	private String tutorString;
+	private String correctorString;
 	private int anioIni;
 	private int anioFin;
 	private int notaIni;
 	private int notaFin;
 	
 	private DocenteVO tutorObjeto;
-	private DocenteVO Corrector;
+	private DocenteVO CorrectorObjeto;
 	private List<ElementoVO> listaElementos;
 	private boolean filtroHabilitado;
 	
-	public String getTutor() {
-		return tutor;
+	public String getTutorString() {
+		return tutorString;
 	}
-	public void setTutor(String tutor) {
-		this.tutor = tutor;
+	public void setTutorString(String tutor) {
+		this.tutorString = tutor;
+	}
+	public String getCorrectorString() {
+		return correctorString;
+	}
+	public void setCorrectorString(String correctorString) {
+		this.correctorString = correctorString;
 	}
 	public int getAnioIni() {
 		return anioIni;
@@ -77,11 +84,11 @@ public class DatosFiltro {
 	public void setTutorObjeto(DocenteVO tutorObjeto) {
 		this.tutorObjeto = tutorObjeto;
 	}
-	public DocenteVO getCorrector() {
-		return Corrector;
+	public DocenteVO getCorrectorObjeto() {
+		return CorrectorObjeto;
 	}
-	public void setCorrector(DocenteVO corrector) {
-		Corrector = corrector;
+	public void setCorrectorObjeto(DocenteVO correctorObjeto) {
+		CorrectorObjeto = correctorObjeto;
 	}
 	
 	public String getStringListaElementos()
