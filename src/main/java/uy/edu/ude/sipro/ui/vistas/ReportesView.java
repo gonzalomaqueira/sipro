@@ -46,6 +46,7 @@ import uy.edu.ude.sipro.service.Fachada;
 import uy.edu.ude.sipro.service.interfaces.ProyectoService;
 import uy.edu.ude.sipro.utiles.Constantes;
 import uy.edu.ude.sipro.valueObjects.DocenteVO;
+import uy.edu.ude.sipro.valueObjects.ElementoReporteVO;
 import uy.edu.ude.sipro.valueObjects.ElementoVO;
 import uy.edu.ude.sipro.valueObjects.ProyectoDetalleVO;
 import uy.edu.ude.sipro.valueObjects.ProyectoVO;
@@ -179,6 +180,15 @@ public class ReportesView extends ReportesViewDesign implements View{
 				generarReporteListaProyectos(lista, datosFiltro);
 			}
 		});	
+		
+		btnReporteGeneral.addClickListener(new Button.ClickListener()
+		{
+			public void buttonClick(ClickEvent event)
+			{				
+				generarReportesGeneral();
+			}
+
+		});	
 	}
 	
 	private void generarReporteListaProyectos(ArrayList<ProyectoVO> listaProyectos, DatosFiltro datosFiltro) 
@@ -220,6 +230,45 @@ public class ReportesView extends ReportesViewDesign implements View{
         ResourceReference rr = ResourceReference.create(res, this, "descarga");
         Page.getCurrent().open(rr.getURL(), "_blank");
     }
+	
+	public void generarReportesGeneral() 
+	{
+		
+        ArrayList<ElementoReporteVO> lista= new ArrayList<>();
+        ElementoReporteVO elem1= new ElementoReporteVO("Java", 20);
+        ElementoReporteVO elem2= new ElementoReporteVO("Vaadin", 10);
+        ElementoReporteVO elem3= new ElementoReporteVO("Hibernate", 15);
+        ElementoReporteVO elem4= new ElementoReporteVO("Spring", 5);
+        lista.add(elem1);
+        lista.add(elem2);
+        lista.add(elem3);
+        lista.add(elem4);
+        
+		StreamResource res = new StreamResource(new StreamResource.StreamSource() {
+            private static final long serialVersionUID = 1L;
+            @Override
+            public InputStream getStream()
+            {
+                ByteArrayOutputStream pdfBuffer = new ByteArrayOutputStream();
+                ReportGenerator reportGenerator = new ReportGenerator();
+                try 
+                {                    
+                    Map<String, Object> parametros = new HashMap<>();
+                    reportGenerator.executeReport("reportes/reporteElementos.jrxml", pdfBuffer, parametros, lista);
+                    
+                } catch (Exception e) 
+                {
+					e.printStackTrace();
+				}
+                return new ByteArrayInputStream(pdfBuffer.toByteArray());
+            }
+        }, "Documento" + Math.random() + ".pdf");
+        setResource("descarga", res);
+        ResourceReference rr = ResourceReference.create(res, this, "descarga");
+        Page.getCurrent().open(rr.getURL(), "_blank");
+
+		
+	}
 	
 	public void cargarDatosFiltro()
 	{

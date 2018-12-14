@@ -22,6 +22,7 @@ import com.vaadin.ui.declarative.Design;
 public class ReportesViewDesign extends VerticalLayout {
 	protected Button btnGenerarReporte;
 	protected Button btnLimpiar;
+	protected Button btnReporteGeneral;
 	protected ComboBox<uy.edu.ude.sipro.valueObjects.DocenteVO> cmbTutor;
 	protected ComboBox<uy.edu.ude.sipro.valueObjects.DocenteVO> cmbCorrector;
 	protected ComboBox<uy.edu.ude.sipro.valueObjects.ElementoVO> cmbElementos;

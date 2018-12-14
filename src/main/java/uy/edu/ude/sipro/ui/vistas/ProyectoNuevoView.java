@@ -66,7 +66,7 @@ public class ProyectoNuevoView extends ProyectoNuevoViewDesign implements View
 		cargarCmbCorrectores();
 		setearInformacionUpload();
 		this.SetearBinder();
-		
+		btnAgregarCorrector.setEnabled(false);
 		
 		btnGuardar.addClickListener(new Button.ClickListener()
 		{

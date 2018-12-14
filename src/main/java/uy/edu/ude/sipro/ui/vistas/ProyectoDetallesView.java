@@ -243,7 +243,7 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 		{
 			txtCodigo.setValue(proyecto.getCodigoUde());
 			txtCarrera.setValue(proyecto.getCarrera() != null ? proyecto.getCarrera() : "");
-			grdCorrectores.setItems(proyecto.getCorrectores());
+			grdCorrectores.setItems(listaCorrectores);
 			txtNota.setValue(Integer.toString(proyecto.getNota()));
 			txtAnio.setValue(Integer.toString(proyecto.getAnio()));
 			txtTitulo.setValue(proyecto.getTitulo());
