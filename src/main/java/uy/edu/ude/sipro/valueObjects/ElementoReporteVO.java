@@ -4,11 +4,10 @@ public class ElementoReporteVO {
 	
 	private String nombreElemento;
 	private int cantidad;
+	private float porcentaje;	
 	
-	
-	
-	public ElementoReporteVO(String nombreElemento, int cantidad) {
-		
+	public ElementoReporteVO(String nombreElemento, int cantidad)
+	{		
 		this.nombreElemento = nombreElemento;
 		this.cantidad = cantidad;
 	}
@@ -25,7 +24,12 @@ public class ElementoReporteVO {
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
 	}
-	
-	
 
+	public float getPorcentaje() {
+		return porcentaje;
+	}
+
+	public void setPorcentaje(float porcentaje) {
+		this.porcentaje = porcentaje;
+	}
 }
