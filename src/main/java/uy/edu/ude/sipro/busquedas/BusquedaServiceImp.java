@@ -44,9 +44,10 @@ public class BusquedaServiceImp implements BusquedaService {
 						+ "\",\"anio\":\"" + proyecto.getAnio()
 						+ "\",\"nota\":\"" + nota
 						+ "\",\"tutor\":\"" + proyecto.getTutorString()
-						+ "\",\"correctores\":\"" + proyecto.getCorrectoresString()
+						+ "\",\"correctores\":\"" + FuncionesTexto.limpiarTexto(proyecto.getCorrectoresString())
 						+ "\",\"resumen\":\"" + proyecto.getResumen()
 						+ "\",\"contenido\":\"" + FuncionesTexto.limpiarTexto(textoOriginal)
+						+ "\",\"bibliografia\":\"" + FuncionesTexto.limpiarTexto(proyecto.getBibliografiaString())
 						+ "\"}";
 		
 		System.out.println(jsonBody);
@@ -170,6 +171,7 @@ public class BusquedaServiceImp implements BusquedaService {
 			String must = "";
 			boolean cargoTutor = false;
 			boolean cargoCorrector = false;
+			boolean cargoBibliografia = false;
 			if(!datosFiltro.getTutorString().isEmpty() || !datosFiltro.getTutorString().equals(""))
 			{
 				cargoTutor = true;
@@ -186,7 +188,17 @@ public class BusquedaServiceImp implements BusquedaService {
 				
 				must = must + "{ \"match\": { \"correctores\":\"" + datosFiltro.getCorrectorString() + "\" }}";
 			}
-			if (cargoTutor || cargoCorrector)
+			if(!datosFiltro.getBibliografia().isEmpty() || !datosFiltro.getBibliografia().equals(""))
+			{
+				cargoBibliografia = true;
+				if (!cargoTutor && !cargoCorrector)
+					must = "\"must\": [";
+				else
+					must = must + ", ";	
+				
+				must = must + "{ \"match\": { \"bibliografia\":\"" + datosFiltro.getBibliografia() + "\" }}";
+			}
+			if (cargoTutor || cargoCorrector || cargoBibliografia)
 				must = must + "],";
 			
 			filtros = filtro + must;

@@ -5,13 +5,19 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.context.WebApplicationContext;
+import org.vaadin.dialogs.ConfirmDialog;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.Page;
+import com.vaadin.server.Page.BrowserWindowResizeEvent;
+import com.vaadin.server.Page.BrowserWindowResizeListener;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
@@ -52,6 +58,7 @@ public class ProyectoListadoView extends ProyectoListadoViewDesign implements Vi
 			btnProcesar.setVisible(false);
 		
 		cargarInterfazInicial();
+		obtenerResolucion();
 		
 		txtBuscar.addValueChangeListener(evt -> 
 		{
@@ -109,19 +116,29 @@ public class ProyectoListadoView extends ProyectoListadoViewDesign implements Vi
 		{
 			public void buttonClick(ClickEvent event)
 			{	
-				if( proyectoSeleccionado != null )
+            	if( proyectoSeleccionado != null )
 				{
-					try 
-					{
-						fachada.borrarProyecto(proyectoSeleccionado.getId());
-						UIUtiles.mostrarNotificacion("PROYECTO", "Baja exitosa", Notification.Type.HUMANIZED_MESSAGE);
-						cargarInterfazInicial();
-					} catch (Exception e) 
-					{
-						
-						UIUtiles.mostrarNotificacion("PROYECTO", "Ocurrió un problema al eliminar", Notification.Type.ERROR_MESSAGE);
-					}
-					
+            		ConfirmDialog.show(UI.getCurrent(), "Confirmación:", "¿Seguro que desea eliminar?",
+				        "Eliminar", "Cancelar", new ConfirmDialog.Listener() {
+
+				            public void onClose(ConfirmDialog dialog)
+				            {
+				                if (dialog.isConfirmed())
+				                {
+			    					try 
+			    					{
+			    						fachada.borrarProyecto(proyectoSeleccionado.getId());
+			    						UIUtiles.mostrarNotificacion("PROYECTO", "Baja exitosa", Notification.Type.HUMANIZED_MESSAGE);
+			    						cargarInterfazInicial();
+			    					} 
+			    					catch (Exception e) 
+			    					{				    						
+			    						UIUtiles.mostrarNotificacion("PROYECTO", "Ocurrió un problema al eliminar", Notification.Type.ERROR_MESSAGE);
+			    					}				    					
+				                } else {
+				                }
+				            }
+				        });
 				}
 			}
 		});
@@ -132,19 +149,53 @@ public class ProyectoListadoView extends ProyectoListadoViewDesign implements Vi
 			{	
 				if( proyectoSeleccionado != null )
 				{
-					try
+					if(proyectoSeleccionado.getEstado() == EstadoProyectoEnum.PROCESADO)
 					{
-						fachada.ProcesarProyecto(proyectoSeleccionado.getId());
-						UIUtiles.mostrarNotificacion("PROYECTO", "Procesado exitosamente", Notification.Type.HUMANIZED_MESSAGE);
-						navigationManager.navigateTo(ProyectoDetallesView.class, proyectoSeleccionado.getId());
-					} 
-					catch (Exception e)
+						ConfirmDialog.show(UI.getCurrent(), "Confirmación:", "¿Seguro que desea re-procesar el proyecto?\nLa información existente puede variar",
+						        "Eliminar", "Cancelar", new ConfirmDialog.Listener() {
+						            public void onClose(ConfirmDialog dialog) {
+						                if (dialog.isConfirmed()) {
+						                	try
+											{
+												fachada.ProcesarProyecto(proyectoSeleccionado.getId());
+												UIUtiles.mostrarNotificacion("PROYECTO", "Procesado exitosamente", Notification.Type.HUMANIZED_MESSAGE);
+												navigationManager.navigateTo(ProyectoDetallesView.class, proyectoSeleccionado.getId());
+											} 
+											catch (Exception e)
+											{
+												UIUtiles.mostrarNotificacion("PROYECTO", "Ocurrió un problema al procesar", Notification.Type.ERROR_MESSAGE);
+											}
+						                } else {
+						                }
+						            }
+						        });
+					}
+					else
 					{
-						UIUtiles.mostrarNotificacion("PROYECTO", "Ocurrió un problema al procesar", Notification.Type.ERROR_MESSAGE);
+						try
+						{
+							fachada.ProcesarProyecto(proyectoSeleccionado.getId());
+							UIUtiles.mostrarNotificacion("PROYECTO", "Procesado exitosamente", Notification.Type.HUMANIZED_MESSAGE);
+							navigationManager.navigateTo(ProyectoDetallesView.class, proyectoSeleccionado.getId());
+						} 
+						catch (Exception e)
+						{
+							UIUtiles.mostrarNotificacion("PROYECTO", "Ocurrió un problema al procesar", Notification.Type.ERROR_MESSAGE);
+						}
 					}
 				}
 			}
 		});
+		
+		Page.getCurrent().addBrowserWindowResizeListener(new BrowserWindowResizeListener() {
+			
+			@Override
+			public void browserWindowResized(BrowserWindowResizeEvent event) {
+				
+				obtenerResolucion();
+			}
+		});
+		
 	}
 
 	private void cargarInterfazInicial()
@@ -192,5 +243,33 @@ public class ProyectoListadoView extends ProyectoListadoViewDesign implements Vi
 		grdProyectos.setItems(listaAux);
 	}
 	
+	private void obtenerResolucion()
+	{
+		int x=Page.getCurrent().getBrowserWindowWidth();
+		if(x>600 && x<1000)
+		{
+			grdProyectos.getColumn("carrera").setHidden(true);
+			grdProyectos.getColumn("anio").setHidden(true);
+			grdProyectos.getColumn("nota").setHidden(true);
+			grdProyectos.getColumn("codigoUde").setHidden(false);
+			grdProyectos.getColumn("titulo").setWidth(300);
+		}
+		else if(x<600)
+		{
+			grdProyectos.getColumn("codigoUde").setHidden(true);
+			grdProyectos.getColumn("carrera").setHidden(true);
+			grdProyectos.getColumn("anio").setHidden(true);
+			grdProyectos.getColumn("nota").setHidden(true);
+			grdProyectos.getColumn("titulo").setWidth(250);
+		}
+		else
+		{
+			grdProyectos.getColumn("carrera").setHidden(false);
+			grdProyectos.getColumn("anio").setHidden(false);
+			grdProyectos.getColumn("nota").setHidden(false);
+			grdProyectos.getColumn("codigoUde").setHidden(false);
+			grdProyectos.getColumn("titulo").setWidthUndefined();
+		}
+	}
    
 }

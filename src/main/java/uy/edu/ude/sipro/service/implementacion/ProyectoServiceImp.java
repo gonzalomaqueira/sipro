@@ -162,7 +162,12 @@ public class ProyectoServiceImp implements ProyectoService
 		for (Docente doc: proyecto.getCorrectores())
 		{
 			doc.getProyectosComoCorrector().remove(proyecto);
+		}		
+		if (proyecto.getTutor() != null)
+		{
+			proyecto.getTutor().getProyectosComoTutor().remove(proyecto);
 		}
+		
 		proyecto.getCorrectores().removeAll(proyecto.getCorrectores());
 		busquedaService.bajaProyectoES(proyecto.getId());
 		proyectoDao.eliminar(proyecto);

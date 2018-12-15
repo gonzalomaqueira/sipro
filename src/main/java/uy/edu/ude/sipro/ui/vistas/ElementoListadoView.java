@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.vaadin.dialogs.ConfirmDialog;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -12,6 +13,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.components.grid.SingleSelectionModel;
 
@@ -98,16 +100,27 @@ public class ElementoListadoView extends ElementoListadoViewDesign implements Vi
 			{	
 				if( elementoSeleccionado!=null )
 				{
-					try
-					{
-						fachada.eliminarElemento(elementoSeleccionado.getId());
-						UIUtiles.mostrarNotificacion("ELEMENTO", "Baja exitosa", Notification.Type.HUMANIZED_MESSAGE);
-						navigationManager.navigateTo(ElementoListadoView.class);
-					}
-					catch (Exception e)
-					{
-						UIUtiles.mostrarNotificacion("ELEMENTOS", "Ocurrió un error al eliminar el elemento", Notification.Type.ERROR_MESSAGE);
-					}					
+					ConfirmDialog.show(UI.getCurrent(), "Confirmación:", "¿Seguro que desea eliminar?",
+					        "Eliminar", "Cancelar", new ConfirmDialog.Listener() {
+
+					            public void onClose(ConfirmDialog dialog)
+					            {
+					                if (dialog.isConfirmed())
+					                {
+					                	try
+										{
+											fachada.eliminarElemento(elementoSeleccionado.getId());
+											UIUtiles.mostrarNotificacion("ELEMENTO", "Baja exitosa", Notification.Type.HUMANIZED_MESSAGE);
+											navigationManager.navigateTo(ElementoListadoView.class);
+										}
+										catch (Exception e)
+										{
+											UIUtiles.mostrarNotificacion("ELEMENTOS", "Ocurrió un error al eliminar el elemento", Notification.Type.ERROR_MESSAGE);
+										}		    					
+					                } else {
+					                }
+					            }
+					        });				
 				}
 			}
 		});		

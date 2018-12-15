@@ -153,8 +153,19 @@
 		    <artifactId>jasperreports-fonts</artifactId>
 		    <version>6.0.0</version>
 		</dependency>
-		
-			
+					
+		<dependency>
+			<groupId>org.vaadin.addon</groupId>
+			<artifactId>confirmdialog</artifactId>
+			<version>3.1.1</version>
+		 	<exclusions>
+				<exclusion>
+					<groupId>com.vaadin</groupId>
+					<artifactId>vaadin-server</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+					
 	</dependencies>
 
 	<dependencyManagement>
@@ -216,6 +227,8 @@
 			<id>vaadin-addons</id>
 			<url>http://maven.vaadin.com/vaadin-addons</url>
 		</repository>
+		
+		
 	</repositories>
 
 	<pluginRepositories>
