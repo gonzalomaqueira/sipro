@@ -415,7 +415,6 @@ public class ProyectoServiceImp implements ProyectoService
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
 			throw e;
 		}
 	}

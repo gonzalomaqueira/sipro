@@ -23,20 +23,22 @@
     </vaadin-css-layout>
     <vaadin-css-layout width-full></vaadin-css-layout>
     <vaadin-css-layout responsive size-full>
-     <vaadin-text-field id="txtBuscar" placeholder="Filtar..." _id="txtBuscar"></vaadin-text-field>
-     <vaadin-grid style-name="half" id="grdElementos" height-mode="row" width-full data-item-type="uy.edu.ude.sipro.valueObjects.ElementoVO" _id="grdElementos">
-      <table>
-       <colgroup>
-        <col column-id="nombre" sortable>
-       </colgroup>
-       <thead>
-        <tr default>
-         <th plain-text column-ids="nombre">ELEMENTO</th>
-        </tr>
-       </thead>
-       <tbody></tbody>
-      </table>
-     </vaadin-grid>
+     <vaadin-vertical-layout spacing="false" width="400px" margin="false">
+      <vaadin-text-field id="txtBuscar" placeholder="Filtar..." _id="txtBuscar"></vaadin-text-field>
+      <vaadin-grid style-name="half" id="grdElementos" height-mode="row" width-full data-item-type="uy.edu.ude.sipro.valueObjects.ElementoVO" _id="grdElementos">
+       <table>
+        <colgroup>
+         <col column-id="nombre" sortable>
+        </colgroup>
+        <thead>
+         <tr default>
+          <th plain-text column-ids="nombre">ELEMENTO</th>
+         </tr>
+        </thead>
+        <tbody></tbody>
+       </table>
+      </vaadin-grid>
+     </vaadin-vertical-layout>
     </vaadin-css-layout>
     <vaadin-css-layout responsive width-full>
      <vaadin-label style-name="h4" width-full plain-text>

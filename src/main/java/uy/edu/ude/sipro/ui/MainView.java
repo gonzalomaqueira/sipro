@@ -94,6 +94,7 @@ public class MainView extends MainViewDesign implements ViewDisplay {
 		if (menuItem != null) {
 			viewName = menuItem.getCaption();
 		}
+		activeViewName.setValue(viewName);
 	}
 
 	/**

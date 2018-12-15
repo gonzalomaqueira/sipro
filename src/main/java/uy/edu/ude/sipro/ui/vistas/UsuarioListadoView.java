@@ -47,6 +47,7 @@ public class UsuarioListadoView extends UsuarioListadoViewDesign implements View
     
 	public void enter(ViewChangeEvent event) 
 	{
+		
 		usuarioLogueado= fachada.obtenerUsuarioLogeado();
 		grdUsuarios.addColumn(usuario -> usuario.getPerfil().getDescripcion()).setCaption("Perfil");
 		cargarInterfazInicial();
