@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.annotation.Secured;
+import org.vaadin.dialogs.ConfirmDialog;
 
 import com.vaadin.data.Binder;
 import com.vaadin.data.BinderValidationStatus;
@@ -16,6 +17,7 @@ import com.vaadin.spring.annotation.SpringView;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.components.grid.SingleSelectionModel;
 
@@ -120,15 +122,29 @@ public class DocentesView extends DocentesViewDesign implements View {
 		{
 			public void buttonClick(ClickEvent event)
 			{	
-				try
+				if (docenteSeleccionado != null)
 				{
-					fachada.eliminarDocente(docenteSeleccionado.getId());
-					UIUtiles.mostrarNotificacion("DOCENTE", "Baja exitosa", Notification.Type.HUMANIZED_MESSAGE);
-					cargarInterfazInicial();
-				}
-				catch (Exception e)
-				{
-					UIUtiles.mostrarNotificacion("ERROR", "Ocurrió algún problema con Baja docente", Notification.Type.ERROR_MESSAGE);
+					ConfirmDialog.show(UI.getCurrent(), "Confirmación:", "¿Seguro que desea eliminar?",
+					        "Eliminar", "Cancelar", new ConfirmDialog.Listener() {
+
+					            public void onClose(ConfirmDialog dialog)
+					            {
+					                if (dialog.isConfirmed())
+					                {
+					                	try
+					    				{
+					    					fachada.eliminarDocente(docenteSeleccionado.getId());
+					    					UIUtiles.mostrarNotificacion("DOCENTE", "Baja exitosa", Notification.Type.HUMANIZED_MESSAGE);
+					    					cargarInterfazInicial();
+					    				}
+					    				catch (Exception e)
+					    				{
+					    					UIUtiles.mostrarNotificacion("ERROR", "Ocurrió algún problema con Baja docente", Notification.Type.ERROR_MESSAGE);
+					    				}		    					
+					                } else {
+					                }
+					            }
+					        });				
 				}
 			}
 		});

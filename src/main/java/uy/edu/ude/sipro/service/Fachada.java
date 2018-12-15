@@ -29,6 +29,7 @@ import uy.edu.ude.sipro.service.interfaces.ProyectoService;
 import uy.edu.ude.sipro.service.interfaces.UsuarioService;
 import uy.edu.ude.sipro.utiles.ConversorValueObject;
 import uy.edu.ude.sipro.valueObjects.DocenteVO;
+import uy.edu.ude.sipro.valueObjects.ElementoReporteVO;
 import uy.edu.ude.sipro.valueObjects.ElementoVO;
 import uy.edu.ude.sipro.valueObjects.PerfilVO;
 import uy.edu.ude.sipro.valueObjects.ProyectoDetalleVO;
@@ -359,7 +360,6 @@ public class Fachada {
 		{
 			this.altaUsuario("Invitado", "Invitado", "Invitado", "Invitado", "Invitado@Invitado.com", new PerfilVO(2,"invitado") );
 		}
-
 	}
 	
 	public void crearPerfileInicio()
@@ -370,4 +370,37 @@ public class Fachada {
 		perfilService.agregar(4, "tutor");
 		perfilService.agregar(5, "alumno");
 	}
+
+	public List<ElementoReporteVO> reporteElementos(Enumerados.TipoElemento tipoElemento) 
+	{			
+		List<ElementoReporteVO> listaRetorno= new ArrayList<>();
+		Set<Elemento> listaElementos= elementoService.obtenerElementos();
+		int totalElementosAsociados = 0;
+		for(Elemento elem: listaElementos)
+		{
+			if (elem.getTipoElemento() == tipoElemento)
+			{
+				int cantidad = elem.getProyectos() == null ? 0 : elem.getProyectos().size();
+				ElementoReporteVO elementoReporte= new ElementoReporteVO(elem.getNombre(), cantidad);
+				listaRetorno.add(elementoReporte);
+				totalElementosAsociados = totalElementosAsociados + cantidad;
+			}
+		}
+		listaRetorno = listaRetorno.stream().filter(x -> x.getCantidad() > 0).collect(Collectors.toList());		
+		
+		for(ElementoReporteVO elem : listaRetorno)
+		{
+			if (totalElementosAsociados > 0)
+			{
+				elem.setPorcentaje(round(((float)elem.getCantidad() * 100 / totalElementosAsociados), 1));
+			}
+		}
+		return listaRetorno;			
+	}
+
+	private static float round (float value, int precision) {
+	    int scale = (int) Math.pow(10, precision);
+	    return (float) Math.round(value * scale) / scale;
+	}
+	
 }

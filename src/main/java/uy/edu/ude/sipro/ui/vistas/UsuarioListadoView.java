@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.vaadin.dialogs.ConfirmDialog;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -12,6 +13,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.components.grid.SingleSelectionModel;
 
@@ -45,6 +47,7 @@ public class UsuarioListadoView extends UsuarioListadoViewDesign implements View
     
 	public void enter(ViewChangeEvent event) 
 	{
+		
 		usuarioLogueado= fachada.obtenerUsuarioLogeado();
 		grdUsuarios.addColumn(usuario -> usuario.getPerfil().getDescripcion()).setCaption("Perfil");
 		cargarInterfazInicial();
@@ -62,24 +65,39 @@ public class UsuarioListadoView extends UsuarioListadoViewDesign implements View
 			}
 		});
 		
-		btnBorrar.addClickListener(new Button.ClickListener() {
-		    public void buttonClick(ClickEvent event) {
-		    	
-		    	try 
+		btnBorrar.addClickListener(new Button.ClickListener()
+		{
+		    public void buttonClick(ClickEvent event)
+		    {
+		    	if (usuarioSeleccionado != null)
 		    	{
-		    		if(!usuarioLogueado.getUsuario().equals(usuarioSeleccionado.getUsuario()))
-		    		{
-			    		fachada.eliminarUsuario(usuarioSeleccionado.getId()); 	
-				    	cargarInterfazInicial();
-				    	UIUtiles.mostrarNotificacion("USUARIO", "Baja exitosa", Notification.Type.HUMANIZED_MESSAGE);
-		    		}
-		    		else
-		    			UIUtiles.mostrarNotificacion("USUARIO", "No esta permitido borra usuario con el cual ingreso", Notification.Type.ERROR_MESSAGE);
+					ConfirmDialog.show(UI.getCurrent(), "Confirmación:", "¿Seguro que desea eliminar?",
+					        "Eliminar", "Cancelar", new ConfirmDialog.Listener() {
+
+					            public void onClose(ConfirmDialog dialog)
+					            {
+					                if (dialog.isConfirmed())
+					                {
+					                	try 
+								    	{
+								    		if(!usuarioLogueado.getUsuario().equals(usuarioSeleccionado.getUsuario()))
+								    		{
+									    		fachada.eliminarUsuario(usuarioSeleccionado.getId()); 	
+										    	cargarInterfazInicial();
+										    	UIUtiles.mostrarNotificacion("USUARIO", "Baja exitosa", Notification.Type.HUMANIZED_MESSAGE);
+								    		}
+								    		else
+								    			UIUtiles.mostrarNotificacion("USUARIO", "No esta permitido borrar el usuario con el cual ingresó", Notification.Type.ERROR_MESSAGE);
+								    	}
+								    	catch (Exception e)
+										{
+								    		UIUtiles.mostrarNotificacion("ERROR", "Ocurrió algún problema con baja usuario", Notification.Type.ERROR_MESSAGE);		
+										}	    					
+					                } else {
+					                }
+					            }
+					        });	
 		    	}
-		    	catch (Exception e)
-				{
-		    		UIUtiles.mostrarNotificacion("ERROR", "Ocurrió algún problema con baja usuario", Notification.Type.ERROR_MESSAGE);		
-				}			
 		    }
 		});	
 		

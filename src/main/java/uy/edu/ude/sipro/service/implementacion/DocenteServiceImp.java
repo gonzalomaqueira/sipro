@@ -48,10 +48,10 @@ public class DocenteServiceImp implements DocenteService
 		
 		docente.getProyectosComoCorrector().removeAll(docente.getProyectosComoCorrector());
 		
-//		for (Proyecto proy: docente.getProyectosComoTutor())
-//	    {
-//		    proy.getTutor().remove(docente);
-//	    }
+		for (Proyecto proy: docente.getProyectosComoTutor())
+	    {
+		    proy.setTutor(null);
+	    }
 		
 		docenteDao.eliminar(docente);
 	}

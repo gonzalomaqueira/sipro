@@ -217,6 +217,11 @@ public class Proyecto
 		return retorno;
 	}
 	
+	public String getBibliografiaString()
+	{
+		return FuncionesTexto.convertirArrayAStringEspacios(this.bibliografia);
+	}
+	
 	/** MÉTODOS **/
 	
 	public ArrayList<String> devolverResumen() 

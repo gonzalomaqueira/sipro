@@ -62,6 +62,7 @@ public class BusquedasView extends BusquedasViewDesign implements View
 	private DatosFiltro datosFiltro;
 	private TextField txtTutor= new TextField();
 	private TextField txtCorrector= new TextField();
+	private TextField txtBiblio= new TextField();
 	Button btnAplicarFiltros = new Button("Aplicar");
 	Button btnLimpiarFiltros = new Button("Limpiar");
 	private RangeSlider sliderAnio;
@@ -124,6 +125,7 @@ public class BusquedasView extends BusquedasViewDesign implements View
 	    		datosFiltro.setNotaIni(notaIni.intValue());
 	    		datosFiltro.setNotaFin(notaFin.intValue());
 	    		datosFiltro.setTutorString(txtTutor.getValue());
+	    		datosFiltro.setBibliografia(txtBiblio.getValue());
 	    		datosFiltro.setCorrectorString(txtCorrector.getValue());
 	    		popUp.close();
 	    		chkFiltros.setValue(true);
@@ -141,6 +143,7 @@ public class BusquedasView extends BusquedasViewDesign implements View
 				sliderNota = new RangeSlider("Notas", new Range(1, 12), new Range(1, 12));
 				txtCorrector.clear();
 				txtTutor.clear();
+				txtBiblio.clear();
 				popUp.close();
 				desplegarPopUP();			
 			}
@@ -213,11 +216,20 @@ public class BusquedasView extends BusquedasViewDesign implements View
 		hCorrector.addComponent(lblCorrector);
 		hCorrector.addComponent(txtCorrector);
 		
+		HorizontalLayout hBiblio= new HorizontalLayout();
+		Label lblBiblio= new Label("Bibliografía:");
+		lblBiblio.setWidth("80px");
+		txtBiblio.setWidth("260px");
+		hBiblio.addComponent(lblBiblio);
+		hBiblio.addComponent(txtBiblio);
+		
 		VerticalLayout layout = new VerticalLayout();
 		layout.addComponent(hTutor);
 		layout.setComponentAlignment(hTutor, Alignment.TOP_CENTER);
 		layout.addComponent(hCorrector);
 		layout.setComponentAlignment(hCorrector, Alignment.TOP_CENTER);
+		layout.addComponent(hBiblio);
+		layout.setComponentAlignment(hBiblio, Alignment.TOP_CENTER);
 		
 		int anioActual = Calendar.getInstance().get(Calendar.YEAR);
 		if(sliderAnio==null)
@@ -271,7 +283,7 @@ public class BusquedasView extends BusquedasViewDesign implements View
 		popUp.setModal(true);
 		popUp.setResizable(false);
 		popUp.center();
-		popUp.setHeight("350");
+		popUp.setHeight("400");
 		popUp.setWidth("400");
 		UI.getCurrent().addWindow(popUp);
 	}

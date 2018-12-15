@@ -9,6 +9,7 @@ public class DatosFiltro {
 	
 	private String tutorString;
 	private String correctorString;
+	private String bibliografia;
 	private int anioIni;
 	private int anioFin;
 	private int notaIni;
@@ -67,7 +68,13 @@ public class DatosFiltro {
 	public void setFiltroHabilitado(boolean filtroHabilitado) {
 		this.filtroHabilitado = filtroHabilitado;
 	}
-	
+
+	public String getBibliografia() {
+		return bibliografia;
+	}
+	public void setBibliografia(String bibliografia) {
+		this.bibliografia = bibliografia;
+	}
 	public String getStringRangoAnios()
 	{
 		return this.getAnioIni() + " - " + this.getAnioFin();

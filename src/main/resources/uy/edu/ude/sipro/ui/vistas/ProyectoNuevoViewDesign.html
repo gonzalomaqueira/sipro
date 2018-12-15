@@ -23,24 +23,24 @@
     </vaadin-css-layout>
     <vaadin-css-layout></vaadin-css-layout>
     <vaadin-css-layout width-full>
-     <vaadin-horizontal-layout>
-      <vaadin-css-layout>
-       <vaadin-label style-name="h4" width="50%" plain-text>
+     <vaadin-horizontal-layout width-full>
+      <vaadin-css-layout width-full>
+       <vaadin-label style-name="header" width-full plain-text>
          Codigo UDE 
        </vaadin-label>
-       <vaadin-text-field style-name="full" id="txtCodigoUde" _id="txtCodigoUde"></vaadin-text-field>
+       <vaadin-text-field style-name="full" id="txtCodigoUde" width-full _id="txtCodigoUde"></vaadin-text-field>
       </vaadin-css-layout>
-      <vaadin-css-layout>
-       <vaadin-label style-name="h4" width="50%" plain-text>
+      <vaadin-css-layout width-full>
+       <vaadin-label style-name="header" width-full plain-text>
          Nota 
        </vaadin-label>
-       <vaadin-text-field style-name="full" id="txtNota" _id="txtNota"></vaadin-text-field>
+       <vaadin-text-field style-name="full" id="txtNota" width-full _id="txtNota"></vaadin-text-field>
       </vaadin-css-layout>
      </vaadin-horizontal-layout>
     </vaadin-css-layout>
     <vaadin-css-layout></vaadin-css-layout>
     <vaadin-css-layout responsive width-full>
-     <vaadin-label style-name="h4" width-full plain-text>
+     <vaadin-label style-name="header" width-full plain-text>
        Carrera 
      </vaadin-label>
      <vaadin-text-field style-name="full" id="txtCarrera" width-full _id="txtCarrera"></vaadin-text-field>
@@ -49,11 +49,11 @@
     <vaadin-css-layout width-full>
      <vaadin-css-layout width-full>
       <vaadin-vertical-layout margin="false">
-       <vaadin-label style-name="h4" width-full plain-text>
+       <vaadin-label style-name="header" width-full plain-text>
          Correctores 
        </vaadin-label>
        <vaadin-horizontal-layout>
-        <vaadin-combo-box id="cmbCorrectores" data-item-type="uy.edu.ude.sipro.valueObjects.DocenteVO" _id="cmbCorrectores"></vaadin-combo-box>
+        <vaadin-combo-box id="cmbCorrectores" width="270px" data-item-type="uy.edu.ude.sipro.valueObjects.DocenteVO" _id="cmbCorrectores"></vaadin-combo-box>
         <vaadin-button icon="fonticon://Vaadin-Icons/e801" style-name="friendly icon-only small" id="btnAgregarCorrector" plain-text _id="btnAgregarCorrector">
           Agregar 
         </vaadin-button>
@@ -61,16 +61,14 @@
           Eliminar 
         </vaadin-button>
        </vaadin-horizontal-layout>
-       <vaadin-grid id="grdCorrectores" height-mode="undefined" width-full data-item-type="uy.edu.ude.sipro.valueObjects.DocenteVO" _id="grdCorrectores">
+       <vaadin-grid id="grdCorrectores" height-mode="undefined" width="400px" data-item-type="uy.edu.ude.sipro.valueObjects.DocenteVO" _id="grdCorrectores">
         <table>
          <colgroup>
-          <col column-id="id" sortable>
           <col column-id="nombre" sortable>
           <col column-id="apellido" sortable>
          </colgroup>
          <thead>
           <tr default>
-           <th plain-text column-ids="id">Id</th>
            <th plain-text column-ids="nombre">Nombre</th>
            <th plain-text column-ids="apellido">Apellido</th>
           </tr>
