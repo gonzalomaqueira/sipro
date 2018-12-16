@@ -33,7 +33,7 @@ import uy.edu.ude.sipro.valueObjects.UsuarioVO;
 
 @SpringView
 @SpringComponent
-@Secured({"admin", "bibliotecario", "tutor"})
+@Secured({"Admin", "Bibliotecario", "Tutor"})
 public class ProyectoListadoView extends ProyectoListadoViewDesign implements View{
 	
 	@Autowired
@@ -54,7 +54,7 @@ public class ProyectoListadoView extends ProyectoListadoViewDesign implements Vi
 	public void enter(ViewChangeEvent event)
 	{
 		usuario = fachada.obtenerUsuarioLogeado();
-		if(usuario.getPerfil().getDescripcion().equals("bibliotecario"))
+		if(usuario.getPerfil().getDescripcion().equals("Bibliotecario"))
 			btnProcesar.setVisible(false);
 		
 		cargarInterfazInicial();

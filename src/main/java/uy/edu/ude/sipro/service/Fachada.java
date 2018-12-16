@@ -343,7 +343,7 @@ public class Fachada {
 			{
 				existeAdmin=true;
 			}
-			if(usu.getUsuario().equals("Invitado"))
+			if(usu.getUsuario().equals("invitado"))
 			{
 				existeInvit=true;
 			}
@@ -354,21 +354,21 @@ public class Fachada {
 		}
 		if(!existeAdmin)
 		{
-			this.altaUsuario("admin", "admin", "admin", "admin", "admin@admin.com", new PerfilVO(1,"admin") );
+			this.altaUsuario("admin", "admin", "admin", "admin", "admin@admin.com", new PerfilVO(1,"Admin") );
 		}
 		if(!existeInvit)
 		{
-			this.altaUsuario("Invitado", "Invitado", "Invitado", "Invitado", "Invitado@Invitado.com", new PerfilVO(2,"invitado") );
+			this.altaUsuario("invitado", "invitado", "invitado", "invitado", "invitado@Invitado.com", new PerfilVO(2,"Invitado") );
 		}
 	}
 	
 	public void crearPerfileInicio()
 	{
-		perfilService.agregar(1, "admin");
-		perfilService.agregar(2, "invitado");
-		perfilService.agregar(3, "bibliotecario");
-		perfilService.agregar(4, "tutor");
-		perfilService.agregar(5, "alumno");
+		perfilService.agregar(1, "Admin");
+		perfilService.agregar(2, "Invitado");
+		perfilService.agregar(3, "Bibliotecario");
+		perfilService.agregar(4, "Tutor");
+		perfilService.agregar(5, "Alumno");
 	}
 
 	public List<ElementoReporteVO> reporteElementos(Enumerados.TipoElemento tipoElemento) 
@@ -395,7 +395,7 @@ public class Fachada {
 				elem.setPorcentaje(round(((float)elem.getCantidad() * 100 / totalElementosAsociados), 1));
 			}
 		}
-		return listaRetorno;			
+		return listaRetorno.stream().sorted().limit(10).collect(Collectors.toList());		
 	}
 
 	private static float round (float value, int precision) {

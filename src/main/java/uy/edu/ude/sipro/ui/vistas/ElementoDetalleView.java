@@ -31,7 +31,7 @@ import uy.edu.ude.sipro.valueObjects.SubElementoVO;
 
 @SpringView
 @SpringComponent
-@Secured("admin")
+@Secured("Admin")
 public class ElementoDetalleView extends ElementoDetalleViewDesign implements View{
 	
 	@Autowired

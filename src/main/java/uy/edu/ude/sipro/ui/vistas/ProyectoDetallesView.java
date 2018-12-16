@@ -49,7 +49,7 @@ import uy.edu.ude.sipro.valueObjects.UsuarioVO;
 
 @SpringView
 @SpringComponent
-@Secured({"admin", "bibliotecario", "invitado", "alumno", "tutor"})
+@Secured({"Admin", "Bibliotecario", "Invitado", "Alumno", "Tutor"})
 public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements View
 {
 	@Autowired
@@ -76,7 +76,7 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 		btnEditar.setVisible(false);
 		
 		usuario = fachada.obtenerUsuarioLogeado();
-		if(!usuario.getPerfil().getDescripcion().equals("admin"))
+		if(!usuario.getPerfil().getDescripcion().equals("Admin") && !usuario.getPerfil().getDescripcion().equals("Tutor"))
 		{
 			layoutBotones.setVisible(false);
 			layoutBotones.setEnabled(false);
