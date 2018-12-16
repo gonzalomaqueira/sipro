@@ -1,6 +1,7 @@
 package uy.edu.ude.sipro.valueObjects;
 
-public class ElementoReporteVO {
+public class ElementoReporteVO implements Comparable  
+{
 	
 	private String nombreElemento;
 	private int cantidad;
@@ -31,5 +32,11 @@ public class ElementoReporteVO {
 
 	public void setPorcentaje(float porcentaje) {
 		this.porcentaje = porcentaje;
+	}
+	
+	@Override
+	public int compareTo(Object comparado)
+	{
+		return ((ElementoReporteVO) comparado).getCantidad() - this.getCantidad();
 	}
 }

@@ -57,7 +57,7 @@ import uy.edu.ude.sipro.valueObjects.SubElementoVO;
 
 @SpringView
 @SpringComponent
-@Secured({"admin", "bibliotecario", "alumno", "tutor"})
+@Secured({"Admin", "Bibliotecario", "Alumno", "Tutor"})
 public class ReportesView extends ReportesViewDesign implements View{
 	
 	@Autowired
@@ -215,21 +215,45 @@ public class ReportesView extends ReportesViewDesign implements View{
 		btnGenerarReporteGeneral.addClickListener(new Button.ClickListener()
 		{
 			public void buttonClick(ClickEvent event)
-			{				
-				if(elemento.equals("Tecnologia"))
-					generarReportesGeneral(fachada.reporteElementos(Enumerados.TipoElemento.TECNOLOGIA),
-							"ESTADÍSTICA DE TECNOLOGÍAS",
-							"A continuación se muestra un gráfico con la distribución de tecnologías utilizadas en los proyectos.");
-				if(elemento.equals("ModeloProceso"))
-					generarReportesGeneral(fachada.reporteElementos(Enumerados.TipoElemento.MODELO_PROCESO),
-							"ESTADÍSTICA DE MODELOS DE PROCESO",
-							"A continuación se muestra un gráfico con la distribución de modelos de proceso utilizados en los proyectos.");
-				if(elemento.equals("MetodologiaTesting" ))
-					generarReportesGeneral(fachada.reporteElementos(Enumerados.TipoElemento.METODOLOGIA_TESTING),
-							"ESTADÍSTICA DE METODOLOGÍAS DE TESTING",
-							"A continuación se muestra un gráfico con la distribución de metodologías de testin utilizadas en los proyectos.");
-				if(elemento.equals(""))
-					UIUtiles.mostrarNotificacion("SELECCIONE", "es necesario seleccionar un elemento", Notification.Type.HUMANIZED_MESSAGE);
+			{
+				try
+				{
+					List<ElementoReporteVO> listaElementosReporte = new ArrayList<>();
+					if(elemento.equals("Tecnologia"))
+					{
+						listaElementosReporte = fachada.reporteElementos(Enumerados.TipoElemento.TECNOLOGIA);
+						String mensaje = listaElementosReporte.size() < 10 
+								? "A continuación se muestra un gráfico con la distribución de tecnologías utilizadas en los proyectos."
+								: "A continuación se muestra un gráfico con el TOP 10 de las tecnologías más utilizadas en los proyectos.";								 
+						
+						generarReportesGeneral(listaElementosReporte, "ESTADÍSTICA DE TECNOLOGÍAS", mensaje);
+					}
+					if(elemento.equals("ModeloProceso"))
+					{
+						listaElementosReporte = fachada.reporteElementos(Enumerados.TipoElemento.MODELO_PROCESO);
+						String mensaje = listaElementosReporte.size() < 10
+								? "A continuación se muestra un gráfico con la distribución de los modelos de proceso utilizadas en los proyectos." 
+								: "A continuación se muestra un gráfico con el TOP 10 de los modelos de proceso más utilizadas en los proyectos.";
+						
+						generarReportesGeneral(listaElementosReporte, "ESTADÍSTICA DE MODELOS DE PROCESO", mensaje);
+					}
+					if(elemento.equals("MetodologiaTesting" ))
+					{
+						listaElementosReporte = fachada.reporteElementos(Enumerados.TipoElemento.METODOLOGIA_TESTING);
+						String mensaje = listaElementosReporte.size() < 10 
+								? "A continuación se muestra un gráfico con la distribución de las metodologías de testing utilizadas en los proyectos."
+								: "A continuación se muestra un gráfico con el TOP 10 de las metodologías de testing más utilizadas en los proyectos.";
+						
+						generarReportesGeneral(listaElementosReporte, "ESTADÍSTICA DE METODOLOGÍAS DE TESTING", mensaje);
+					}
+					if(elemento.equals(""))
+						UIUtiles.mostrarNotificacion("SELECCIONE", "Es necesario seleccionar un elemento", Notification.Type.HUMANIZED_MESSAGE);
+				
+				}
+				catch (Exception e)
+				{
+					UIUtiles.mostrarNotificacion("ERROR", "Ocurrió un error al generar el reporte", Notification.Type.ERROR_MESSAGE);
+				}
 			}
 		});	
 	}

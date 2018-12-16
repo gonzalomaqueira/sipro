@@ -48,7 +48,7 @@ import uy.edu.ude.sipro.utiles.Constantes;
 
 @SpringView
 @SpringComponent
-@Secured({"admin", "bibliotecario", "invitado", "alumno", "tutor"})
+@Secured({"Admin", "Bibliotecario", "Invitado", "Alumno", "Tutor"})
 public class BusquedasView extends BusquedasViewDesign implements View
 {	
 	@Autowired

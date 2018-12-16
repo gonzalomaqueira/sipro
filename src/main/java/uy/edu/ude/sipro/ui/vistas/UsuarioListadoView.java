@@ -2,6 +2,8 @@ package uy.edu.ude.sipro.ui.vistas;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -26,7 +28,7 @@ import uy.edu.ude.sipro.valueObjects.UsuarioVO;
 
 @SpringView
 @SpringComponent
-@Secured("admin")
+@Secured("Admin")
 public class UsuarioListadoView extends UsuarioListadoViewDesign implements View
 {
 	@Autowired
@@ -134,6 +136,7 @@ public class UsuarioListadoView extends UsuarioListadoViewDesign implements View
 		btnEditar.setEnabled(false);
 		btnAgregar.setEnabled(true);
 		listaUsuarios = fachada.obtenerUsuarios();
+		listaUsuarios= listaUsuarios.stream().filter(a->!a.getNombre().equals("admin") && !a.getNombre().equals("invitado") ).collect(Collectors.toList());
 		grdUsuarios.setItems(listaUsuarios);
 	}
 	
@@ -142,7 +145,7 @@ public class UsuarioListadoView extends UsuarioListadoViewDesign implements View
 		List<UsuarioVO> listaAux = new ArrayList<>();
 		for (UsuarioVO usuario : this.listaUsuarios)
 		{
-			String aux=usuario.getNombre()+" "+usuario.getApellido();
+			String aux=usuario.getNombre()+ " " +usuario.getApellido();
 			if (usuario.getNombre().toLowerCase().contains(texto.toLowerCase().trim()) ||
 				usuario.getApellido().toLowerCase().contains(texto.toLowerCase().trim()) ||
 				usuario.getEmail().toLowerCase().contains(texto.toLowerCase().trim()) ||
