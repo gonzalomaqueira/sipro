@@ -354,7 +354,7 @@ public class Fachada {
 		}
 		if(!existeAdmin)
 		{
-			this.altaUsuario("admin", "admin", "admin", "admin", "admin@admin.com", new PerfilVO(1,"Admin") );
+			this.altaUsuario("admin", "admin", "admin", "admin", "admin@admin.com", new PerfilVO(1,"Administrador") );
 		}
 		if(!existeInvit)
 		{
@@ -362,9 +362,9 @@ public class Fachada {
 		}
 	}
 	
-	public void crearPerfileInicio()
+	public void crearPerfilesInicio()
 	{
-		perfilService.agregar(1, "Admin");
+		perfilService.agregar(1, "Administrador");
 		perfilService.agregar(2, "Invitado");
 		perfilService.agregar(3, "Bibliotecario");
 		perfilService.agregar(4, "Tutor");

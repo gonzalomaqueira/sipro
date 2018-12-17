@@ -24,7 +24,7 @@ public class Inicio {
 		{
 			fachada.creacionIncideES();
 			fachada.sincronizacionDatosInicial();
-			fachada.crearPerfileInicio();
+			fachada.crearPerfilesInicio();
 			fachada.crearUsuariosInicio();
 		}
 		catch (Exception e)

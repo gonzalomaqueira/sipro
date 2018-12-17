@@ -29,7 +29,7 @@ import uy.edu.ude.sipro.valueObjects.DocenteVO;
 @SpringView
 @SpringComponent
 @Scope("prototype")
-@Secured("Admin")
+@Secured("Administrador")
 public class DocentesView extends DocentesViewDesign implements View {
 	
 	@Autowired

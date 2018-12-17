@@ -38,7 +38,7 @@ import uy.edu.ude.sipro.valueObjects.UsuarioVO;
 
 @SpringView
 @SpringComponent
-@Secured({"Admin", "Bibliotecario",  "Tutor"})
+@Secured({"Administrador", "Bibliotecario",  "Tutor"})
 public class ProyectoNuevoView extends ProyectoNuevoViewDesign implements View
 {
 	@Autowired

@@ -28,7 +28,7 @@ import uy.edu.ude.sipro.valueObjects.UsuarioVO;
 
 @SpringView
 @SpringComponent
-@Secured("Admin")
+@Secured("Administrador")
 public class UsuarioListadoView extends UsuarioListadoViewDesign implements View
 {
 	@Autowired

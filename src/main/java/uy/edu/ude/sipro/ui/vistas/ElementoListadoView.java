@@ -27,7 +27,7 @@ import uy.edu.ude.sipro.valueObjects.SubElementoVO;
 
 @SpringView
 @SpringComponent
-@Secured("Admin")
+@Secured("Administrador")
 public class ElementoListadoView extends ElementoListadoViewDesign implements View{
 	
 	
