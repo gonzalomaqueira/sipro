@@ -6,63 +6,70 @@
   <meta name="vaadin-version" content="8.1.5">
  </head>
  <body>
-  <vaadin-vertical-layout margin-top="false">
-   <vaadin-css-layout style-name="content" width-full>
+  <vaadin-vertical-layout spacing="false" margin="false">
+   <vaadin-vertical-layout spacing="false" margin="false">
     <vaadin-css-layout responsive width-full>
-     <vaadin-horizontal-layout style-name="v-window-top-toolbar">
-      <vaadin-button visible="false" style-name="friendly small" id="btnAgregar" plain-text _id="btnAgregar">
-        Guardar 
-      </vaadin-button>
-      <vaadin-button icon="fonticon://Vaadin-Icons/e801" style-name="friendly small" id="btnEditar" plain-text _id="btnNuevo">
-        Nuevo 
-      </vaadin-button>
-      <vaadin-button visible="false" style-name="danger small" plain-text _id="btnBorrar" :center>
-        Borrar 
-      </vaadin-button>
-      <vaadin-button visible="false" style-name="small" id="btnCancelar" width="87px" plain-text _id="btnCancelar">
-        Cancelar 
-      </vaadin-button>
-     </vaadin-horizontal-layout>
+     <vaadin-panel>
+      <vaadin-horizontal-layout width-full margin-left margin-right margin-top>
+       <vaadin-css-layout style-name="list-filters" width-full>
+        <vaadin-button visible="false" style-name="friendly small" id="btnAgregar" plain-text _id="btnAgregar">
+          Guardar 
+        </vaadin-button>
+        <vaadin-button icon="fonticon://Vaadin-Icons/e801" style-name="friendly small" id="btnEditar" plain-text _id="btnNuevo">
+          Nuevo 
+        </vaadin-button>
+        <vaadin-button visible="false" style-name="danger small" plain-text _id="btnBorrar">
+          Borrar 
+        </vaadin-button>
+        <vaadin-button visible="false" style-name="small" id="btnCancelar" width="87px" plain-text _id="btnCancelar">
+          Cancelar 
+        </vaadin-button>
+       </vaadin-css-layout>
+      </vaadin-horizontal-layout>
+     </vaadin-panel>
     </vaadin-css-layout>
-    <vaadin-css-layout responsive width-full _id="cssNombre">
-     <vaadin-vertical-layout spacing="false" width="400px" margin="false">
-      <vaadin-label style-name="header" width-full plain-text>
-        Nombre 
-      </vaadin-label>
-      <vaadin-text-field style-name="full" id="txtNombreDocente" width-full _id="txtNombreDocente"></vaadin-text-field>
-     </vaadin-vertical-layout>
+   </vaadin-vertical-layout>
+   <vaadin-vertical-layout margin-top="false">
+    <vaadin-css-layout style-name="content" width-full>
+     <vaadin-css-layout responsive width-full _id="cssNombre">
+      <vaadin-vertical-layout spacing="false" width="400px" margin="false">
+       <vaadin-label style-name="header" width-full plain-text>
+         Nombre 
+       </vaadin-label>
+       <vaadin-text-field style-name="full" id="txtNombreDocente" width-full _id="txtNombreDocente"></vaadin-text-field>
+      </vaadin-vertical-layout>
+     </vaadin-css-layout>
+     <vaadin-css-layout responsive width-full _id="cssApellido">
+      <vaadin-vertical-layout spacing="false" width="400px" margin="false">
+       <vaadin-label style-name="header" width-full plain-text>
+         Apellido 
+       </vaadin-label>
+       <vaadin-text-field style-name="full" id="txtApellidoDocente" width-full _id="txtApellidoDocente"></vaadin-text-field>
+      </vaadin-vertical-layout>
+     </vaadin-css-layout>
+     <vaadin-css-layout width-full></vaadin-css-layout>
+     <vaadin-css-layout width-full>
+      <vaadin-vertical-layout width="400px" margin="false">
+       <vaadin-text-field id="txtBuscar" placeholder="Filtar..." _id="txtBuscar"></vaadin-text-field>
+       <vaadin-grid id="grdDocentes" height-mode="undefined" width-full data-item-type="uy.edu.ude.sipro.valueObjects.DocenteVO" _id="grdDocentes">
+        <table>
+         <colgroup>
+          <col column-id="nombre" sortable>
+          <col column-id="apellido" sortable>
+         </colgroup>
+         <thead>
+          <tr default>
+           <th plain-text column-ids="nombre">Nombre</th>
+           <th plain-text column-ids="apellido">Apellido</th>
+          </tr>
+         </thead>
+         <tbody></tbody>
+        </table>
+       </vaadin-grid>
+      </vaadin-vertical-layout>
+     </vaadin-css-layout>
     </vaadin-css-layout>
-    <vaadin-css-layout></vaadin-css-layout>
-    <vaadin-css-layout responsive width-full _id="cssApellido">
-     <vaadin-vertical-layout spacing="false" width="400px" margin="false">
-      <vaadin-label style-name="header" width-full plain-text>
-        Apellido 
-      </vaadin-label>
-      <vaadin-text-field style-name="full" id="txtApellidoDocente" width-full _id="txtApellidoDocente"></vaadin-text-field>
-     </vaadin-vertical-layout>
-    </vaadin-css-layout>
-    <vaadin-css-layout width-full></vaadin-css-layout>
-    <vaadin-css-layout width-full>
-     <vaadin-vertical-layout spacing="false" width="400px" margin="false">
-      <vaadin-text-field id="txtBuscar" placeholder="Filtar..." _id="txtBuscar"></vaadin-text-field>
-      <vaadin-grid id="grdDocentes" height-mode="undefined" width-full data-item-type="uy.edu.ude.sipro.valueObjects.DocenteVO" _id="grdDocentes">
-       <table>
-        <colgroup>
-         <col column-id="nombre" sortable>
-         <col column-id="apellido" sortable>
-        </colgroup>
-        <thead>
-         <tr default>
-          <th plain-text column-ids="nombre">Nombre</th>
-          <th plain-text column-ids="apellido">Apellido</th>
-         </tr>
-        </thead>
-        <tbody></tbody>
-       </table>
-      </vaadin-grid>
-     </vaadin-vertical-layout>
-    </vaadin-css-layout>
-   </vaadin-css-layout>
+   </vaadin-vertical-layout>
   </vaadin-vertical-layout>
  </body>
 </html>
