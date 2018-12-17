@@ -6,84 +6,89 @@
   <meta name="vaadin-version" content="8.1.5">
  </head>
  <body>
-  <vaadin-vertical-layout spacing="false" responsive margin-top="false">
-   <vaadin-css-layout responsive width-full :center>
-    <vaadin-css-layout responsive width-full>
-     <vaadin-horizontal-layout style-name="v-window-top-toolbar" responsive>
-      <vaadin-button icon="fonticon://Vaadin-Icons/e7b0" style-name="small" id="btnVolver" width="87px" plain-text _id="btnVolver">
-        Volver 
-      </vaadin-button>
-      <vaadin-button style-name="friendly small" id="btnGuardar" width="87px" plain-text _id="btnGuardar" :middle>
-        Guardar 
-      </vaadin-button>
-      <vaadin-button style-name="small" id="btnCancelar" width="87px" plain-text _id="btnCancelar" :middle>
-        Cancelar 
-      </vaadin-button>
+  <vaadin-vertical-layout responsive margin="false">
+   <vaadin-css-layout width-full>
+    <vaadin-panel>
+     <vaadin-horizontal-layout responsive margin-left margin-right margin-top>
+      <vaadin-css-layout style-name="list-filters" responsive width-full>
+       <vaadin-button icon="fonticon://Vaadin-Icons/e7b0" style-name="small" id="btnVolver" width="87px" plain-text _id="btnVolver">
+         Volver 
+       </vaadin-button>
+       <vaadin-button style-name="friendly small" id="btnGuardar" width="87px" plain-text _id="btnGuardar">
+         Guardar 
+       </vaadin-button>
+       <vaadin-button style-name="small" id="btnCancelar" width="87px" plain-text _id="btnCancelar">
+         Cancelar 
+       </vaadin-button>
+      </vaadin-css-layout>
      </vaadin-horizontal-layout>
-    </vaadin-css-layout>
-    <vaadin-css-layout></vaadin-css-layout>
-    <vaadin-css-layout responsive width-full>
-     <vaadin-label style-name="header" width-full plain-text>
-       Usuario(login) 
-     </vaadin-label>
-     <vaadin-text-field style-name="full" id="txtUsuario" width-full readonly _id="txtUsuario"></vaadin-text-field>
-    </vaadin-css-layout>
-    <vaadin-css-layout></vaadin-css-layout>
-    <vaadin-css-layout responsive width-full>
-     <vaadin-horizontal-layout width-full>
-      <vaadin-vertical-layout spacing="false" size-full margin="false">
-       <vaadin-label style-name="header" width-full plain-text>
-         Contraseña 
-       </vaadin-label>
-       <vaadin-password-field id="txtContrasenia" width-full _id="txtContrasenia"></vaadin-password-field>
-      </vaadin-vertical-layout>
-      <vaadin-vertical-layout spacing="false" size-full margin="false">
-       <vaadin-label style-name="header" width-full plain-text>
-         Repetir contraseña 
-       </vaadin-label>
-       <vaadin-password-field id="txtRepetirContasenia" width-full _id="txtRepetirContasenia"></vaadin-password-field>
-      </vaadin-vertical-layout>
-     </vaadin-horizontal-layout>
-     <vaadin-label visible="false" style-name="success" plain-text _id="lblContraseñasIguales"></vaadin-label>
-    </vaadin-css-layout>
-    <vaadin-label visible="false" style-name="failure" plain-text _id="lblContraseñasIncorrectas">
-      Las contraseñas no coinciden 
-    </vaadin-label>
-    <vaadin-css-layout></vaadin-css-layout>
-    <vaadin-css-layout responsive width-full>
-     <vaadin-horizontal-layout width-full>
-      <vaadin-vertical-layout spacing="false" size-full margin="false">
-       <vaadin-label style-name="header" width-full plain-text>
-         Nombre 
-       </vaadin-label>
-       <vaadin-text-field style-name="full" id="txtNombre" width-full _id="txtNombre"></vaadin-text-field>
-      </vaadin-vertical-layout>
-      <vaadin-vertical-layout spacing="false" size-full margin="false">
-       <vaadin-label style-name="header" width-full plain-text>
-         Apellido 
-       </vaadin-label>
-       <vaadin-text-field style-name="full" id="txtApellido" width-full _id="txtApellido"></vaadin-text-field>
-      </vaadin-vertical-layout>
-     </vaadin-horizontal-layout>
-    </vaadin-css-layout>
-    <vaadin-css-layout></vaadin-css-layout>
-    <vaadin-css-layout responsive width-full>
-     <vaadin-horizontal-layout width-full>
-      <vaadin-vertical-layout spacing="false" size-full margin="false">
-       <vaadin-label style-name="header" width-full plain-text>
-         Email 
-       </vaadin-label>
-       <vaadin-text-field style-name="full" id="txtEmail" width-full _id="txtEmail"></vaadin-text-field>
-      </vaadin-vertical-layout>
-      <vaadin-vertical-layout spacing="false" size-full margin="false">
-       <vaadin-label style-name="header" width-full plain-text>
-         Perfil 
-       </vaadin-label>
-       <vaadin-combo-box id="cmbPerfil" width-full data-item-type="uy.edu.ude.sipro.valueObjects.PerfilVO" _id="cmbPerfil"></vaadin-combo-box>
-      </vaadin-vertical-layout>
-     </vaadin-horizontal-layout>
-    </vaadin-css-layout>
+    </vaadin-panel>
    </vaadin-css-layout>
+   <vaadin-vertical-layout margin-top="false" margin-bottom="false">
+    <vaadin-css-layout responsive width-full>
+     <vaadin-css-layout responsive width-full>
+      <vaadin-label style-name="header" width-full plain-text>
+        Usuario(login) 
+      </vaadin-label>
+      <vaadin-text-field style-name="full" id="txtUsuario" width-full readonly _id="txtUsuario"></vaadin-text-field>
+     </vaadin-css-layout>
+     <vaadin-css-layout></vaadin-css-layout>
+     <vaadin-css-layout responsive width-full>
+      <vaadin-horizontal-layout width-full>
+       <vaadin-vertical-layout spacing="false" size-full margin="false">
+        <vaadin-label style-name="header" width-full plain-text>
+          Contraseña 
+        </vaadin-label>
+        <vaadin-password-field id="txtContrasenia" width-full _id="txtContrasenia"></vaadin-password-field>
+       </vaadin-vertical-layout>
+       <vaadin-vertical-layout spacing="false" size-full margin="false">
+        <vaadin-label style-name="header" width-full plain-text>
+          Repetir contraseña 
+        </vaadin-label>
+        <vaadin-password-field id="txtRepetirContasenia" width-full _id="txtRepetirContasenia"></vaadin-password-field>
+       </vaadin-vertical-layout>
+      </vaadin-horizontal-layout>
+      <vaadin-label visible="false" style-name="success" plain-text _id="lblContraseñasIguales"></vaadin-label>
+     </vaadin-css-layout>
+     <vaadin-label visible="false" style-name="failure" plain-text _id="lblContraseñasIncorrectas">
+       Las contraseñas no coinciden 
+     </vaadin-label>
+     <vaadin-css-layout></vaadin-css-layout>
+     <vaadin-css-layout responsive width-full>
+      <vaadin-horizontal-layout width-full>
+       <vaadin-vertical-layout spacing="false" size-full margin="false">
+        <vaadin-label style-name="header" width-full plain-text>
+          Nombre 
+        </vaadin-label>
+        <vaadin-text-field style-name="full" id="txtNombre" width-full _id="txtNombre"></vaadin-text-field>
+       </vaadin-vertical-layout>
+       <vaadin-vertical-layout spacing="false" size-full margin="false">
+        <vaadin-label style-name="header" width-full plain-text>
+          Apellido 
+        </vaadin-label>
+        <vaadin-text-field style-name="full" id="txtApellido" width-full _id="txtApellido"></vaadin-text-field>
+       </vaadin-vertical-layout>
+      </vaadin-horizontal-layout>
+     </vaadin-css-layout>
+     <vaadin-css-layout></vaadin-css-layout>
+     <vaadin-css-layout responsive width-full>
+      <vaadin-horizontal-layout width-full>
+       <vaadin-vertical-layout spacing="false" size-full margin="false">
+        <vaadin-label style-name="header" width-full plain-text>
+          Email 
+        </vaadin-label>
+        <vaadin-text-field style-name="full" id="txtEmail" width-full _id="txtEmail"></vaadin-text-field>
+       </vaadin-vertical-layout>
+       <vaadin-vertical-layout spacing="false" size-full margin="false">
+        <vaadin-label style-name="header" width-full plain-text>
+          Perfil 
+        </vaadin-label>
+        <vaadin-combo-box id="cmbPerfil" width-full data-item-type="uy.edu.ude.sipro.valueObjects.PerfilVO" _id="cmbPerfil"></vaadin-combo-box>
+       </vaadin-vertical-layout>
+      </vaadin-horizontal-layout>
+     </vaadin-css-layout>
+    </vaadin-css-layout>
+   </vaadin-vertical-layout>
   </vaadin-vertical-layout>
  </body>
 </html>

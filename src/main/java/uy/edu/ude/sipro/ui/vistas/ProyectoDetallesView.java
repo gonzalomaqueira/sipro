@@ -76,7 +76,7 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 		btnEditar.setVisible(false);
 		
 		usuario = fachada.obtenerUsuarioLogeado();
-		if(!usuario.getPerfil().getDescripcion().equals("Admin") && !usuario.getPerfil().getDescripcion().equals("Tutor"))
+		if(!usuario.getPerfil().getDescripcion().equals("Administrador") && !usuario.getPerfil().getDescripcion().equals("Tutor"))
 		{
 			layoutBotones.setVisible(false);
 			layoutBotones.setEnabled(false);

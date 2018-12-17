@@ -75,6 +75,14 @@ public class UsuarioDetalleView extends UsuarioDetalleViewDesign implements View
 			}
 		});
 		
+		btnCancelar.addClickListener(new Button.ClickListener()
+		{
+			public void buttonClick(ClickEvent event)
+			{	
+				navigationManager.navigateTo(UsuarioDetalleView.class, idProyecto);
+			}
+		});
+		
 		btnGuardar.addClickListener(new Button.ClickListener()
 		{
 			public void buttonClick(ClickEvent event) 

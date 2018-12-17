@@ -83,6 +83,14 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 			}
 		});
 		
+		btnCancelar.addClickListener(new Button.ClickListener()
+		{
+			public void buttonClick(ClickEvent event)
+			{			
+				navigationManager.navigateTo(ElementoDetalleView.class);
+			}
+		});
+		
 		btnGuardar.addClickListener(new Button.ClickListener()
 		{
 			public void buttonClick(ClickEvent event)

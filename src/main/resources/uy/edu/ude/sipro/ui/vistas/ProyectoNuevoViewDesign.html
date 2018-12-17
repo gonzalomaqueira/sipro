@@ -6,87 +6,94 @@
   <meta name="vaadin-version" content="8.1.5">
  </head>
  <body>
-  <vaadin-vertical-layout spacing="false" responsive margin-top="false">
-   <vaadin-css-layout responsive width-full :center>
+  <vaadin-vertical-layout responsive margin="false">
+   <vaadin-vertical-layout spacing="false" margin="false">
     <vaadin-css-layout responsive width-full>
-     <vaadin-horizontal-layout style-name="v-window-top-toolbar" responsive>
-      <vaadin-button icon="fonticon://Vaadin-Icons/e7b0" style-name="small" id="btnVolver" width="87px" plain-text _id="btnVolver" :middle>
-        Volver 
-      </vaadin-button>
-      <vaadin-button style-name="friendly small" id="btnGuardar" width="87px" plain-text _id="btnGuardar" :middle>
-        Guardar 
-      </vaadin-button>
-      <vaadin-button style-name="small" id="btnCancelar" width="87px" plain-text _id="btnCancelar" :middle>
-        Cancelar 
-      </vaadin-button>
-     </vaadin-horizontal-layout>
+     <vaadin-panel>
+      <vaadin-horizontal-layout responsive width-full margin-left margin-right margin-top>
+       <vaadin-css-layout style-name="list-filters">
+        <vaadin-button icon="fonticon://Vaadin-Icons/e7b0" style-name="small" id="btnVolver" width="87px" plain-text _id="btnVolver">
+          Volver 
+        </vaadin-button>
+        <vaadin-button style-name="friendly small" id="btnGuardar" width="87px" plain-text _id="btnGuardar">
+          Guardar 
+        </vaadin-button>
+        <vaadin-button style-name="small" id="btnCancelar" width="87px" plain-text _id="btnCancelar">
+          Cancelar 
+        </vaadin-button>
+       </vaadin-css-layout>
+      </vaadin-horizontal-layout>
+     </vaadin-panel>
     </vaadin-css-layout>
-    <vaadin-css-layout></vaadin-css-layout>
-    <vaadin-css-layout width-full>
-     <vaadin-horizontal-layout width-full>
-      <vaadin-css-layout width-full>
-       <vaadin-label style-name="header" width-full plain-text>
-         Codigo UDE 
-       </vaadin-label>
-       <vaadin-text-field style-name="full" id="txtCodigoUde" width-full _id="txtCodigoUde"></vaadin-text-field>
-      </vaadin-css-layout>
-      <vaadin-css-layout width-full>
-       <vaadin-label style-name="header" width-full plain-text>
-         Nota 
-       </vaadin-label>
-       <vaadin-text-field style-name="full" id="txtNota" width-full _id="txtNota"></vaadin-text-field>
-      </vaadin-css-layout>
-     </vaadin-horizontal-layout>
-    </vaadin-css-layout>
-    <vaadin-css-layout></vaadin-css-layout>
+   </vaadin-vertical-layout>
+   <vaadin-vertical-layout margin-top="false">
     <vaadin-css-layout responsive width-full>
-     <vaadin-label style-name="header" width-full plain-text>
-       Carrera 
-     </vaadin-label>
-     <vaadin-text-field style-name="full" id="txtCarrera" width-full _id="txtCarrera"></vaadin-text-field>
-    </vaadin-css-layout>
-    <vaadin-css-layout></vaadin-css-layout>
-    <vaadin-css-layout width-full>
      <vaadin-css-layout width-full>
-      <vaadin-vertical-layout margin="false">
-       <vaadin-label style-name="header" width-full plain-text>
-         Correctores 
-       </vaadin-label>
-       <vaadin-horizontal-layout>
-        <vaadin-combo-box id="cmbCorrectores" width="270px" data-item-type="uy.edu.ude.sipro.valueObjects.DocenteVO" _id="cmbCorrectores"></vaadin-combo-box>
-        <vaadin-button icon="fonticon://Vaadin-Icons/e801" style-name="friendly icon-only small" id="btnAgregarCorrector" plain-text _id="btnAgregarCorrector">
-          Agregar 
-        </vaadin-button>
-        <vaadin-button visible="false" icon="fonticon://Vaadin-Icons/e91b" style-name="danger icon-only small" id="btnEliminarCorrector" plain-text _id="btnEliminarCorrector">
-          Eliminar 
-        </vaadin-button>
-       </vaadin-horizontal-layout>
-       <vaadin-grid id="grdCorrectores" height-mode="undefined" width="400px" data-item-type="uy.edu.ude.sipro.valueObjects.DocenteVO" _id="grdCorrectores">
-        <table>
-         <colgroup>
-          <col column-id="nombre" sortable>
-          <col column-id="apellido" sortable>
-         </colgroup>
-         <thead>
-          <tr default>
-           <th plain-text column-ids="nombre">Nombre</th>
-           <th plain-text column-ids="apellido">Apellido</th>
-          </tr>
-         </thead>
-         <tbody></tbody>
-        </table>
-       </vaadin-grid>
-      </vaadin-vertical-layout>
+      <vaadin-horizontal-layout width-full>
+       <vaadin-css-layout width-full>
+        <vaadin-label style-name="header" width-full plain-text>
+          Codigo UDE 
+        </vaadin-label>
+        <vaadin-text-field style-name="full" id="txtCodigoUde" width-full _id="txtCodigoUde"></vaadin-text-field>
+       </vaadin-css-layout>
+       <vaadin-css-layout width-full>
+        <vaadin-label style-name="header" width-full plain-text>
+          Nota 
+        </vaadin-label>
+        <vaadin-text-field style-name="full" id="txtNota" width-full _id="txtNota"></vaadin-text-field>
+       </vaadin-css-layout>
+      </vaadin-horizontal-layout>
+     </vaadin-css-layout>
+     <vaadin-css-layout></vaadin-css-layout>
+     <vaadin-css-layout responsive width-full>
+      <vaadin-label style-name="header" width-full plain-text>
+        Carrera 
+      </vaadin-label>
+      <vaadin-text-field style-name="full" id="txtCarrera" width-full _id="txtCarrera"></vaadin-text-field>
+     </vaadin-css-layout>
+     <vaadin-css-layout></vaadin-css-layout>
+     <vaadin-css-layout width-full>
+      <vaadin-css-layout width-full>
+       <vaadin-vertical-layout margin="false">
+        <vaadin-label style-name="header" width-full plain-text>
+          Correctores 
+        </vaadin-label>
+        <vaadin-horizontal-layout>
+         <vaadin-combo-box id="cmbCorrectores" width="270px" data-item-type="uy.edu.ude.sipro.valueObjects.DocenteVO" _id="cmbCorrectores"></vaadin-combo-box>
+         <vaadin-button icon="fonticon://Vaadin-Icons/e801" style-name="friendly icon-only small" id="btnAgregarCorrector" plain-text _id="btnAgregarCorrector">
+           Agregar 
+         </vaadin-button>
+         <vaadin-button visible="false" icon="fonticon://Vaadin-Icons/e91b" style-name="danger icon-only small" id="btnEliminarCorrector" plain-text _id="btnEliminarCorrector">
+           Eliminar 
+         </vaadin-button>
+        </vaadin-horizontal-layout>
+        <vaadin-grid id="grdCorrectores" height-mode="undefined" width="400px" data-item-type="uy.edu.ude.sipro.valueObjects.DocenteVO" _id="grdCorrectores">
+         <table>
+          <colgroup>
+           <col column-id="nombre" sortable>
+           <col column-id="apellido" sortable>
+          </colgroup>
+          <thead>
+           <tr default>
+            <th plain-text column-ids="nombre">Nombre</th>
+            <th plain-text column-ids="apellido">Apellido</th>
+           </tr>
+          </thead>
+          <tbody></tbody>
+         </table>
+        </vaadin-grid>
+       </vaadin-vertical-layout>
+      </vaadin-css-layout>
+     </vaadin-css-layout>
+     <vaadin-css-layout></vaadin-css-layout>
+     <vaadin-css-layout responsive width-full>
+      <vaadin-label style-name="h4" width-full plain-text>
+        Subir proyecto 
+      </vaadin-label>
+      <vaadin-upload button-caption="Subir" id="updSubirProyecto" _id="updSubirProyecto"></vaadin-upload>
      </vaadin-css-layout>
     </vaadin-css-layout>
-    <vaadin-css-layout></vaadin-css-layout>
-    <vaadin-css-layout responsive width-full>
-     <vaadin-label style-name="h4" width-full plain-text>
-       Subir proyecto 
-     </vaadin-label>
-     <vaadin-upload button-caption="Subir" id="updSubirProyecto" _id="updSubirProyecto"></vaadin-upload>
-    </vaadin-css-layout>
-   </vaadin-css-layout>
+   </vaadin-vertical-layout>
   </vaadin-vertical-layout>
  </body>
 </html>
