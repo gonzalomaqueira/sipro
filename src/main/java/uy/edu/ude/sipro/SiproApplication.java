@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.event.EventListener;
 
 import com.vaadin.ui.Notification;
@@ -18,7 +19,7 @@ import uy.edu.ude.sipro.ui.UIUtiles;
 @SpringBootApplication
 //@EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class})
 @EnableAutoConfiguration
-public class SiproApplication {
+public class SiproApplication extends SpringBootServletInitializer{
 	
 	public static final String APP_URL = "/";
 	public static final String LOGIN_URL = "/login.html";

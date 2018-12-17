@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.context.WebApplicationContext;
 import org.vaadin.dialogs.ConfirmDialog;
 
 import com.vaadin.navigator.View;
@@ -18,10 +17,7 @@ import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Grid;
 import com.vaadin.ui.components.grid.SingleSelectionModel;
 
 import uy.edu.ude.sipro.entidades.Enumerados.EstadoProyectoEnum;
@@ -152,7 +148,7 @@ public class ProyectoListadoView extends ProyectoListadoViewDesign implements Vi
 					if(proyectoSeleccionado.getEstado() == EstadoProyectoEnum.PROCESADO)
 					{
 						ConfirmDialog.show(UI.getCurrent(), "Confirmación:", "¿Seguro que desea re-procesar el proyecto?\nLa información existente puede variar",
-						        "Eliminar", "Cancelar", new ConfirmDialog.Listener() {
+						        "Re-Procesar", "Cancelar", new ConfirmDialog.Listener() {
 						            public void onClose(ConfirmDialog dialog) {
 						                if (dialog.isConfirmed()) {
 						                	try

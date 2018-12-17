@@ -6,11 +6,11 @@
 
 	<groupId>uy.edu.ude</groupId>
 	<artifactId>sipro</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<version>1.0.0</version>
+	<packaging>war</packaging>
 
 	<name>sipro</name>
-	<description>Demo project for Spring Boot</description>
+	<description>sipro</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -164,6 +164,12 @@
 					<artifactId>vaadin-server</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		
+		<dependency>
+		   <groupId>org.springframework.boot</groupId>
+		   <artifactId>spring-boot-starter-tomcat</artifactId>
+		   <scope>provided</scope>
 		</dependency>
 					
 	</dependencies>
