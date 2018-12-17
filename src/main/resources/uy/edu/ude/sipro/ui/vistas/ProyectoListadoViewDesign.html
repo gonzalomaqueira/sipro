@@ -8,27 +8,32 @@
   <meta name="package-mapping" content="com_gmail_damien_ui_view_admin:com.gmail.damien.ui.view.admin">
  </head>
  <body>
-  <vaadin-vertical-layout style-name="layout" spacing="false" margin-top="false">
-   <vaadin-css-layout width-full>
-    <vaadin-horizontal-layout style-name="v-window-top-toolbar" margin-left>
-     <vaadin-button icon="fonticon://Vaadin-Icons/e801" style-name="friendly small" id="btnAgregar" plain-text _id="btnAgregar">
-       Nuevo 
-     </vaadin-button>
-     <vaadin-button icon="fonticon://Vaadin-Icons/e7df" style-name="small" plain-text _id="btnVerDetalles" :center>
-       Detalles 
-     </vaadin-button>
-     <vaadin-button icon="fonticon://Vaadin-Icons/e801" style-name="primary small" id="btnProcesar" plain-text _id="btnProcesar">
-       Procesar 
-     </vaadin-button>
-     <vaadin-button style-name="danger small" id="btnEliminar" plain-text _id="btnEliminar">
-       Eliminar 
-     </vaadin-button>
-    </vaadin-horizontal-layout>
-   </vaadin-css-layout>
-   <vaadin-css-layout width-full></vaadin-css-layout>
-   <vaadin-css-layout style-name="borderless" responsive width-full height="89%">
+  <vaadin-vertical-layout style-name="layout" margin="false">
+   <vaadin-vertical-layout spacing="false" margin="false">
+    <vaadin-css-layout width-full>
+     <vaadin-panel>
+      <vaadin-horizontal-layout width-full margin-left margin-right margin-top>
+       <vaadin-css-layout style-name="list-filters" width-full>
+        <vaadin-button icon="fonticon://Vaadin-Icons/e801" style-name="friendly small" id="btnAgregar" plain-text _id="btnAgregar">
+          Nuevo 
+        </vaadin-button>
+        <vaadin-button icon="fonticon://Vaadin-Icons/e7df" style-name="small" plain-text _id="btnVerDetalles">
+          Detalles 
+        </vaadin-button>
+        <vaadin-button icon="fonticon://Vaadin-Icons/e801" style-name="primary small" id="btnProcesar" plain-text _id="btnProcesar">
+          Procesar 
+        </vaadin-button>
+        <vaadin-button style-name="danger small" id="btnEliminar" plain-text _id="btnEliminar">
+          Eliminar 
+        </vaadin-button>
+       </vaadin-css-layout>
+      </vaadin-horizontal-layout>
+     </vaadin-panel>
+    </vaadin-css-layout>
+   </vaadin-vertical-layout>
+   <vaadin-vertical-layout margin-top="false">
     <vaadin-text-field id="txtBuscar" placeholder="Filtar..." _id="txtBuscar"></vaadin-text-field>
-    <vaadin-grid style-name="compact no-stripes" id="grdProyectos" height-mode="undefined" width-full data-item-type="uy.edu.ude.sipro.valueObjects.ProyectoVO" _id="grdProyectos">
+    <vaadin-grid id="grdProyectos" height-mode="undefined" width-full data-item-type="uy.edu.ude.sipro.valueObjects.ProyectoVO" _id="grdProyectos">
      <table>
       <colgroup>
        <col column-id="codigoUde" sortable>
@@ -51,7 +56,7 @@
       <tbody></tbody>
      </table>
     </vaadin-grid>
-   </vaadin-css-layout>
+   </vaadin-vertical-layout>
   </vaadin-vertical-layout>
  </body>
 </html>
