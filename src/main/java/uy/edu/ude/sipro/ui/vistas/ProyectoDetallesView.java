@@ -178,6 +178,8 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 		    {
 		    	correctorSeleccionado= evt.getValue();
 		    	btnAgregarCorrector.setEnabled(true);
+		    	btnEliminarCorrector.setVisible(false);
+		    	grdCorrectores.deselectAll();
 		    }
 		});
 		

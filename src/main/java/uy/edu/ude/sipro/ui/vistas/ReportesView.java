@@ -91,6 +91,7 @@ public class ReportesView extends ReportesViewDesign implements View{
 	
 	public void enter(ViewChangeEvent event)
 	{	
+		btnAgregarRelacion.setEnabled(false);
 		datosFiltro= new DatosFiltro();
 		todosElementos= (ArrayList<ElementoVO>) fachada.obtenerElementos();
 		listaElementosSeleccionados = new ArrayList<ElementoVO>();
@@ -147,6 +148,7 @@ public class ReportesView extends ReportesViewDesign implements View{
 			{			
 				listaElementosSeleccionados.remove(elementoSeleccionado);
 				grdElementoProyecto.setItems( listaElementosSeleccionados );
+				btnEliminarRelacion.setVisible(false);
 				cargarCmbRelaciones();
 			}
 		});
@@ -207,7 +209,12 @@ public class ReportesView extends ReportesViewDesign implements View{
 			public void buttonClick(ClickEvent event)
 			{
 				cargarDatosFiltro();
-				ArrayList<ProyectoVO> lista = cargarListaProyectos();				
+				ArrayList<ProyectoVO> lista = cargarListaProyectos();		
+				
+				if (lista == null)
+				{
+					lista = new ArrayList<>();
+				}
 				generarReporteListaProyectos(lista, datosFiltro);
 			}
 		});	
@@ -277,16 +284,18 @@ public class ReportesView extends ReportesViewDesign implements View{
                     
                     Map<String, Object> parametros = new HashMap<>();
                     parametros.put("datosFiltro", datosFiltro);
-                    if (listaProyectos.isEmpty())
-                    {
-                    	listaProyectos.add(new ProyectoVO(1,1,"","",1,"",Enumerados.EstadoProyectoEnum.PROCESADO, CategoriaProyectoEnum.OTRO));
-                    	reportGenerator.executeReport("reportes/listaProyectosVacioTemplate.jrxml", pdfBuffer, parametros, listaProyectos);
-                    }
-                    else
+
+                    if (!listaProyectos.isEmpty())
                     {
                     	reportGenerator.executeReport("reportes/listaProyectosTemplate.jrxml", pdfBuffer, parametros, listaProyectos);
                     }
-                } catch (Exception e) 
+                    else
+                    {
+                    	listaProyectos.add(new ProyectoVO(1,1,"","",1,"",Enumerados.EstadoProyectoEnum.PROCESADO, CategoriaProyectoEnum.OTRO));
+                    	reportGenerator.executeReport("reportes/listaProyectosVacioTemplate.jrxml", pdfBuffer, parametros, listaProyectos);                    	
+                    }
+                } 
+                catch (Exception e) 
                 {
 					e.printStackTrace();
 				}

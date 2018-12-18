@@ -2,14 +2,11 @@ package uy.edu.ude.sipro.ui.vistas;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+
 
 import com.github.daishy.rangeslider.RangeSlider;
 import com.github.daishy.rangeslider.client.Range;
@@ -23,25 +20,17 @@ import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Layout;
 import com.vaadin.ui.Link;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.PopupView;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-import com.vaadin.ui.Window.CloseEvent;
-import com.vaadin.ui.Window.CloseListener;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
-
 import uy.edu.ude.sipro.busquedas.DatosFiltro;
 import uy.edu.ude.sipro.busquedas.ResultadoBusqueda;
-import uy.edu.ude.sipro.entidades.Usuario;
-import uy.edu.ude.sipro.seguridad.SecurityUtils;
 import uy.edu.ude.sipro.service.Fachada;
 import uy.edu.ude.sipro.service.interfaces.UsuarioService;
 import uy.edu.ude.sipro.utiles.Constantes;
@@ -70,6 +59,10 @@ public class BusquedasView extends BusquedasViewDesign implements View
 	
 	public void enter(ViewChangeEvent event) 
 	{
+		txtTutor.setMaxLength(50);
+		txtCorrector.setMaxLength(50);
+		txtBiblio.setMaxLength(150);
+		
 		layoutSinResultados.setVisible(false);
 		datosFiltro= new DatosFiltro();
 		datosFiltro.setFiltroHabilitado(false);

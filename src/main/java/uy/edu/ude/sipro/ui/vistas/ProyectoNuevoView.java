@@ -147,6 +147,9 @@ public class ProyectoNuevoView extends ProyectoNuevoViewDesign implements View
 		    {
 		    	correctorSeleccionado= evt.getValue();
 		    	btnAgregarCorrector.setEnabled(true);
+		    	btnEliminarCorrector.setVisible(false);
+		    	grdCorrectores.deselectAll();
+		 
 		    }
 		});
 		
@@ -169,6 +172,7 @@ public class ProyectoNuevoView extends ProyectoNuevoViewDesign implements View
 			{			
 				listaCorrectores.remove(correctorSeleccionado);
 				grdCorrectores.setItems( listaCorrectores );
+				btnEliminarCorrector.setVisible(false);
 				cargarCmbCorrectores();
 			}
 		});
