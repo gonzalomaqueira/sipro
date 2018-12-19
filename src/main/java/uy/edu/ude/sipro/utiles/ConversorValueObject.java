@@ -241,4 +241,29 @@ public class ConversorValueObject
 		}
 		return vRetorno;
 	}
+	
+	public static Elemento convertirElementoVOaElemento(ElementoVO elemento)
+	{
+		Elemento doc= null;
+		if (elemento != null)
+		{
+			doc = new Elemento();
+			doc.setId(elemento.getId());
+		}
+		return doc;
+	}
+	
+	public static Set<Elemento> convertirListaElementoVOaElemento(List<ElementoVO> elemento)
+	{
+		Set<Elemento> vRetorno = null;
+		if (elemento != null)
+		{
+			vRetorno= new HashSet<Elemento>();
+			for(ElementoVO elemVO : elemento)
+			{
+				vRetorno.add(convertirElementoVOaElemento(elemVO));
+			}
+		}
+		return vRetorno;
+	}
 }

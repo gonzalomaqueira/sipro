@@ -115,11 +115,11 @@
          <vaadin-css-layout width-full>
           <vaadin-css-layout width-full></vaadin-css-layout>
           <vaadin-horizontal-layout id="layoutCorrectores" _id="layoutCorrectores">
-           <vaadin-combo-box id="cmbCorrectores" width="300px" data-item-type="uy.edu.ude.sipro.valueObjects.DocenteVO" _id="cmbCorrectores"></vaadin-combo-box>
-           <vaadin-button icon="fonticon://Vaadin-Icons/e801" style-name="icon-only friendly small" id="btnAgregarCorrector" plain-text _id="btnAgregarCorrector">
+           <vaadin-combo-box id="cmbCorrectores" width="300px" data-item-type="uy.edu.ude.sipro.valueObjects.DocenteVO" _id="cmbCorrectores" :middle></vaadin-combo-box>
+           <vaadin-button icon="fonticon://Vaadin-Icons/e801" style-name="icon-only friendly small" id="btnAgregarCorrector" plain-text _id="btnAgregarCorrector" :middle>
              Agregar 
            </vaadin-button>
-           <vaadin-button visible="false" icon="fonticon://Vaadin-Icons/e91b" style-name="danger icon-only small" id="btnEliminarCorrector" width="31px" plain-text _id="btnEliminarCorrector">
+           <vaadin-button visible="false" icon="fonticon://Vaadin-Icons/e91b" style-name="danger icon-only small" id="btnEliminarCorrector" width="31px" plain-text _id="btnEliminarCorrector" :middle>
              Eliminar 
            </vaadin-button>
           </vaadin-horizontal-layout>
@@ -142,62 +142,73 @@
        </tab>
        <tab caption="ELEMENTOS RELACIONADOS">
         <vaadin-css-layout size-full _id="tabElementos">
-         <vaadin-horizontal-layout size-full>
-          <vaadin-css-layout responsive width-full>
-           <vaadin-label style-name="header" width-full plain-text>
-             Tecnologías 
-           </vaadin-label>
-           <vaadin-grid style-name="half" header-visible="false" id="grdTecnologias" height-mode="undefined" width-full data-item-type="uy.edu.ude.sipro.valueObjects.ElementoVO" _id="grdTecnologias">
-            <table>
-             <colgroup>
-              <col column-id="nombre" sortable>
-             </colgroup>
-             <thead>
-              <tr default>
-               <th plain-text column-ids="nombre">Nombre</th>
-              </tr>
-             </thead>
-             <tbody></tbody>
-            </table>
-           </vaadin-grid>
-          </vaadin-css-layout>
-          <vaadin-css-layout responsive width-full>
-           <vaadin-label style-name="header" width-full plain-text>
-             Modelos de proceso 
-           </vaadin-label>
-           <vaadin-grid style-name="half" header-visible="false" id="grdModeloProceso" height-mode="undefined" width-full data-item-type="uy.edu.ude.sipro.valueObjects.ElementoVO" _id="grdModeloProceso">
-            <table>
-             <colgroup>
-              <col column-id="nombre" sortable>
-             </colgroup>
-             <thead>
-              <tr default>
-               <th plain-text column-ids="nombre">Nombre</th>
-              </tr>
-             </thead>
-             <tbody></tbody>
-            </table>
-           </vaadin-grid>
-          </vaadin-css-layout>
-          <vaadin-css-layout responsive width-full>
-           <vaadin-label style-name="header" width-full plain-text>
-             Metodologias de testing 
-           </vaadin-label>
-           <vaadin-grid style-name="half" header-visible="false" id="grdMetodologiaTesting" height-mode="undefined" width-full data-item-type="uy.edu.ude.sipro.valueObjects.ElementoVO" _id="grdMetodologiaTesting">
-            <table>
-             <colgroup>
-              <col column-id="nombre" sortable>
-             </colgroup>
-             <thead>
-              <tr default>
-               <th plain-text column-ids="nombre">Nombre</th>
-              </tr>
-             </thead>
-             <tbody></tbody>
-            </table>
-           </vaadin-grid>
-          </vaadin-css-layout>
-         </vaadin-horizontal-layout>
+         <vaadin-vertical-layout margin-left="false" margin-right="false" margin-bottom="false">
+          <vaadin-horizontal-layout id="layoutElementos" _id="layoutElementos">
+           <vaadin-combo-box id="cmbElementos" width="300px" data-item-type="uy.edu.ude.sipro.valueObjects.ElementoVO" _id="cmbElementos"></vaadin-combo-box>
+           <vaadin-button icon="fonticon://Vaadin-Icons/e801" style-name="icon-only friendly small" id="btnAgregarElemento" plain-text _id="btnAgregarElemento" :middle>
+             Agregar 
+           </vaadin-button>
+           <vaadin-button visible="false" icon="fonticon://Vaadin-Icons/e91b" style-name="danger icon-only small" id="btnEliminarElemento" width="31px" plain-text _id="btnEliminarElemento" :middle>
+             Eliminar 
+           </vaadin-button>
+          </vaadin-horizontal-layout>
+          <vaadin-horizontal-layout size-full>
+           <vaadin-css-layout responsive width-full>
+            <vaadin-label style-name="header" width-full plain-text>
+              Tecnologías 
+            </vaadin-label>
+            <vaadin-grid style-name="half" header-visible="false" id="grdTecnologias" height-mode="undefined" width-full data-item-type="uy.edu.ude.sipro.valueObjects.ElementoVO" _id="grdTecnologias">
+             <table>
+              <colgroup>
+               <col column-id="nombre" sortable>
+              </colgroup>
+              <thead>
+               <tr default>
+                <th plain-text column-ids="nombre">Nombre</th>
+               </tr>
+              </thead>
+              <tbody></tbody>
+             </table>
+            </vaadin-grid>
+           </vaadin-css-layout>
+           <vaadin-css-layout responsive width-full>
+            <vaadin-label style-name="header" width-full plain-text>
+              Modelos de proceso 
+            </vaadin-label>
+            <vaadin-grid style-name="half" header-visible="false" id="grdModeloProceso" height-mode="undefined" width-full data-item-type="uy.edu.ude.sipro.valueObjects.ElementoVO" _id="grdModeloProceso">
+             <table>
+              <colgroup>
+               <col column-id="nombre" sortable>
+              </colgroup>
+              <thead>
+               <tr default>
+                <th plain-text column-ids="nombre">Nombre</th>
+               </tr>
+              </thead>
+              <tbody></tbody>
+             </table>
+            </vaadin-grid>
+           </vaadin-css-layout>
+           <vaadin-css-layout responsive width-full>
+            <vaadin-label style-name="header" width-full plain-text>
+              Metodologias de testing 
+            </vaadin-label>
+            <vaadin-grid style-name="half" header-visible="false" id="grdMetodologiaTesting" height-mode="undefined" width-full data-item-type="uy.edu.ude.sipro.valueObjects.ElementoVO" _id="grdMetodologiaTesting">
+             <table>
+              <colgroup>
+               <col column-id="nombre" sortable>
+              </colgroup>
+              <thead>
+               <tr default>
+                <th plain-text column-ids="nombre">Nombre</th>
+               </tr>
+              </thead>
+              <tbody></tbody>
+             </table>
+            </vaadin-grid>
+           </vaadin-css-layout>
+          </vaadin-horizontal-layout>
+         </vaadin-vertical-layout>
         </vaadin-css-layout>
        </tab>
        <tab caption="BIBLIOGRAFÍA">

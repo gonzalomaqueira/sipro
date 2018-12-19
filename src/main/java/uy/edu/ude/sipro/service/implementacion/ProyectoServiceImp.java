@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import uy.edu.ude.sipro.valueObjects.DocenteVO;
+import uy.edu.ude.sipro.valueObjects.ElementoVO;
 import uy.edu.ude.sipro.entidades.Docente;
 import uy.edu.ude.sipro.entidades.Elemento;
 import uy.edu.ude.sipro.entidades.Proyecto;
@@ -95,7 +96,7 @@ public class ProyectoServiceImp implements ProyectoService
 	@Transactional
 	@Override
 	public void modificar(int id, String codigoUde, String titulo, int anio, String carrera, int nota, String resumen, ArrayList<String> alumnos,
-			ArrayList<String> tutorString, Set<Docente> correctores, ArrayList<String> bibliografia, CategoriaProyectoEnum categoria) throws Exception
+			ArrayList<String> tutorString, Set<Docente> correctores, ArrayList<String> bibliografia, CategoriaProyectoEnum categoria, Set<Elemento> elementosRelacionados) throws Exception
 	{
 		Proyecto proy= this.obtenerProyectoPorId(id);
 		proy.setCodigoUde(codigoUde);
@@ -134,8 +135,35 @@ public class ProyectoServiceImp implements ProyectoService
 					doc.getProyectosComoCorrector().add(proy);
 				}
 			}
+		}
+		
+		Set<Elemento> elementos= elementoService.obtenerElementos();
+		Set<Elemento> elementoRetorno=  new HashSet<Elemento>();
+		
+		for(Elemento d : proy.getElementosRelacionados())
+		{
+			for(Elemento doc : elementos)
+			{
+				if(d.getId()==doc.getId())
+				{
+					doc.getElementosRelacionados().remove(proy);
+				}
+			}
+		}
+		
+		for(Elemento d : elementosRelacionados)
+		{
+			for(Elemento doc : elementos)
+			{
+				if(d.getId()==doc.getId())
+				{
+					elementoRetorno.add(doc);
+					doc.getProyectos().add(proy);
+				}
+			}
 		}		
 	
+		proy.setElementosRelacionados(elementoRetorno);
 		proy.setCorrectores(docentesRetorno);
 		String[] textoOriginal= this.obtenerTextoOriginalProyecto(proy);
 		busquedaService.altaProyectoES(proy, textoOriginal);
