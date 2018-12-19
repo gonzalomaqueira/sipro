@@ -88,7 +88,7 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 		{
 			public void buttonClick(ClickEvent event)
 			{			
-				navigationManager.navigateTo(ElementoDetalleView.class);
+				navigationManager.navigateTo(ElementoDetalleView.class, idElemento);
 			}
 		});
 		
@@ -249,6 +249,7 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 			{			
 				listaSubElementoRelacionados.remove(subElementoSeleccionado);
 				grdElementoProyecto.setItems( listaSubElementoRelacionados );
+				btnEliminarRelacion.setVisible(false);
 				cargarCmbRelaciones();
 			}
 		});
@@ -281,6 +282,7 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 			public void buttonClick(ClickEvent event)
 			{			
 				listaSinonimos.remove(sinonimoSeleccionado);
+				btnEliminarSinonimo.setVisible(false);
 				cargarListaSinonimos();
 			}
 		});
