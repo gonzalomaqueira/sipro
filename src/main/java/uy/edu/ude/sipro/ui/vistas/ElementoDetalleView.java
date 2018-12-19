@@ -434,15 +434,15 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 		binder = new Binder<DocenteVO>(DocenteVO.class);
 		
 		binder.forField(txtNombreElemento)
-			.withValidator(nombre -> nombre.length() >= 2, "Nombre debe tener al menos 3 caracteres")
+			.withValidator(nombre -> nombre.length() >= 2, "Nombre debe tener al menos 2 caracteres")
 			.bind(DocenteVO::getNombre, DocenteVO::setNombre);
 		
         binder.forField(chEsCategoria)
-        	.withValidator(c -> c!=null, "Debe seleccionar una categoria")
+        	.withValidator(c -> c!=null, "Debe seleccionar si es categoria o no")
         	.bind(DocenteVO::getApellido, DocenteVO::setApellido);
         
         binder.forField(chTipo)
-    	.withValidator(c -> c!=null, "Debe seleccionar una tipo")
+    	.withValidator(c -> c!=null, "Debe seleccionar el tipo de elemento")
     	.bind(DocenteVO::getApellido, DocenteVO::setApellido);
          
 	}
