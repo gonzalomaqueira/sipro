@@ -15,7 +15,8 @@ public class ElementoVO implements Comparable
 	private List<SubElementoVO> elementosRelacionados;
 	
 	public ElementoVO()
-	{	}
+	{		
+	}
 		
  	public ElementoVO(String nombre)
  	{

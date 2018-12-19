@@ -74,7 +74,8 @@ public class Fachada {
 	
 
 	public void modificarProyectoCompleto(int id, String codigoUde, String titulo, int anio, String carrera, int nota, String resumen, 
-			ArrayList<String> alumnos, ArrayList<String> tutorString, List<DocenteVO> correctores, ArrayList<String> bibliografia, CategoriaProyectoEnum categoria) throws Exception
+			ArrayList<String> alumnos, ArrayList<String> tutorString, List<DocenteVO> correctores, ArrayList<String> bibliografia,
+			CategoriaProyectoEnum categoria, List<ElementoVO> elementosRelacionados) throws Exception
 	{
 		proyectoService.modificar(  id,
 									codigoUde,
@@ -87,7 +88,8 @@ public class Fachada {
 									tutorString,
 									ConversorValueObject.convertirListaDocenteVOaDocente(correctores),
 									bibliografia,
-									categoria);
+									categoria,
+									ConversorValueObject.convertirListaElementoVOaElemento(elementosRelacionados));
 	}
 	
 	public void borrarProyecto(int id) throws Exception
@@ -369,6 +371,7 @@ public class Fachada {
 		perfilService.agregar(3, "Bibliotecario");
 		perfilService.agregar(4, "Tutor");
 		perfilService.agregar(5, "Alumno");
+		perfilService.agregar(6, "Docente");
 	}
 
 	public List<ElementoReporteVO> reporteElementos(Enumerados.TipoElemento tipoElemento) 

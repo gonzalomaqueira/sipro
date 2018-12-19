@@ -2,7 +2,7 @@
 <html>
  <head>
   <meta charset="UTF-8">
-  <meta name="design-properties" content="{&quot;RULERS_VISIBLE&quot;:true,&quot;GUIDELINES_VISIBLE&quot;:false,&quot;SNAP_TO_OBJECTS&quot;:true,&quot;SNAP_TO_GRID&quot;:true,&quot;SNAPPING_DISTANCE&quot;:10,&quot;GENERATE_GETTERS&quot;:false,&quot;JAVA_SOURCES_ROOT&quot;:&quot;src/main/java&quot;,&quot;THEME&quot;:&quot;siprotema&quot;}">
+  <meta name="design-properties" content="{&quot;RULERS_VISIBLE&quot;:true,&quot;GUIDELINES_VISIBLE&quot;:false,&quot;SNAP_TO_OBJECTS&quot;:true,&quot;SNAP_TO_GRID&quot;:true,&quot;SNAPPING_DISTANCE&quot;:10,&quot;GENERATE_GETTERS&quot;:false,&quot;JAVA_SOURCES_ROOT&quot;:&quot;src/main/java&quot;,&quot;THEME&quot;:&quot;valo&quot;}">
   <meta name="vaadin-version" content="8.1.5">
  </head>
  <body>
@@ -35,7 +35,7 @@
       <vaadin-label style-name="header" width-full plain-text>
         Nombre 
       </vaadin-label>
-      <vaadin-text-field id="txtNombreElemento" width-full _id="txtNombreElemento"></vaadin-text-field>
+      <vaadin-text-field id="txtNombreElemento" width-full maxlength="50" _id="txtNombreElemento"></vaadin-text-field>
      </vaadin-css-layout>
      <vaadin-css-layout width-full>
       <vaadin-horizontal-layout width-full>
@@ -100,7 +100,7 @@
          Sinonimos 
        </vaadin-label>
        <vaadin-horizontal-layout>
-        <vaadin-text-field id="txtSinonimo" _id="txtSinonimo" :middle></vaadin-text-field>
+        <vaadin-text-field value-change-timeout="100" id="txtSinonimo" maxlength="50" _id="txtSinonimo" :middle></vaadin-text-field>
         <vaadin-button icon="fonticon://Vaadin-Icons/e801" style-name="friendly icon-only small" id="btnAgregarSinonimo" plain-text _id="btnAgregarSinonimo" :middle>
           Agregar 
         </vaadin-button>

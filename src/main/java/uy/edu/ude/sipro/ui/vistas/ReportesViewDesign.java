@@ -6,6 +6,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Grid;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.declarative.Design;
@@ -32,8 +33,8 @@ public class ReportesViewDesign extends VerticalLayout {
 	protected Button btnAgregarRelacion;
 	protected Button btnEliminarRelacion;
 	protected Grid<uy.edu.ude.sipro.valueObjects.ElementoVO> grdElementoProyecto;
-	protected VerticalLayout layoutAnios;
-	protected VerticalLayout layoutNotas;
+	protected HorizontalLayout layoutAnios;
+	protected HorizontalLayout layoutNotas;
 	protected CssLayout reportesGrafica;
 	protected Button btnGenerarReporteGeneral;
 	protected Button btnLimpiarGeneral;

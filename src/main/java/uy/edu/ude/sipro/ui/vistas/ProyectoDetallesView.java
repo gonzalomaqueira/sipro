@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -44,12 +45,11 @@ import uy.edu.ude.sipro.utiles.FuncionesTexto;
 import uy.edu.ude.sipro.valueObjects.DocenteVO;
 import uy.edu.ude.sipro.valueObjects.ElementoVO;
 import uy.edu.ude.sipro.valueObjects.ProyectoDetalleVO;
-import uy.edu.ude.sipro.valueObjects.ProyectoVO;
 import uy.edu.ude.sipro.valueObjects.UsuarioVO;
 
 @SpringView
 @SpringComponent
-@Secured({"Administrador", "Bibliotecario", "Invitado", "Alumno", "Tutor"})
+@Secured({"Administrador", "Bibliotecario", "Invitado", "Alumno", "Tutor", "Docente"})
 public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements View
 {
 	@Autowired
@@ -58,9 +58,12 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 	private UsuarioVO usuario;
 	private ProyectoDetalleVO proyecto;
     private DocenteVO correctorSeleccionado;
+    private ElementoVO elementoSeleccionado;
     private Binder<ProyectoDetalleVO> binder;
     private List<DocenteVO> listaCorrectores;
     private List<DocenteVO> listaDocentes;
+    private List<ElementoVO> listaElementosProyecto;
+    private List<ElementoVO> listaElementosTotal;
     private final NavigationManager navigationManager;
     
     @Autowired
@@ -69,6 +72,8 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
     	this.navigationManager = navigationManager;
     	this.listaCorrectores = new ArrayList<DocenteVO>();	
     	this.listaDocentes= new ArrayList<DocenteVO>();
+    	this.listaElementosProyecto= new ArrayList<ElementoVO>();
+    	this.listaElementosTotal= new ArrayList<ElementoVO>();
     }
 	
 	public void enter(ViewChangeEvent event)
@@ -84,6 +89,8 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 		
 		cargarInterfazInicial();
 		this.listaDocentes= fachada.obtenerDocentes();
+		this.listaElementosTotal= fachada.obtenerElementos().stream()
+				.filter(x -> !x.isEsCategoria() && x.getTipoElemento() != TipoElemento.OTRO).collect(Collectors.toList());
 
 		String idProyecto = event.getParameters();
 		if ("".equals(idProyecto))
@@ -99,6 +106,7 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 			opener.extend(btnVerTextoDocumento);
 		}
 		cargarCmbCorrectores();
+		cargarComboElementos();
 		this.SetearBinder();
 		btnGuardar.addClickListener(new Button.ClickListener()
 		{
@@ -121,7 +129,8 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 															proyecto.getTutorString(),															
 															proyecto.getCorrectores(),
 															proyecto.getBibliografia(),
-															proyecto.getCategoria());
+															proyecto.getCategoria(),
+															proyecto.getElementosRelacionados());
 							
 						 UIUtiles.mostrarNotificacion("PROYECTO", "Modificación exitosa", Notification.Type.HUMANIZED_MESSAGE);	
 					     cargarInterfazInicial();
@@ -178,6 +187,8 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 		    {
 		    	correctorSeleccionado= evt.getValue();
 		    	btnAgregarCorrector.setEnabled(true);
+		    	btnEliminarCorrector.setVisible(false);
+		    	grdCorrectores.deselectAll();
 		    }
 		});
 		
@@ -200,11 +211,88 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 			}
 		});
 		
+		cmbElementos.addValueChangeListener(evt -> 
+		{
+		    if (!evt.getSource().isEmpty()) 
+		    {
+		    	elementoSeleccionado= evt.getValue();
+		    	btnAgregarElemento.setEnabled(true);
+		    	btnEliminarElemento.setVisible(false);
+		    	grdTecnologias.deselectAll();
+				grdModeloProceso.deselectAll();
+				grdMetodologiaTesting.deselectAll();
+		    }
+		});
+		
+		grdMetodologiaTesting.addSelectionListener(evt -> 
+		{
+			SingleSelectionModel<ElementoVO> singleSelect = (SingleSelectionModel<ElementoVO>) grdMetodologiaTesting.getSelectionModel();
+			singleSelect.setDeselectAllowed(false);
+			try
+			{
+				if (singleSelect.getSelectedItem() != null)
+				{
+					grdTecnologias.deselectAll();
+					grdModeloProceso.deselectAll();
+					elementoSeleccionado = singleSelect.getSelectedItem().get();
+					btnAgregarElemento.setEnabled(false);
+					btnEliminarElemento.setVisible(true);
+					btnEliminarElemento.setEnabled(true);
+				}
+			}
+			catch (Exception e)
+			{
+			}
+		});
+		
+		grdModeloProceso.addSelectionListener(evt -> 
+		{
+			SingleSelectionModel<ElementoVO> singleSelect = (SingleSelectionModel<ElementoVO>) grdModeloProceso.getSelectionModel();
+			singleSelect.setDeselectAllowed(false);
+			try
+			{
+				if (singleSelect.getSelectedItem() != null)
+				{
+					grdTecnologias.deselectAll();
+					grdMetodologiaTesting.deselectAll();
+					elementoSeleccionado = singleSelect.getSelectedItem().get();
+					btnAgregarElemento.setEnabled(false);
+					btnEliminarElemento.setVisible(true);
+					btnEliminarElemento.setEnabled(true);
+				}
+			}
+			catch (Exception e)
+			{
+			}
+		});
+		
+		grdTecnologias.addSelectionListener(evt -> 
+		{
+			SingleSelectionModel<ElementoVO> singleSelect = (SingleSelectionModel<ElementoVO>) grdTecnologias.getSelectionModel();
+			singleSelect.setDeselectAllowed(false);
+			try
+			{
+				if (singleSelect.getSelectedItem() != null)
+				{
+					grdMetodologiaTesting.deselectAll();
+					grdModeloProceso.deselectAll();
+					elementoSeleccionado = singleSelect.getSelectedItem().get();
+					btnAgregarElemento.setEnabled(false);
+					btnEliminarElemento.setVisible(true);
+					btnEliminarElemento.setEnabled(true);
+				}
+			}
+			catch (Exception e)
+			{
+			}
+		});
+		
+
 		btnAgregarCorrector.addClickListener(new Button.ClickListener()
 		{
 			public void buttonClick(ClickEvent event)
 			{	
-				if(correctorSeleccionado.getId()!=0)//ver esto, no detecta null, ver si en base nunca genera un elemento id =0!!!!!!!
+				if(correctorSeleccionado.getId()!=0)
 				{
 					listaCorrectores.add(correctorSeleccionado);
 					grdCorrectores.setItems(listaCorrectores);
@@ -225,7 +313,48 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 				
 			}
 		});
+		
+		btnAgregarElemento.addClickListener(new Button.ClickListener()
+		{
+			public void buttonClick(ClickEvent event)
+			{	
+				if(elementoSeleccionado.getId()!=0)
+				{
+					listaElementosProyecto.add(elementoSeleccionado);					
+					cargarGrillasElementos();
+					cargarComboElementos();
+					
+				}
+			}
+		});
+		
+		btnEliminarElemento.addClickListener(new Button.ClickListener()
+		{
+			public void buttonClick(ClickEvent event)
+			{			
+				listaElementosProyecto.remove(elementoSeleccionado);				
+				cargarGrillasElementos();				
+				btnEliminarElemento.setEnabled(false);
+				cargarComboElementos();
+			}
+		});
 	}
+	
+	private void cargarGrillasElementos()
+	{
+		grdTecnologias.setItems(listaElementosProyecto.stream()
+				.filter(x -> x.getTipoElemento() == TipoElemento.TECNOLOGIA)
+				.sorted()
+				.collect(Collectors.toList()));
+		grdModeloProceso.setItems(listaElementosProyecto.stream()
+				.filter(x -> x.getTipoElemento() == TipoElemento.MODELO_PROCESO)
+				.sorted()
+				.collect(Collectors.toList()));
+		grdMetodologiaTesting.setItems(listaElementosProyecto.stream()
+				.filter(x -> x.getTipoElemento() == TipoElemento.METODOLOGIA_TESTING)
+				.sorted()
+				.collect(Collectors.toList()));
+	}	
 	
 	private void cargarVistaNuevoProyecto()
 	{
@@ -238,7 +367,9 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 	{
 		proyecto = fachada.obtenerProyectoPorId(idProyecto);
 		listaCorrectores= proyecto.getCorrectores();
+		listaElementosProyecto= proyecto.getElementosRelacionados();
 		actualizarListaCorrectores();
+		actualizarListaElementos();
 		if (proyecto != null)
 		{
 			txtCodigo.setValue(proyecto.getCodigoUde());
@@ -252,9 +383,7 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 			txtAlumnos.setValue(proyecto.getAlumnos() != null ? FuncionesTexto.convertirArrayAStringSaltoLinea(new ArrayList<String>(proyecto.getAlumnos())) : "");
 			txtBibliografia.setValue(proyecto.getBibliografia() != null ? FuncionesTexto.convertirArrayAStringSaltoLinea(new ArrayList<String>(proyecto.getBibliografia())) : "");
 			txtResumen.setValue(proyecto.getResumen() != null ? proyecto.getResumen() : "");
-			grdTecnologias.setItems(this.obtenerElementosPorTipo(proyecto.getElementosRelacionados(), TipoElemento.TECNOLOGIA));
-			grdMetodologiaTesting.setItems(this.obtenerElementosPorTipo(proyecto.getElementosRelacionados(), TipoElemento.METODOLOGIA_TESTING));
-			grdModeloProceso.setItems(this.obtenerElementosPorTipo(proyecto.getElementosRelacionados(), TipoElemento.MODELO_PROCESO));
+			cargarGrillasElementos();
 		}
 		this.expandirTextAreas();
 	}
@@ -269,17 +398,6 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 		
 		if (txtTutor != null && !txtTutor.getValue().equals(""))
 			txtTutor.setRows(proyecto.getTutorString().size() + 1);
-	}
-
-	private List<ElementoVO> obtenerElementosPorTipo(List<ElementoVO> elementosRelacionados, TipoElemento tipo)
-	{
-		List<ElementoVO> vRetorno = new ArrayList<ElementoVO>();
-		for (ElementoVO elem : elementosRelacionados)
-		{
-			if (elem.getTipoElemento() == tipo)
-				vRetorno.add(elem);
-		}
-		return vRetorno;
 	}
 
 	private void cargarInterfazInicial()
@@ -319,6 +437,7 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 		proyecto.setResumen(txtResumen.getValue());
 		proyecto.setBibliografia(FuncionesTexto.convertirStringAArrayList(txtBibliografia.getValue()));
 		proyecto.setCategoria(cmbCategoria.getValue());
+		proyecto.setElementosRelacionados(listaElementosProyecto);
 	}
 	
 	private void permitirEdicion(boolean opcion)
@@ -326,6 +445,7 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 		if(opcion)
 		{
 			this.layoutCorrectores.setVisible(true);
+			this.layoutElementos.setVisible(true);
 			this.txtCarrera.setReadOnly(false);
 			this.grdCorrectores.setEnabled(true);
 			this.cmbCorrectores.setEnabled(true);
@@ -341,6 +461,7 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 		else
 		{
 			this.layoutCorrectores.setVisible(false);
+			this.layoutElementos.setVisible(false);
 			this.txtCarrera.setReadOnly(true);
 			this.grdCorrectores.setEnabled(false);
 			this.cmbCorrectores.setEnabled(false);
@@ -391,6 +512,48 @@ public class ProyectoDetallesView extends ProyectoDetallesViewDesign implements 
 					if (cor.getId() == doc.getId())
 					{
 						listaCorrectores.add(doc);
+					}
+				}				
+			}
+		}
+	}
+	
+	private void cargarComboElementos()
+	{
+		actualizarListaElementos();
+		Set<ElementoVO> elementosCombo = new HashSet<ElementoVO>(listaElementosTotal);
+		Set<ElementoVO> elementoAux = new HashSet<ElementoVO>(elementosCombo);
+		for(ElementoVO cor : elementoAux)
+		{				
+			for(ElementoVO corAux : listaElementosProyecto)
+			{
+				if(cor.getId()==corAux.getId())
+				{
+					elementosCombo.remove(cor);
+				    break;
+				}
+			}
+		}
+		cmbElementos.setItems(elementosCombo);
+		cmbElementos.setItemCaptionGenerator(ElementoVO::getNombre);
+		cmbElementos.setValue(null);
+		btnAgregarElemento.setEnabled(false);
+
+	}
+	
+	private void actualizarListaElementos()
+	{
+		Set<ElementoVO> elementosAux = new HashSet<ElementoVO>(listaElementosProyecto);
+		listaElementosProyecto= new ArrayList<ElementoVO>();
+		if(elementosAux!=null)
+		{
+			for (ElementoVO elem : elementosAux)
+			{
+				for (ElementoVO elemTot : listaElementosTotal) 
+				{
+					if (elem.getId() == elemTot.getId())
+					{
+						listaElementosProyecto.add(elemTot);
 					}
 				}				
 			}

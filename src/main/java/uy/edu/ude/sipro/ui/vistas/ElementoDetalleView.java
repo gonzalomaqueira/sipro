@@ -63,6 +63,7 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 	public void enter(ViewChangeEvent event) 
 	{
 		cargarListaElementos();
+		btnAgregarSinonimo.setEnabled(false);
 		String idElemento = event.getParameters();
 		this.SetearBinder();
 		if ("".equals(idElemento))
@@ -204,6 +205,8 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 		    	subElementoSeleccionado.setId(evt.getValue().getId());
 		    	subElementoSeleccionado.setNombre(evt.getValue().getNombre());
 		    	btnAgregarRelacion.setEnabled(true);
+		    	btnEliminarRelacion.setVisible(false);
+		    	grdElementoProyecto.deselectAll();
 		    }
 		});
 		
@@ -261,6 +264,8 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 						SinonimoVO sinonimo= new SinonimoVO();
 						sinonimo.setNombre(txtSinonimo.getValue());
 						listaSinonimos.add(sinonimo);
+						txtSinonimo.clear();
+						btnAgregarSinonimo.setEnabled(false);
 						cargarListaSinonimos();
 					}
 					else
@@ -295,6 +300,14 @@ public class ElementoDetalleView extends ElementoDetalleViewDesign implements Vi
 			catch (Exception e)
 			{
 			}
+		});
+		
+		txtSinonimo.addValueChangeListener(evt -> 
+		{
+			if(txtSinonimo.getValue().equals(""))
+				btnAgregarSinonimo.setEnabled(false);
+			else
+				btnAgregarSinonimo.setEnabled(true);
 		});
 		
 	}

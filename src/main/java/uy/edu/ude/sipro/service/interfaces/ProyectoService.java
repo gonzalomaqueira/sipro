@@ -10,13 +10,14 @@ import uy.edu.ude.sipro.entidades.Proyecto;
 import uy.edu.ude.sipro.entidades.Usuario;
 import uy.edu.ude.sipro.entidades.Enumerados.CategoriaProyectoEnum;
 import uy.edu.ude.sipro.valueObjects.DocenteVO;
+import uy.edu.ude.sipro.valueObjects.ElementoVO;
 
 public interface ProyectoService 
 {
 	void agregar(String codigoUde, String carrera, Set<DocenteVO> correctoresVO, int nota, String rutaArchivo);
 	void modificar(int id, String codigoUde, int anio, String carrera, int nota, String rutaArchivo);
 	void modificar(int id, String codigoUde, String titulo, int anio, String carrera, int nota, String resumen, ArrayList<String> alumnos,
-			ArrayList<String> tutorString, Set<Docente> correctores, ArrayList<String> bibliografia, CategoriaProyectoEnum categoria) throws Exception;
+			ArrayList<String> tutorString, Set<Docente> correctores, ArrayList<String> bibliografia, CategoriaProyectoEnum categoria, Set<Elemento> elementosRelacionados) throws Exception;
 	void eliminar(int id) throws Exception;
     Set<Proyecto> obtenerProyectos();
 	Proyecto obtenerProyectoPorId(int idProyecto);

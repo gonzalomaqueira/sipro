@@ -52,8 +52,6 @@ public class MainView extends MainViewDesign implements ViewDisplay {
 		
 		navigationManager.setErrorView(AccesoDenegadoView.class);
 		salir.addClickListener(e -> logout());
-		
-
 	}
 
 

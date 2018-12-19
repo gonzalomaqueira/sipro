@@ -2,7 +2,7 @@
 <html>
  <head>
   <meta charset="UTF-8">
-  <meta name="design-properties" content="{&quot;RULERS_VISIBLE&quot;:true,&quot;GUIDELINES_VISIBLE&quot;:false,&quot;SNAP_TO_OBJECTS&quot;:true,&quot;SNAP_TO_GRID&quot;:true,&quot;SNAPPING_DISTANCE&quot;:10,&quot;GENERATE_GETTERS&quot;:false,&quot;JAVA_SOURCES_ROOT&quot;:&quot;src/main/java&quot;,&quot;THEME&quot;:&quot;siprotema&quot;}">
+  <meta name="design-properties" content="{&quot;RULERS_VISIBLE&quot;:true,&quot;GUIDELINES_VISIBLE&quot;:false,&quot;SNAP_TO_OBJECTS&quot;:true,&quot;SNAP_TO_GRID&quot;:true,&quot;SNAPPING_DISTANCE&quot;:10,&quot;GENERATE_GETTERS&quot;:false,&quot;JAVA_SOURCES_ROOT&quot;:&quot;src/main/java&quot;,&quot;THEME&quot;:&quot;valo&quot;}">
   <meta name="vaadin-version" content="8.1.5">
  </head>
  <body>
@@ -44,7 +44,7 @@
         </vaadin-label>
         <vaadin-horizontal-layout>
          <vaadin-combo-box id="cmbElementos" placeholder="Filtrar..." data-item-type="uy.edu.ude.sipro.valueObjects.ElementoVO" _id="cmbElementos"></vaadin-combo-box>
-         <vaadin-button icon="fonticon://Vaadin-Icons/e801" style-name="friendly icon-only small" id="btnAgregarRelacion" plain-text _id="btnAgregarRelacion">
+         <vaadin-button icon="fonticon://Vaadin-Icons/e801" style-name="friendly icon-only small" id="btnAgregarRelacion" plain-text _id="btnAgregarRelacion" :middle>
            Agregar 
          </vaadin-button>
          <vaadin-button visible="false" icon="fonticon://Vaadin-Icons/e91b" style-name="danger icon-only small" id="btnEliminarRelacion" plain-text _id="btnEliminarRelacion">
@@ -65,15 +65,17 @@
          </table>
         </vaadin-grid>
        </vaadin-vertical-layout>
-       <vaadin-vertical-layout id="layoutAnios" margin="false" _id="layoutAnios">
+       <vaadin-vertical-layout margin-left="false" margin-right="false" margin-bottom="false">
         <vaadin-label style-name="header" width="50%" plain-text>
           Años 
         </vaadin-label>
+        <vaadin-horizontal-layout spacing="false" id="layoutAnios" width-full margin-left _id="layoutAnios"></vaadin-horizontal-layout>
        </vaadin-vertical-layout>
-       <vaadin-vertical-layout id="layoutNotas" margin="false" _id="layoutNotas">
+       <vaadin-vertical-layout margin="false">
         <vaadin-label style-name="header" width="50%" plain-text>
           Notas 
         </vaadin-label>
+        <vaadin-horizontal-layout spacing="false" id="layoutNotas" width-full margin-left _id="layoutNotas"></vaadin-horizontal-layout>
        </vaadin-vertical-layout>
       </vaadin-css-layout>
      </tab>

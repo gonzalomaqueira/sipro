@@ -25,7 +25,7 @@ import uy.edu.ude.sipro.valueObjects.UsuarioVO;
 
 @SpringView
 @SpringComponent
-@Secured({"Administrador", "Bibliotecario", "Alumno", "Tutor"})
+@Secured({"Administrador", "Bibliotecario", "Alumno", "Tutor", "Docente"})
 public class PerfilView extends PerfilViewDesign implements View{
 	
 	@Autowired

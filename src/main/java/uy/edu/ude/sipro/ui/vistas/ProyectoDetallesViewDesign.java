@@ -50,6 +50,10 @@ public class ProyectoDetallesViewDesign extends VerticalLayout {
 	protected Button btnEliminarCorrector;
 	protected Grid<uy.edu.ude.sipro.valueObjects.DocenteVO> grdCorrectores;
 	protected CssLayout tabElementos;
+	protected HorizontalLayout layoutElementos;
+	protected ComboBox<uy.edu.ude.sipro.valueObjects.ElementoVO> cmbElementos;
+	protected Button btnAgregarElemento;
+	protected Button btnEliminarElemento;
 	protected Grid<uy.edu.ude.sipro.valueObjects.ElementoVO> grdTecnologias;
 	protected Grid<uy.edu.ude.sipro.valueObjects.ElementoVO> grdModeloProceso;
 	protected Grid<uy.edu.ude.sipro.valueObjects.ElementoVO> grdMetodologiaTesting;
