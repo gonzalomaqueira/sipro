@@ -10,6 +10,7 @@ import com.vaadin.spring.internal.Conventions;
 import com.vaadin.spring.navigator.SpringNavigator;
 
 import uy.edu.ude.sipro.seguridad.SecurityUtils;
+import uy.edu.ude.sipro.ui.vistas.BusquedasView;
 import uy.edu.ude.sipro.ui.vistas.ProyectoListadoView;
 import uy.edu.ude.sipro.ui.vistas.UsuarioListadoView;
 
@@ -65,7 +66,7 @@ public class NavigationManager extends SpringNavigator {
 			return;
 		}
 
-		navigateTo(SecurityUtils.isCurrentUserInRole("admin") ? UsuarioListadoView.class : ProyectoListadoView.class);
+		navigateTo(BusquedasView.class);
 
 	}
 

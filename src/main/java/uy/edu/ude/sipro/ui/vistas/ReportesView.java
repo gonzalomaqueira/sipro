@@ -57,7 +57,7 @@ import uy.edu.ude.sipro.valueObjects.SubElementoVO;
 
 @SpringView
 @SpringComponent
-@Secured({"Administrador", "Bibliotecario", "Alumno", "Tutor"})
+@Secured({"Administrador", "Bibliotecario", "Alumno", "Tutor", "Docente"})
 public class ReportesView extends ReportesViewDesign implements View{
 	
 	@Autowired

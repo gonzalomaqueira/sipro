@@ -371,6 +371,7 @@ public class Fachada {
 		perfilService.agregar(3, "Bibliotecario");
 		perfilService.agregar(4, "Tutor");
 		perfilService.agregar(5, "Alumno");
+		perfilService.agregar(6, "Docente");
 	}
 
 	public List<ElementoReporteVO> reporteElementos(Enumerados.TipoElemento tipoElemento) 
