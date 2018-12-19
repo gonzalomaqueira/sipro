@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="proyectoTemplate" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6cc3cd3b-98b6-4285-86ab-ea3c18ddcf52">
-	<property name="ireport.zoom" value="1.6105100000000068"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="562"/>
+	<property name="ireport.zoom" value="2.143588810000011"/>
+	<property name="ireport.x" value="85"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="proyecto" class="uy.edu.ude.sipro.valueObjects.ProyectoDetalleVO"/>
 	<background>
 		<band splitType="Stretch"/>
@@ -26,7 +26,7 @@
 		</band>
 	</title>
 	<detail>
-		<band height="160" splitType="Stretch">
+		<band height="72" splitType="Stretch">
 			<staticText>
 				<reportElement x="19" y="10" width="100" height="20" uuid="ad5c37ea-e952-4a75-8ea5-f8dbf8f2da9f"/>
 				<textElement markup="none">
@@ -34,13 +34,13 @@
 				</textElement>
 				<text><![CDATA[RESUMEN]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="19" y="30" width="511" height="130" uuid="baa9c493-bec6-4aa7-8f5b-3d3b6c8014ee"/>
-				<textFieldExpression><![CDATA[$P{proyecto}.getResumen()]]></textFieldExpression>
-			</textField>
 			<line>
 				<reportElement x="20" y="26" width="510" height="1" uuid="779bc98f-f46c-453f-84b1-dbd1eb214390"/>
 			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="19" y="30" width="511" height="36" uuid="baa9c493-bec6-4aa7-8f5b-3d3b6c8014ee"/>
+				<textFieldExpression><![CDATA[$P{proyecto}.getResumen()]]></textFieldExpression>
+			</textField>
 		</band>
 		<band height="142">
 			<staticText>
@@ -98,7 +98,7 @@
 				<text><![CDATA[CATEGORÍA:]]></text>
 			</staticText>
 		</band>
-		<band height="159">
+		<band height="52">
 			<staticText>
 				<reportElement x="19" y="0" width="100" height="20" uuid="643124b9-e277-4989-b798-2d557d34df82"/>
 				<textElement markup="none">
@@ -106,10 +106,6 @@
 				</textElement>
 				<text><![CDATA[ALUMNOS:]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="19" y="20" width="160" height="138" uuid="478b3dea-e297-4de5-8592-6529578569d9"/>
-				<textFieldExpression><![CDATA[$P{proyecto}.getStringAlumnos()]]></textFieldExpression>
-			</textField>
 			<staticText>
 				<reportElement x="206" y="0" width="100" height="20" uuid="88069ea4-a3ff-4ab6-82b3-1ba7a0bbc800"/>
 				<textElement markup="none">
@@ -117,12 +113,8 @@
 				</textElement>
 				<text><![CDATA[TUTOR:]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="206" y="20" width="158" height="138" uuid="40e54bf0-945f-4878-a7d3-cce83b03fd37"/>
-				<textFieldExpression><![CDATA[$P{proyecto}.getStringTutorString()]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="397" y="20" width="158" height="138" uuid="0cbb1d80-3033-4617-b2f3-1b1172bf274c"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="397" y="21" width="158" height="22" uuid="0cbb1d80-3033-4617-b2f3-1b1172bf274c"/>
 				<textFieldExpression><![CDATA[$P{proyecto}.getStringCorrectores()]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -132,8 +124,16 @@
 				</textElement>
 				<text><![CDATA[CORRECTORES:]]></text>
 			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="20" y="21" width="160" height="22" uuid="478b3dea-e297-4de5-8592-6529578569d9"/>
+				<textFieldExpression><![CDATA[$P{proyecto}.getStringAlumnos()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="206" y="21" width="158" height="22" uuid="40e54bf0-945f-4878-a7d3-cce83b03fd37"/>
+				<textFieldExpression><![CDATA[$P{proyecto}.getStringTutorString()]]></textFieldExpression>
+			</textField>
 		</band>
-		<band height="242">
+		<band height="107">
 			<staticText>
 				<reportElement x="200" y="46" width="152" height="20" uuid="70c0615f-1e13-4f68-ad9c-a6a68ba5370b"/>
 				<textElement markup="none">
@@ -141,8 +141,8 @@
 				</textElement>
 				<text><![CDATA[METODOLOGÍAS DE TESTING:]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="200" y="74" width="152" height="168" uuid="2ea40b74-1dcb-4f5e-a827-a6b9cf407b31"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="200" y="71" width="152" height="24" uuid="2ea40b74-1dcb-4f5e-a827-a6b9cf407b31"/>
 				<textFieldExpression><![CDATA[$P{proyecto}.getMetodologiaTesting()]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -152,8 +152,8 @@
 				</textElement>
 				<text><![CDATA[TECNOLOGÍAS:]]></text>
 			</staticText>
-			<textField isBlankWhenNull="false">
-				<reportElement x="19" y="74" width="141" height="168" isRemoveLineWhenBlank="true" uuid="f9324fe6-6328-4bc1-b842-fb5a0c53b8f5"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement x="20" y="71" width="141" height="24" isRemoveLineWhenBlank="true" uuid="f9324fe6-6328-4bc1-b842-fb5a0c53b8f5"/>
 				<textFieldExpression><![CDATA[$P{proyecto}.getTecnologias()]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -163,8 +163,8 @@
 				</textElement>
 				<text><![CDATA[MODELOS DE PROCESO:]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="387" y="74" width="141" height="168" uuid="9f1cb142-56bc-4a53-9060-7c1866f3c038"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="389" y="71" width="141" height="21" uuid="9f1cb142-56bc-4a53-9060-7c1866f3c038"/>
 				<textFieldExpression><![CDATA[$P{proyecto}.getModeloProceso()]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -178,9 +178,9 @@
 				<reportElement x="20" y="29" width="508" height="1" uuid="4288aff6-0aa6-4b08-8e01-4dbc4a5e023f"/>
 			</line>
 		</band>
-		<band height="427">
-			<textField>
-				<reportElement x="19" y="43" width="509" height="369" uuid="2a8bb23d-20f7-4275-9fbd-c1f20dd73f98"/>
+		<band height="77">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="19" y="43" width="509" height="24" uuid="2a8bb23d-20f7-4275-9fbd-c1f20dd73f98"/>
 				<textFieldExpression><![CDATA[$P{proyecto}.getStringBibliografia()]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -193,9 +193,6 @@
 			<line>
 				<reportElement x="21" y="28" width="509" height="1" uuid="4509cea0-66eb-41fa-a06e-7654eda3494c"/>
 			</line>
-			<break>
-				<reportElement x="0" y="5" width="100" height="1" uuid="8fcd5df8-45d6-411f-8fa5-338e948f37df"/>
-			</break>
 		</band>
 	</detail>
 </jasperReport>
