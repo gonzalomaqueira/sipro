@@ -554,6 +554,7 @@ public class FuncionesTexto
 		String retorno=linea;
 		retorno = retorno.replaceAll("[\u0000-\u001f]", " ");
 		retorno= retorno.replaceAll("\\s+"," ");
+		retorno= retorno.replaceAll("\"", "");
 		retorno = retorno.replaceAll("\n", "").replace("\r", "");
 		retorno = limpiarTextoFull(retorno);
 				
