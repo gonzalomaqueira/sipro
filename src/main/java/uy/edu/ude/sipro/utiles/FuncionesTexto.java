@@ -271,7 +271,9 @@ public class FuncionesTexto
 		if (FuncionesTexto.esTitulo(linea) && (	linea.toLowerCase().trim().equals("alumnos") || 
 												linea.toLowerCase().trim().equals("integrantes") ||
 												linea.toLowerCase().trim().equals("alumnos:") || 
-												linea.toLowerCase().trim().equals("integrantes:")))
+												linea.toLowerCase().trim().equals("integrantes:")||
+												linea.toLowerCase().trim().equals("equipo:")||
+												linea.toLowerCase().trim().equals("equipo")))
 		{
 			return true;
 		}
