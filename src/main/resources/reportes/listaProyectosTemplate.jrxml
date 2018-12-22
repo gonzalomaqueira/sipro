@@ -106,6 +106,10 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$P{datosFiltro}.getStringListaElementos()]]></textFieldExpression>
 			</textField>
+			<image>
+				<reportElement x="0" y="0" width="81" height="46" uuid="78ef379f-5ad7-4b25-95d3-42bc06d86923"/>
+				<imageExpression><![CDATA["C:\\Users\\MAX-PC\\Desktop\\LOGO UNIVERSIDADES_UDE.jpg"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<columnHeader>

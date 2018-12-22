@@ -398,7 +398,7 @@ public class Fachada {
 				elem.setPorcentaje(round(((float)elem.getCantidad() * 100 / totalElementosAsociados), 1));
 			}
 		}
-		return listaRetorno.stream().sorted().limit(10).collect(Collectors.toList());		
+		return listaRetorno.stream().sorted().collect(Collectors.toList());
 	}
 
 	private static float round (float value, int precision) {
