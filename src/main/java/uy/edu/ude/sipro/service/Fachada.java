@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.handler.UserRoleAuthorizationInterceptor;
 
 import uy.edu.ude.sipro.entidades.Enumerados.CategoriaProyectoEnum;
 import uy.edu.ude.sipro.entidades.Enumerados.EstadoProyectoEnum;
@@ -38,6 +37,12 @@ import uy.edu.ude.sipro.valueObjects.SinonimoVO;
 import uy.edu.ude.sipro.valueObjects.SubElementoVO;
 import uy.edu.ude.sipro.valueObjects.UsuarioVO;
 
+/*************************************************************************
+
+Fachada del sistema
+Clase que sirve como interacción entre la capa gráfica y la de negocio
+
+**************************************************************************/
 @Service
 public class Fachada {
 	
@@ -398,7 +403,7 @@ public class Fachada {
 				elem.setPorcentaje(round(((float)elem.getCantidad() * 100 / totalElementosAsociados), 1));
 			}
 		}
-		return listaRetorno.stream().sorted().limit(10).collect(Collectors.toList());		
+		return listaRetorno.stream().sorted().collect(Collectors.toList());
 	}
 
 	private static float round (float value, int precision) {

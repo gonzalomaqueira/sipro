@@ -1,5 +1,10 @@
 package uy.edu.ude.sipro.entidades;
 
+/*************************************************************************
+
+Clase que define los enumerados utilizados
+
+**************************************************************************/
 public class Enumerados 
 {
 	public enum EstadoProyectoEnum

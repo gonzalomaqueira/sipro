@@ -1,11 +1,14 @@
 package uy.edu.ude.sipro.dao.interfaces;
 
-import java.util.List;
 import java.util.Set;
 
-import uy.edu.ude.sipro.entidades.Elemento;
 import uy.edu.ude.sipro.entidades.Sinonimo;
 
+/*************************************************************************
+
+Interface encargada de la persistencia de Sinónimos de elementos
+
+**************************************************************************/
 public interface SinonimoDao
 {
 	void agregar(Sinonimo sinonimo);

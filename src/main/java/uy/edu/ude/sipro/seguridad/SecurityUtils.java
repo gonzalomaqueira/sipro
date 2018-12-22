@@ -12,60 +12,39 @@ import org.springframework.security.core.userdetails.UserDetails;
 import uy.edu.ude.sipro.entidades.Usuario;
 import uy.edu.ude.sipro.service.interfaces.UsuarioService;
 
-/**
- * SecurityUtils takes care of all such static operations that have to do with
- * security and querying rights from different beans of the UI.
- *
- */
+/*************************************************************************
+
+ Utilitario de funciones estáticas para SrpingSecurity
+
+**************************************************************************/
 public class SecurityUtils {
 
-	private SecurityUtils() {
-		// Util methods only
+	private SecurityUtils()
+	{
 	}
 
-	/**
-	 * Gets the user name of the currently signed in user.
-	 *
-	 * @return the user name of the current user or <code>null</code> if the
-	 *         user has not signed in
-	 */
-	public static String getUsername() {
+	public static String getUsername() 
+	{
 		SecurityContext context = SecurityContextHolder.getContext();
 		UserDetails userDetails = (UserDetails) context.getAuthentication().getPrincipal();
 		return userDetails.getUsername();
 	}
 
-	/**
-	 * Check if currently signed-in user is in the role with the given role
-	 * name.
-	 *
-	 * @param role
-	 *            the role to check for
-	 * @return <code>true</code> if user is in the role, <code>false</code>
-	 *         otherwise
-	 */
-	public static boolean isCurrentUserInRole(String role) {
+	public static boolean isCurrentUserInRole(String role) 
+	{
 		return getUserRoles().stream().filter(roleName -> roleName.equals(Objects.requireNonNull(role))).findAny()
 				.isPresent();
 	}
 
-	/**
-	 * Gets the roles the currently signed-in user belongs to.
-	 *
-	 * @return a set of all roles the currently signed-in user belongs to.
-	 */
-	public static Set<String> getUserRoles() {
+	public static Set<String> getUserRoles() 
+	{
 		SecurityContext context = SecurityContextHolder.getContext();
 		return context.getAuthentication().getAuthorities().stream().map(GrantedAuthority::getAuthority)
 				.collect(Collectors.toSet());
 	}
 
-	/**
-	 * Gets the user object for the current user.
-	 *
-	 * @return the user object
-	 */
-	public static Usuario getCurrentUser(UsuarioService usuarioService) {
+	public static Usuario getCurrentUser(UsuarioService usuarioService) 
+	{
 		return usuarioService.buscarUsuario(SecurityUtils.getUsername());
 	}
 }

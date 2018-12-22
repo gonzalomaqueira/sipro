@@ -1,17 +1,19 @@
 package uy.edu.ude.sipro.service.interfaces;
 
-
 import java.util.ArrayList;
 import java.util.Set;
 
 import uy.edu.ude.sipro.entidades.Docente;
 import uy.edu.ude.sipro.entidades.Elemento;
 import uy.edu.ude.sipro.entidades.Proyecto;
-import uy.edu.ude.sipro.entidades.Usuario;
 import uy.edu.ude.sipro.entidades.Enumerados.CategoriaProyectoEnum;
 import uy.edu.ude.sipro.valueObjects.DocenteVO;
-import uy.edu.ude.sipro.valueObjects.ElementoVO;
 
+/*************************************************************************
+
+Interface encargada de la lógica de negocio para Proyectos
+
+**************************************************************************/
 public interface ProyectoService 
 {
 	void agregar(String codigoUde, String carrera, Set<DocenteVO> correctoresVO, int nota, String rutaArchivo);

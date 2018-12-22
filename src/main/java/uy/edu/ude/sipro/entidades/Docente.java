@@ -16,8 +16,11 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+/*************************************************************************
 
+Clase que define la entidad Docente
 
+**************************************************************************/
 @Entity
 public class Docente
 {
@@ -44,7 +47,8 @@ public class Docente
 	private List<Proyecto> proyectosComoCorrector;
 	
 	public Docente()
-	{	}
+	{		
+	}
 	
 	public Docente(String nombre, String apellido)
 	{
@@ -52,20 +56,47 @@ public class Docente
 		this.apellido = apellido;
 	}
 
-	public int getId() { return id; }
-	public void setId(int id) { this.id = id; }
+	public int getId() {
+		return id;
+	}
 
-	public String getApellido() {	return apellido; }
-	public void setApellido(String apellido) { this.apellido = apellido; }
-	
-	public String getNombre() {	return nombre; }
-	public void setNombre(String nombre) { this.nombre = nombre; }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-	public List<Proyecto> getProyectosComoTutor() { return proyectosComoTutor; }
-	public void setProyectosComoTutor(List<Proyecto> proyectosComoTutor) { this.proyectosComoTutor = proyectosComoTutor; }
+	public String getApellido() {
+		return apellido;
+	}
 
-	public List<Proyecto> getProyectosComoCorrector() { return proyectosComoCorrector; }
-	public void setProyectosComoCorrector(List<Proyecto> proyectosComoCorrector) { this.proyectosComoCorrector = proyectosComoCorrector; }
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
 
-	public String getNombreCompleto() { return this.nombre + " " + this.apellido;}
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public List<Proyecto> getProyectosComoTutor() {
+		return proyectosComoTutor;
+	}
+
+	public void setProyectosComoTutor(List<Proyecto> proyectosComoTutor) {
+		this.proyectosComoTutor = proyectosComoTutor;
+	}
+
+	public List<Proyecto> getProyectosComoCorrector() {
+		return proyectosComoCorrector;
+	}
+
+	public void setProyectosComoCorrector(List<Proyecto> proyectosComoCorrector) {
+		this.proyectosComoCorrector = proyectosComoCorrector;
+	}
+
+	public String getNombreCompleto() {
+		return this.nombre + " " + this.apellido;
+	}
 }

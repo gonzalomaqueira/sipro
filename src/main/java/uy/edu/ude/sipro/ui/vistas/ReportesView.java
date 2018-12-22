@@ -39,9 +39,9 @@ import uy.edu.ude.sipro.busquedas.DatosFiltro;
 import uy.edu.ude.sipro.entidades.Enumerados;
 import uy.edu.ude.sipro.entidades.Enumerados.CategoriaProyectoEnum;
 import uy.edu.ude.sipro.entidades.Enumerados.EstadoProyectoEnum;
+import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
 import uy.edu.ude.sipro.navegacion.NavigationManager;
 import uy.edu.ude.sipro.reportes.ReportGenerator;
-import uy.edu.ude.sipro.reportes.Reportes;
 import uy.edu.ude.sipro.service.Fachada;
 
 import uy.edu.ude.sipro.service.interfaces.ProyectoService;
@@ -225,33 +225,38 @@ public class ReportesView extends ReportesViewDesign implements View{
 			{
 				try
 				{
+					boolean topDiez = checkTopDies.getValue();
 					List<ElementoReporteVO> listaElementosReporte = new ArrayList<>();
 					if(elemento.equals("Tecnologia"))
 					{
 						listaElementosReporte = fachada.reporteElementos(Enumerados.TipoElemento.TECNOLOGIA);
-						String mensaje = listaElementosReporte.size() < 10 
-								? "A continuación se muestra un gráfico con la distribución de tecnologías utilizadas en los proyectos."
-								: "A continuación se muestra un gráfico con el TOP 10 de las tecnologías más utilizadas en los proyectos.";								 
+						if (topDiez)
+						{
+							listaElementosReporte = listaElementosReporte.stream().sorted().limit(10).collect(Collectors.toList());
+						}						
+						String mensaje = topDiez
+								? "A continuación se muestra un listado con la cantidad de proyectos que utilizan cada tecnología. Se visualiza el TOP 10."
+								: "A continuación se muestra un listado con la cantidad de proyectos que utilizan cada tecnología.";					 
 						
-						generarReportesGeneral(listaElementosReporte, "ESTADÍSTICA DE TECNOLOGÍAS", mensaje);
+						generarReportesGeneral(listaElementosReporte, "ESTADÍSTICA DE TECNOLOGÍAS", mensaje, "Tecnología", topDiez);
 					}
 					if(elemento.equals("ModeloProceso"))
 					{
 						listaElementosReporte = fachada.reporteElementos(Enumerados.TipoElemento.MODELO_PROCESO);
-						String mensaje = listaElementosReporte.size() < 10
-								? "A continuación se muestra un gráfico con la distribución de los modelos de proceso utilizadas en los proyectos." 
-								: "A continuación se muestra un gráfico con el TOP 10 de los modelos de proceso más utilizadas en los proyectos.";
+						String mensaje = topDiez
+								? "A continuación se muestra un listado con la cantidad de proyectos que utilizan cada modelo de proceso. Se visualiza el TOP 10."
+								: "A continuación se muestra un listado con la cantidad de proyectos que utilizan cada modelo de proceso.";	
 						
-						generarReportesGeneral(listaElementosReporte, "ESTADÍSTICA DE MODELOS DE PROCESO", mensaje);
+						generarReportesGeneral(listaElementosReporte, "ESTADÍSTICA DE MODELOS DE PROCESO", mensaje, "Modelo de proceso", topDiez);
 					}
-					if(elemento.equals("MetodologiaTesting" ))
+					if(elemento.equals("MetodologiaTesting"))
 					{
 						listaElementosReporte = fachada.reporteElementos(Enumerados.TipoElemento.METODOLOGIA_TESTING);
-						String mensaje = listaElementosReporte.size() < 10 
-								? "A continuación se muestra un gráfico con la distribución de las metodologías de testing utilizadas en los proyectos."
-								: "A continuación se muestra un gráfico con el TOP 10 de las metodologías de testing más utilizadas en los proyectos.";
+						String mensaje = topDiez
+								? "A continuación se muestra un listado con la cantidad de proyectos que utilizan cada metodología de testing. Se visualiza el TOP 10."
+								: "A continuación se muestra un listado con la cantidad de proyectos que utilizan cada metodología de testing.";	
 						
-						generarReportesGeneral(listaElementosReporte, "ESTADÍSTICA DE METODOLOGÍAS DE TESTING", mensaje);
+						generarReportesGeneral(listaElementosReporte, "ESTADÍSTICA DE METODOLOGÍAS DE TESTING", mensaje, "Metodología de testing", topDiez);
 					}
 					if(elemento.equals(""))
 						UIUtiles.mostrarNotificacion("SELECCIONE", "Es necesario seleccionar un elemento", Notification.Type.HUMANIZED_MESSAGE);
@@ -307,8 +312,10 @@ public class ReportesView extends ReportesViewDesign implements View{
         Page.getCurrent().open(rr.getURL(), "_blank");
     }
 	
-	public void generarReportesGeneral(List<ElementoReporteVO> lista, String titulo, String descripcion)
+	public void generarReportesGeneral(List<ElementoReporteVO> lista, String titulo, String descripcion, String tipoElemento, boolean topDies)
 	{
+		String reporte = topDies ? "reportes/reporteElementosTop10.jrxml" : "reportes/reporteElementosListado.jrxml";
+		
     	StreamResource res = new StreamResource(new StreamResource.StreamSource() {
             private static final long serialVersionUID = 1L;
             @Override
@@ -321,9 +328,10 @@ public class ReportesView extends ReportesViewDesign implements View{
                     Map<String, Object> parametros = new HashMap<>();
                     parametros.put("titulo", titulo);
                     parametros.put("descripcion", descripcion);
-                    reportGenerator.executeReport("reportes/reporteElementos.jrxml", pdfBuffer, parametros, lista);
-                    
-                } catch (Exception e) 
+                    parametros.put("tipoElemento", tipoElemento);
+                    reportGenerator.executeReport(reporte, pdfBuffer, parametros, lista);                    
+                } 
+                catch (Exception e)
                 {
 					e.printStackTrace();
 				}
@@ -333,8 +341,6 @@ public class ReportesView extends ReportesViewDesign implements View{
         setResource("descarga", res);
         ResourceReference rr = ResourceReference.create(res, this, "descarga");
         Page.getCurrent().open(rr.getURL(), "_blank");
-
-		
 	}
 	
 	public void cargarDatosFiltro()

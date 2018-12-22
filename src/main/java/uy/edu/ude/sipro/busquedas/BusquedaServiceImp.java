@@ -22,9 +22,14 @@ import uy.edu.ude.sipro.utiles.FuncionesTexto;
 import uy.edu.ude.sipro.utiles.HttpUtil;
 import uy.edu.ude.sipro.utiles.JsonUtil;
 
-@Service
-public class BusquedaServiceImp implements BusquedaService {
+/*************************************************************************
 
+Implementación de la interface BusquedaService
+
+**************************************************************************/
+@Service
+public class BusquedaServiceImp implements BusquedaService 
+{
 	@Autowired
 	private ElementoService elementoService;
 	
@@ -34,8 +39,6 @@ public class BusquedaServiceImp implements BusquedaService {
 	@Override
 	public boolean altaProyectoES(Proyecto proyecto, String[] textoOriginal) throws Exception
 	{
-		String JsonArray = JsonUtil.devolverJsonArray(proyecto.getListaStringElementos());
-		
 		String nota = proyecto.getNota() < 10 ? "0" + proyecto.getNota() : String.valueOf(proyecto.getNota());
 		textoOriginal = FuncionesTexto.eliminarBibliografia(textoOriginal);
 		
@@ -151,8 +154,7 @@ public class BusquedaServiceImp implements BusquedaService {
 			
 			response = HttpUtil.doPostWithJsonBody(builder.toString(), headers, jsonBody, Constantes.ElasticSearch_Timeout);			
 		}
-		return obtenerResultadoDesdeJson(response, esBusquedaDirecta);
-		
+		return obtenerResultadoDesdeJson(response, esBusquedaDirecta);		
 	}
 
 	private String cargarFiltros(DatosFiltro datosFiltro)
@@ -234,8 +236,7 @@ public class BusquedaServiceImp implements BusquedaService {
 				resultadoBusqueda.setNota(Integer.parseInt(nota));
 				resultadoBusqueda.setAbstractProyecto(resumen);
 				
-				resultado.add(resultadoBusqueda);
-				
+				resultado.add(resultadoBusqueda);			
 			}
 		}
 		else
@@ -346,11 +347,10 @@ public class BusquedaServiceImp implements BusquedaService {
 		JsonObject jsonObject = JsonUtil.parse(response);
 		
 		return jsonObject.getBoolean("acknowledged");
-	}
+	}	
 	
-	
-	private ArrayList<Elemento> obtenerElementoString(String busqueda) {
-		
+	private ArrayList<Elemento> obtenerElementoString(String busqueda)
+	{		
 		busqueda= busqueda.toLowerCase().trim();
 		ArrayList<Elemento> retorno= new ArrayList<Elemento>();
 		HashSet<Elemento> elementos= (HashSet<Elemento>) elementoService.obtenerElementos();
@@ -420,8 +420,7 @@ public class BusquedaServiceImp implements BusquedaService {
 				
 				listaRetorno.add(Integer.parseInt(id));
 			}
-		}
-	
+		}	
 		return listaRetorno;
 	}
 	

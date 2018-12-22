@@ -12,6 +12,11 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+/*************************************************************************
+
+Clase que define la entidad Usuario
+
+**************************************************************************/
 @Entity
 @Table(name = "Usuarios", uniqueConstraints = {@UniqueConstraint(name = "uq_usuario_Usuarios", columnNames = "usuario")})
 public class Usuario
@@ -74,29 +79,69 @@ public class Usuario
 		this.activo = true;
 	}
 
-	public int getId() { return id; }
-	public void setId(int id) {	this.id = id; }
+	public int getId() {
+		return id;
+	}
 
-	public String getUsuario() { return usuario; }
-	public void setUsuario(String usuario) { this.usuario = usuario; }
-	
-	public String getContrasenia() { return contrasenia; }
-	public void setContrasenia(String contrasenia) { this.contrasenia = contrasenia; }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-	public String getNombre() { return nombre; }
-	public void setNombre(String nombre) { this.nombre = nombre; }
+	public String getUsuario() {
+		return usuario;
+	}
 
-	public String getApellido() { return apellido; }
-	public void setApellido(String apellido) { this.apellido = apellido; }
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
 
-	public String getEmail() { return email; }
-	public void setEmail(String email) { this.email = email; }
-	
-	public Perfil getPerfil() { return perfil; }
-	public void setPerfil(Perfil perfil) { this.perfil = perfil; }
+	public String getContrasenia() {
+		return contrasenia;
+	}
 
-	public boolean estaActivo() { return activo; }
-	public void setActivo(boolean activo) { this.activo = activo; }
+	public void setContrasenia(String contrasenia) {
+		this.contrasenia = contrasenia;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getApellido() {
+		return apellido;
+	}
+
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public Perfil getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
+	}
+
+	public boolean estaActivo() {
+		return activo;
+	}
+
+	public void setActivo(boolean activo) {
+		this.activo = activo;
+	}
 
 	@Override
 	public String toString()

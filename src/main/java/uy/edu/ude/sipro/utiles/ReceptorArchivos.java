@@ -7,14 +7,20 @@ import java.io.OutputStream;
 
 import com.vaadin.ui.Upload.Receiver;
 
-public class ReceptorArchivos implements Receiver {
+/*************************************************************************
 
+Clase utilizada para trabajar con el componente Upload
+
+**************************************************************************/
+public class ReceptorArchivos implements Receiver
+{
 	private OutputStream outputFile = null;
     
     private final String rutaArchivo;
     private final String prefijo;
 
-    public ReceptorArchivos(final String rutaArchivo, String prefijo) {
+    public ReceptorArchivos(final String rutaArchivo, String prefijo)
+    {
         this.rutaArchivo = rutaArchivo;
         this.prefijo = prefijo;
     }
@@ -23,25 +29,34 @@ public class ReceptorArchivos implements Receiver {
     public OutputStream receiveUpload(String nombreArchivo, String strMIMEType) 
     {
         File file = null;
-        try {
+        try 
+        {
             file = new File(rutaArchivo + prefijo + nombreArchivo);
-            if (!file.exists()) {
+            if (!file.exists())
+            {
                 file.createNewFile();
             }
             outputFile = new FileOutputStream(file);
-        } catch (IOException e) {
+        } 
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
         return outputFile;
     }
 
-    protected void finalize() {
-        try {
+    protected void finalize()
+    {
+        try 
+        {
             super.finalize();
-            if (outputFile != null) {
+            if (outputFile != null)
+            {
                 outputFile.close();
             }
-        } catch (Throwable exception) {
+        } 
+        catch (Throwable exception)
+        {
             exception.printStackTrace();
         }
     }

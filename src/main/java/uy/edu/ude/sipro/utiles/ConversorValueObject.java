@@ -2,7 +2,6 @@ package uy.edu.ude.sipro.utiles;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,6 +21,11 @@ import uy.edu.ude.sipro.valueObjects.SinonimoVO;
 import uy.edu.ude.sipro.valueObjects.SubElementoVO;
 import uy.edu.ude.sipro.valueObjects.UsuarioVO;
 
+/*************************************************************************
+
+Clase utilizada para la transformación entre clases de negocio y ValueObjects
+
+**************************************************************************/
 public class ConversorValueObject 
 {
 	public static ProyectoDetalleVO convertirProyectoDetalleVO(Proyecto proyecto)

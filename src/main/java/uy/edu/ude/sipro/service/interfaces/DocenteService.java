@@ -4,6 +4,11 @@ import java.util.Set;
 
 import uy.edu.ude.sipro.entidades.Docente;
 
+/*************************************************************************
+
+Interface encargada de la lógica de negocio para Docentes
+
+**************************************************************************/
 public interface DocenteService 
 {
 	void agregar(String nombre, String apellido);

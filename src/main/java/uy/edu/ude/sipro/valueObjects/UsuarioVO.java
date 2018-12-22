@@ -1,6 +1,6 @@
 package uy.edu.ude.sipro.valueObjects;
 
-public class UsuarioVO implements Comparable 
+public class UsuarioVO implements Comparable
 {
 	private int id;
 	private String usuario;

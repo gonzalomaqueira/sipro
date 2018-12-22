@@ -13,6 +13,11 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+/*************************************************************************
+
+Clase que define la entidad Sinonimo
+
+**************************************************************************/
 @Entity
 @Table(name = "SinonimosElemento", uniqueConstraints = {@UniqueConstraint(name = "uq_nombre_SinonimoElemento", columnNames = "nombre")})
 public class Sinonimo
@@ -40,12 +45,27 @@ public class Sinonimo
 		this.elemento = elemento;
 	}
 
-	public int getId() { return id; }
-	public void setId(int id) { this.id = id; }
+	public int getId() {
+		return id;
+	}
 
-	public String getNombre() {	return nombre; }
-	public void setNombre(String nombre) { this.nombre = nombre; }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-	public Elemento getElemento() { return elemento; }
-	public void setElemento(Elemento elemento) { this.elemento = elemento; }
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public Elemento getElemento() {
+		return elemento;
+	}
+
+	public void setElemento(Elemento elemento) {
+		this.elemento = elemento;
+	}
 }

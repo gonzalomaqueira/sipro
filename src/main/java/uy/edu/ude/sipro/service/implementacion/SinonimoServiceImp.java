@@ -1,18 +1,21 @@
 package uy.edu.ude.sipro.service.implementacion;
 
-import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import uy.edu.ude.sipro.entidades.Elemento;
 import uy.edu.ude.sipro.entidades.Sinonimo;
 import uy.edu.ude.sipro.service.interfaces.SinonimoService;
 import uy.edu.ude.sipro.dao.interfaces.SinonimoDao;
 
+/*************************************************************************
+
+Clase que implementa la interface SinonimoService
+
+**************************************************************************/
 @Service
 public class SinonimoServiceImp implements SinonimoService
 {

@@ -1,6 +1,5 @@
 package uy.edu.ude.sipro.service.implementacion;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,6 +18,11 @@ import uy.edu.ude.sipro.service.interfaces.SinonimoService;
 import uy.edu.ude.sipro.valueObjects.SinonimoVO;
 import uy.edu.ude.sipro.valueObjects.SubElementoVO;
 
+/*************************************************************************
+
+Clase que implementa la interface ElementoService
+
+**************************************************************************/
 @Service
 public class ElementoServiceImp implements ElementoService 
 {
@@ -214,7 +218,6 @@ public class ElementoServiceImp implements ElementoService
 		    proy.getElementosRelacionados().remove(elemento);
 	    }
 	    elemento.getProyectos().removeAll(elemento.getProyectos());
-/////////////////////////////////////////////////////////////////////////////
 	    
 		for(Elemento eR : elemento.getElementosRelacionados())
 		{		
@@ -243,7 +246,6 @@ public class ElementoServiceImp implements ElementoService
 		}
 		elemento.getElementosOrigen().removeAll(elemento.getElementosOrigen());
 		
-////////////////////////////////////////////////////////////////////////
 	    elementoDao.eliminar(elemento);
 	}
 	

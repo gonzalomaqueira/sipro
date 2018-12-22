@@ -34,6 +34,11 @@ import uy.edu.ude.sipro.utiles.Constantes;
 import uy.edu.ude.sipro.utiles.FuncionesTexto;
 import uy.edu.ude.sipro.utiles.SeccionTexto;
 
+/*************************************************************************
+
+Clase que define la entidad Proyecto
+
+**************************************************************************/
 @Entity
 @Table(name = "Proyectos", uniqueConstraints = {@UniqueConstraint(name = "uq_codigoUde_Proyectos", columnNames = "codigoUde")})
 public class Proyecto
@@ -291,7 +296,6 @@ public class Proyecto
 	
 	private ArrayList<String> limpiarBibliografia(ArrayList<String> contenido)
 	{
-		int largoList = contenido.size();
 		for(int x=0; x<contenido.size(); x++)
 		{
 			if(contenido.get(x).trim().equals(""))
@@ -410,7 +414,7 @@ public class Proyecto
 			}
 		}
 		
-		return new ArrayList(retorno);
+		return new ArrayList<String>(retorno);
 	}
 
 	public CategoriaProyectoEnum obtenerCategoria()

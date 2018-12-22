@@ -1,8 +1,12 @@
 package uy.edu.ude.sipro.valueObjects;
 
+/*************************************************************************
+
+Value object de interacción con la capa gráfica correspondiente a la clase ElementoReporte
+
+**************************************************************************/
 public class ElementoReporteVO implements Comparable  
 {
-	
 	private String nombreElemento;
 	private int cantidad;
 	private float porcentaje;	

@@ -5,6 +5,11 @@ import java.util.Iterator;
 
 import uy.edu.ude.sipro.utiles.Constantes;
 
+/*************************************************************************
+
+Clase que contiene los atributos necesarios para devolver un resultado de búsqueda
+
+**************************************************************************/
 public class ResultadoBusqueda
 {
 	private int idProyecto;
@@ -17,8 +22,7 @@ public class ResultadoBusqueda
 	private String abstractProyecto;
 
 	public ResultadoBusqueda() 
-	{
-		
+	{		
 	}
 	
 	public ResultadoBusqueda(int idProyecto, String tituloProyecto, float score, String codigoUde, ArrayList<String> highlight, String abstractProyecto) 
@@ -95,7 +99,6 @@ public class ResultadoBusqueda
 		this.abstractProyecto = abstractProyecto;
 	}
 	
-
 	public String getResumenBusqueda()
 	{
 		String resumen = "";
@@ -116,12 +119,9 @@ public class ResultadoBusqueda
 			int maximo = this.abstractProyecto.length() > Constantes.LARGO_MAXIMO_RESUMEN_BUSQUEDA 
 					? Constantes.LARGO_MAXIMO_RESUMEN_BUSQUEDA : this.abstractProyecto.length();
 			resumen = this.abstractProyecto.substring(0, maximo);
-		}
-		
+		}		
 		resumen = resumen + " ..... ";
 		
 		return resumen;
-	}
-	
-
+	}	
 }

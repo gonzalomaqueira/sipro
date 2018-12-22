@@ -9,7 +9,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="388">
+		<band height="416">
 			<staticText>
 				<reportElement x="0" y="0" width="802" height="65" uuid="e63d40ba-37bb-4fb2-b3b5-a37569b0714d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -108,6 +108,23 @@
 				</textElement>
 				<text><![CDATA[No se encontraron resultados]]></text>
 			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="81" height="46" uuid="c757607c-bde7-4c38-9820-5edbe8cd917a"/>
+				<imageExpression><![CDATA["C:\\Users\\MAX-PC\\Desktop\\LOGO UNIVERSIDADES_UDE.jpg"]]></imageExpression>
+			</image>
 		</band>
 	</title>
+	<pageFooter>
+		<band height="23">
+			<textField>
+				<reportElement x="681" y="0" width="80" height="20" uuid="4f2e63d8-d3fd-4e91-9854-41cc80d883b0"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}+"/"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="761" y="0" width="40" height="20" uuid="41c66564-103b-455d-bc3f-20f216eb24dc"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
 </jasperReport>

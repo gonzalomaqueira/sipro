@@ -14,11 +14,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import uy.edu.ude.sipro.SiproApplication;
 import uy.edu.ude.sipro.service.interfaces.PerfilService;
 
+/*************************************************************************
 
+Clase encargada de la configuración de seguridad de SpringSecurity
+
+**************************************************************************/
 @EnableWebSecurity
 @Configuration
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
+public class SecurityConfig extends WebSecurityConfigurerAdapter
+{
 	@Autowired
 	private PerfilService perfilService;
 	
@@ -30,38 +34,35 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public SecurityConfig(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder,
-			RedirectAuthenticationSuccessHandler successHandler) {
+			RedirectAuthenticationSuccessHandler successHandler)
+	{
 		this.userDetailsService = userDetailsService;
 		this.passwordEncoder = passwordEncoder;
 		this.successHandler = successHandler;
 	}
 
 	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception
+	{
 		super.configure(auth);
 		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
 	}
 
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		// Not using Spring CSRF here to be able to use plain HTML for the login
-		// page
+	protected void configure(HttpSecurity http) throws Exception 
+	{
 		http.csrf().disable();
 
 		ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry reg = http
 				.authorizeRequests();
 
-		// Allow access to static resources ("/VAADIN/**")
 		reg = reg.antMatchers("/VAADIN/**").permitAll();
-		// Require authentication for all URLS ("/**")
 		reg = reg.antMatchers("/**").hasAnyAuthority(perfilService.obtenerPerfilesString());
 		HttpSecurity sec = reg.and();
 
-		// Allow access to login page without login
 		FormLoginConfigurer<HttpSecurity> login = sec.formLogin().permitAll();
 		login = login.loginPage(SiproApplication.LOGIN_URL).loginProcessingUrl(SiproApplication.LOGIN_PROCESSING_URL)
 				.failureUrl(SiproApplication.LOGIN_FAILURE_URL).successHandler(successHandler);
 		login.and().logout().logoutSuccessUrl(SiproApplication.LOGOUT_URL);
 	}
-
 }

@@ -1,7 +1,6 @@
 package uy.edu.ude.sipro.dao.implementaciones;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -10,18 +9,19 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import uy.edu.ude.sipro.dao.interfaces.DocenteDao;
 import uy.edu.ude.sipro.entidades.Docente;
-import uy.edu.ude.sipro.entidades.Sinonimo;
-import uy.edu.ude.sipro.entidades.Usuario;
 
+/*************************************************************************
+
+Implementación de la interface DocenteDato
+
+**************************************************************************/
 @Repository
 public class DocenteDaoImp implements DocenteDao
 {
-
 	@PersistenceContext
 	private EntityManager em;
 	

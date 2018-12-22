@@ -5,6 +5,11 @@ import java.util.Set;
 import uy.edu.ude.sipro.entidades.Elemento;
 import uy.edu.ude.sipro.entidades.Sinonimo;
 
+/*************************************************************************
+
+Interface encargada de la lógica de negocio para Sinónimos
+
+**************************************************************************/
 public interface SinonimoService
 {
 	void agregar(String nombre, Elemento elemento);
