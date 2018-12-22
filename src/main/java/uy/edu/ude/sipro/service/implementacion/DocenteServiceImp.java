@@ -1,6 +1,5 @@
 package uy.edu.ude.sipro.service.implementacion;
 
-
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,11 @@ import uy.edu.ude.sipro.entidades.Docente;
 import uy.edu.ude.sipro.entidades.Proyecto;
 import uy.edu.ude.sipro.service.interfaces.DocenteService;
 
+/*************************************************************************
+
+Clase que implementa la interface DocenteService
+
+**************************************************************************/
 @Service
 public class DocenteServiceImp implements DocenteService
 {

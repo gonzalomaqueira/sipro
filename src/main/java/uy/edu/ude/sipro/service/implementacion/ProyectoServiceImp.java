@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import uy.edu.ude.sipro.valueObjects.DocenteVO;
-import uy.edu.ude.sipro.valueObjects.ElementoVO;
 import uy.edu.ude.sipro.entidades.Docente;
 import uy.edu.ude.sipro.entidades.Elemento;
 import uy.edu.ude.sipro.entidades.Proyecto;
@@ -37,12 +36,14 @@ import uy.edu.ude.sipro.utiles.FuncionesTexto;
 
 import uy.edu.ude.sipro.utiles.SeccionTexto;
 
+/*************************************************************************
 
+Clase que implementa la interface ProyectoService
 
+**************************************************************************/
 @Service
 public class ProyectoServiceImp implements ProyectoService
 {
-
 	@Autowired
 	private ProyectoDao proyectoDao;
 	
@@ -414,7 +415,7 @@ public class ProyectoServiceImp implements ProyectoService
 
 	@Override
 	@Transactional
-	public void procesarProyecto(int idProyecto) throws Exception //TODO Hay que controlar que si no guarda en uno, tampoco lo haga en otro
+	public void procesarProyecto(int idProyecto) throws Exception
 	{
 		try
 		{
@@ -448,7 +449,4 @@ public class ProyectoServiceImp implements ProyectoService
 		String[] textoOriginal= this.obtenerTextoOriginalProyecto(proyecto);
 		busquedaService.altaProyectoES(proyecto, textoOriginal);
 	}
-	
-	
-
 }

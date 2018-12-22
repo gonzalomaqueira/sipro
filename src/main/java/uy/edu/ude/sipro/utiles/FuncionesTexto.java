@@ -1,7 +1,5 @@
 package uy.edu.ude.sipro.utiles;
 
-import java.nio.charset.Charset;
-import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -12,6 +10,11 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
+/*************************************************************************
+
+Utilitario core del sistema, donde se implementan métodos estáticos para trabajar con el texto.
+
+**************************************************************************/
 public class FuncionesTexto 
 {
 	public static List<SeccionTexto> armarDocumentoPorSecciones(String textoOriginal[])
@@ -473,7 +476,7 @@ public class FuncionesTexto
 	{  
 	  try  
 	  {  
-	    double d = Double.parseDouble(str);  
+		  Double.parseDouble(str);
 	  }  
 	  catch(NumberFormatException nfe)  
 	  {  

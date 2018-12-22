@@ -1,10 +1,14 @@
 package uy.edu.ude.sipro.dao.interfaces;
 
-import java.util.List;
 import java.util.Set;
 
 import uy.edu.ude.sipro.entidades.Docente;
 
+/*************************************************************************
+
+Interface encargada de la persistencia de Docentes
+
+**************************************************************************/
 public interface DocenteDao 
 {
 	void agregar(Docente docente);

@@ -15,23 +15,27 @@ import org.springframework.web.context.annotation.ApplicationScope;
 import com.vaadin.spring.annotation.SpringComponent;
 import uy.edu.ude.sipro.SiproApplication;
 
-/**
- * Redirects to the application after successful authentication.
- */
+/*************************************************************************
+
+Clase encargada de redirigir a la aplicación luego de la autenticación
+
+**************************************************************************/
 @SpringComponent
 @ApplicationScope
-public class RedirectAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
-
+public class RedirectAuthenticationSuccessHandler implements AuthenticationSuccessHandler
+{
 	private final String location;
 
 	@Autowired
 	private ServletContext servletContext;
 
-	public RedirectAuthenticationSuccessHandler() {
+	public RedirectAuthenticationSuccessHandler()
+	{
 		location = SiproApplication.APP_URL;
 	}
 
-	private String getAbsoluteUrl(String url) {
+	private String getAbsoluteUrl(String url)
+	{
 		final String relativeUrl;
 		if (url.startsWith("/")) {
 			relativeUrl = url.substring(1);
@@ -43,9 +47,8 @@ public class RedirectAuthenticationSuccessHandler implements AuthenticationSucce
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-			Authentication authentication) throws IOException, ServletException {
+			Authentication authentication) throws IOException, ServletException
+	{
 		response.sendRedirect(getAbsoluteUrl(location));
-
 	}
-
 }

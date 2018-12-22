@@ -1,8 +1,6 @@
 package uy.edu.ude.sipro.entidades;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -25,6 +23,11 @@ import javax.validation.constraints.Size;
 
 import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
 
+/*************************************************************************
+
+Clase que define la entidad Elemento
+
+**************************************************************************/
 @Entity
 @Table(name = "Elemento", uniqueConstraints = {@UniqueConstraint(name = "uq_nombre_Elemento", columnNames = "nombre")})
 public class Elemento
@@ -88,29 +91,67 @@ public class Elemento
 		this.sinonimos = sinonimos;
 	}
 
-	public int getId() { return id; }
-	public void setId(int id) { this.id = id; }
+	public int getId() {
+		return id;
+	}
 
-	public String getNombre() { return nombre; }
-	public void setNombre(String nombre) { this.nombre = nombre; }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-	public boolean isEsCategoria() { return esCategoria; }
-	public void setEsCategoria(boolean esCategoria) { this.esCategoria = esCategoria; }
+	public String getNombre() {
+		return nombre;
+	}
 
-	public Enumerados.TipoElemento getTipoElemento() { return tipoElemento;	}
-	public void setTipoElemento(Enumerados.TipoElemento tipoElemento) { this.tipoElemento = tipoElemento; }
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 
-	public Set<Elemento> getElementosOrigen() { return elementosOrigen; }
-	public void setElementosOrigen(Set<Elemento> elementosOrigen) { this.elementosOrigen = elementosOrigen; }
+	public boolean isEsCategoria() {
+		return esCategoria;
+	}
 
-	public Set<Elemento> getElementosRelacionados() { return elementosRelacionados; }
-	public void setElementosRelacionados(Set<Elemento> elementoRelacionados) { this.elementosRelacionados = elementoRelacionados; }
+	public void setEsCategoria(boolean esCategoria) {
+		this.esCategoria = esCategoria;
+	}
 
-	public Set<Sinonimo> getSinonimos() { return sinonimos; }
-	public void setSinonimos(Set<Sinonimo> sinonimos) { this.sinonimos = sinonimos; }
+	public Enumerados.TipoElemento getTipoElemento() {
+		return tipoElemento;
+	}
 
-	public Set<Proyecto> getProyectos() { return proyectos; }
-	public void setProyectos(Set<Proyecto> proyectos) { this.proyectos = proyectos; }
+	public void setTipoElemento(Enumerados.TipoElemento tipoElemento) {
+		this.tipoElemento = tipoElemento;
+	}
 
+	public Set<Elemento> getElementosOrigen() {
+		return elementosOrigen;
+	}
 
+	public void setElementosOrigen(Set<Elemento> elementosOrigen) {
+		this.elementosOrigen = elementosOrigen;
+	}
+
+	public Set<Elemento> getElementosRelacionados() {
+		return elementosRelacionados;
+	}
+
+	public void setElementosRelacionados(Set<Elemento> elementoRelacionados) {
+		this.elementosRelacionados = elementoRelacionados;
+	}
+
+	public Set<Sinonimo> getSinonimos() {
+		return sinonimos;
+	}
+
+	public void setSinonimos(Set<Sinonimo> sinonimos) {
+		this.sinonimos = sinonimos;
+	}
+
+	public Set<Proyecto> getProyectos() {
+		return proyectos;
+	}
+
+	public void setProyectos(Set<Proyecto> proyectos) {
+		this.proyectos = proyectos;
+	}
 }

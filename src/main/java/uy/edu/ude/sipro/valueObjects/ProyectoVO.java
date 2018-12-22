@@ -4,6 +4,11 @@ import uy.edu.ude.sipro.entidades.Enumerados;
 import uy.edu.ude.sipro.entidades.Enumerados.CategoriaProyectoEnum;
 import uy.edu.ude.sipro.entidades.Enumerados.EstadoProyectoEnum;
 
+/*************************************************************************
+
+Value object de interacción con la capa gráfica correspondiente a un proyecto
+
+**************************************************************************/
 public class ProyectoVO implements Comparable
 {
 	private int id;

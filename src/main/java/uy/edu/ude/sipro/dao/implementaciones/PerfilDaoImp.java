@@ -1,7 +1,6 @@
 package uy.edu.ude.sipro.dao.implementaciones;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -11,10 +10,14 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 
-import uy.edu.ude.sipro.entidades.Docente;
 import uy.edu.ude.sipro.entidades.Perfil;
 import uy.edu.ude.sipro.dao.interfaces.PerfilDao;
 
+/*************************************************************************
+
+Implementación de la interface PerfilDao
+
+**************************************************************************/
 @Repository
 public class PerfilDaoImp implements PerfilDao
 {
@@ -33,6 +36,6 @@ public class PerfilDaoImp implements PerfilDao
 		 CriteriaQuery<Perfil> criteriaQuery = em.getCriteriaBuilder().createQuery(Perfil.class);
 		 @SuppressWarnings("unused")
 		 Root<Perfil> root = criteriaQuery.from(Perfil.class);
-		 return new HashSet(em.createQuery(criteriaQuery).getResultList());
+		 return new HashSet<Perfil>(em.createQuery(criteriaQuery).getResultList());
 	}
 }

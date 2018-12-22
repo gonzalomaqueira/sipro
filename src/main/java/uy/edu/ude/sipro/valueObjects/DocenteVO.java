@@ -1,5 +1,10 @@
 package uy.edu.ude.sipro.valueObjects;
 
+/*************************************************************************
+
+Value object de interacción con la capa gráfica correspondiente a la clase Docente
+
+**************************************************************************/
 public class DocenteVO implements Comparable
 {
 	private int id;
@@ -14,16 +19,33 @@ public class DocenteVO implements Comparable
 		this.apellido = apellido;
 	}
 	
-	public int getId() { return id; }
-	public void setId(int id) {	this.id = id; }
-	
-	public String getNombre() { return nombre; }
-	public void setNombre(String nombre) { this.nombre = nombre; }
-	
-	public String getApellido() { return apellido; }
-	public void setApellido(String apellido) { this.apellido = apellido; }
-	
-	public String getNombreCompleto() { return this.nombre + " " + this.apellido;}
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getApellido() {
+		return apellido;
+	}
+
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
+
+	public String getNombreCompleto() {
+		return this.nombre + " " + this.apellido;
+	}
 
 	@Override
 	public int compareTo(Object comparado)

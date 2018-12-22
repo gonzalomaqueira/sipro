@@ -5,16 +5,20 @@ import java.util.List;
 import uy.edu.ude.sipro.valueObjects.DocenteVO;
 import uy.edu.ude.sipro.valueObjects.ElementoVO;
 
-public class DatosFiltro {
-	
+/*************************************************************************
+
+Clase que contiene los atributos necesarios para los filtros del sistema
+
+**************************************************************************/
+public class DatosFiltro
+{
 	private String tutorString;
 	private String correctorString;
 	private String bibliografia;
 	private int anioIni;
 	private int anioFin;
 	private int notaIni;
-	private int notaFin;
-	
+	private int notaFin;	
 	private DocenteVO tutorObjeto;
 	private DocenteVO CorrectorObjeto;
 	private List<ElementoVO> listaElementos;
@@ -83,7 +87,7 @@ public class DatosFiltro {
 	public String getStringRangoNotas()
 	{
 		return this.getNotaIni() + " - " + this.getNotaFin();
-	}	
+	}
 	
 	public DocenteVO getTutorObjeto() {
 		return tutorObjeto;

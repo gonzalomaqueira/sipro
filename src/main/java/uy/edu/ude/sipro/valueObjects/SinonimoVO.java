@@ -1,13 +1,16 @@
 package uy.edu.ude.sipro.valueObjects;
 
+/*************************************************************************
+
+Value object de interacción con la capa gráfica correspondiente a la clase Sinonimo
+
+**************************************************************************/
 public class SinonimoVO implements Comparable 
 {
-	
 	private int id;
-	private String nombre;
+	private String nombre;	
 	
-	
-	public int getId() 
+	public int getId()
 	{
 		return id;
 	}

@@ -1,16 +1,21 @@
 package uy.edu.ude.sipro.valueObjects;
 
+/*************************************************************************
+
+Value object de interacción con la capa gráfica correspondiente a la clase Perfil
+
+**************************************************************************/
 public class PerfilVO implements Comparable
 {
-
 	private int Id;	
 	private String descripcion;
 	
-	public PerfilVO() {
-
+	public PerfilVO()
+	{
 	}
 	
-	public PerfilVO(int id, String descripcion) {
+	public PerfilVO(int id, String descripcion)
+	{
 		Id = id;
 		this.descripcion = descripcion;
 	}

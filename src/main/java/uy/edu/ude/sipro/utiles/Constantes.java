@@ -1,19 +1,14 @@
 package uy.edu.ude.sipro.utiles;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 import com.vaadin.spring.annotation.SpringComponent;
 
-import uy.edu.ude.sipro.busquedas.BusquedaService;
-import uy.edu.ude.sipro.service.Fachada;
-import uy.edu.ude.sipro.service.interfaces.DocenteService;
-import uy.edu.ude.sipro.service.interfaces.ElementoService;
-import uy.edu.ude.sipro.service.interfaces.PerfilService;
-import uy.edu.ude.sipro.service.interfaces.ProyectoService;
-import uy.edu.ude.sipro.service.interfaces.UsuarioService;
+/*************************************************************************
 
+Se declaran las constantes utilizadas en el sistema
+
+**************************************************************************/
 @SpringComponent
 public final class Constantes 
 {

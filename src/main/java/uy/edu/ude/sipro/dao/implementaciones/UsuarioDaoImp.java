@@ -1,7 +1,6 @@
 package uy.edu.ude.sipro.dao.implementaciones;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -15,6 +14,11 @@ import org.springframework.stereotype.Repository;
 import uy.edu.ude.sipro.entidades.Usuario;
 import uy.edu.ude.sipro.dao.interfaces.UsuarioDao;
 
+/*************************************************************************
+
+Implementación de la interface UsuarioDao
+
+**************************************************************************/
 @Repository
 public class UsuarioDaoImp implements UsuarioDao 
 {

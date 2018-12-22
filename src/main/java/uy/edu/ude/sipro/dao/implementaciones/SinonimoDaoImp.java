@@ -1,7 +1,6 @@
 package uy.edu.ude.sipro.dao.implementaciones;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -12,10 +11,14 @@ import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
-import uy.edu.ude.sipro.entidades.Elemento;
 import uy.edu.ude.sipro.entidades.Sinonimo;
 import uy.edu.ude.sipro.dao.interfaces.SinonimoDao;
 
+/*************************************************************************
+
+Implementación de la interface SinonimoDao
+
+**************************************************************************/
 @Repository
 public class SinonimoDaoImp implements SinonimoDao
 {

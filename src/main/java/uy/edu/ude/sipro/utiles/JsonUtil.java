@@ -7,12 +7,14 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 
-
-
 import uy.edu.ude.sipro.entidades.Elemento;
 import uy.edu.ude.sipro.entidades.Sinonimo;
 
+/*************************************************************************
 
+Utilitario para trabajar con Json
+
+**************************************************************************/
 public abstract class JsonUtil 
 {
 	public static JsonObject parse(String jsonString) throws Exception

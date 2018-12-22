@@ -2,15 +2,17 @@ package uy.edu.ude.sipro.valueObjects;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import uy.edu.ude.sipro.entidades.Enumerados;
 import uy.edu.ude.sipro.entidades.Enumerados.CategoriaProyectoEnum;
 import uy.edu.ude.sipro.entidades.Enumerados.TipoElemento;
 import uy.edu.ude.sipro.utiles.FuncionesTexto;
 
+/*************************************************************************
+
+Value object de interacción con la capa gráfica correspondiente al detalle de proyectos
+
+**************************************************************************/
 public class ProyectoDetalleVO implements Comparable
 {
 	private int id;
@@ -297,8 +299,6 @@ public class ProyectoDetalleVO implements Comparable
 		}
 		return retorno;
 	}
-	
-	
 
 	@Override
 	public int compareTo(Object comparado)

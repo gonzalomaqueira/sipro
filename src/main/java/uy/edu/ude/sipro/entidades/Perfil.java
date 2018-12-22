@@ -7,6 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/*************************************************************************
+
+Clase que define la entidad Perfil
+
+**************************************************************************/
 @Entity
 @Table(name = "Perfiles")
 public class Perfil
@@ -29,9 +34,19 @@ public class Perfil
 	{
 	}
 	
-	public int getId() { return Id; }
-	public void setId(int id) { Id = id; }
-	
-	public String getDescripcion() { return descripcion; }
-	public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
+	public int getId() {
+		return Id;
+	}
+
+	public void setId(int id) {
+		Id = id;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
 }

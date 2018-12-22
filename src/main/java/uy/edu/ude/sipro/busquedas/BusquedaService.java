@@ -4,8 +4,11 @@ import java.util.ArrayList;
 
 import uy.edu.ude.sipro.entidades.Elemento;
 import uy.edu.ude.sipro.entidades.Proyecto;
-
-
+/*************************************************************************
+ 
+Interface encargada de la lógica asociada a las búsquedas
+	
+**************************************************************************/
 public interface BusquedaService
 {
 	boolean altaProyectoES(Proyecto proyecto, String[] textoOriginal) throws Exception;
