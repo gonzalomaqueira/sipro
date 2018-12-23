@@ -157,7 +157,7 @@ public class BusquedasView extends BusquedasViewDesign implements View
 		layoutHor.setHeight("-1px");
 		
 
-		Link linkProyecto= new Link(resultado.getTituloProyecto(), new ExternalResource("../../#!proyecto-detalles/" + resultado.getIdProyecto()));
+		Link linkProyecto= new Link(resultado.getTituloProyecto(), new ExternalResource("#!proyecto-detalles/" + resultado.getIdProyecto()));
 		linkProyecto.setTargetName("_blank");
 		Label resumenBusqueda = new Label(resultado.getResumenBusqueda(), ContentMode.HTML);
 		Label codigoUde = new Label("<b>" + resultado.getCodigoUde() + "</b>", ContentMode.HTML);
