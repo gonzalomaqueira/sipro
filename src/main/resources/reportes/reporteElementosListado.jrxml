@@ -13,9 +13,9 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="97">
+		<band height="117">
 			<textField isStretchWithOverflow="true">
-				<reportElement x="81" y="0" width="388" height="97" uuid="28a4be0c-0b72-4392-8f47-7c4412aa5a5b"/>
+				<reportElement x="81" y="0" width="388" height="64" uuid="28a4be0c-0b72-4392-8f47-7c4412aa5a5b"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="24"/>
 				</textElement>
@@ -30,17 +30,13 @@
 				<reportElement x="0" y="0" width="81" height="46" uuid="41f52634-6fdd-41bd-af13-1df7b7114e68"/>
 				<imageExpression><![CDATA["C:\\Users\\MAX-PC\\Desktop\\LOGO UNIVERSIDADES_UDE.jpg"]]></imageExpression>
 			</image>
-		</band>
-	</title>
-	<pageHeader>
-		<band height="61">
 			<textField>
-				<reportElement x="0" y="0" width="531" height="50" uuid="9fb5c3cc-fde2-4ed7-afea-df27457b1b14"/>
+				<reportElement x="0" y="64" width="531" height="50" uuid="9fb5c3cc-fde2-4ed7-afea-df27457b1b14"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{descripcion}]]></textFieldExpression>
 			</textField>
 		</band>
-	</pageHeader>
+	</title>
 	<columnHeader>
 		<band height="24">
 			<staticText>

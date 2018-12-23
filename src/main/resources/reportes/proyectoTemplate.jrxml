@@ -9,8 +9,8 @@
 	</background>
 	<title>
 		<band height="79" splitType="Stretch">
-			<textField>
-				<reportElement x="0" y="0" width="555" height="79" uuid="6b3a4086-081c-4217-9abe-4ad7116d950e"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="81" y="0" width="387" height="79" uuid="6b3a4086-081c-4217-9abe-4ad7116d950e"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="18"/>
 				</textElement>
