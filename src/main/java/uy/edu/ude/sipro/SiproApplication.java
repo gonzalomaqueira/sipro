@@ -6,6 +6,8 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
+import uy.edu.ude.sipro.service.Fachada;
+
 /*************************************************************************
 
 Clase de inicio de ejecución de la aplicación Sipro
@@ -23,7 +25,7 @@ public class SiproApplication extends SpringBootServletInitializer
 	
 	@Autowired
 	private Inicio inicio;
-
+	
 	public static void main(String[] args)
 	{
 		SpringApplication.run(SiproApplication.class, args);
