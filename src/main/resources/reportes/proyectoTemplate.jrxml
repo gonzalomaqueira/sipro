@@ -23,10 +23,13 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$P{proyecto}.getCodigoUde()]]></textFieldExpression>
 			</textField>
-			<image>
-				<reportElement x="0" y="0" width="81" height="46" uuid="bbde93ab-ef85-4790-b1e8-d08b184149cc"/>
-				<imageExpression><![CDATA["C:\\Users\\MAX-PC\\Desktop\\LOGO UNIVERSIDADES_UDE.jpg"]]></imageExpression>
-			</image>
+			<staticText>
+				<reportElement x="0" y="0" width="59" height="31" uuid="b33b65fa-2485-45ba-b11d-046b4f857bb2"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[UDE]]></text>
+			</staticText>
 		</band>
 	</title>
 	<detail>

@@ -102,16 +102,19 @@
 				<textFieldExpression><![CDATA[$P{datosFiltro}.getStringListaElementos()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="253" width="802" height="38" uuid="7086fcff-d687-4af2-912a-b556090ae8a8"/>
+				<reportElement x="-10" y="243" width="802" height="38" uuid="7086fcff-d687-4af2-912a-b556090ae8a8"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="22"/>
 				</textElement>
 				<text><![CDATA[No se encontraron resultados]]></text>
 			</staticText>
-			<image>
-				<reportElement x="0" y="0" width="81" height="46" uuid="c757607c-bde7-4c38-9820-5edbe8cd917a"/>
-				<imageExpression><![CDATA["C:\\Users\\MAX-PC\\Desktop\\LOGO UNIVERSIDADES_UDE.jpg"]]></imageExpression>
-			</image>
+			<staticText>
+				<reportElement x="0" y="0" width="59" height="31" uuid="2d1891d7-e622-45b2-b5a8-08f8fb6bd28f"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[UDE]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageFooter>

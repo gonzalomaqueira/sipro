@@ -26,15 +26,18 @@
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
-			<image>
-				<reportElement x="0" y="0" width="81" height="46" uuid="41f52634-6fdd-41bd-af13-1df7b7114e68"/>
-				<imageExpression><![CDATA["C:\\Users\\MAX-PC\\Desktop\\LOGO UNIVERSIDADES_UDE.jpg"]]></imageExpression>
-			</image>
 			<textField>
 				<reportElement x="0" y="64" width="531" height="50" uuid="9fb5c3cc-fde2-4ed7-afea-df27457b1b14"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{descripcion}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="59" height="31" uuid="4975f85b-a3e7-47e5-9a8e-dbd21a0eb49b"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[UDE]]></text>
+			</staticText>
 		</band>
 	</title>
 	<columnHeader>
